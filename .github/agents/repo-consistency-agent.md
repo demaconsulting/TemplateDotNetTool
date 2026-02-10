@@ -5,7 +5,7 @@ description: Ensures downstream repositories remain consistent with the Template
 
 # Repo Consistency Agent - Template DotNet Tool
 
-Maintain consistency between downstream projects and the TemplateDotNetTool template.
+Maintain consistency between downstream projects and the TemplateDotNetTool template at <https://github.com/demaconsulting/TemplateDotNetTool>.
 
 ## When to Invoke This Agent
 
@@ -16,7 +16,7 @@ Invoke the repo-consistency-agent for:
 - Identifying drift from template standards
 - Recommending updates to bring projects back in sync with template
 
-**Note**: This agent should NOT be invoked for the TemplateDotNetTool repository itself,
+**Note**: This agent should NOT be invoked for the TemplateDotNetTool repository itself (<https://github.com/demaconsulting/TemplateDotNetTool>),
 as that would try to ensure the repository is consistent with itself (implicitly a no-op).
 
 ## Responsibilities
@@ -109,7 +109,7 @@ The agent reviews the following areas for consistency with the template:
 This agent is typically invoked on downstream repositories (not on TemplateDotNetTool itself):
 
 1. Clone or access the downstream repository
-2. Invoke repo-consistency-agent to review consistency with TemplateDotNetTool
+2. Invoke repo-consistency-agent to review consistency with the TemplateDotNetTool template (<https://github.com/demaconsulting/TemplateDotNetTool>)
 3. Review agent recommendations
 4. Apply relevant changes using appropriate specialized agents
 5. Test changes to ensure they don't break existing functionality
