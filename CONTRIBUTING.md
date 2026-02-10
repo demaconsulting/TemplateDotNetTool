@@ -57,7 +57,7 @@ We follow a standard GitHub workflow for contributions:
 
    ```bash
    git clone https://github.com/demaconsulting/TemplateDotNetTool.git
-   cd Template DotNet Tool
+   cd TemplateDotNetTool
    ```
 
 2. Restore dependencies:
