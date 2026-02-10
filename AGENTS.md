@@ -10,6 +10,7 @@ implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
 - **Software Developer** - Writes production code and self-validation tests in literate style
 - **Test Developer** - Creates unit and integration tests following AAA pattern
 - **Code Quality Agent** - Enforces linting, static analysis, and security standards
+- **Repo Consistency Agent** - Ensures downstream repositories remain consistent with template patterns
 
 ## Tech Stack
 
