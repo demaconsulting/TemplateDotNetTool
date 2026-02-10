@@ -128,7 +128,7 @@ internal static class Validation
                 var logContent = File.ReadAllText(logFile);
 
                 // Verify version string is in log (version contains dots like 0.0.0)
-                if (!string.IsNullOrWhiteSpace(logContent) && 
+                if (!string.IsNullOrWhiteSpace(logContent) &&
                     logContent.Split('.').Length >= 3)
                 {
                     test.Outcome = DemaConsulting.TestResults.TestOutcome.Passed;

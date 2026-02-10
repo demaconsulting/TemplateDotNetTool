@@ -1,6 +1,7 @@
 # Agent Quick Reference
 
-Project-specific guidance for agents working on Template DotNet Tool - a reference implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
+Project-specific guidance for agents working on Template DotNet Tool - a reference
+implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
 
 ## Tech Stack
 
@@ -41,6 +42,7 @@ Project-specific guidance for agents working on Template DotNet Tool - a referen
 ## Standard Command-Line Arguments
 
 All DEMA Consulting tools should support:
+
 - `-v`, `--version` - Display version information
 - `-?`, `-h`, `--help` - Display help message
 - `--silent` - Suppress console output

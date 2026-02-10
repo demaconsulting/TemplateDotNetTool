@@ -8,12 +8,15 @@ DEMA Consulting template project for DotNet Tools, demonstrating best practices 
 
 This template demonstrates:
 
-- **Standardized Command-Line Interface**: Context class handling common arguments (`--version`, `--help`, `--silent`, `--validate`, `--results`, `--log`)
+- **Standardized Command-Line Interface**: Context class handling common arguments
+  (`--version`, `--help`, `--silent`, `--validate`, `--results`, `--log`)
 - **Self-Validation**: Built-in validation tests with TRX/JUnit output
 - **Multi-Platform Support**: Builds and runs on Windows and Linux
 - **Multi-Runtime Support**: Targets .NET 8, 9, and 10
-- **Comprehensive CI/CD**: GitHub Actions workflows with quality checks, builds, and integration tests
-- **Documentation Generation**: Automated build notes, user guide, code quality reports, requirements, justifications, and trace matrix
+- **Comprehensive CI/CD**: GitHub Actions workflows with quality checks, builds, and
+  integration tests
+- **Documentation Generation**: Automated build notes, user guide, code quality reports,
+  requirements, justifications, and trace matrix
 
 ## Installation
 
@@ -44,14 +47,14 @@ templatetool --silent --log output.log
 
 ## Command-Line Options
 
-| Option | Description |
-|--------|-------------|
-| `-v`, `--version` | Display version information |
-| `-?`, `-h`, `--help` | Display help message |
-| `--silent` | Suppress console output |
-| `--validate` | Run self-validation |
-| `--results <file>` | Write validation results to file (TRX or JUnit format) |
-| `--log <file>` | Write output to log file |
+| Option               | Description                                                  |
+| -------------------- | ------------------------------------------------------------ |
+| `-v`, `--version`    | Display version information                                  |
+| `-?`, `-h`, `--help` | Display help message                                         |
+| `--silent`           | Suppress console output                                      |
+| `--validate`         | Run self-validation                                          |
+| `--results <file>`   | Write validation results to file (TRX or JUnit format)       |
+| `--log <file>`       | Write output to log file                                     |
 
 ## Building from Source
 
@@ -71,7 +74,7 @@ dotnet pack --configuration Release
 
 ## Project Structure
 
-```
+```text
 TemplateDotNetTool/
 ├── src/
 │   └── DemaConsulting.TemplateDotNetTool/

@@ -11,8 +11,8 @@ We release patches for security vulnerabilities in the following versions:
 
 ## Reporting a Vulnerability
 
-We take the security of Template DotNet Tool seriously. If you believe you have found a security vulnerability, please report it
-to us as described below.
+We take the security of Template DotNet Tool seriously. If you believe you have found a
+security vulnerability, please report it to us as described below.
 
 ### How to Report
 
