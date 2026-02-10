@@ -48,17 +48,6 @@ implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
 - **Program.cs**: Main entry point with version/help/validation routing
 - **Validation.cs**: Self-validation tests with TRX/JUnit output support
 
-## Standard Command-Line Arguments
-
-All DEMA Consulting tools should support:
-
-- `-v`, `--version` - Display version information
-- `-?`, `-h`, `--help` - Display help message
-- `--silent` - Suppress console output
-- `--validate` - Run self-validation
-- `--results <file>` - Write validation results to file (TRX or JUnit format)
-- `--log <file>` - Write output to log file
-
 ## Build and Test
 
 ```bash
