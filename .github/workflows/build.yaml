@@ -313,7 +313,7 @@ jobs:
 
       - name: Generate CodeQL Quality Report with SarifMark
         run: >
-          sarifmark
+          dotnet sarifmark
           --sarif codeql-results/csharp.sarif
           --report docs/quality/codeql-quality.md
           --heading "Template DotNet Tool CodeQL Analysis"
