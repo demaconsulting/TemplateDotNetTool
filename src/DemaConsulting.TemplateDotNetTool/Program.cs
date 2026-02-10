@@ -34,7 +34,10 @@ internal static class Program
     {
         get
         {
+            // Get the assembly containing this program
             var assembly = typeof(Program).Assembly;
+
+            // Try to get version from assembly attributes, fallback to AssemblyVersion, or default to 0.0.0
             return assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
                    ?? assembly.GetName().Version?.ToString()
                    ?? "0.0.0";
@@ -50,7 +53,7 @@ internal static class Program
     {
         try
         {
-            // Create context from arguments
+            // Create context from command-line arguments
             using var context = Context.Create(args);
 
             // Run the program logic
