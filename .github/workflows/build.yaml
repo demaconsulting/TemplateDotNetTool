@@ -160,6 +160,10 @@ jobs:
             9.x
             10.x
 
+      - name: Restore Tools
+        run: >
+          dotnet tool restore
+
       - name: Restore Dependencies
         run: >
           dotnet restore
@@ -235,19 +239,19 @@ jobs:
         shell: bash
         run: |
           echo "Running self-validation..."
-          templatetool --validate --results integration-test-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}.trx \
+          templatetool --validate --results validation-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}.trx \
             || { echo "✗ Self-validation failed"; exit 1; }
           echo "✓ Self-validation succeeded"
 
-      - name: Upload integration test results
+      - name: Upload validation test results
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: integration-test-results-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}
-          path: integration-test-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}.trx
+          name: validation-test-results-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}
+          path: validation-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}.trx
 
   build-docs:
-    name: Build Documentation
+    name: Build Documents
     runs-on: windows-latest
     needs: [build, integration-test, codeql]
     permissions:
@@ -453,7 +457,7 @@ jobs:
       - name: Upload documentation
         uses: actions/upload-artifact@v6
         with:
-          name: documentation
+          name: documents
           path: |
             docs/*.pdf
             docs/buildnotes.md
