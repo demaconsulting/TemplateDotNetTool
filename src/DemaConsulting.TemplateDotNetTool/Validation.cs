@@ -148,8 +148,8 @@ internal static class Validation
                 context.WriteError($"✗ Version Display Test - FAILED: Exit code {exitCode}");
             }
         }
-        // Catch all exceptions as this is a test framework - any exception should be recorded as a test failure.
-        // This is intentional to ensure robust test execution and reporting regardless of exception type.
+        // Generic catch is justified here as this is a test framework - any exception should be
+        // recorded as a test failure to ensure robust test execution and reporting.
         catch (Exception ex)
         {
             HandleTestException(test, context, "Version Display Test", ex);
@@ -215,8 +215,8 @@ internal static class Validation
                 context.WriteError($"✗ Help Display Test - FAILED: Exit code {exitCode}");
             }
         }
-        // Catch all exceptions as this is a test framework - any exception should be recorded as a test failure.
-        // This is intentional to ensure robust test execution and reporting regardless of exception type.
+        // Generic catch is justified here as this is a test framework - any exception should be
+        // recorded as a test failure to ensure robust test execution and reporting.
         catch (Exception ex)
         {
             HandleTestException(test, context, "Help Display Test", ex);
@@ -260,7 +260,8 @@ internal static class Validation
             File.WriteAllText(context.ResultsFile, content);
             context.WriteLine($"Results written to {context.ResultsFile}");
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
+        // Generic catch is justified here as a top-level handler to log file write errors
+        catch (Exception ex)
         {
             context.WriteError($"Error: Failed to write results file: {ex.Message}");
         }

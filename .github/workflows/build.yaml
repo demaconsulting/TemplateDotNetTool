@@ -10,6 +10,8 @@ on:
         required: true
 
 jobs:
+  # Performs quick quality checks for project formatting consistency including
+  # markdown linting, spell checking, and YAML validation.
   quality-checks:
     name: Quality Checks
     runs-on: ubuntu-latest
@@ -35,6 +37,9 @@ jobs:
         with:
           config_file: .yamllint.yaml
 
+  # Builds and unit-tests the project on supported operating systems to ensure
+  # unit-tests operate on all platforms and to run SonarScanner for generating
+  # the code quality report.
   build:
     name: Build ${{ matrix.os }}
     needs: quality-checks
@@ -130,6 +135,8 @@ jobs:
             src/DemaConsulting.TemplateDotNetTool/bin/Release/*.nupkg
             src/DemaConsulting.TemplateDotNetTool/bin/Release/*.snupkg
 
+  # Runs CodeQL security and quality analysis, gathering results to include
+  # in the code quality report.
   codeql:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
@@ -160,6 +167,10 @@ jobs:
             9.x
             10.x
 
+      - name: Restore Tools
+        run: >
+          dotnet tool restore
+
       - name: Restore Dependencies
         run: >
           dotnet restore
@@ -184,6 +195,9 @@ jobs:
           name: codeql-sarif
           path: sarif-results/csharp.sarif
 
+  # Performs integration testing on a matrix of operating systems and .NET runtimes,
+  # involving basic tool execution and running self-validation to ensure compatibility
+  # across different platforms and runtime versions.
   integration-test:
     name: Integration Test ${{ matrix.os }} .NET ${{ matrix.dotnet-version }}
     runs-on: ${{ matrix.os }}
@@ -235,19 +249,21 @@ jobs:
         shell: bash
         run: |
           echo "Running self-validation..."
-          templatetool --validate --results integration-test-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}.trx \
+          templatetool --validate --results validation-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}.trx \
             || { echo "✗ Self-validation failed"; exit 1; }
           echo "✓ Self-validation succeeded"
 
-      - name: Upload integration test results
+      - name: Upload validation test results
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: integration-test-results-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}
-          path: integration-test-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}.trx
+          name: validation-test-results-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}
+          path: validation-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}.trx
 
+  # Builds the supporting documentation including user guides, requirements,
+  # trace matrices, code quality reports, and build notes.
   build-docs:
-    name: Build Documentation
+    name: Build Documents
     runs-on: windows-latest
     needs: [build, integration-test, codeql]
     permissions:
@@ -453,7 +469,7 @@ jobs:
       - name: Upload documentation
         uses: actions/upload-artifact@v6
         with:
-          name: documentation
+          name: documents
           path: |
             docs/*.pdf
             docs/buildnotes.md

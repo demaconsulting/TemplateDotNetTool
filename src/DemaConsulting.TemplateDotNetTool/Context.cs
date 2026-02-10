@@ -102,18 +102,18 @@ internal sealed class Context : IDisposable
     }
 
     /// <summary>
-    ///     Opens the log file for writing.
+    ///     Opens the log file for writing
     /// </summary>
-    /// <param name="logFile">Log file path.</param>
+    /// <param name="logFile">Log file path</param>
     private void OpenLogFile(string logFile)
     {
         try
         {
             _logWriter = new StreamWriter(logFile, append: false);
         }
-        // Catch all exceptions to wrap them with context about which file failed to open.
-        // This is intentional to provide better error messages to users regardless of the
-        // underlying exception type (IOException, UnauthorizedAccessException, etc.)
+        // Generic catch is justified here to wrap any file system exception with context.
+        // Expected exceptions include IOException, UnauthorizedAccessException, ArgumentException,
+        // NotSupportedException, and other file system-related exceptions.
         catch (Exception ex)
         {
             throw new InvalidOperationException($"Failed to open log file '{logFile}': {ex.Message}", ex);
@@ -121,7 +121,7 @@ internal sealed class Context : IDisposable
     }
 
     /// <summary>
-    ///     Helper class for parsing command-line arguments.
+    ///     Helper class for parsing command-line arguments
     /// </summary>
     private sealed class ArgumentParser
     {
@@ -156,7 +156,7 @@ internal sealed class Context : IDisposable
         public string? ResultsFile { get; private set; }
 
         /// <summary>
-        ///     Parses command-line arguments.
+        ///     Parses command-line arguments
         /// </summary>
         /// <param name="args">Command-line arguments.</param>
         public void ParseArguments(string[] args)
@@ -170,12 +170,12 @@ internal sealed class Context : IDisposable
         }
 
         /// <summary>
-        ///     Parses a single argument.
+        ///     Parses a single argument
         /// </summary>
-        /// <param name="arg">Argument to parse.</param>
-        /// <param name="args">All arguments.</param>
-        /// <param name="index">Current index.</param>
-        /// <returns>Updated index.</returns>
+        /// <param name="arg">Argument to parse</param>
+        /// <param name="args">All arguments</param>
+        /// <param name="index">Current index</param>
+        /// <returns>Updated index</returns>
         private int ParseArgument(string arg, string[] args, int index)
         {
             switch (arg)
@@ -213,13 +213,13 @@ internal sealed class Context : IDisposable
         }
 
         /// <summary>
-        ///     Gets a required string argument value.
+        ///     Gets a required string argument value
         /// </summary>
-        /// <param name="arg">Argument name.</param>
-        /// <param name="args">All arguments.</param>
-        /// <param name="index">Current index.</param>
-        /// <param name="description">Description of what's required.</param>
-        /// <returns>The argument value.</returns>
+        /// <param name="arg">Argument name</param>
+        /// <param name="args">All arguments</param>
+        /// <param name="index">Current index</param>
+        /// <param name="description">Description of what's required</param>
+        /// <returns>Argument value</returns>
         private static string GetRequiredStringArgument(string arg, string[] args, int index, string description)
         {
             if (index >= args.Length)
