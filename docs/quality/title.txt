@@ -1,3 +1,13 @@
-Template DotNet Tool
-
-Code Quality Report
+---
+title: Template DotNet Tool Code Quality Report
+subtitle: Code Quality Analysis Report
+author: DEMA Consulting
+description: Code Quality Analysis Report for Template DotNet Tool
+lang: en-US
+keywords:
+  - Template DotNet Tool
+  - Code Quality
+  - Analysis
+  - .NET
+  - Documentation
+---
