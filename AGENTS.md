@@ -3,6 +3,14 @@
 Project-specific guidance for agents working on Template DotNet Tool - a reference
 implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
 
+## Available Specialized Agents
+
+- **Requirements Agent** - Develops requirements and ensures test coverage linkage
+- **Technical Writer** - Creates accurate documentation following regulatory best practices
+- **Software Developer** - Writes production code and self-validation tests in literate style
+- **Test Developer** - Creates unit and integration tests following AAA pattern
+- **Code Quality Agent** - Enforces linting, static analysis, and security standards
+
 ## Tech Stack
 
 - C# 12, .NET 8.0/9.0/10.0, dotnet CLI, NuGet
