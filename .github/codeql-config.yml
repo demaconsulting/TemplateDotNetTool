@@ -11,3 +11,8 @@ query-filters:
     paths:
       - src/DemaConsulting.TemplateDotNetTool/Context.cs
       - src/DemaConsulting.TemplateDotNetTool/Validation.cs
+  # Exclude path-combine warnings in PathHelpers (validated safe usage)
+  - exclude:
+      id: cs/path-combine
+    paths:
+      - src/DemaConsulting.TemplateDotNetTool/PathHelpers.cs

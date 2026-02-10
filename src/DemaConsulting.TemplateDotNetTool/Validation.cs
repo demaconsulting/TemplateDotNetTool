@@ -103,7 +103,7 @@ internal static class Validation
         try
         {
             using var tempDir = new TemporaryDirectory();
-            var logFile = Path.Combine(tempDir.DirectoryPath, "version-test.log");
+            var logFile = PathHelpers.SafePathCombine(tempDir.DirectoryPath, "version-test.log");
 
             // Build command line arguments
             var args = new List<string>
@@ -171,7 +171,7 @@ internal static class Validation
         try
         {
             using var tempDir = new TemporaryDirectory();
-            var logFile = Path.Combine(tempDir.DirectoryPath, "help-test.log");
+            var logFile = PathHelpers.SafePathCombine(tempDir.DirectoryPath, "help-test.log");
 
             // Build command line arguments
             var args = new List<string>
@@ -329,7 +329,7 @@ internal static class Validation
         /// </summary>
         public TemporaryDirectory()
         {
-            DirectoryPath = Path.Combine(Path.GetTempPath(), $"templatetool_validation_{Guid.NewGuid()}");
+            DirectoryPath = PathHelpers.SafePathCombine(Path.GetTempPath(), $"templatetool_validation_{Guid.NewGuid()}");
 
             try
             {
