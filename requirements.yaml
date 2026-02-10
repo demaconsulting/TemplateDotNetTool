@@ -1,102 +1,118 @@
 ---
-requirements:
-  - id: TMPL-REQ-001
-    title: Context Class Implementation
-    description: |
-      The tool shall implement a Context class that handles command-line arguments
-      and program output, including support for version, help, silent mode, validation,
-      results output, and logging.
-    type: functional
-    verification: test
-    rationale: |
-      Provides a standardized approach to command-line argument parsing and output
-      handling across all DEMA Consulting DotNet Tools.
+sections:
+  - title: Template DotNet Tool Requirements
+    sections:
+      - title: Command-Line Interface
+        requirements:
+          - id: TMPL-REQ-001
+            title: The tool shall implement a Context class for command-line argument handling.
+            justification: |
+              Provides a standardized approach to command-line argument parsing and output
+              handling across all DEMA Consulting DotNet Tools.
+            tests:
+              - TemplateTool_VersionDisplay
+              - TemplateTool_HelpDisplay
 
-  - id: TMPL-REQ-002
-    title: Version Information Display
-    description: |
-      The tool shall support -v and --version flags to display version information.
-    type: functional
-    verification: test
-    rationale: |
-      Users need to quickly identify the version of the tool they are using for
-      troubleshooting and compatibility verification.
+          - id: TMPL-REQ-002
+            title: The tool shall support -v and --version flags to display version information.
+            justification: |
+              Users need to quickly identify the version of the tool they are using for
+              troubleshooting and compatibility verification.
+            tests:
+              - TemplateTool_VersionDisplay
 
-  - id: TMPL-REQ-003
-    title: Help Information Display
-    description: |
-      The tool shall support -?, -h, and --help flags to display usage information.
-    type: functional
-    verification: test
-    rationale: |
-      Users need access to command-line usage documentation without requiring
-      external resources.
+          - id: TMPL-REQ-003
+            title: The tool shall support -?, -h, and --help flags to display usage information.
+            justification: |
+              Users need access to command-line usage documentation without requiring
+              external resources.
+            tests:
+              - TemplateTool_HelpDisplay
 
-  - id: TMPL-REQ-004
-    title: Silent Mode
-    description: |
-      The tool shall support --silent flag to suppress console output while still
-      writing to log files if specified.
-    type: functional
-    verification: test
-    rationale: |
-      Enables automated scripts and CI/CD pipelines to run the tool without
-      cluttering output logs.
+          - id: TMPL-REQ-004
+            title: The tool shall support --silent flag to suppress console output.
+            justification: |
+              Enables automated scripts and CI/CD pipelines to run the tool without
+              cluttering output logs.
+            tests:
+              - TemplateTool_VersionDisplay
+              - TemplateTool_HelpDisplay
 
-  - id: TMPL-REQ-005
-    title: Self-Validation
-    description: |
-      The tool shall support --validate flag to run self-validation tests that
-      verify core functionality.
-    type: functional
-    verification: test
-    rationale: |
-      Provides a built-in mechanism to verify the tool is functioning correctly
-      in the deployment environment.
+          - id: TMPL-REQ-005
+            title: The tool shall support --validate flag to run self-validation tests.
+            justification: |
+              Provides a built-in mechanism to verify the tool is functioning correctly
+              in the deployment environment.
+            tests:
+              - TemplateTool_VersionDisplay
+              - TemplateTool_HelpDisplay
 
-  - id: TMPL-REQ-006
-    title: Validation Results Output
-    description: |
-      The tool shall support --results flag to write validation test results in
-      TRX or JUnit format.
-    type: functional
-    verification: test
-    rationale: |
-      Enables integration with CI/CD systems that expect standard test result formats.
+          - id: TMPL-REQ-006
+            title: The tool shall support --results flag to write validation results in TRX or JUnit format.
+            justification: |
+              Enables integration with CI/CD systems that expect standard test result formats.
+            tests:
+              - TemplateTool_VersionDisplay
+              - TemplateTool_HelpDisplay
 
-  - id: TMPL-REQ-007
-    title: Log File Output
-    description: |
-      The tool shall support --log flag to write all output to a specified log file.
-    type: functional
-    verification: test
-    rationale: |
-      Provides persistent logging for debugging and audit trails.
+          - id: TMPL-REQ-007
+            title: The tool shall support --log flag to write output to a log file.
+            justification: |
+              Provides persistent logging for debugging and audit trails.
+            tests:
+              - TemplateTool_VersionDisplay
+              - TemplateTool_HelpDisplay
 
-  - id: TMPL-REQ-008
-    title: Multi-Platform Support
-    description: |
-      The tool shall build and run on Windows and Linux platforms.
-    type: non-functional
-    verification: test
-    rationale: |
-      DEMA Consulting tools must support both major development platforms.
+      - title: Platform Support
+        requirements:
+          - id: TMPL-REQ-008
+            title: The tool shall build and run on Windows platforms.
+            justification: |
+              DEMA Consulting tools must support Windows as a major development platform.
+            tests:
+              - "windows-latest@TemplateTool_VersionDisplay"
+              - "windows-latest@TemplateTool_HelpDisplay"
 
-  - id: TMPL-REQ-009
-    title: Multi-Runtime Support
-    description: |
-      The tool shall support .NET 8, 9, and 10 runtimes.
-    type: non-functional
-    verification: test
-    rationale: |
-      Ensures compatibility with current and upcoming .NET versions.
+          - id: TMPL-REQ-009
+            title: The tool shall build and run on Linux platforms.
+            justification: |
+              DEMA Consulting tools must support Linux for CI/CD and containerized environments.
+            tests:
+              - "ubuntu-latest@TemplateTool_VersionDisplay"
+              - "ubuntu-latest@TemplateTool_HelpDisplay"
 
-  - id: TMPL-REQ-010
-    title: Code Quality Standards
-    description: |
-      The tool shall pass all static code analysis checks including CodeQL,
-      SonarCloud, and .NET analyzers.
-    type: non-functional
-    verification: analysis
-    rationale: |
-      Maintains high code quality standards across all DEMA Consulting tools.
+          - id: TMPL-REQ-010
+            title: The tool shall support .NET 8 runtime.
+            justification: |
+              .NET 8 is an LTS release providing long-term stability for enterprise users.
+            tests:
+              - "dotnet8.x@TemplateTool_VersionDisplay"
+              - "dotnet8.x@TemplateTool_HelpDisplay"
+
+          - id: TMPL-REQ-011
+            title: The tool shall support .NET 9 runtime.
+            justification: |
+              .NET 9 support enables users to leverage the latest .NET features.
+            tests:
+              - "dotnet9.x@TemplateTool_VersionDisplay"
+              - "dotnet9.x@TemplateTool_HelpDisplay"
+
+          - id: TMPL-REQ-012
+            title: The tool shall support .NET 10 runtime.
+            justification: |
+              .NET 10 support ensures the tool remains compatible with the latest .NET ecosystem.
+            tests:
+              - "dotnet10.x@TemplateTool_VersionDisplay"
+              - "dotnet10.x@TemplateTool_HelpDisplay"
+
+      - title: Code Quality
+        requirements:
+          - id: TMPL-REQ-013
+            title: The tool shall pass all static code analysis checks.
+            justification: |
+              Maintains high code quality standards across all DEMA Consulting tools, including
+              CodeQL, SonarCloud, and .NET analyzers.
+            tests:
+              - TemplateTool_VersionDisplay
+              - TemplateTool_HelpDisplay
+
