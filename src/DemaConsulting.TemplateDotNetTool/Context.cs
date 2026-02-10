@@ -219,7 +219,7 @@ internal sealed class Context : IDisposable
         /// <param name="args">All arguments</param>
         /// <param name="index">Current index</param>
         /// <param name="description">Description of what's required</param>
-        /// <returns>Argument value.</returns>
+        /// <returns>Argument value</returns>
         private static string GetRequiredStringArgument(string arg, string[] args, int index, string description)
         {
             if (index >= args.Length)
