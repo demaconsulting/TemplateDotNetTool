@@ -123,4 +123,3 @@ sections:
               - "dotnet10.x@IntegrationTest_VersionFlag_OutputsVersion"
               - "dotnet10.x@IntegrationTest_HelpFlag_OutputsUsageInformation"
               - "dotnet10.x@IntegrationTest_ValidateFlag_RunsValidation"
-
