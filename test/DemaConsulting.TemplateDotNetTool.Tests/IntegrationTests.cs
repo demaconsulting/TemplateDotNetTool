@@ -60,8 +60,8 @@ public class IntegrationTests
 
         // Verify version is output
         Assert.IsFalse(string.IsNullOrWhiteSpace(output));
-        Assert.IsFalse(output.Contains("Error"));
-        Assert.IsFalse(output.Contains("Copyright"));
+        Assert.DoesNotContain("Error", output);
+        Assert.DoesNotContain("Copyright", output);
     }
 
     /// <summary>
@@ -81,9 +81,9 @@ public class IntegrationTests
         Assert.AreEqual(0, exitCode);
 
         // Verify usage information is output
-        Assert.IsTrue(output.Contains("Usage:"));
-        Assert.IsTrue(output.Contains("Options:"));
-        Assert.IsTrue(output.Contains("--version"));
+        Assert.Contains("Usage:", output);
+        Assert.Contains("Options:", output);
+        Assert.Contains("--version", output);
     }
 
     /// <summary>
@@ -103,8 +103,8 @@ public class IntegrationTests
         Assert.AreEqual(0, exitCode);
 
         // Verify validation output
-        Assert.IsTrue(output.Contains("Total Tests:"));
-        Assert.IsTrue(output.Contains("Passed:"));
+        Assert.Contains("Total Tests:", output);
+        Assert.Contains("Passed:", output);
     }
 
     /// <summary>
@@ -135,8 +135,8 @@ public class IntegrationTests
 
             // Verify TRX file contains expected content
             var trxContent = File.ReadAllText(resultsFile);
-            Assert.IsTrue(trxContent.Contains("<TestRun"));
-            Assert.IsTrue(trxContent.Contains("</TestRun>"));
+            Assert.Contains("<TestRun", trxContent);
+            Assert.Contains("</TestRun>", trxContent);
         }
         finally
         {
@@ -192,7 +192,7 @@ public class IntegrationTests
 
             // Verify log file contains output
             var logContent = File.ReadAllText(logFile);
-            Assert.IsTrue(logContent.Contains("Template DotNet Tool version"));
+            Assert.Contains("Template DotNet Tool version", logContent);
         }
         finally
         {
@@ -218,6 +218,6 @@ public class IntegrationTests
 
         // Verify error
         Assert.AreNotEqual(0, exitCode);
-        Assert.IsTrue(output.Contains("Error"));
+        Assert.Contains("Error", output);
     }
 }

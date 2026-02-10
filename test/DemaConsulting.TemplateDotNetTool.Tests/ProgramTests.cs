@@ -42,8 +42,8 @@ public class ProgramTests
             Program.Run(context);
 
             var output = outWriter.ToString();
-            Assert.IsFalse(output.Contains("Copyright"));
-            Assert.IsFalse(output.Contains("Template DotNet Tool version"));
+            Assert.DoesNotContain("Copyright", output);
+            Assert.DoesNotContain("Template DotNet Tool version", output);
         }
         finally
         {
@@ -67,10 +67,10 @@ public class ProgramTests
             Program.Run(context);
 
             var output = outWriter.ToString();
-            Assert.IsTrue(output.Contains("Usage:"));
-            Assert.IsTrue(output.Contains("Options:"));
-            Assert.IsTrue(output.Contains("--version"));
-            Assert.IsTrue(output.Contains("--help"));
+            Assert.Contains("Usage:", output);
+            Assert.Contains("Options:", output);
+            Assert.Contains("--version", output);
+            Assert.Contains("--help", output);
         }
         finally
         {
@@ -94,7 +94,7 @@ public class ProgramTests
             Program.Run(context);
 
             var output = outWriter.ToString();
-            Assert.IsTrue(output.Contains("Total Tests:"));
+            Assert.Contains("Total Tests:", output);
         }
         finally
         {
@@ -118,8 +118,8 @@ public class ProgramTests
             Program.Run(context);
 
             var output = outWriter.ToString();
-            Assert.IsTrue(output.Contains("Template DotNet Tool version"));
-            Assert.IsTrue(output.Contains("Copyright"));
+            Assert.Contains("Template DotNet Tool version", output);
+            Assert.Contains("Copyright", output);
         }
         finally
         {
