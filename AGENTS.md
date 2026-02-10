@@ -24,7 +24,8 @@ implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
 
 ## Requirements
 
-- Link ALL requirements to tests (prefer `TemplateTool_*` self-validation tests)
+- All requirements MUST be linked to tests (prefer `TemplateTool_*` self-validation tests)
+- Not all tests need to be linked to requirements (tests may exist for corner cases, design testing, failure-testing, etc.)
 - Enforced in CI: `dotnet reqstream --requirements requirements.yaml --tests "test-results/**/*.trx" --enforce`
 - When adding features: add requirement + link to test
 
