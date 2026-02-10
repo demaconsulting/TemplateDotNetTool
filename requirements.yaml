@@ -120,3 +120,15 @@ sections:
             tests:
               - "dotnet10.x@TemplateTool_VersionDisplay"
               - "dotnet10.x@TemplateTool_HelpDisplay"
+
+      - title: Repository Template
+        requirements:
+          - id: TMPL-REQ-013
+            title: The repository shall provide a Repo Consistency Agent for downstream projects.
+            justification: |
+              Downstream projects created from this template need a way to maintain
+              consistency with the template's evolving best practices and patterns.
+              The Repo Consistency Agent helps identify drift and recommends updates
+              to keep projects aligned with the template.
+            tests:
+              - TemplateTool_RepoConsistencyAgent_DocumentationExists

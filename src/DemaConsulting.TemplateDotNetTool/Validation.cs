@@ -46,6 +46,7 @@ internal static class Validation
         // Run core functionality tests
         RunVersionTest(context, testResults);
         RunHelpTest(context, testResults);
+        RunRepoConsistencyAgentTest(context, testResults);
 
         // Calculate totals
         var totalTests = testResults.Results.Count;
@@ -223,6 +224,95 @@ internal static class Validation
         }
 
         FinalizeTestResult(test, startTime, testResults);
+    }
+
+    /// <summary>
+    ///     Runs a test to verify Repo Consistency Agent documentation exists.
+    /// </summary>
+    /// <param name="context">The context for output.</param>
+    /// <param name="testResults">The test results collection.</param>
+    private static void RunRepoConsistencyAgentTest(Context context, DemaConsulting.TestResults.TestResults testResults)
+    {
+        var startTime = DateTime.UtcNow;
+        var test = CreateTestResult("TemplateTool_RepoConsistencyAgent_DocumentationExists");
+
+        try
+        {
+            // Get the project root directory (go up from executable location)
+            var projectRoot = FindProjectRoot();
+
+            // Check if the agent documentation file exists
+            var agentFilePath = PathHelpers.SafePathCombine(
+                PathHelpers.SafePathCombine(
+                    PathHelpers.SafePathCombine(projectRoot, ".github"),
+                    "agents"),
+                "repo-consistency-agent.md");
+
+            if (File.Exists(agentFilePath))
+            {
+                // Read and verify the file has meaningful content
+                var content = File.ReadAllText(agentFilePath);
+
+                if (content.Contains("Repo Consistency Agent") &&
+                    content.Contains("Consistency Checks") &&
+                    content.Length > 500)
+                {
+                    test.Outcome = DemaConsulting.TestResults.TestOutcome.Passed;
+                    context.WriteLine($"✓ Repo Consistency Agent Documentation Test - PASSED");
+                }
+                else
+                {
+                    test.Outcome = DemaConsulting.TestResults.TestOutcome.Failed;
+                    test.ErrorMessage = "Agent documentation file exists but does not contain expected content";
+                    context.WriteError($"✗ Repo Consistency Agent Documentation Test - FAILED: Content validation failed");
+                }
+            }
+            else
+            {
+                test.Outcome = DemaConsulting.TestResults.TestOutcome.Failed;
+                test.ErrorMessage = $"Agent documentation file not found at: {agentFilePath}";
+                context.WriteError($"✗ Repo Consistency Agent Documentation Test - FAILED: File not found");
+            }
+        }
+        // Generic catch is justified here as this is a test framework - any exception should be
+        // recorded as a test failure to ensure robust test execution and reporting.
+        catch (Exception ex)
+        {
+            HandleTestException(test, context, "Repo Consistency Agent Documentation Test", ex);
+        }
+
+        FinalizeTestResult(test, startTime, testResults);
+    }
+
+    /// <summary>
+    ///     Finds the project root directory by searching for the .github directory.
+    /// </summary>
+    /// <returns>The project root directory path.</returns>
+    private static string FindProjectRoot()
+    {
+        // Start from the current directory
+        var currentDir = Directory.GetCurrentDirectory();
+
+        // Search up the directory tree for .github directory
+        while (!string.IsNullOrEmpty(currentDir))
+        {
+            var githubDir = PathHelpers.SafePathCombine(currentDir, ".github");
+            if (Directory.Exists(githubDir))
+            {
+                return currentDir;
+            }
+
+            // Move to parent directory
+            var parentDir = Directory.GetParent(currentDir);
+            if (parentDir == null)
+            {
+                break;
+            }
+            currentDir = parentDir.FullName;
+        }
+
+        // Fallback to current directory if .github not found
+        return Directory.GetCurrentDirectory();
     }
 
     /// <summary>
