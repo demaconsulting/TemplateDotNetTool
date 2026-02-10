@@ -124,7 +124,7 @@ Copyright (c) DEMA Consulting. Licensed under the MIT License. See [LICENSE][lin
 [badge-stars]: https://img.shields.io/github/stars/demaconsulting/TemplateDotNetTool?style=plastic
 [badge-contributors]: https://img.shields.io/github/contributors/demaconsulting/TemplateDotNetTool?style=plastic
 [badge-license]: https://img.shields.io/github/license/demaconsulting/TemplateDotNetTool?style=plastic
-[badge-build]: https://img.shields.io/github/actions/workflow/status/demaconsulting/TemplateDotNetTool/build_on_push.yaml
+[badge-build]: https://img.shields.io/github/actions/workflow/status/demaconsulting/TemplateDotNetTool/build_on_push.yaml?style=plastic
 [badge-quality]: https://sonarcloud.io/api/project_badges/measure?project=demaconsulting_TemplateDotNetTool&metric=alert_status
 [badge-security]: https://sonarcloud.io/api/project_badges/measure?project=demaconsulting_TemplateDotNetTool&metric=security_rating
 [badge-nuget]: https://img.shields.io/nuget/v/DemaConsulting.TemplateDotNetTool?style=plastic
