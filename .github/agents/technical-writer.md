@@ -31,10 +31,8 @@ Invoke the technical-writer for:
 
 #### Markdown Style
 
-- **README.md ONLY**: Absolute URLs (shipped in NuGet package)
-  - `https://github.com/demaconsulting/TemplateDotNetTool/blob/main/FILE.md`
-- **All other markdown files**: Use reference-style links
-  - `[text][ref]` with `[ref]: url` at end of file
+- **All markdown files**: Use reference-style links
+- **README.md ONLY**: Use absolute URLs in the links (shipped in NuGet package)
 - Max 120 characters per line
 - Lists require blank lines (MD032)
 
