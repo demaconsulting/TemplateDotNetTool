@@ -32,9 +32,9 @@ Invoke the technical-writer for:
 #### Markdown Style
 
 - **README.md ONLY**: Absolute URLs (shipped in NuGet package)
-  - Format: `https://github.com/demaconsulting/TemplateDotNetTool/blob/main/FILE.md`
-- **All other .md**: Reference-style links
-  - Format: `[text][ref]` with `[ref]: url` at end of file
+  - `https://github.com/demaconsulting/TemplateDotNetTool/blob/main/FILE.md`
+- **All markdown files**: Use reference-style links
+  - `[text][ref]` with `[ref]: url` at end of file
 - Max 120 characters per line
 - Lists require blank lines (MD032)
 
@@ -49,7 +49,6 @@ Invoke the technical-writer for:
 For documents requiring regulatory compliance:
 
 - Clear purpose and scope sections
-- Version history and change tracking
 - Appropriate detail level for audience
 - Traceability to requirements where applicable
 

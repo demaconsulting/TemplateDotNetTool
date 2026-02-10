@@ -39,6 +39,7 @@ Invoke the requirements-agent for:
 Follow the `requirements.yaml` structure:
 
 - Clear ID and description
+- Justification explaining why the requirement is needed
 - Linked to appropriate test(s)
 - Enforced via: `dotnet reqstream --requirements requirements.yaml --tests "test-results/**/*.trx" --enforce`
 

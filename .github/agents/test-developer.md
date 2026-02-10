@@ -23,8 +23,8 @@ Invoke the test-developer for:
 All tests must follow the AAA pattern with clear sections:
 
 ```csharp
-[Fact]
-public void ComponentName_MethodUnderTest_Scenario()
+[TestMethod]
+public void ClassName_MethodUnderTest_Scenario_ExpectedBehavior()
 {
     // Arrange - Set up test conditions
     var input = "test data";
@@ -35,7 +35,7 @@ public void ComponentName_MethodUnderTest_Scenario()
     var actual = component.Method(input);
 
     // Assert - Verify the results
-    Assert.Equal(expected, actual);
+    Assert.AreEqual(expected, actual);
 }
 ```
 
@@ -59,7 +59,7 @@ public void ComponentName_MethodUnderTest_Scenario()
 
 - **NOT self-validation tests** - those are handled by Software Developer Agent
 - Unit tests live in `test/` directory
-- Use xUnit testing framework
+- Use MSTest V4 testing framework
 - Follow existing naming conventions in the test suite
 
 ## Defer To

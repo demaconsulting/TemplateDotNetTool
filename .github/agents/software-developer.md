@@ -26,6 +26,8 @@ Write code in a **literate style**:
 - Blank lines separate logical paragraphs
 - Comments describe intent, not mechanics
 - Code should read like a well-structured document
+- Reading just the literate comments should explain how the code works
+- The code can be reviewed against the literate comments to check the implementation
 
 Example:
 
@@ -51,6 +53,7 @@ var results = ProcessFile(options.InputFile);
 ### Template DotNet Tool-Specific Rules
 
 - **XML Docs**: On ALL members (public/internal/private) with spaces after `///`
+  - Follow standard XML indentation rules with four-space indentation
 - **Errors**: `ArgumentException` for parsing, `InvalidOperationException` for runtime issues
 - **Namespace**: File-scoped namespaces only
 - **Using Statements**: Top of file only
@@ -58,7 +61,7 @@ var results = ProcessFile(options.InputFile);
 
 ### Self-Validation Tests
 
-- Naming: `TemplateTool_MethodUnderTest_Scenario`
+- Naming: `TemplateTool_FeatureBeingValidated`
 - These tests ship with the product and run via `--validate` flag
 - Must support TRX/JUnit output format
 - Link to requirements in `requirements.yaml`
