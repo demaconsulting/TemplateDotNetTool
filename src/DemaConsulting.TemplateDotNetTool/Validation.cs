@@ -29,6 +29,11 @@ namespace DemaConsulting.TemplateDotNetTool;
 internal static class Validation
 {
     /// <summary>
+    ///     Minimum expected length for agent documentation files.
+    /// </summary>
+    private const int MinimumAgentDocumentationLength = 500;
+
+    /// <summary>
     ///     Runs self-validation tests and optionally writes results to a file.
     /// </summary>
     /// <param name="context">The context containing command line arguments and program state.</param>
@@ -255,7 +260,7 @@ internal static class Validation
 
                 if (content.Contains("Repo Consistency Agent") &&
                     content.Contains("Consistency Checks") &&
-                    content.Length > 500)
+                    content.Length > MinimumAgentDocumentationLength)
                 {
                     test.Outcome = DemaConsulting.TestResults.TestOutcome.Passed;
                     context.WriteLine($"✓ Repo Consistency Agent Documentation Test - PASSED");
@@ -294,7 +299,7 @@ internal static class Validation
         var currentDir = Directory.GetCurrentDirectory();
 
         // Search up the directory tree for .github directory
-        while (!string.IsNullOrEmpty(currentDir))
+        while (currentDir != null)
         {
             var githubDir = PathHelpers.SafePathCombine(currentDir, ".github");
             if (Directory.Exists(githubDir))
@@ -304,11 +309,7 @@ internal static class Validation
 
             // Move to parent directory
             var parentDir = Directory.GetParent(currentDir);
-            if (parentDir == null)
-            {
-                break;
-            }
-            currentDir = parentDir.FullName;
+            currentDir = parentDir?.FullName;
         }
 
         // Fallback to current directory if .github not found
