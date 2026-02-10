@@ -160,7 +160,7 @@ public class ContextTests
             // Verify log file was written
             Assert.IsTrue(File.Exists(logFile));
             var logContent = File.ReadAllText(logFile);
-            Assert.IsTrue(logContent.Contains("Test message"));
+            Assert.Contains("Test message", logContent);
         }
         finally
         {
@@ -178,7 +178,7 @@ public class ContextTests
     public void Context_Create_UnknownArgument_ThrowsArgumentException()
     {
         var exception = Assert.Throws<ArgumentException>(() => Context.Create(["--unknown"]));
-        Assert.IsTrue(exception.Message.Contains("Unsupported argument"));
+        Assert.Contains("Unsupported argument", exception.Message);
     }
 
     /// <summary>
@@ -197,7 +197,7 @@ public class ContextTests
             context.WriteLine("Test message");
 
             var output = outWriter.ToString();
-            Assert.IsTrue(output.Contains("Test message"));
+            Assert.Contains("Test message", output);
         }
         finally
         {
@@ -221,7 +221,7 @@ public class ContextTests
             context.WriteLine("Test message");
 
             var output = outWriter.ToString();
-            Assert.IsFalse(output.Contains("Test message"));
+            Assert.DoesNotContain("Test message", output);
         }
         finally
         {
