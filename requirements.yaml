@@ -1,3 +1,16 @@
+# Requirements Testing Strategy
+#
+# This project uses three categories of tests to verify requirements:
+#
+# 1. Unit Tests - Run locally via "dotnet test"
+# 2. Self-Validation Tests - Run locally via "--validate"
+# 3. Platform Tests - Run via CI/CD across OS/runtime matrix
+#
+# NOTE: Running "reqstream --enforce" with only local test results (unit tests
+# and local self-validation) is expected to show some unsatisfied requirements.
+# Platform-specific requirements require test results from CI/CD runs across
+# the full OS and runtime matrix.
+#
 ---
 sections:
   - title: Template DotNet Tool Requirements
