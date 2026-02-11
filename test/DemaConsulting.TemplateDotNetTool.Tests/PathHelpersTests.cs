@@ -98,4 +98,55 @@ public class PathHelpersTests
             Assert.Contains("Invalid path component", windowsException.Message);
         }
     }
+
+    /// <summary>
+    ///     Test that SafePathCombine correctly handles current directory reference.
+    /// </summary>
+    [TestMethod]
+    public void PathHelpers_SafePathCombine_CurrentDirectoryReference_CombinesCorrectly()
+    {
+        // Arrange
+        var basePath = "/home/user/project";
+        var relativePath = "./subfolder/file.txt";
+
+        // Act
+        var result = PathHelpers.SafePathCombine(basePath, relativePath);
+
+        // Assert
+        Assert.AreEqual(Path.Combine(basePath, relativePath), result);
+    }
+
+    /// <summary>
+    ///     Test that SafePathCombine correctly handles nested paths.
+    /// </summary>
+    [TestMethod]
+    public void PathHelpers_SafePathCombine_NestedPaths_CombinesCorrectly()
+    {
+        // Arrange
+        var basePath = "/home/user/project";
+        var relativePath = "level1/level2/level3/file.txt";
+
+        // Act
+        var result = PathHelpers.SafePathCombine(basePath, relativePath);
+
+        // Assert
+        Assert.AreEqual(Path.Combine(basePath, relativePath), result);
+    }
+
+    /// <summary>
+    ///     Test that SafePathCombine correctly handles empty relative path.
+    /// </summary>
+    [TestMethod]
+    public void PathHelpers_SafePathCombine_EmptyRelativePath_ReturnsBasePath()
+    {
+        // Arrange
+        var basePath = "/home/user/project";
+        var relativePath = "";
+
+        // Act
+        var result = PathHelpers.SafePathCombine(basePath, relativePath);
+
+        // Assert
+        Assert.AreEqual(Path.Combine(basePath, relativePath), result);
+    }
 }
