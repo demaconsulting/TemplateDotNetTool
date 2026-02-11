@@ -72,6 +72,12 @@ build.bat     # Windows
 - **Code Quality**: Auto-generated via CodeQL and SonarMark
 - **Trace Matrix**: Auto-generated via ReqStream
 
+## Markdown Link Style
+
+- **AI agent markdown files** (`.github/agents/*.md`): Use inline links `[text](url)` so URLs are visible in agent context
+- **README.md**: Use absolute URLs (shipped in NuGet package)
+- **All other markdown files**: Use reference-style links `[text][ref]` with `[ref]: url` at document end
+
 ## CI/CD
 
 - **Quality Checks**: Markdown lint, spell check, YAML lint
