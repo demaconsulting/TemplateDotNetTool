@@ -55,6 +55,9 @@ implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
 # Build the project
 dotnet build --configuration Release
 
+# Run unit tests
+dotnet test --configuration Release
+
 # Run self-validation
 dotnet run --project src/DemaConsulting.TemplateDotNetTool \
   --configuration Release --framework net10.0 --no-build -- --validate

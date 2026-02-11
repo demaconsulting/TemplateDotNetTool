@@ -191,11 +191,12 @@ All files are spell-checked using cspell. Add project-specific terms to `.cspell
 
 Before submitting a pull request, ensure all quality checks pass:
 
-### 1. Build and Test
+### 1. Build, Test, and Validate
 
 ```bash
 dotnet build --configuration Release
 dotnet test --configuration Release
+dotnet run --project src/DemaConsulting.TemplateDotNetTool --configuration Release --framework net10.0 --no-build -- --validate
 ```
 
 All tests must pass with zero warnings.
