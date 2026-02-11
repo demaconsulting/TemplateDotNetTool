@@ -171,7 +171,9 @@ All markdown files must follow these rules (enforced by markdownlint):
 - Use ATX-style headers (`# Header`)
 - Lists must be surrounded by blank lines
 - Use reference-style links: `[text][ref]` with `[ref]: url` at document end
-- **Exception**: `README.md` uses absolute URLs (it's included in the NuGet package)
+- **Exceptions**:
+  - `README.md` uses absolute URLs (it's included in the NuGet package)
+  - AI agent markdown files (`.github/agents/*.md`) use inline links `[text](url)` so URLs are visible in agent context
 
 ### Spell Checking
 
