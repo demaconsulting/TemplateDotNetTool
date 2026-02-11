@@ -63,47 +63,6 @@ templatetool --silent --log output.log
 | `--results <file>`   | Write validation results to file (TRX or JUnit format)       |
 | `--log <file>`       | Write output to log file                                     |
 
-## Building from Source
-
-```bash
-# Restore dependencies
-dotnet restore
-
-# Build the project
-dotnet build --configuration Release
-
-# Run tests
-dotnet test --configuration Release
-
-# Create NuGet package
-dotnet pack --configuration Release
-```
-
-## Project Structure
-
-```text
-TemplateDotNetTool/
-├── src/
-│   └── DemaConsulting.TemplateDotNetTool/
-│       ├── Context.cs           # Command-line argument handling
-│       ├── Program.cs            # Main entry point
-│       └── Validation.cs         # Self-validation tests
-├── docs/                         # Documentation source files
-├── .github/workflows/            # CI/CD workflows
-├── requirements.yaml             # Requirements specification
-└── DemaConsulting.TemplateDotNetTool.sln
-```
-
-## CI/CD Pipeline
-
-The GitHub Actions workflow performs:
-
-1. **Quality Checks**: Markdown linting, spell checking, YAML linting
-2. **Build**: Multi-platform build on Windows and Linux
-3. **CodeQL Analysis**: Security scanning
-4. **Integration Tests**: Test on Windows/Linux with .NET 8/9/10
-5. **Documentation Generation**: Build all project documents
-
 ## Documentation
 
 Generated documentation includes:
