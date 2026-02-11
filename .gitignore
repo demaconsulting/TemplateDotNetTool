@@ -100,3 +100,6 @@ coverage.opencover.xml
 *.tmp
 *.temp
 *.log
+
+# Agent report files
+AGENT_REPORT_*.md
