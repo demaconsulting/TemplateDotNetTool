@@ -74,6 +74,7 @@ build.bat     # Windows
 - **Build Notes**: Auto-generated via BuildMark
 - **Code Quality**: Auto-generated via CodeQL and SonarMark
 - **Trace Matrix**: Auto-generated via ReqStream
+- **CHANGELOG.md**: Not present - changes are captured in the auto-generated build notes
 
 ## Markdown Link Style
 
