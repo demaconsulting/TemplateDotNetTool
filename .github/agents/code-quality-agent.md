@@ -57,7 +57,7 @@ dotnet format --verify-no-changes
 # Build with zero warnings
 dotnet build --configuration Release
 
-# Run validation tests
+# Run self-validation tests
 dotnet run --project src/DemaConsulting.TemplateDotNetTool \
   --configuration Release --framework net10.0 --no-build -- --validate
 

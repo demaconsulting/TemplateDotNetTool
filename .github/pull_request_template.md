@@ -27,8 +27,8 @@ Before submitting this pull request, ensure you have completed the following:
 ### Build and Test
 
 - [ ] Code builds successfully: `dotnet build --configuration Release`
-- [ ] All tests pass: `dotnet test --configuration Release`
-- [ ] Self-validation passes:
+- [ ] All unit tests pass: `dotnet test --configuration Release`
+- [ ] Self-validation tests pass:
   `dotnet run --project src/DemaConsulting.TemplateDotNetTool --configuration Release --framework net10.0`
   `--no-build -- --validate`
 - [ ] Code produces zero warnings
