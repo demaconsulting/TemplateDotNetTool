@@ -93,3 +93,14 @@ lint.bat      # Windows
 # Pack as NuGet tool
 dotnet pack --configuration Release
 ```
+
+## Agent Report Files
+
+When agents need to write report files to communicate with each other or the user, follow these guidelines:
+
+- **Naming Convention**: Use the pattern `AGENT_REPORT_xxxx.md` (e.g., `AGENT_REPORT_analysis.md`, `AGENT_REPORT_results.md`)
+- **Purpose**: These files are for temporary inter-agent communication and should not be committed
+- **Exclusions**: Files matching `AGENT_REPORT_*.md` are automatically:
+  - Excluded from git (via .gitignore)
+  - Excluded from markdown linting
+  - Excluded from spell checking
