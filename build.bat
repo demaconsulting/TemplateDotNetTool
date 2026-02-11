@@ -5,8 +5,12 @@ echo Building Template DotNet Tool...
 dotnet build --configuration Release
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-echo Running validation...
+echo Running unit tests...
+dotnet test --configuration Release
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+echo Running self-validation...
 dotnet run --project src/DemaConsulting.TemplateDotNetTool --configuration Release --framework net10.0 --no-build -- --validate
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-echo Build and validation completed successfully!
+echo Build, tests, and validation completed successfully!
