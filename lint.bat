@@ -2,7 +2,7 @@
 REM Run all linters for Template DotNet Tool (Windows)
 
 echo Checking markdown...
-call npx markdownlint-cli2 "**/*.md" "#node_modules"
+call npx markdownlint-cli2 "**/*.md"
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo Checking spelling...
