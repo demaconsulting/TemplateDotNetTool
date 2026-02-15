@@ -45,7 +45,7 @@ Please run the following checks before submitting:
 
 - [ ] **Spell checker passes**: `cspell "**/*.{md,cs}"`
 - [ ] **Markdown linter passes**: `markdownlint "**/*.md"`
-- [ ] **YAML linter passes**: `yamllint -c .yamllint.yaml .`
+- [ ] **YAML linter passes**: `yamllint .`
 
 ### Testing
 
@@ -57,6 +57,7 @@ Please run the following checks before submitting:
 ### Documentation
 
 - [ ] Updated README.md (if applicable)
+- [ ] Updated ARCHITECTURE.md (if applicable)
 - [ ] Added code examples for new features (if applicable)
 - [ ] Updated requirements.yaml (if applicable)
 
