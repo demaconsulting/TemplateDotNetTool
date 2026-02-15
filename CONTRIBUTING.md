@@ -136,7 +136,7 @@ Examples:
 
 - `Program_Main_NoArguments_ReturnsSuccess`
 - `Context_Create_WithInvalidFlag_ThrowsArgumentException`
-- `SarifResults_Read_ValidFile_ReturnsResults`
+- `Validation_Run_AllTests_ReturnsSuccess`
 
 ### Writing Tests
 
@@ -241,7 +241,7 @@ Write clear, concise commit messages:
 Examples:
 
 - `Add support for custom report headers`
-- `Fix crash when SARIF file path is invalid`
+- `Fix crash when results file path is invalid`
 - `Update documentation for --report-depth option`
 - `Refactor argument parsing for better testability`
 

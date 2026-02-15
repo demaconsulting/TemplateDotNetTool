@@ -64,7 +64,7 @@ When using Template DotNet Tool, we recommend following these security best prac
 
 ### Input Validation
 
-- Validate SARIF analysis tools API responses before processing
+- Validate command-line arguments and file paths before processing
 - Be cautious when processing data from untrusted sources
 - Use the latest version of Template DotNet Tool to benefit from security updates
 
@@ -81,15 +81,6 @@ When using Template DotNet Tool, we recommend following these security best prac
 - Validate API tokens and credentials are stored securely
 
 ## Known Security Considerations
-
-### API Integration
-
-Template DotNet Tool integrates with SARIF analysis tools APIs. Users should:
-
-- Protect API tokens and credentials
-- Use HTTPS connections to SARIF analysis tools
-- Validate SSL/TLS certificates
-- Be aware that API responses may contain sensitive code quality information
 
 ### File System Access
 
