@@ -136,7 +136,7 @@ Examples:
 
 - `Program_Main_NoArguments_ReturnsSuccess`
 - `Context_Create_WithInvalidFlag_ThrowsArgumentException`
-- `Validation_Run_AllTests_ReturnsSuccess`
+- `SarifResults_Read_ValidFile_ReturnsResults`
 
 ### Writing Tests
 
@@ -168,7 +168,7 @@ dotnet test --collect "XPlat Code Coverage"
 ```bash
 # Run self-validation tests
 dotnet run --project src/DemaConsulting.TemplateDotNetTool \
-  --configuration Release --no-build -- --validate
+  --configuration Release --framework net10.0 --no-build -- --validate
 ```
 
 ## Documentation
@@ -211,7 +211,7 @@ dotnet build --configuration Release
 dotnet test --configuration Release
 
 # Run self-validation tests
-dotnet run --project src/DemaConsulting.TemplateDotNetTool --configuration Release --no-build -- --validate
+dotnet run --project src/DemaConsulting.TemplateDotNetTool --configuration Release --framework net10.0 --no-build -- --validate
 ```
 
 All tests must pass with zero warnings.
@@ -241,7 +241,7 @@ Write clear, concise commit messages:
 Examples:
 
 - `Add support for custom report headers`
-- `Fix crash when results file path is invalid`
+- `Fix crash when SARIF file path is invalid`
 - `Update documentation for --report-depth option`
 - `Refactor argument parsing for better testability`
 
