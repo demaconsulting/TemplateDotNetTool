@@ -29,8 +29,7 @@ Before submitting this pull request, ensure you have completed the following:
 - [ ] Code builds successfully: `dotnet build --configuration Release`
 - [ ] All unit tests pass: `dotnet test --configuration Release`
 - [ ] Self-validation tests pass:
-  `dotnet run --project src/DemaConsulting.TemplateDotNetTool --configuration Release --framework net10.0`
-  `--no-build -- --validate`
+  `dotnet run --project src/DemaConsulting.TemplateDotNetTool --configuration Release --no-build -- --validate`
 - [ ] Code produces zero warnings
 
 ### Code Quality
@@ -45,7 +44,7 @@ Please run the following checks before submitting:
 
 - [ ] **Spell checker passes**: `cspell "**/*.{md,cs}"`
 - [ ] **Markdown linter passes**: `markdownlint "**/*.md"`
-- [ ] **YAML linter passes**: `yamllint '**/*.{yml,yaml}'`
+- [ ] **YAML linter passes**: `yamllint -c .yamllint.yaml .`
 
 ### Testing
 
@@ -57,7 +56,6 @@ Please run the following checks before submitting:
 ### Documentation
 
 - [ ] Updated README.md (if applicable)
-- [ ] Updated ARCHITECTURE.md (if applicable)
 - [ ] Added code examples for new features (if applicable)
 - [ ] Updated requirements.yaml (if applicable)
 

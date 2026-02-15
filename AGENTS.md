@@ -60,7 +60,7 @@ dotnet test --configuration Release
 
 # Run self-validation
 dotnet run --project src/DemaConsulting.TemplateDotNetTool \
-  --configuration Release --framework net10.0 --no-build -- --validate
+  --configuration Release --no-build -- --validate
 
 # Use convenience scripts
 ./build.sh    # Linux/macOS
