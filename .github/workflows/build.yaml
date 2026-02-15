@@ -34,7 +34,7 @@ jobs:
         shell: bash
         run: |
           echo "Capturing tool versions..."
-          dotnet versionmark --capture --job-id "quality" -- dotnet git
+          dotnet versionmark --capture --job-id "quality" -- dotnet git versionmark
           echo "✓ Tool versions captured"
 
       - name: Upload version capture
@@ -151,7 +151,7 @@ jobs:
           OS_SHORT=$(echo "${{ matrix.os }}" | sed 's/windows-latest/win/;s/ubuntu-latest/ubuntu/')
           JOB_ID="build-${OS_SHORT}"
           dotnet versionmark --capture --job-id "${JOB_ID}" -- \
-            dotnet git dotnet-sonarscanner
+            dotnet git dotnet-sonarscanner versionmark
           echo "✓ Tool versions captured"
 
       - name: Upload version capture
@@ -311,7 +311,7 @@ jobs:
           OS_SHORT=$(echo "${{ matrix.os }}" | sed 's/windows-latest/win/;s/ubuntu-latest/ubuntu/')
           DOTNET_SHORT=$(echo "${{ matrix.dotnet-version }}" | sed 's/\.x$//')
           JOB_ID="int-${OS_SHORT}-${DOTNET_SHORT}"
-          dotnet versionmark --capture --job-id "${JOB_ID}" -- dotnet git
+          dotnet versionmark --capture --job-id "${JOB_ID}" -- dotnet git versionmark
           echo "✓ Tool versions captured"
 
       - name: Upload version capture
@@ -395,7 +395,8 @@ jobs:
         shell: bash
         run: |
           echo "Capturing tool versions..."
-          dotnet versionmark --capture --job-id "build-docs"
+          dotnet versionmark --capture --job-id "build-docs" -- \
+            dotnet git node npm pandoc weasyprint sarifmark sonarmark reqstream buildmark versionmark
           echo "✓ Tool versions captured"
 
       - name: Generate Requirements Report, Justifications, and Trace Matrix
