@@ -261,11 +261,16 @@ jobs:
         with:
           sparse-checkout: |
             .versionmark.yaml
+            .config/dotnet-tools.json
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Restore Tools
+        run: >
+          dotnet tool restore
 
       - name: Install tool from package
         shell: bash
@@ -275,13 +280,6 @@ jobs:
             --add-source packages \
             --version ${{ inputs.version }} \
             DemaConsulting.TemplateDotNetTool
-
-      - name: Install VersionMark
-        shell: bash
-        run: |
-          echo "Installing VersionMark 0.1.0..."
-          dotnet tool install --global DemaConsulting.VersionMark --version 0.1.0
-          echo "✓ VersionMark installed"
 
       - name: Test version display
         shell: bash
@@ -313,7 +311,7 @@ jobs:
           OS_SHORT=$(echo "${{ matrix.os }}" | sed 's/windows-latest/win/;s/ubuntu-latest/ubuntu/')
           DOTNET_SHORT=$(echo "${{ matrix.dotnet-version }}" | sed 's/\.x$//')
           JOB_ID="int-${OS_SHORT}-${DOTNET_SHORT}"
-          versionmark --capture --job-id "${JOB_ID}" -- dotnet git
+          dotnet versionmark --capture --job-id "${JOB_ID}" -- dotnet git
           echo "✓ Tool versions captured"
 
       - name: Upload version capture
@@ -393,19 +391,11 @@ jobs:
       - name: Restore Tools
         run: dotnet tool restore
 
-      - name: Install VersionMark
-        shell: bash
-        run: |
-          echo "Installing VersionMark 0.1.0..."
-          dotnet tool install --global DemaConsulting.VersionMark --version 0.1.0
-          echo "✓ VersionMark installed"
-
       - name: Capture tool versions for build-docs
         shell: bash
         run: |
           echo "Capturing tool versions..."
-          versionmark --capture --job-id "build-docs" -- \
-            dotnet git node npm pandoc weasyprint sarifmark sonarmark reqstream buildmark versionmark
+          dotnet versionmark --capture --job-id "build-docs"
           echo "✓ Tool versions captured"
 
       - name: Generate Requirements Report, Justifications, and Trace Matrix
@@ -465,7 +455,7 @@ jobs:
         shell: bash
         run: |
           echo "Publishing tool versions..."
-          versionmark --publish --report docs/buildnotes/versions.md --report-depth 1 \
+          dotnet versionmark --publish --report docs/buildnotes/versions.md --report-depth 1 \
             -- "versionmark-*.json" "version-captures/**/versionmark-*.json"
           echo "✓ Tool versions published"
 
