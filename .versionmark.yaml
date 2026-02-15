@@ -6,17 +6,17 @@ tools:
   # .NET SDK
   dotnet:
     command: dotnet --version
-    regex: '(?<version>\d+\.\d+\.\d+)'
+    regex: '(?<version>\d+\.\d+\.\d+(?:\.\d+)?)'
 
   # Git
   git:
     command: git --version
-    regex: 'git version (?<version>\d+\.\d+\.\d+)'
+    regex: '(?i)git version (?<version>\d+\.\d+\.\d+)'
 
   # Node.js
   node:
     command: node --version
-    regex: 'v(?<version>\d+\.\d+\.\d+)'
+    regex: '(?i)v(?<version>\d+\.\d+\.\d+)'
 
   # npm
   npm:
