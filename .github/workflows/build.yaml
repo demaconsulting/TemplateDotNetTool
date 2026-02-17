@@ -468,6 +468,12 @@ jobs:
           --report docs/buildnotes.md
           --report-depth 1
 
+      - name: Display Build Notes Report
+        shell: bash
+        run: |
+          echo "=== Build Notes Report ==="
+          cat docs/buildnotes.md
+
       - name: Publish Tool Versions
         shell: bash
         run: |
