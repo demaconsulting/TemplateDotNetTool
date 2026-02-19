@@ -32,6 +32,7 @@ public class ProgramTests
     [TestMethod]
     public void Program_Run_WithVersionFlag_DisplaysVersionOnly()
     {
+        // Arrange
         var originalOut = Console.Out;
         try
         {
@@ -39,8 +40,10 @@ public class ProgramTests
             Console.SetOut(outWriter);
             using var context = Context.Create(["--version"]);
 
+            // Act
             Program.Run(context);
 
+            // Assert
             var output = outWriter.ToString();
             Assert.DoesNotContain("Copyright", output);
             Assert.DoesNotContain("Template DotNet Tool version", output);
@@ -57,6 +60,7 @@ public class ProgramTests
     [TestMethod]
     public void Program_Run_WithHelpFlag_DisplaysUsageInformation()
     {
+        // Arrange
         var originalOut = Console.Out;
         try
         {
@@ -64,8 +68,10 @@ public class ProgramTests
             Console.SetOut(outWriter);
             using var context = Context.Create(["--help"]);
 
+            // Act
             Program.Run(context);
 
+            // Assert
             var output = outWriter.ToString();
             Assert.Contains("Usage:", output);
             Assert.Contains("Options:", output);
@@ -84,6 +90,7 @@ public class ProgramTests
     [TestMethod]
     public void Program_Run_WithValidateFlag_RunsValidation()
     {
+        // Arrange
         var originalOut = Console.Out;
         try
         {
@@ -91,8 +98,10 @@ public class ProgramTests
             Console.SetOut(outWriter);
             using var context = Context.Create(["--validate"]);
 
+            // Act
             Program.Run(context);
 
+            // Assert
             var output = outWriter.ToString();
             Assert.Contains("Total Tests:", output);
         }
@@ -108,6 +117,7 @@ public class ProgramTests
     [TestMethod]
     public void Program_Run_NoArguments_DisplaysDefaultBehavior()
     {
+        // Arrange
         var originalOut = Console.Out;
         try
         {
@@ -115,8 +125,10 @@ public class ProgramTests
             Console.SetOut(outWriter);
             using var context = Context.Create([]);
 
+            // Act
             Program.Run(context);
 
+            // Assert
             var output = outWriter.ToString();
             Assert.Contains("Template DotNet Tool version", output);
             Assert.Contains("Copyright", output);
@@ -133,7 +145,10 @@ public class ProgramTests
     [TestMethod]
     public void Program_Version_ReturnsNonEmptyString()
     {
+        // Act
         var version = Program.Version;
+        
+        // Assert
         Assert.IsFalse(string.IsNullOrWhiteSpace(version));
     }
 }
