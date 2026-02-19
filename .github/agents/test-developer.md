@@ -64,38 +64,22 @@ public void ClassName_MethodUnderTest_Scenario_ExpectedBehavior()
   - Failure-testing and error handling scenarios
   - Verifying internal behavior beyond requirement scope
 
-### Test Source Linking
+### Test Source Filters
 
-Requirements in `requirements.yaml` use test source filters to prove tests ran across the full CI matrix of operating systems and .NET runtime versions. These filters match specific patterns in TRX file paths produced by the CI pipeline.
+Test links in `requirements.yaml` can include a source filter prefix to restrict which test results count as
+evidence. These filters are critical for platform and framework requirements - **do not remove them**.
 
-#### Test Source Filter Categories
+- `windows@TestName` - proves the test passed on a Windows platform
+- `ubuntu@TestName` - proves the test passed on a Linux (Ubuntu) platform
+- `net8.0@TestName` - proves the test passed under the .NET 8 target framework
+- `net9.0@TestName` - proves the test passed under the .NET 9 target framework
+- `net10.0@TestName` - proves the test passed under the .NET 10 target framework
+- `dotnet8.x@TestName` - proves the self-validation test ran on a machine with .NET 8.x runtime
+- `dotnet9.x@TestName` - proves the self-validation test ran on a machine with .NET 9.x runtime
+- `dotnet10.x@TestName` - proves the self-validation test ran on a machine with .NET 10.x runtime
 
-1. **Operating System Filters**: `windows@TestName`, `ubuntu@TestName`
-   - Proves the test ran on a specific operating system
-   - Matches tests in TRX files whose path contains "windows" or "ubuntu"
-   - Produced by the CI build matrix running on `windows-latest` and `ubuntu-latest`
-   - Example: `windows@TemplateDotNetToolTests_Run_Help_PrintsHelp`
-
-2. **Target Framework Filters**: `net8.0@TestName`, `net9.0@TestName`, `net10.0@TestName`
-   - Proves the unit test ran against a specific .NET target framework
-   - Matches tests in TRX files whose path contains "net8.0", "net9.0", or "net10.0"
-   - Produced when `dotnet test` runs a multi-targeted project
-   - Example: `net8.0@TemplateDotNetToolTests_Constructor_ValidInput_CreatesInstance`
-
-3. **Runtime Version Filters**: `dotnet8.x@TestName`, `dotnet9.x@TestName`, `dotnet10.x@TestName`
-   - Proves the self-validation test ran on a machine with a specific installed .NET runtime
-   - Matches tests in TRX files whose path contains "dotnet8.x", "dotnet9.x", or "dotnet10.x"
-   - Produced by the CI integration-test matrix with `matrix.dotnet-version` set to `8.x`, `9.x`, or `10.x`
-   - Example: `dotnet8.x@SelfValidation_Run_ValidScenario_ReturnsSuccess`
-
-#### ⚠️ Critical Warning
-
-**NEVER remove test source filters from `requirements.yaml`**. These filters provide the evidence needed to prove requirements are satisfied across:
-- All supported operating systems (Windows, Ubuntu/Linux)
-- All target .NET framework versions (net8.0, net9.0, net10.0)
-- All installed .NET runtime versions (8.x, 9.x, 10.x)
-
-Removing these filters would eliminate the proof that requirements work across the full matrix, potentially hiding OS-specific or framework-specific bugs. The CI pipeline depends on these filters to validate comprehensive test coverage.
+Removing a source filter means a test result from any environment can satisfy the requirement, which invalidates
+the evidence-based proof that the tool works on a specific platform or framework.
 
 ### Template DotNet Tool-Specific
 

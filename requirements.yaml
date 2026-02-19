@@ -11,30 +11,20 @@
 # Platform-specific requirements require test results from CI/CD runs across
 # the full OS and runtime matrix.
 #
-# Test Source Filter Syntax
+# Test links can include a source filter prefix (e.g. "windows@", "ubuntu@", "net8.0@",
+# "dotnet8.x@") to restrict which test results count as evidence for a requirement. This
+# is critical for platform and framework requirements - removing these filters invalidates
+# the evidence-based proof.
 #
-# Tests may include a source filter prefix ("source@TestName") to prove that
-# a specific test ran on a particular platform or framework. NEVER remove
-# these filters - they provide evidence that requirements are satisfied across
-# the full OS and runtime matrix.
-#
-# The three filter categories used in this file are:
-#
-# - "windows@TestName", "ubuntu@TestName"
-#   Proves the test ran on a specific operating system. These match tests in
-#   TRX files whose path contains "windows" or "ubuntu" (produced by the CI
-#   build matrix running on windows-latest and ubuntu-latest).
-#
-# - "net8.0@TestName", "net9.0@TestName", "net10.0@TestName"
-#   Proves the unit test ran against a specific .NET target framework. These
-#   match tests in TRX files whose path contains "net8.0", "net9.0", or
-#   "net10.0" (produced when "dotnet test" runs a multi-targeted project).
-#
-# - "dotnet8.x@TestName", "dotnet9.x@TestName", "dotnet10.x@TestName"
-#   Proves the self-validation test ran on a machine with a specific installed
-#   .NET runtime. These match tests in TRX files whose path contains "dotnet8.x",
-#   "dotnet9.x", or "dotnet10.x" (produced by the CI integration-test matrix
-#   with matrix.dotnet-version set to 8.x, 9.x, or 10.x).
+# Source filter prefixes:
+#   windows@TestName    - proves the test passed on a Windows platform
+#   ubuntu@TestName     - proves the test passed on a Linux (Ubuntu) platform
+#   net8.0@TestName     - proves the test passed under the .NET 8 target framework
+#   net9.0@TestName     - proves the test passed under the .NET 9 target framework
+#   net10.0@TestName    - proves the test passed under the .NET 10 target framework
+#   dotnet8.x@TestName  - proves the self-validation test ran with .NET 8.x runtime
+#   dotnet9.x@TestName  - proves the self-validation test ran with .NET 9.x runtime
+#   dotnet10.x@TestName - proves the self-validation test ran with .NET 10.x runtime
 #
 ---
 sections:

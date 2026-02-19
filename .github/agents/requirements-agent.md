@@ -49,69 +49,22 @@ Follow the `requirements.yaml` structure:
 - Linked to appropriate test(s)
 - Enforced via: `dotnet reqstream --requirements requirements.yaml --tests "test-results/**/*.trx" --enforce`
 
-### Test Source Linking
+### Test Source Filters
 
-Test sources in `requirements.yaml` can be prefixed with filters to prove requirements are satisfied across the full operating system and runtime matrix. These filters are critical for compliance and **MUST NEVER BE REMOVED**.
+Test links in `requirements.yaml` can include a source filter prefix to restrict which test results count as
+evidence. This is critical for platform and framework requirements - **never remove these filters**.
 
-#### Operating System Filters
+- `windows@TestName` - proves the test passed on a Windows platform
+- `ubuntu@TestName` - proves the test passed on a Linux (Ubuntu) platform
+- `net8.0@TestName` - proves the test passed under the .NET 8 target framework
+- `net9.0@TestName` - proves the test passed under the .NET 9 target framework
+- `net10.0@TestName` - proves the test passed under the .NET 10 target framework
+- `dotnet8.x@TestName` - proves the self-validation test ran on a machine with .NET 8.x runtime
+- `dotnet9.x@TestName` - proves the self-validation test ran on a machine with .NET 9.x runtime
+- `dotnet10.x@TestName` - proves the self-validation test ran on a machine with .NET 10.x runtime
 
-- `windows@TestName` - Proves the test ran on Windows
-- `ubuntu@TestName` - Proves the test ran on Ubuntu/Linux
-
-These filters match tests in TRX files whose path contains "windows" or "ubuntu", produced by the CI build matrix running on `windows-latest` and `ubuntu-latest`.
-
-**Example:**
-```yaml
-sources:
-  - windows@TemplateTool_DisplaysVersion
-  - ubuntu@TemplateTool_DisplaysVersion
-```
-
-#### .NET Target Framework Filters
-
-- `net8.0@TestName` - Proves the unit test ran against .NET 8.0 target framework
-- `net9.0@TestName` - Proves the unit test ran against .NET 9.0 target framework
-- `net10.0@TestName` - Proves the unit test ran against .NET 10.0 target framework
-
-These filters match tests in TRX files whose path contains "net8.0", "net9.0", or "net10.0", produced when `dotnet test` runs a multi-targeted project.
-
-**Example:**
-```yaml
-sources:
-  - net8.0@UtilitiesTests_ValidatesInput
-  - net9.0@UtilitiesTests_ValidatesInput
-```
-
-#### .NET Runtime Filters
-
-- `dotnet8.x@TestName` - Proves the self-validation test ran on a machine with .NET 8.x runtime installed
-- `dotnet9.x@TestName` - Proves the self-validation test ran on a machine with .NET 9.x runtime installed
-- `dotnet10.x@TestName` - Proves the self-validation test ran on a machine with .NET 10.x runtime installed
-
-These filters match tests in TRX files whose path contains "dotnet8.x", "dotnet9.x", or "dotnet10.x", produced by the CI integration-test matrix with `matrix.dotnet-version` set to `8.x`, `9.x`, or `10.x`.
-
-**Example:**
-```yaml
-sources:
-  - dotnet8.x@TemplateTool_CreatesProject
-  - dotnet9.x@TemplateTool_CreatesProject
-```
-
-#### Critical Warning
-
-⚠️ **THESE SOURCE FILTERS MUST NEVER BE REMOVED** ⚠️
-
-These filters provide the evidence needed to prove that requirements are satisfied across:
-- All supported operating systems (Windows, Linux)
-- All target framework versions (net8.0, net9.0, net10.0)
-- All runtime versions (dotnet 8.x, 9.x, 10.x)
-
-Removing these filters would eliminate the proof that requirements work correctly across the full compatibility matrix, which is essential for:
-- Regulatory compliance and audit trails
-- Customer confidence in cross-platform support
-- Preventing platform-specific regressions
-
-When updating requirements, always maintain the full set of source filters that were present originally.
+Without the source filter, a test result from any platform/framework satisfies the requirement. Removing a
+filter invalidates the evidence for platform/framework requirements.
 
 ## Defer To
 

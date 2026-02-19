@@ -29,26 +29,22 @@ implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
 - Enforced in CI: `dotnet reqstream --requirements requirements.yaml --tests "test-results/**/*.trx" --enforce`
 - When adding features: add requirement + link to test
 
-## Test Source Linking
+## Test Source Filters
 
-Tests in `requirements.yaml` can be prefixed with a **source filter** (`source@TestName`) to prove
-a test ran on a specific platform or framework. **Never remove these filters** - they provide
-evidence that requirements are satisfied across the full OS and runtime matrix.
+Test links in `requirements.yaml` can include a source filter prefix to restrict which test results count as
+evidence. This is critical for platform and framework requirements - **do not remove these filters**.
 
-The three filter categories are:
+- `windows@TestName` - proves the test passed on a Windows platform
+- `ubuntu@TestName` - proves the test passed on a Linux (Ubuntu) platform
+- `net8.0@TestName` - proves the test passed under the .NET 8 target framework
+- `net9.0@TestName` - proves the test passed under the .NET 9 target framework
+- `net10.0@TestName` - proves the test passed under the .NET 10 target framework
+- `dotnet8.x@TestName` - proves the self-validation test ran on a machine with .NET 8.x runtime
+- `dotnet9.x@TestName` - proves the self-validation test ran on a machine with .NET 9.x runtime
+- `dotnet10.x@TestName` - proves the self-validation test ran on a machine with .NET 10.x runtime
 
-- **`windows@TestName`**, **`ubuntu@TestName`** - Proves the test ran on a specific operating
-  system. These match tests in TRX files whose path contains `windows` or `ubuntu` (produced by
-  the CI build matrix running on `windows-latest` and `ubuntu-latest`).
-
-- **`net8.0@TestName`**, **`net9.0@TestName`**, **`net10.0@TestName`** - Proves the unit test ran
-  against a specific .NET target framework. These match tests in TRX files whose path contains
-  `net8.0`, `net9.0`, or `net10.0` (produced when `dotnet test` runs a multi-targeted project).
-
-- **`dotnet8.x@TestName`**, **`dotnet9.x@TestName`**, **`dotnet10.x@TestName`** - Proves the
-  self-validation test ran on a machine with a specific installed .NET runtime. These match tests
-  in TRX files whose path contains `dotnet8.x`, `dotnet9.x`, or `dotnet10.x` (produced by the CI
-  integration-test matrix with `matrix.dotnet-version` set to `8.x`, `9.x`, or `10.x`).
+Without the source filter, a test result from any platform/framework satisfies the requirement. Adding the filter
+ensures the CI evidence comes specifically from the required environment.
 
 ## Testing
 
