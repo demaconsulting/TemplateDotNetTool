@@ -48,17 +48,15 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_VersionFlag_OutputsVersion()
     {
-        // Run the application with --version flag
+        // Act
         var exitCode = Runner.Run(
             out var output,
             "dotnet",
             _dllPath,
             "--version");
 
-        // Verify success
+        // Assert
         Assert.AreEqual(0, exitCode);
-
-        // Verify version is output
         Assert.IsFalse(string.IsNullOrWhiteSpace(output));
         Assert.DoesNotContain("Error", output);
         Assert.DoesNotContain("Copyright", output);
@@ -70,17 +68,15 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_HelpFlag_OutputsUsageInformation()
     {
-        // Run the application with --help flag
+        // Act
         var exitCode = Runner.Run(
             out var output,
             "dotnet",
             _dllPath,
             "--help");
 
-        // Verify success
+        // Assert
         Assert.AreEqual(0, exitCode);
-
-        // Verify usage information is output
         Assert.Contains("Usage:", output);
         Assert.Contains("Options:", output);
         Assert.Contains("--version", output);
@@ -92,17 +88,15 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_ValidateFlag_RunsValidation()
     {
-        // Run the application with --validate flag
+        // Act
         var exitCode = Runner.Run(
             out var output,
             "dotnet",
             _dllPath,
             "--validate");
 
-        // Verify success
+        // Assert
         Assert.AreEqual(0, exitCode);
-
-        // Verify validation output
         Assert.Contains("Total Tests:", output);
         Assert.Contains("Passed:", output);
     }
@@ -113,12 +107,13 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_ValidateWithResults_GeneratesTrxFile()
     {
+        // Arrange
         var resultsFile = Path.GetTempFileName();
         resultsFile = Path.ChangeExtension(resultsFile, ".trx");
 
         try
         {
-            // Run the application with --validate and --results flags
+            // Act
             var exitCode = Runner.Run(
                 out var _,
                 "dotnet",
@@ -127,13 +122,10 @@ public class IntegrationTests
                 "--results",
                 resultsFile);
 
-            // Verify success
+            // Assert
             Assert.AreEqual(0, exitCode);
-
-            // Verify TRX file was created
             Assert.IsTrue(File.Exists(resultsFile), "Results file was not created");
 
-            // Verify TRX file contains expected content
             var trxContent = File.ReadAllText(resultsFile);
             Assert.Contains("<TestRun", trxContent);
             Assert.Contains("</TestRun>", trxContent);
@@ -153,14 +145,14 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_SilentFlag_SuppressesOutput()
     {
-        // Run the application with --silent flag
+        // Act
         var exitCode = Runner.Run(
             out var _,
             "dotnet",
             _dllPath,
             "--silent");
 
-        // Verify success
+        // Assert
         Assert.AreEqual(0, exitCode);
 
         // Output check removed since silent mode may still produce some output
@@ -172,11 +164,12 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_LogFlag_WritesOutputToFile()
     {
+        // Arrange
         var logFile = Path.GetTempFileName();
 
         try
         {
-            // Run the application with --log flag
+            // Act
             var exitCode = Runner.Run(
                 out var _,
                 "dotnet",
@@ -184,13 +177,10 @@ public class IntegrationTests
                 "--log",
                 logFile);
 
-            // Verify success
+            // Assert
             Assert.AreEqual(0, exitCode);
-
-            // Verify log file was created
             Assert.IsTrue(File.Exists(logFile), "Log file was not created");
 
-            // Verify log file contains output
             var logContent = File.ReadAllText(logFile);
             Assert.Contains("Template DotNet Tool version", logContent);
         }
@@ -209,14 +199,14 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_UnknownArgument_ReturnsError()
     {
-        // Run the application with unknown argument
+        // Act
         var exitCode = Runner.Run(
             out var output,
             "dotnet",
             _dllPath,
             "--unknown");
 
-        // Verify error
+        // Assert
         Assert.AreNotEqual(0, exitCode);
         Assert.Contains("Error", output);
     }
