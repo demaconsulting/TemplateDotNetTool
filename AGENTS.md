@@ -29,6 +29,27 @@ implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
 - Enforced in CI: `dotnet reqstream --requirements requirements.yaml --tests "test-results/**/*.trx" --enforce`
 - When adding features: add requirement + link to test
 
+## Test Source Linking
+
+Tests in `requirements.yaml` can be prefixed with a **source filter** (`source@TestName`) to prove
+a test ran on a specific platform or framework. **Never remove these filters** - they provide
+evidence that requirements are satisfied across the full OS and runtime matrix.
+
+The three filter categories are:
+
+- **`windows@TestName`**, **`ubuntu@TestName`** - Proves the test ran on a specific operating
+  system. These match tests in TRX files whose path contains `windows` or `ubuntu` (produced by
+  the CI build matrix running on `windows-latest` and `ubuntu-latest`).
+
+- **`net8.0@TestName`**, **`net9.0@TestName`**, **`net10.0@TestName`** - Proves the unit test ran
+  against a specific .NET target framework. These match tests in TRX files whose path contains
+  `net8.0`, `net9.0`, or `net10.0` (produced when `dotnet test` runs a multi-targeted project).
+
+- **`dotnet8.x@TestName`**, **`dotnet9.x@TestName`**, **`dotnet10.x@TestName`** - Proves the
+  self-validation test ran on a machine with a specific installed .NET runtime. These match tests
+  in TRX files whose path contains `dotnet8.x`, `dotnet9.x`, or `dotnet10.x` (produced by the CI
+  integration-test matrix with `matrix.dotnet-version` set to `8.x`, `9.x`, or `10.x`).
+
 ## Testing
 
 - **Test Naming**: `TemplateTool_MethodUnderTest_Scenario` for self-validation tests
