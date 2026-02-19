@@ -64,6 +64,39 @@ public void ClassName_MethodUnderTest_Scenario_ExpectedBehavior()
   - Failure-testing and error handling scenarios
   - Verifying internal behavior beyond requirement scope
 
+### Test Source Linking
+
+Requirements in `requirements.yaml` use test source filters to prove tests ran across the full CI matrix of operating systems and .NET runtime versions. These filters match specific patterns in TRX file paths produced by the CI pipeline.
+
+#### Test Source Filter Categories
+
+1. **Operating System Filters**: `windows@TestName`, `ubuntu@TestName`
+   - Proves the test ran on a specific operating system
+   - Matches tests in TRX files whose path contains "windows" or "ubuntu"
+   - Produced by the CI build matrix running on `windows-latest` and `ubuntu-latest`
+   - Example: `windows@TemplateDotNetToolTests_Run_Help_PrintsHelp`
+
+2. **Target Framework Filters**: `net8.0@TestName`, `net9.0@TestName`, `net10.0@TestName`
+   - Proves the unit test ran against a specific .NET target framework
+   - Matches tests in TRX files whose path contains "net8.0", "net9.0", or "net10.0"
+   - Produced when `dotnet test` runs a multi-targeted project
+   - Example: `net8.0@TemplateDotNetToolTests_Constructor_ValidInput_CreatesInstance`
+
+3. **Runtime Version Filters**: `dotnet8.x@TestName`, `dotnet9.x@TestName`, `dotnet10.x@TestName`
+   - Proves the self-validation test ran on a machine with a specific installed .NET runtime
+   - Matches tests in TRX files whose path contains "dotnet8.x", "dotnet9.x", or "dotnet10.x"
+   - Produced by the CI integration-test matrix with `matrix.dotnet-version` set to `8.x`, `9.x`, or `10.x`
+   - Example: `dotnet8.x@SelfValidation_Run_ValidScenario_ReturnsSuccess`
+
+#### ⚠️ Critical Warning
+
+**NEVER remove test source filters from `requirements.yaml`**. These filters provide the evidence needed to prove requirements are satisfied across:
+- All supported operating systems (Windows, Ubuntu/Linux)
+- All target .NET framework versions (net8.0, net9.0, net10.0)
+- All installed .NET runtime versions (8.x, 9.x, 10.x)
+
+Removing these filters would eliminate the proof that requirements work across the full matrix, potentially hiding OS-specific or framework-specific bugs. The CI pipeline depends on these filters to validate comprehensive test coverage.
+
 ### Template DotNet Tool-Specific
 
 - **NOT self-validation tests** - those are handled by Software Developer Agent
