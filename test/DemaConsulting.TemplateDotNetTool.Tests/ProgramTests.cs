@@ -147,7 +147,7 @@ public class ProgramTests
     {
         // Act
         var version = Program.Version;
-        
+
         // Assert
         Assert.IsFalse(string.IsNullOrWhiteSpace(version));
     }
