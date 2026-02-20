@@ -1,9 +1,20 @@
 # Introduction
 
-This is the Template DotNet Tool, a demonstration project that showcases best practices for
-DEMA Consulting DotNet Tools.
+## Purpose
 
-## Installation
+Template DotNet Tool is a demonstration project that showcases best practices for DEMA
+Consulting DotNet Tools.
+
+## Scope
+
+This user guide covers:
+
+- Installation instructions
+- Usage examples for common tasks
+- Command-line options reference
+- Practical examples for various scenarios
+
+# Installation
 
 Install the tool globally using the .NET CLI:
 
@@ -11,9 +22,9 @@ Install the tool globally using the .NET CLI:
 dotnet tool install -g DemaConsulting.TemplateDotNetTool
 ```
 
-## Usage
+# Usage
 
-### Display Version
+## Display Version
 
 Display the tool version:
 
@@ -21,7 +32,7 @@ Display the tool version:
 templatetool --version
 ```
 
-### Display Help
+## Display Help
 
 Display usage information:
 
@@ -29,7 +40,7 @@ Display usage information:
 templatetool --help
 ```
 
-### Run Self-Validation
+## Run Self-Validation
 
 Run self-validation tests:
 
@@ -43,7 +54,7 @@ Save validation results to a file:
 templatetool --validate --results results.trx
 ```
 
-### Silent Mode
+## Silent Mode
 
 Suppress console output:
 
@@ -51,7 +62,7 @@ Suppress console output:
 templatetool --silent
 ```
 
-### Logging
+## Logging
 
 Write output to a log file:
 
@@ -59,7 +70,7 @@ Write output to a log file:
 templatetool --log output.log
 ```
 
-## Command-Line Options
+# Command-Line Options
 
 The following command-line options are supported:
 
@@ -72,21 +83,21 @@ The following command-line options are supported:
 | `--results <file>`   | Write validation results to file (TRX or JUnit format)       |
 | `--log <file>`       | Write output to log file                                     |
 
-## Examples
+# Examples
 
-### Example 1: Basic Usage
+## Example 1: Basic Usage
 
 ```bash
 templatetool
 ```
 
-### Example 2: Self-Validation with Results
+## Example 2: Self-Validation with Results
 
 ```bash
 templatetool --validate --results validation-results.trx
 ```
 
-### Example 3: Silent Mode with Logging
+## Example 3: Silent Mode with Logging
 
 ```bash
 templatetool --silent --log tool-output.log
