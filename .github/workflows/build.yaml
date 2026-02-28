@@ -38,7 +38,7 @@ jobs:
           echo "✓ Tool versions captured"
 
       - name: Upload version capture
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: version-capture-quality
           path: versionmark-quality.json
@@ -155,19 +155,19 @@ jobs:
           echo "✓ Tool versions captured"
 
       - name: Upload version capture
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: version-capture-${{ matrix.os }}
           path: versionmark-build-*.json
 
       - name: Upload Test Results
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: test-results-${{ matrix.os }}
           path: test-results/*.trx
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: artifacts-${{ matrix.os }}
           path: |
@@ -229,7 +229,7 @@ jobs:
           upload: false
 
       - name: Upload CodeQL SARIF
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: codeql-sarif
           path: sarif-results/csharp.sarif
@@ -258,7 +258,7 @@ jobs:
             .config/dotnet-tools.json
 
       - name: Download package
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: artifacts-${{ matrix.os }}
           path: packages
@@ -315,14 +315,14 @@ jobs:
           echo "✓ Tool versions captured"
 
       - name: Upload version capture
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: version-capture-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}
           path: versionmark-int-*.json
 
       - name: Upload validation test results
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: validation-test-results-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}
           path: validation-${{ matrix.os }}-dotnet${{ matrix.dotnet-version }}.trx
@@ -345,26 +345,26 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Download all test results
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: test-results
           pattern: '*test-results*'
         continue-on-error: true
 
       - name: Download TemplateTool package
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: artifacts-windows-latest
           path: packages
 
       - name: Download CodeQL SARIF
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: codeql-sarif
           path: codeql-results
 
       - name: Download all version captures
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: version-captures
           pattern: 'version-capture-*'
@@ -603,7 +603,7 @@ jobs:
       # Downstream projects: Add any additional artifact uploads here.
 
       - name: Upload documentation
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: documents
           path: |
