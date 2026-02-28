@@ -18,6 +18,11 @@
     <AnalysisLevel>latest</AnalysisLevel>
   </PropertyGroup>
 
+  <!-- Implicit Usings -->
+  <ItemGroup>
+    <Using Include="Polyfills" />
+  </ItemGroup>
+
   <!-- Test Framework Dependencies -->
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="8.0.0">
