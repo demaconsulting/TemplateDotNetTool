@@ -253,6 +253,33 @@ public class ContextTests
     }
 
     /// <summary>
+    ///     Test WriteLine does not write to console when silent.
+    /// </summary>
+    [TestMethod]
+    public void Context_WriteLine_Silent_DoesNotWriteToConsole()
+    {
+        // Arrange
+        var originalOut = Console.Out;
+        try
+        {
+            using var outWriter = new StringWriter();
+            Console.SetOut(outWriter);
+            using var context = Context.Create(["--silent"]);
+
+            // Act
+            context.WriteLine("Test message");
+
+            // Assert
+            var output = outWriter.ToString();
+            Assert.DoesNotContain("Test message", output);
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
+    }
+
+    /// <summary>
     ///     Test WriteError does not write to console when silent.
     /// </summary>
     [TestMethod]
