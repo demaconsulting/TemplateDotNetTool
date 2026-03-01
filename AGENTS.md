@@ -14,7 +14,7 @@ implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
 
 ## Tech Stack
 
-- C# 12, .NET 8.0/9.0/10.0, dotnet CLI, NuGet
+- C# (latest), .NET 8.0/9.0/10.0, dotnet CLI, NuGet
 
 ## Key Files
 

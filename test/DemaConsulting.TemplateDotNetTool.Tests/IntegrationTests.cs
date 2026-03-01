@@ -194,6 +194,43 @@ public class IntegrationTests
     }
 
     /// <summary>
+    ///     Test that validate with results flag generates JUnit XML file.
+    /// </summary>
+    [TestMethod]
+    public void IntegrationTest_ValidateWithResults_GeneratesJUnitFile()
+    {
+        // Arrange
+        var resultsFile = Path.GetTempFileName();
+        resultsFile = Path.ChangeExtension(resultsFile, ".xml");
+
+        try
+        {
+            // Act
+            var exitCode = Runner.Run(
+                out var _,
+                "dotnet",
+                _dllPath,
+                "--validate",
+                "--results",
+                resultsFile);
+
+            // Assert
+            Assert.AreEqual(0, exitCode);
+            Assert.IsTrue(File.Exists(resultsFile), "Results file was not created");
+
+            var xmlContent = File.ReadAllText(resultsFile);
+            Assert.Contains("<testsuites", xmlContent);
+        }
+        finally
+        {
+            if (File.Exists(resultsFile))
+            {
+                File.Delete(resultsFile);
+            }
+        }
+    }
+
+    /// <summary>
     ///     Test that unknown argument returns error.
     /// </summary>
     [TestMethod]

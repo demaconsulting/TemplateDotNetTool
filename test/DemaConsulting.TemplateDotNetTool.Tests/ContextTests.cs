@@ -204,6 +204,28 @@ public class ContextTests
     }
 
     /// <summary>
+    ///     Test creating a context with --log flag but no value throws exception.
+    /// </summary>
+    [TestMethod]
+    public void Context_Create_LogFlag_WithoutValue_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => Context.Create(["--log"]));
+        Assert.Contains("--log", exception.Message);
+    }
+
+    /// <summary>
+    ///     Test creating a context with --results flag but no value throws exception.
+    /// </summary>
+    [TestMethod]
+    public void Context_Create_ResultsFlag_WithoutValue_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => Context.Create(["--results"]));
+        Assert.Contains("--results", exception.Message);
+    }
+
+    /// <summary>
     ///     Test WriteLine writes to console output when not silent.
     /// </summary>
     [TestMethod]
@@ -231,29 +253,114 @@ public class ContextTests
     }
 
     /// <summary>
-    ///     Test WriteLine does not write to console when silent.
+    ///     Test WriteError does not write to console when silent.
     /// </summary>
     [TestMethod]
-    public void Context_WriteLine_Silent_DoesNotWriteToConsole()
+    public void Context_WriteError_Silent_DoesNotWriteToConsole()
     {
         // Arrange
-        var originalOut = Console.Out;
+        var originalError = Console.Error;
         try
         {
-            using var outWriter = new StringWriter();
-            Console.SetOut(outWriter);
+            using var errWriter = new StringWriter();
+            Console.SetError(errWriter);
             using var context = Context.Create(["--silent"]);
 
             // Act
-            context.WriteLine("Test message");
+            context.WriteError("Test error message");
 
-            // Assert
-            var output = outWriter.ToString();
-            Assert.DoesNotContain("Test message", output);
+            // Assert - error output should be suppressed in silent mode
+            var output = errWriter.ToString();
+            Assert.DoesNotContain("Test error message", output);
         }
         finally
         {
-            Console.SetOut(originalOut);
+            Console.SetError(originalError);
+        }
+    }
+
+    /// <summary>
+    ///     Test WriteError sets exit code to 1.
+    /// </summary>
+    [TestMethod]
+    public void Context_WriteError_SetsErrorExitCode()
+    {
+        // Arrange
+        var originalError = Console.Error;
+        try
+        {
+            using var errWriter = new StringWriter();
+            Console.SetError(errWriter);
+            using var context = Context.Create([]);
+
+            // Act
+            context.WriteError("Test error message");
+
+            // Assert
+            Assert.AreEqual(1, context.ExitCode);
+        }
+        finally
+        {
+            Console.SetError(originalError);
+        }
+    }
+
+    /// <summary>
+    ///     Test WriteError writes message to console when not silent.
+    /// </summary>
+    [TestMethod]
+    public void Context_WriteError_NotSilent_WritesToConsole()
+    {
+        // Arrange
+        var originalError = Console.Error;
+        try
+        {
+            using var errWriter = new StringWriter();
+            Console.SetError(errWriter);
+            using var context = Context.Create([]);
+
+            // Act
+            context.WriteError("Test error message");
+
+            // Assert
+            var output = errWriter.ToString();
+            Assert.Contains("Test error message", output);
+        }
+        finally
+        {
+            Console.SetError(originalError);
+        }
+    }
+
+    /// <summary>
+    ///     Test WriteError writes message to log file when logging is enabled.
+    /// </summary>
+    [TestMethod]
+    public void Context_WriteError_WritesToLogFile()
+    {
+        // Arrange
+        var logFile = Path.GetTempFileName();
+        try
+        {
+            // Act - use silent to avoid console output; verify the error still goes to the log
+            using (var context = Context.Create(["--silent", "--log", logFile]))
+            {
+                context.WriteError("Test error in log");
+                Assert.AreEqual(1, context.ExitCode);
+            }
+
+            // Assert - log file should contain the error message
+            Assert.IsTrue(File.Exists(logFile));
+            var logContent = File.ReadAllText(logFile);
+            Assert.Contains("Test error in log", logContent);
+        }
+        finally
+        {
+            if (File.Exists(logFile))
+            {
+                File.Delete(logFile);
+            }
         }
     }
 }
+

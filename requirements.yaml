@@ -55,6 +55,7 @@ sections:
               - Context_Create_VersionFlag_SetsVersionTrue
               - Context_Create_ShortVersionFlag_SetsVersionTrue
               - Program_Run_WithVersionFlag_DisplaysVersionOnly
+              - Program_Version_ReturnsNonEmptyString
               - IntegrationTest_VersionFlag_OutputsVersion
 
           - id: TMPL-REQ-003
@@ -96,6 +97,7 @@ sections:
             tests:
               - Context_Create_ResultsFlag_SetsResultsFile
               - IntegrationTest_ValidateWithResults_GeneratesTrxFile
+              - IntegrationTest_ValidateWithResults_GeneratesJUnitFile
 
           - id: TMPL-REQ-007
             title: The tool shall support --log flag to write output to a log file.
@@ -104,6 +106,28 @@ sections:
             tests:
               - Context_Create_LogFlag_OpensLogFile
               - IntegrationTest_LogFlag_WritesOutputToFile
+
+          - id: TMPL-REQ-013
+            title: The tool shall report errors to stderr and return a non-zero exit code on failure.
+            justification: |
+              Callers (scripts, CI/CD pipelines) must be able to detect failure conditions
+              programmatically via the process exit code, and error messages must be visible
+              to the user unless silent mode is active.
+            tests:
+              - Context_WriteError_SetsErrorExitCode
+              - Context_WriteError_NotSilent_WritesToConsole
+              - IntegrationTest_UnknownArgument_ReturnsError
+
+          - id: TMPL-REQ-014
+            title: The tool shall reject unknown or malformed command-line arguments with a descriptive error.
+            justification: |
+              Providing clear feedback for invalid arguments helps users quickly correct
+              mistakes and prevents silent misconfiguration.
+            tests:
+              - Context_Create_UnknownArgument_ThrowsArgumentException
+              - Context_Create_LogFlag_WithoutValue_ThrowsArgumentException
+              - Context_Create_ResultsFlag_WithoutValue_ThrowsArgumentException
+              - IntegrationTest_UnknownArgument_ReturnsError
 
       - title: Platform Support
         requirements:
