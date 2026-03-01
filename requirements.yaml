@@ -108,14 +108,21 @@ sections:
               - IntegrationTest_LogFlag_WritesOutputToFile
 
           - id: TMPL-REQ-013
-            title: The tool shall report errors to stderr and return a non-zero exit code on failure.
+            title: The tool shall write error messages to stderr.
+            justification: |
+              Error messages must be written to stderr so they remain visible to the user
+              without polluting stdout, which consumers may pipe or redirect for data capture.
+            tests:
+              - Context_WriteError_NotSilent_WritesToConsole
+              - IntegrationTest_UnknownArgument_ReturnsError
+
+          - id: TMPL-REQ-015
+            title: The tool shall return a non-zero exit code on failure.
             justification: |
               Callers (scripts, CI/CD pipelines) must be able to detect failure conditions
-              programmatically via the process exit code, and error messages must be visible
-              to the user unless silent mode is active.
+              programmatically via the process exit code.
             tests:
               - Context_WriteError_SetsErrorExitCode
-              - Context_WriteError_NotSilent_WritesToConsole
               - IntegrationTest_UnknownArgument_ReturnsError
 
           - id: TMPL-REQ-014
