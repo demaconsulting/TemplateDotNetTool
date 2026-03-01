@@ -83,7 +83,7 @@ The following command-line options are supported:
 | `-?`, `-h`, `--help` | Display help message                                         |
 | `--silent`           | Suppress console output                                      |
 | `--validate`         | Run self-validation                                          |
-| `--results <file>`   | Write validation results to file (.trx or .xml)              |
+| `--results <file>`   | Write validation results to file (TRX or JUnit format)       |
 | `--log <file>`       | Write output to log file                                     |
 
 # Examples
