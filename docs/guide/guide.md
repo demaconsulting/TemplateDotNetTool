@@ -54,6 +54,9 @@ Save validation results to a file:
 templatetool --validate --results results.trx
 ```
 
+The results file format is determined by the file extension: `.trx` for TRX (MSTest) format,
+or `.xml` for JUnit format.
+
 ## Silent Mode
 
 Suppress console output:
