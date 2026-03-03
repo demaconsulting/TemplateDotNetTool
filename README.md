@@ -65,7 +65,8 @@ templatetool --silent --log output.log
 
 ## Self Validation
 
-Running `templatetool --validate` reports the following system information:
+Running `templatetool --validate` reports system information and then prints each test
+name with its pass or fail result:
 
 | Information    | Description                                      |
 | :------------- | :----------------------------------------------- |
@@ -75,12 +76,12 @@ Running `templatetool --validate` reports the following system information:
 | DotNet Runtime | The .NET runtime version                         |
 | Time Stamp     | The UTC date and time of the validation run      |
 
-The following self-validation tests are performed:
+The following self-validation tests prove:
 
-- **Version Display** (`TemplateTool_VersionDisplay`) - Proves that the `--version`
-  flag correctly outputs the tool version string.
-- **Help Display** (`TemplateTool_HelpDisplay`) - Proves that the `--help` flag
-  correctly outputs usage and options information.
+- **`TemplateTool_VersionDisplay`** - `--version` outputs a valid version string.
+- **`TemplateTool_HelpDisplay`** - `--help` outputs usage and options information.
+
+See the [User Guide][link-guide] for more details on the self-validation tests.
 
 ## Documentation
 
@@ -118,3 +119,4 @@ By contributing to this project, you agree that your contributions will be licen
 [link-quality]: https://sonarcloud.io/dashboard?id=demaconsulting_TemplateDotNetTool
 [link-security]: https://sonarcloud.io/dashboard?id=demaconsulting_TemplateDotNetTool
 [link-nuget]: https://www.nuget.org/packages/DemaConsulting.TemplateDotNetTool
+[link-guide]: https://github.com/demaconsulting/TemplateDotNetTool/blob/main/docs/guide/guide.md

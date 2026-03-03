@@ -57,6 +57,16 @@ templatetool --validate --results results.trx
 The results file format is determined by the file extension: `.trx` for TRX (MSTest) format,
 or `.xml` for JUnit format.
 
+## Self-Validation Tests
+
+The self-validation verifies the tool is functioning correctly in the deployment environment.
+The following tests are performed:
+
+| Test Name                     | Proves                                                |
+| ----------------------------- | ----------------------------------------------------- |
+| `TemplateTool_VersionDisplay` | `--version` outputs a valid version string            |
+| `TemplateTool_HelpDisplay`    | `--help` outputs usage and options information        |
+
 ## Silent Mode
 
 Suppress console output:
