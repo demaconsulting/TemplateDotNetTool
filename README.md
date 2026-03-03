@@ -63,6 +63,25 @@ templatetool --silent --log output.log
 | `--results <file>`   | Write validation results to file (TRX or JUnit format)       |
 | `--log <file>`       | Write output to log file                                     |
 
+## Self Validation
+
+Running `templatetool --validate` reports the following system information:
+
+| Information    | Description                                      |
+| :------------- | :----------------------------------------------- |
+| Tool Version   | The version of the tool being validated          |
+| Machine Name   | The name of the machine running the validation   |
+| OS Version     | The operating system version                     |
+| DotNet Runtime | The .NET runtime version                         |
+| Time Stamp     | The UTC date and time of the validation run      |
+
+The following self-validation tests are performed:
+
+- **Version Display** (`TemplateTool_VersionDisplay`) - Proves that the `--version`
+  flag correctly outputs the tool version string.
+- **Help Display** (`TemplateTool_HelpDisplay`) - Proves that the `--help` flag
+  correctly outputs usage and options information.
+
 ## Documentation
 
 Generated documentation includes:
