@@ -80,8 +80,8 @@ Example validation report:
 | DotNet Runtime      | .NET 10.0.0                                        |
 | Time Stamp          | 2024-01-15 10:30:00 UTC                            |
 
-✓ Version Display Test - PASSED
-✓ Help Display Test - PASSED
+✓ TemplateTool_VersionDisplay - Passed
+✓ TemplateTool_HelpDisplay - Passed
 
 Total Tests: 2
 Passed: 2

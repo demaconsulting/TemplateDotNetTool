@@ -78,8 +78,8 @@ Running self-validation produces a report containing the following information:
 | DotNet Runtime      | <dotnet-runtime-version>                           |
 | Time Stamp          | <timestamp> UTC                                    |
 
-✓ Version Display Test - PASSED
-✓ Help Display Test - PASSED
+✓ TemplateTool_VersionDisplay - Passed
+✓ TemplateTool_HelpDisplay - Passed
 
 Total Tests: 2
 Passed: 2

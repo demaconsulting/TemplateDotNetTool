@@ -135,27 +135,27 @@ internal static class Validation
                     logContent.Split('.').Length >= 3)
                 {
                     test.Outcome = DemaConsulting.TestResults.TestOutcome.Passed;
-                    context.WriteLine($"✓ Version Display Test - PASSED");
+                    context.WriteLine($"✓ TemplateTool_VersionDisplay - Passed");
                 }
                 else
                 {
                     test.Outcome = DemaConsulting.TestResults.TestOutcome.Failed;
                     test.ErrorMessage = "Version string not found in log";
-                    context.WriteError($"✗ Version Display Test - FAILED: Version string not found in log");
+                    context.WriteError($"✗ TemplateTool_VersionDisplay - Failed: Version string not found in log");
                 }
             }
             else
             {
                 test.Outcome = DemaConsulting.TestResults.TestOutcome.Failed;
                 test.ErrorMessage = $"Program exited with code {exitCode}";
-                context.WriteError($"✗ Version Display Test - FAILED: Exit code {exitCode}");
+                context.WriteError($"✗ TemplateTool_VersionDisplay - Failed: Exit code {exitCode}");
             }
         }
         // Generic catch is justified here as this is a test framework - any exception should be
         // recorded as a test failure to ensure robust test execution and reporting.
         catch (Exception ex)
         {
-            HandleTestException(test, context, "Version Display Test", ex);
+            HandleTestException(test, context, "TemplateTool_VersionDisplay", ex);
         }
 
         FinalizeTestResult(test, startTime, testResults);
@@ -202,27 +202,27 @@ internal static class Validation
                 if (logContent.Contains("Usage:") && logContent.Contains("Options:"))
                 {
                     test.Outcome = DemaConsulting.TestResults.TestOutcome.Passed;
-                    context.WriteLine($"✓ Help Display Test - PASSED");
+                    context.WriteLine($"✓ TemplateTool_HelpDisplay - Passed");
                 }
                 else
                 {
                     test.Outcome = DemaConsulting.TestResults.TestOutcome.Failed;
                     test.ErrorMessage = "Help text not found in log";
-                    context.WriteError($"✗ Help Display Test - FAILED: Help text not found in log");
+                    context.WriteError($"✗ TemplateTool_HelpDisplay - Failed: Help text not found in log");
                 }
             }
             else
             {
                 test.Outcome = DemaConsulting.TestResults.TestOutcome.Failed;
                 test.ErrorMessage = $"Program exited with code {exitCode}";
-                context.WriteError($"✗ Help Display Test - FAILED: Exit code {exitCode}");
+                context.WriteError($"✗ TemplateTool_HelpDisplay - Failed: Exit code {exitCode}");
             }
         }
         // Generic catch is justified here as this is a test framework - any exception should be
         // recorded as a test failure to ensure robust test execution and reporting.
         catch (Exception ex)
         {
-            HandleTestException(test, context, "Help Display Test", ex);
+            HandleTestException(test, context, "TemplateTool_HelpDisplay", ex);
         }
 
         FinalizeTestResult(test, startTime, testResults);
