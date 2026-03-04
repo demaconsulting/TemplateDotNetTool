@@ -14,12 +14,19 @@ This user guide covers:
 - Command-line options reference
 - Practical examples for various scenarios
 
-## Continuous Compliance
+# Continuous Compliance
 
-This project follows the [DEMA Consulting Continuous Compliance][continuous-compliance]
-strategy — automated, evidence-based quality enforcement on every CI/CD run. Each build
-automatically lints documentation, verifies all requirements are covered by passing tests,
-runs code quality gates, records tool versions, and generates a complete audit trail.
+This template follows the [Continuous Compliance][continuous-compliance] methodology, which ensures
+compliance evidence is generated automatically on every CI run.
+
+## Key Practices
+
+- **Requirements Traceability**: Every requirement is linked to passing tests, and a trace matrix is
+  auto-generated on each release
+- **Linting Enforcement**: markdownlint, cspell, and yamllint are enforced before any build proceeds
+- **Automated Audit Documentation**: Each release ships with generated requirements, justifications,
+  trace matrix, and quality reports
+- **CodeQL and SonarCloud**: Security and quality analysis runs on every build
 
 # Installation
 
