@@ -418,7 +418,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: packages-ubuntu-latest
-          path: artifacts
+          path: packages
 
       # === INSTALL DEPENDENCIES ===
       # This section installs all required dependencies and tools for document generation.
@@ -442,7 +442,7 @@ jobs:
         run: |
           echo "Installing TemplateTool version ${{ inputs.version }}"
           dotnet tool install --global \
-            --add-source artifacts \
+            --add-source packages \
             --version ${{ inputs.version }} \
             DemaConsulting.TemplateDotNetTool
 
