@@ -24,6 +24,8 @@ This template demonstrates:
   integration tests
 - **Documentation Generation**: Automated build notes, user guide, code quality reports,
   requirements, justifications, and trace matrix
+- **Continuous Compliance**: Automated, evidence-based quality enforcement following the
+  [DEMA Consulting Continuous Compliance strategy](https://github.com/demaconsulting/ContinuousCompliance)
 
 ## Installation
 

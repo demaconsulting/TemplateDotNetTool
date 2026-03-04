@@ -14,6 +14,13 @@ This user guide covers:
 - Command-line options reference
 - Practical examples for various scenarios
 
+## Continuous Compliance
+
+This project follows the [DEMA Consulting Continuous Compliance][continuous-compliance]
+strategy — automated, evidence-based quality enforcement on every CI/CD run. Each build
+automatically lints documentation, verifies all requirements are covered by passing tests,
+runs code quality gates, records tool versions, and generates a complete audit trail.
+
 # Installation
 
 Install the tool globally using the .NET CLI:
@@ -143,3 +150,6 @@ templatetool --validate --results validation-results.trx
 ```bash
 templatetool --silent --log tool-output.log
 ```
+
+<!-- Link References -->
+[continuous-compliance]: https://github.com/demaconsulting/ContinuousCompliance
