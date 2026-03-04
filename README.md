@@ -63,6 +63,38 @@ templatetool --silent --log output.log
 | `--results <file>`   | Write validation results to file (TRX or JUnit format)       |
 | `--log <file>`       | Write output to log file                                     |
 
+## Self Validation
+
+Running self-validation produces a report containing the following information:
+
+```text
+# DEMA Consulting Template DotNet Tool
+
+| Information         | Value                                              |
+| :------------------ | :------------------------------------------------- |
+| Tool Version        | <version>                                          |
+| Machine Name        | <machine-name>                                     |
+| OS Version          | <os-version>                                       |
+| DotNet Runtime      | <dotnet-runtime-version>                           |
+| Time Stamp          | <timestamp> UTC                                    |
+
+✓ TemplateTool_VersionDisplay - Passed
+✓ TemplateTool_HelpDisplay - Passed
+
+Total Tests: 2
+Passed: 2
+Failed: 0
+```
+
+Each test in the report proves:
+
+- **`TemplateTool_VersionDisplay`** - `--version` outputs a valid version string.
+- **`TemplateTool_HelpDisplay`** - `--help` outputs usage and options information.
+
+See the [User Guide][link-guide] for more details on the self-validation tests.
+
+On validation failure the tool will exit with a non-zero exit code.
+
 ## Documentation
 
 Generated documentation includes:
@@ -99,3 +131,4 @@ By contributing to this project, you agree that your contributions will be licen
 [link-quality]: https://sonarcloud.io/dashboard?id=demaconsulting_TemplateDotNetTool
 [link-security]: https://sonarcloud.io/dashboard?id=demaconsulting_TemplateDotNetTool
 [link-nuget]: https://www.nuget.org/packages/DemaConsulting.TemplateDotNetTool
+[link-guide]: https://github.com/demaconsulting/TemplateDotNetTool/blob/main/docs/guide/guide.md
