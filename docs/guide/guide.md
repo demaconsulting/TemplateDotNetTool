@@ -40,15 +40,20 @@ Display usage information:
 templatetool --help
 ```
 
-## Run Self-Validation
+## Self-Validation
 
-Run self-validation tests:
+Self-validation produces a report demonstrating that Template DotNet Tool is functioning
+correctly. This is useful in regulated industries where tool validation evidence is required.
+
+### Running Validation
+
+To perform self-validation:
 
 ```bash
 templatetool --validate
 ```
 
-Save validation results to a file:
+To save validation results to a file:
 
 ```bash
 templatetool --validate --results results.trx
@@ -57,15 +62,38 @@ templatetool --validate --results results.trx
 The results file format is determined by the file extension: `.trx` for TRX (MSTest) format,
 or `.xml` for JUnit format.
 
-## Self-Validation Tests
+### Validation Report
 
-The self-validation verifies the tool is functioning correctly in the deployment environment.
-The following tests are performed:
+The validation report contains the tool version, machine name, operating system version,
+.NET runtime version, timestamp, and test results.
 
-| Test Name                     | Proves                                                |
-| ----------------------------- | ----------------------------------------------------- |
-| `TemplateTool_VersionDisplay` | `--version` outputs a valid version string            |
-| `TemplateTool_HelpDisplay`    | `--help` outputs usage and options information        |
+Example validation report:
+
+```text
+# DEMA Consulting Template DotNet Tool
+
+| Information         | Value                                              |
+| :------------------ | :------------------------------------------------- |
+| Tool Version        | 1.0.0                                              |
+| Machine Name        | BUILD-SERVER                                       |
+| OS Version          | Ubuntu 22.04.3 LTS                                 |
+| DotNet Runtime      | .NET 10.0.0                                        |
+| Time Stamp          | 2024-01-15 10:30:00 UTC                            |
+
+✓ Version Display Test - PASSED
+✓ Help Display Test - PASSED
+
+Total Tests: 2
+Passed: 2
+Failed: 0
+```
+
+### Validation Tests
+
+Each test proves specific functionality works correctly:
+
+- **`TemplateTool_VersionDisplay`** - `--version` outputs a valid version string.
+- **`TemplateTool_HelpDisplay`** - `--help` outputs usage and options information.
 
 ## Silent Mode
 
