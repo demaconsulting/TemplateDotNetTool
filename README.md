@@ -65,23 +65,35 @@ templatetool --silent --log output.log
 
 ## Self Validation
 
-Running `templatetool --validate` reports system information and then prints each test
-name with its pass or fail result:
+Running self-validation produces a report containing the following information:
 
-| Information    | Description                                      |
-| :------------- | :----------------------------------------------- |
-| Tool Version   | The version of the tool being validated          |
-| Machine Name   | The name of the machine running the validation   |
-| OS Version     | The operating system version                     |
-| DotNet Runtime | The .NET runtime version                         |
-| Time Stamp     | The UTC date and time of the validation run      |
+```text
+# DEMA Consulting Template DotNet Tool
 
-The following self-validation tests prove:
+| Information         | Value                                              |
+| :------------------ | :------------------------------------------------- |
+| Tool Version        | <version>                                          |
+| Machine Name        | <machine-name>                                     |
+| OS Version          | <os-version>                                       |
+| DotNet Runtime      | <dotnet-runtime-version>                           |
+| Time Stamp          | <timestamp> UTC                                    |
+
+✓ Version Display Test - PASSED
+✓ Help Display Test - PASSED
+
+Total Tests: 2
+Passed: 2
+Failed: 0
+```
+
+Each test in the report proves:
 
 - **`TemplateTool_VersionDisplay`** - `--version` outputs a valid version string.
 - **`TemplateTool_HelpDisplay`** - `--help` outputs usage and options information.
 
 See the [User Guide][link-guide] for more details on the self-validation tests.
+
+On validation failure the tool will exit with a non-zero exit code.
 
 ## Documentation
 
