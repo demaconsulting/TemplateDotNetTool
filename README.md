@@ -22,8 +22,13 @@ This template demonstrates:
 - **Multi-Runtime Support**: Targets .NET 8, 9, and 10
 - **Comprehensive CI/CD**: GitHub Actions workflows with quality checks, builds, and
   integration tests
+- **Linting Enforcement**: markdownlint, cspell, and yamllint enforced on every CI run
+- **Continuous Compliance**: Compliance evidence generated automatically on every CI run, following
+  the [Continuous Compliance][link-continuous-compliance] methodology
+- **SonarCloud Integration**: Quality gate and security analysis on every build
 - **Documentation Generation**: Automated build notes, user guide, code quality reports,
   requirements, justifications, and trace matrix
+- **Requirements Traceability**: Requirements linked to passing tests with auto-generated trace matrix
 
 ## Installation
 
@@ -132,3 +137,4 @@ By contributing to this project, you agree that your contributions will be licen
 [link-security]: https://sonarcloud.io/dashboard?id=demaconsulting_TemplateDotNetTool
 [link-nuget]: https://www.nuget.org/packages/DemaConsulting.TemplateDotNetTool
 [link-guide]: https://github.com/demaconsulting/TemplateDotNetTool/blob/main/docs/guide/guide.md
+[link-continuous-compliance]: https://github.com/demaconsulting/ContinuousCompliance

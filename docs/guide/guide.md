@@ -14,6 +14,20 @@ This user guide covers:
 - Command-line options reference
 - Practical examples for various scenarios
 
+# Continuous Compliance
+
+This template follows the [Continuous Compliance][continuous-compliance] methodology, which ensures
+compliance evidence is generated automatically on every CI run.
+
+## Key Practices
+
+- **Requirements Traceability**: Every requirement is linked to passing tests, and a trace matrix is
+  auto-generated on each release
+- **Linting Enforcement**: markdownlint, cspell, and yamllint are enforced before any build proceeds
+- **Automated Audit Documentation**: Each release ships with generated requirements, justifications,
+  trace matrix, and quality reports
+- **CodeQL and SonarCloud**: Security and quality analysis runs on every build
+
 # Installation
 
 Install the tool globally using the .NET CLI:
@@ -143,3 +157,6 @@ templatetool --validate --results validation-results.trx
 ```bash
 templatetool --silent --log tool-output.log
 ```
+
+<!-- Link References -->
+[continuous-compliance]: https://github.com/demaconsulting/ContinuousCompliance
