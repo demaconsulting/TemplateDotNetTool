@@ -19,6 +19,7 @@
 # Source filter prefixes:
 #   windows@TestName    - proves the test passed on a Windows platform
 #   ubuntu@TestName     - proves the test passed on a Linux (Ubuntu) platform
+#   macos@TestName      - proves the test passed on a macOS platform
 #   net8.0@TestName     - proves the test passed under the .NET 8 target framework
 #   net9.0@TestName     - proves the test passed under the .NET 9 target framework
 #   net10.0@TestName    - proves the test passed under the .NET 10 target framework
@@ -155,6 +156,15 @@ sections:
               # Tests link to "ubuntu" to ensure results come from Linux platform
               - "ubuntu@TemplateTool_VersionDisplay"
               - "ubuntu@TemplateTool_HelpDisplay"
+
+          - id: Template-Platform-MacOS
+            title: The tool shall build and run on macOS platforms.
+            justification: |
+              DEMA Consulting tools must support macOS for developers using Apple platforms.
+            tests:
+              # Tests link to "macos" to ensure results come from macOS platform
+              - "macos@TemplateTool_VersionDisplay"
+              - "macos@TemplateTool_HelpDisplay"
 
           - id: Template-Platform-Net8
             title: The tool shall support .NET 8 runtime.
