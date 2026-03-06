@@ -18,7 +18,7 @@ This template demonstrates:
 - **Standardized Command-Line Interface**: Context class handling common arguments
   (`--version`, `--help`, `--silent`, `--validate`, `--results`, `--log`)
 - **Self-Validation**: Built-in validation tests with TRX/JUnit output
-- **Multi-Platform Support**: Builds and runs on Windows and Linux
+- **Multi-Platform Support**: Builds and runs on Windows, Linux, and macOS
 - **Multi-Runtime Support**: Targets .NET 8, 9, and 10
 - **Comprehensive CI/CD**: GitHub Actions workflows with quality checks, builds, and
   integration tests
