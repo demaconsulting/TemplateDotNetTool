@@ -45,6 +45,7 @@ public class ProgramTests
 
             // Assert
             var output = outWriter.ToString();
+            Assert.Contains(Program.Version, output);
             Assert.DoesNotContain("Copyright", output);
             Assert.DoesNotContain("Template DotNet Tool version", output);
         }
