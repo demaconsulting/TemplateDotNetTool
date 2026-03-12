@@ -24,15 +24,19 @@ reviews:
     paths:
       - "src/**/Program.cs"
       - "src/**/Context.cs"
+      - "test/**/ProgramTests.cs"
+      - "test/**/ContextTests.cs"
 
   - id: TemplateTool-Utilities-Review
     title: Review of Template DotNet Tool Utilities
     paths:
       - "src/**/PathHelpers.cs"
       - "src/**/Validation.cs"
+      - "test/**/PathHelpersTests.cs"
 
   - id: TemplateTool-Tests-Review
-    title: Review of Template DotNet Tool Tests
+    title: Review of Template DotNet Tool Integration Tests
     paths:
-      - "test/**/*.cs"
-      - "!**/obj/**"
+      - "test/**/IntegrationTests.cs"
+      - "test/**/Runner.cs"
+      - "test/**/AssemblyInfo.cs"
