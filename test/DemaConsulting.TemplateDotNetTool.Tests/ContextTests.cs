@@ -40,6 +40,7 @@ public class ContextTests
         Assert.IsFalse(context.Help);
         Assert.IsFalse(context.Silent);
         Assert.IsFalse(context.Validate);
+        Assert.IsNull(context.ResultsFile);
         Assert.AreEqual(0, context.ExitCode);
     }
 
