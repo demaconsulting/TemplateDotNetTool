@@ -108,8 +108,7 @@ public class IntegrationTests
     public void IntegrationTest_ValidateWithResults_GeneratesTrxFile()
     {
         // Arrange
-        var resultsFile = Path.GetTempFileName();
-        resultsFile = Path.ChangeExtension(resultsFile, ".trx");
+        var resultsFile = Path.Combine(Path.GetTempPath(), $"integration_test_{Guid.NewGuid()}.trx");
 
         try
         {
@@ -200,8 +199,7 @@ public class IntegrationTests
     public void IntegrationTest_ValidateWithResults_GeneratesJUnitFile()
     {
         // Arrange
-        var resultsFile = Path.GetTempFileName();
-        resultsFile = Path.ChangeExtension(resultsFile, ".xml");
+        var resultsFile = Path.Combine(Path.GetTempPath(), $"integration_test_{Guid.NewGuid()}.xml");
 
         try
         {
