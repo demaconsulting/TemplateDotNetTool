@@ -47,17 +47,19 @@ public class ValidationTests
     public void Validation_Run_WithSilentContext_PrintsSummary()
     {
         // Arrange
-        // A log file is used to capture output from the silent context.
-        var logFile = Path.GetTempFileName();
+        // A unique log file path is used to capture output from the silent context.
+        var logFile = Path.Combine(Path.GetTempPath(), $"validation_test_{Guid.NewGuid()}.log");
         try
         {
-            using var context = Context.Create(["--silent", "--log", logFile]);
-
-            // Act
-            Validation.Run(context);
+            using (var context = Context.Create(["--silent", "--log", logFile]))
+            {
+                // Act
+                Validation.Run(context);
+            }
 
             // Assert
             // Proves that Run writes the three expected summary lines to the output.
+            // The context is disposed above so the log file is fully flushed and closed.
             var logContent = File.ReadAllText(logFile);
             Assert.Contains("Total Tests:", logContent);
             Assert.Contains("Passed:", logContent);
