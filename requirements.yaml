@@ -89,6 +89,8 @@ sections:
             tests:
               - Context_Create_ValidateFlag_SetsValidateTrue
               - Program_Run_WithValidateFlag_RunsValidation
+              - Validation_Run_WithSilentContext_PrintsSummary
+              - Validation_Run_WithSilentContext_ExitCodeIsZero
               - IntegrationTest_ValidateFlag_RunsValidation
 
           - id: Template-Cmd-Results
@@ -97,6 +99,8 @@ sections:
               Enables integration with CI/CD systems that expect standard test result formats.
             tests:
               - Context_Create_ResultsFlag_SetsResultsFile
+              - Validation_Run_WithTrxResultsFile_WritesTrxFile
+              - Validation_Run_WithXmlResultsFile_WritesXmlFile
               - IntegrationTest_ValidateWithResults_GeneratesTrxFile
               - IntegrationTest_ValidateWithResults_GeneratesJUnitFile
 

@@ -33,6 +33,7 @@ reviews:
       - "src/**/PathHelpers.cs"
       - "src/**/Validation.cs"
       - "test/**/PathHelpersTests.cs"
+      - "test/**/ValidationTests.cs"
 
   - id: TemplateTool-Tests-Review
     title: Review of Template DotNet Tool Integration Tests
