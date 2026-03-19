@@ -1,20 +1,12 @@
 ---
-name: Test Developer
+name: test-developer
 description: Writes unit and integration tests following AAA pattern - clear documentation of what's tested and proved
+tools: [read, edit, search, execute]
 ---
 
-# Test Developer - Template DotNet Tool
+# Test Developer
 
 Develop comprehensive unit and integration tests following best practices.
-
-## When to Invoke This Agent
-
-Invoke the test-developer for:
-
-- Creating unit tests for individual components
-- Creating integration tests for cross-component behavior
-- Improving test coverage
-- Refactoring existing tests for clarity
 
 ## Responsibilities
 
@@ -81,7 +73,7 @@ evidence. These filters are critical for platform and framework requirements - *
 Removing a source filter means a test result from any environment can satisfy the requirement, which invalidates
 the evidence-based proof that the tool works on a specific platform or framework.
 
-### Template DotNet Tool-Specific
+### Project Specific Rules
 
 - **NOT self-validation tests** - those are handled by Software Developer Agent
 - Unit tests live in `test/` directory
@@ -132,12 +124,20 @@ Common anti-patterns to avoid (not exhaustive):
    // ✅ Good: Assert.StartsWith("prefix", value);
    ```
 
-## Defer To
+## Subagent Delegation
 
-- **Requirements Agent**: For test strategy and coverage requirements
-- **Software Developer Agent**: For self-validation tests and production code issues
-- **Technical Writer Agent**: For test documentation in markdown
-- **Code Quality Agent**: For test linting and static analysis
+If test strategy or coverage requirements need clarifying, call the @requirements agent with the **request** to
+clarify test strategy and coverage requirements and the **context** of the tests being developed.
+
+If self-validation tests or production code issues arise, call the @software-developer agent with the
+**request** to address the self-validation tests and production code issues and the **context** of the
+test findings.
+
+If test documentation in markdown needs updating, call the @technical-writer agent with the **request** to
+update the test documentation and the **context** of the tests developed.
+
+If test linting or static analysis issues need resolving, call the @code-quality agent with the **request** to
+resolve the test linting and static analysis issues and the **context** of the test code changes.
 
 ## Don't
 
