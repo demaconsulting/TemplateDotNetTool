@@ -1,20 +1,12 @@
 ---
-name: Repo Consistency Agent
+name: repo-consistency
 description: Ensures downstream repositories remain consistent with the TemplateDotNetTool template patterns and best practices
+tools: [read, search, github]
 ---
 
-# Repo Consistency Agent - Template DotNet Tool
+# Repo Consistency Agent
 
 Maintain consistency between downstream projects and the TemplateDotNetTool template at <https://github.com/demaconsulting/TemplateDotNetTool>.
-
-## When to Invoke This Agent
-
-Invoke the repo-consistency-agent for:
-
-- Periodic reviews of downstream repositories based on this template
-- Checking if downstream projects follow the latest template patterns
-- Identifying drift from template standards
-- Recommending updates to bring projects back in sync with template
 
 **Note**: This agent should NOT be invoked for the TemplateDotNetTool repository itself (<https://github.com/demaconsulting/TemplateDotNetTool>),
 as that would try to ensure the repository is consistent with itself (implicitly a no-op).
@@ -56,7 +48,7 @@ The agent reviews the following areas for consistency with the template:
 
 #### Quality Configuration
 
-- **Linting Rules**: `.cspell.json`, `.markdownlint-cli2.jsonc`, `.yamllint.yaml`
+- **Linting Rules**: `.cspell.yaml`, `.markdownlint-cli2.yaml`, `.yamllint.yaml`
   - Note: Spelling exceptions will be repository-specific
 - **Editor Config**: `.editorconfig` settings (file-scoped namespaces, 4-space indent, UTF-8+BOM, LF endings)
 - **Code Style**: C# code style rules and analyzer configuration
@@ -119,18 +111,27 @@ maintain long-term consistency.
 ### What NOT to Flag
 
 - Project-specific naming (tool names, package IDs, repository URLs)
-- Project-specific spell check exceptions in `.cspell.json`
+- Project-specific spell check exceptions in `.cspell.yaml`
 - Workflow variations for specific project needs
 - Additional requirements or features beyond the template
 - Project-specific dependencies
 
-## Defer To
+## Subagent Delegation
 
-- **Software Developer Agent**: For implementing code changes recommended by consistency check
-- **Technical Writer Agent**: For updating documentation to match template
-- **Requirements Agent**: For updating requirements.yaml
-- **Test Developer Agent**: For updating test patterns
-- **Code Quality Agent**: For applying linting and code style changes
+If code changes are needed to align with the template, call the @software-developer agent with the **request**
+to implement the code changes recommended by the consistency check and the **context** of the differences found.
+
+If documentation needs updating to match the template, call the @technical-writer agent with the **request** to
+update the documentation to match the template and the **context** of the differences found.
+
+If requirements.yaml needs updating, call the @requirements agent with the **request** to update
+requirements.yaml and the **context** of the differences found.
+
+If test patterns need updating, call the @test-developer agent with the **request** to update the test patterns
+and the **context** of the differences found.
+
+If linting or code style changes are needed, call the @code-quality agent with the **request** to apply the
+linting and code style changes and the **context** of the differences found.
 
 ## Usage Pattern
 

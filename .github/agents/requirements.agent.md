@@ -1,21 +1,12 @@
 ---
-name: Requirements Agent
+name: requirements
 description: Develops requirements and ensures appropriate test coverage - knows which requirements need unit/integration/self-validation tests
+tools: [read, edit, search, github]
 ---
 
-# Requirements Agent - Template DotNet Tool
+# Requirements Agent
 
 Develop and maintain high-quality requirements with proper test coverage linkage.
-
-## When to Invoke This Agent
-
-Invoke the requirements-agent for:
-
-- Creating new requirements in `requirements.yaml`
-- Reviewing and improving existing requirements
-- Ensuring requirements have appropriate test coverage
-- Determining which type of test (unit, integration, or self-validation) is appropriate
-- Differentiating requirements from design details
 
 ## Responsibilities
 
@@ -66,12 +57,19 @@ evidence. This is critical for platform and framework requirements - **never rem
 Without the source filter, a test result from any platform/framework satisfies the requirement. Removing a
 filter invalidates the evidence for platform/framework requirements.
 
-## Defer To
+## Subagent Delegation
 
-- **Software Developer Agent**: For implementing self-validation tests
-- **Test Developer Agent**: For implementing unit and integration tests
-- **Technical Writer Agent**: For documentation of requirements and processes
-- **Code Quality Agent**: For verifying test quality and enforcement
+If self-validation tests need implementing, call the @software-developer agent with the **request** to
+implement the self-validation tests and the **context** of the requirements and test strategy.
+
+If unit or integration tests need implementing, call the @test-developer agent with the **request** to
+implement the unit and integration tests and the **context** of the requirements and test strategy.
+
+If documentation of requirements and processes needs updating, call the @technical-writer agent with the
+**request** to update the documentation and the **context** of the requirements changes.
+
+If test quality or enforcement needs verifying, call the @code-quality agent with the **request** to verify
+test quality and enforcement and the **context** of the requirements and test linkage.
 
 ## Don't
 

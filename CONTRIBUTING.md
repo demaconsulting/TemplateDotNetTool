@@ -183,18 +183,16 @@ All markdown files must follow these rules (enforced by markdownlint):
 - Use reference-style links: `[text][ref]` with `[ref]: url` at document end
 - **Exceptions**:
   - `README.md` uses absolute URLs (it's included in the NuGet package)
-  - AI agent markdown files (`.github/agents/*.md`) use inline links `[text](url)` so URLs are visible in agent context
+  - AI agent markdown files (`.github/agents/*.agent.md`) use inline links
+    `[text](url)` so URLs are visible in agent context
 
 ### Spell Checking
 
-All files are spell-checked using cspell. Add project-specific terms to `.cspell.json`:
+All files are spell-checked using cspell. Add project-specific terms to `.cspell.yaml`:
 
-```json
-{
-  "words": [
-    "myterm"
-  ]
-}
+```yaml
+words:
+  - myterm
 ```
 
 ## Quality Checks
@@ -219,10 +217,10 @@ All tests must pass with zero warnings.
 ### 2. Linting
 
 ```bash
-# These commands run in CI - verify locally if tools are installed
-markdownlint-cli2 "**/*.md"
-cspell "**/*.{md,cs}"
-yamllint -c .yamllint.yaml .
+# Use the lint script which installs dependencies and runs all linters
+./lint.sh           # Linux/macOS (or: bash ./lint.sh)
+cmd /c lint.bat     # Windows (Command Prompt)
+./lint.bat          # Windows (PowerShell)
 ```
 
 ### 3. Code Coverage
