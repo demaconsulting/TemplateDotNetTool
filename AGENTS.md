@@ -45,7 +45,7 @@ implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
 ## Key Files
 
 - **`requirements.yaml`** - Root requirements file using `includes:` to reference `docs/reqstream/` files
-- **`docs/reqstream/`** - Subsystem, platform, and OTS requirements YAML files
+- **`docs/reqstream/`** - Per-software-unit, platform, and OTS requirements YAML files
 - **`.editorconfig`** - Code style (file-scoped namespaces, 4-space indent, UTF-8, LF endings)
 - **`.cspell.yaml`, `.markdownlint-cli2.yaml`, `.yamllint.yaml`** - Linting configs
 
@@ -101,7 +101,7 @@ ensures the CI evidence comes specifically from the required environment.
 ## Project Structure
 
 - `docs/` - Documentation and compliance artifacts
-  - `reqstream/` - Subsystem requirements YAML files (included by root `requirements.yaml`)
+  - `reqstream/` - Per-software-unit, platform, and OTS requirements YAML files (included by root `requirements.yaml`)
   - Auto-generated reports (requirements, justifications, trace matrix)
 - `src/` - Source code files
 - `test/` - Test files

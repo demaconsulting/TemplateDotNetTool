@@ -23,32 +23,42 @@ evidence-source:
   location: https://raw.githubusercontent.com/demaconsulting/TemplateDotNetTool/reviews/index.json
 
 # Review sets grouping files by logical unit of review.
-# Each review-set should group requirements, design, source, and tests for a coherent unit.
+# Each review-set groups requirements, source, and tests for a coherent software unit
+# so that an AI-assisted review can verify consistency across the full evidence chain.
 reviews:
-  - id: TemplateTool-CLI-Review
-    title: Review of Template DotNet Tool CLI
+  # Software unit reviews - one per class
+  - id: TemplateTool-Context
+    title: Review of Template DotNet Tool Context Unit
     paths:
-      - "src/**/Program.cs"
+      - "docs/reqstream/unit-context.yaml"
       - "src/**/Context.cs"
-      - "test/**/ProgramTests.cs"
       - "test/**/ContextTests.cs"
-      - "docs/reqstream/tool-subsystem.yaml"
 
-  - id: TemplateTool-Utilities-Review
-    title: Review of Template DotNet Tool Utilities
+  - id: TemplateTool-Program
+    title: Review of Template DotNet Tool Program Unit
     paths:
-      - "src/**/PathHelpers.cs"
-      - "src/**/Validation.cs"
-      - "test/**/PathHelpersTests.cs"
-      - "test/**/ValidationTests.cs"
-
-  - id: TemplateTool-Tests-Review
-    title: Review of Template DotNet Tool Integration Tests
-    paths:
+      - "docs/reqstream/unit-program.yaml"
+      - "src/**/Program.cs"
+      - "test/**/ProgramTests.cs"
       - "test/**/IntegrationTests.cs"
       - "test/**/Runner.cs"
       - "test/**/AssemblyInfo.cs"
 
+  - id: TemplateTool-Validation
+    title: Review of Template DotNet Tool Validation Unit
+    paths:
+      - "docs/reqstream/unit-validation.yaml"
+      - "src/**/Validation.cs"
+      - "test/**/ValidationTests.cs"
+
+  - id: TemplateTool-PathHelpers
+    title: Review of Template DotNet Tool PathHelpers Unit
+    paths:
+      - "docs/reqstream/unit-path-helpers.yaml"
+      - "src/**/PathHelpers.cs"
+      - "test/**/PathHelpersTests.cs"
+
+  # Platform and OTS dependency reviews
   - id: Platform-Support
     title: Review of Platform and Runtime Support Requirements
     paths:
@@ -65,6 +75,7 @@ reviews:
       - "docs/reqstream/ots-sonarmark.yaml"
       - "docs/reqstream/ots-reviewmark.yaml"
 
+  # Project configuration review
   - id: Project-Configuration
     title: Review of Project Configuration and Root Requirements
     paths:
