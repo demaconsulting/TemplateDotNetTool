@@ -16,7 +16,8 @@ This user guide covers:
 
 # Continuous Compliance
 
-This template follows the [Continuous Compliance][continuous-compliance] methodology, which ensures
+This template follows the
+[Continuous Compliance](https://github.com/demaconsulting/ContinuousCompliance) methodology, which ensures
 compliance evidence is generated automatically on every CI run.
 
 ## Key Practices
@@ -157,6 +158,3 @@ templatetool --validate --results validation-results.trx
 ```bash
 templatetool --silent --log tool-output.log
 ```
-
-<!-- Link References -->
-[continuous-compliance]: https://github.com/demaconsulting/ContinuousCompliance
