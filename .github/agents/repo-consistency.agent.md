@@ -1,7 +1,6 @@
 ---
 name: repo-consistency
 description: Ensures downstream repositories remain consistent with the TemplateDotNetTool template patterns and best practices.
-
 tools: [read, search, github]
 user-invocable: true
 ---
@@ -77,7 +76,7 @@ The agent reviews the following areas for consistency with the template:
 #### Project Configuration
 
 - **csproj Sections**: Key sections in .csproj files:
-  - NuGet Tool Package Configuration
+  - NuGet Package Configuration
   - Symbol Package Configuration
   - Code Quality Configuration (TreatWarningsAsErrors, GenerateDocumentationFile, etc.)
   - SBOM Configuration
