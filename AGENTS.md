@@ -5,38 +5,49 @@ implementation demonstrating best practices for DEMA Consulting .NET CLI tools.
 
 ## Available Specialized Agents
 
-- **requirements** agent - Develops requirements and ensures test coverage linkage
-- **technical-writer** agent - Creates accurate documentation following regulatory best practices
-- **software-developer** agent - Writes production code and self-validation tests in literate style
-- **test-developer** agent - Creates unit and integration tests following AAA pattern
-- **code-quality** agent - Enforces linting, static analysis, and security standards
-- **code-review** agent - Assists in performing formal file reviews
-- **repo-consistency** agent - Ensures downstream repositories remain consistent with template patterns
+- **requirements** - Develops requirements and ensures test coverage linkage
+- **technical-writer** - Creates accurate documentation following regulatory best practices
+- **software-developer** - Writes production code and self-validation tests with emphasis on design-for-testability
+- **test-developer** - Creates unit tests following AAA pattern
+- **code-quality** - Enforces linting, static analysis, and security standards; maintains lint scripts infrastructure
+- **code-review** - Assists in performing formal file reviews
+- **repo-consistency** - Ensures downstream repositories remain consistent with template patterns
 
-## Agent Selection Guide
+## Agent Selection
 
-- Fix a bug → call the @software-developer agent with the **request** to fix the bug and the **context** of the
-  bug details
-- Add a new feature → call the @requirements agent with the **request** to define the feature requirements and the
-  **context** of the feature details, then call the @software-developer agent with the **request** to implement the
-  feature and the **context** of the requirements, then call the @test-developer agent with the **request** to add
-  tests and the **context** of the feature implemented
-- Write a test → call the @test-developer agent with the **request** to write the test and the **context** of
-  what needs to be tested
-- Fix linting or static analysis issues → call the @code-quality agent with the **request** to fix the issues
-  and the **context** of the errors encountered
-- Update documentation → call the @technical-writer agent with the **request** to update the documentation and
-  the **context** of what needs to change
-- Add or update requirements → call the @requirements agent with the **request** to add or update requirements
-  and the **context** of the feature details
-- Ensure test coverage linkage in `requirements.yaml` → call the @requirements agent with the **request** to
-  ensure test coverage linkage and the **context** of the current coverage gaps
-- Run security scanning or address CodeQL alerts → call the @code-quality agent with the **request** to address
-  security scanning or CodeQL alerts and the **context** of the alerts found
-- Perform a formal file review → call the @code-review agent with the **request** to perform a formal review and
-  the **context** of the review-set name
-- Propagate template changes → call the @repo-consistency agent with the **request** to propagate template
-  changes and the **context** of the downstream repository
+- To fix a bug, call the @software-developer agent with the **context** of the bug details and **goal** of resolving
+  the issue while maintaining code quality.
+- To add a new feature, call the @requirements agent with the **request** to define feature requirements and **context**
+  of business needs and **goal** of comprehensive requirement specification.
+- To write or fix tests, call the @test-developer agent with the **context** of the functionality to be tested and
+  **goal** of achieving comprehensive test coverage.
+- To update documentation, call the @technical-writer agent with the **context** of changes requiring documentation and
+  **goal** of maintaining current and accurate documentation.
+- To manage requirements and traceability, call the @requirements agent with the **context** of requirement changes and
+  **goal** of maintaining compliance traceability.
+- To resolve quality or linting issues, call the @code-quality agent with the **context** of quality gate failures and
+  **goal** of achieving compliance standards.
+- To update linting tools or scripts, call the @code-quality agent with the **context** of tool requirements and
+  **goal** of maintaining quality infrastructure.
+- To address security alerts or scanning issues, call the @code-quality agent with the **context** of security findings
+  and **goal** of resolving vulnerabilities.
+- To perform file reviews, call the @code-review agent with the **context** of files requiring review and **goal** of
+  compliance verification.
+- To ensure template consistency, call the @repo-consistency agent with the **context** of downstream repository
+  and **goal** of maintaining template alignment.
+
+## Quality Gate Enforcement (ALL Agents Must Verify)
+
+Configuration files and scripts are self-documenting with their design intent and
+modification policies in header comments.
+
+1. **Linting Standards**: `./lint.sh` (Unix) or `lint.bat` (Windows) - comprehensive linting suite
+2. **Build Quality**: Zero warnings (`TreatWarningsAsErrors=true`)
+3. **Static Analysis**: SonarQube/CodeQL passing with no blockers
+4. **Requirements Traceability**: `dotnet reqstream --enforce` passing
+5. **Test Coverage**: All requirements linked to passing tests
+6. **Documentation Currency**: All docs current and generated
+7. **File Review Status**: All reviewable files have current reviews
 
 ## Tech Stack
 
@@ -170,11 +181,38 @@ lint.bat      # Windows
 dotnet pack --configuration Release
 ```
 
+## Continuous Compliance Overview
+
+This repository follows the DEMA Consulting Continuous Compliance approach
+<https://github.com/demaconsulting/ContinuousCompliance>, which enforces quality
+and compliance gates on every CI/CD run instead of as a last-mile activity.
+
+### Core Principles
+
+- **Requirements Traceability**: Every requirement MUST link to passing tests
+- **Quality Gates**: All quality checks must pass before merge
+- **Documentation Currency**: All docs auto-generated and kept current
+- **Automated Evidence**: Full audit trail generated with every build
+
+## Continuous Compliance Requirements
+
+This repository follows continuous compliance practices from DEMA Consulting Continuous Compliance
+<https://github.com/demaconsulting/ContinuousCompliance>.
+
+### Core Requirements Traceability Rules
+
+- **ALL requirements MUST be linked to tests** - Enforced in CI via `dotnet reqstream --enforce`
+- **NOT all tests need requirement links** - Tests may exist for corner cases, design validation, failure scenarios  
+- **Source filters are critical** - Platform/framework requirements need specific test evidence
+
+For detailed requirements format, test linkage patterns, and ReqStream integration, call the @requirements agent.
+
 ## Agent Report Files
 
 When agents need to write report files to communicate with each other or the user, follow these guidelines:
 
-- **Naming Convention**: Use the pattern `AGENT_REPORT_xxxx.md` (e.g., `AGENT_REPORT_analysis.md`, `AGENT_REPORT_results.md`)
+- **Naming Convention**: Use the pattern `AGENT_REPORT_xxxx.md` (e.g., `AGENT_REPORT_analysis.md`,
+  `AGENT_REPORT_results.md`)
 - **Purpose**: These files are for temporary inter-agent communication and should not be committed
 - **Exclusions**: Files matching `AGENT_REPORT_*.md` are automatically:
   - Excluded from git (via .gitignore)
