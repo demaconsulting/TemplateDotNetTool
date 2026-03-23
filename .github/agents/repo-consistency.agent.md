@@ -1,6 +1,7 @@
 ---
 name: repo-consistency
 description: Ensures downstream repositories remain consistent with the TemplateDotNetTool template patterns and best practices.
+
 tools: [read, search, github]
 user-invocable: true
 ---
@@ -52,11 +53,9 @@ The agent reviews the following areas for consistency with the template:
 
 #### Code Structure and Patterns
 
-- **Context Parsing**: `Context.cs` pattern for command-line argument handling
-- **Self-Validation**: `Validation.cs` pattern for built-in tests
-- **Program Entry**: `Program.cs` pattern with version/help/validation routing
-- **Standard Arguments**: Support for `-v`, `--version`, `-?`, `-h`, `--help`, `--silent`, `--validate`,
-  `--results`, `--log`
+- **CLI Application**: Command-line interface design following .NET CLI tool best practices
+- **Self-Validation**: Self-validation pattern for built-in tests
+- **Standard Patterns**: Following common CLI tool design patterns
 
 #### Documentation
 
