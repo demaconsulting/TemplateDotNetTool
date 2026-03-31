@@ -19,9 +19,11 @@
 // SOFTWARE.
 
 using System.Runtime.InteropServices;
+using DemaConsulting.TemplateDotNetTool.Cli;
+using DemaConsulting.TemplateDotNetTool.Utilities;
 using DemaConsulting.TestResults.IO;
 
-namespace DemaConsulting.TemplateDotNetTool;
+namespace DemaConsulting.TemplateDotNetTool.SelfTest;
 
 /// <summary>
 ///     Provides self-validation functionality for the Template DotNet Tool.

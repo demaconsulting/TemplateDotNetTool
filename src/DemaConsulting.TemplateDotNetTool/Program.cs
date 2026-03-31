@@ -19,6 +19,8 @@
 // SOFTWARE.
 
 using System.Reflection;
+using DemaConsulting.TemplateDotNetTool.Cli;
+using DemaConsulting.TemplateDotNetTool.SelfTest;
 
 namespace DemaConsulting.TemplateDotNetTool;
 
