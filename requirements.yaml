@@ -1,9 +1,13 @@
 ---
 # Root requirements file - includes all system, unit, platform, and OTS requirements
 includes:
+  - docs/reqstream/templatetool-system.yaml
   - docs/reqstream/unit-program.yaml
+  - docs/reqstream/cli/subsystem-cli.yaml
   - docs/reqstream/cli/unit-context.yaml
+  - docs/reqstream/self-test/subsystem-self-test.yaml
   - docs/reqstream/self-test/unit-validation.yaml
+  - docs/reqstream/utilities/subsystem-utilities.yaml
   - docs/reqstream/utilities/unit-path-helpers.yaml
   - docs/reqstream/platform-requirements.yaml
   - docs/reqstream/ots-mstest.yaml
