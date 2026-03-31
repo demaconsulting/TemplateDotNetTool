@@ -1,10 +1,14 @@
 # PathHelpers
 
+<!-- TODO: This is an example design section for the PathHelpers class. Replace with your own unit design. -->
+
 The `PathHelpers` class provides safe path-combination utilities for the Template DotNet Tool.
 It protects against path-traversal attacks by validating relative path segments before combining
 them with a base path.
 
 ## Overview
+
+<!-- TODO: Fill in for your project -->
 
 `PathHelpers` is a static utility class with a single method, `SafePathCombine`. It is used
 wherever the tool constructs a file path from a base directory and a caller-supplied relative
@@ -12,9 +16,13 @@ segment, ensuring the resulting path cannot escape the intended base directory.
 
 ## Data Model
 
+<!-- TODO: Fill in for your project -->
+
 `PathHelpers` has no instance state or instance methods.
 
 ## Methods
+
+<!-- TODO: Fill in for your project -->
 
 ### SafePathCombine(string basePath, string relativePath)
 
@@ -32,6 +40,8 @@ the resolved combined path escapes `basePath`.
 **Returns:** `string` — the combined path.
 
 ## Interactions
+
+<!-- TODO: Fill in for your project -->
 
 `PathHelpers` has no dependencies on other tool units. It uses only .NET base class library types
 (`Path`, `ArgumentNullException`).

@@ -1,10 +1,14 @@
 # Validation
 
+<!-- TODO: This is an example design section for the Validation class. Replace with your own unit design. -->
+
 The `Validation` class provides the self-validation framework for the Template DotNet Tool.
 It runs a suite of internal tests that demonstrate the tool is functioning correctly in the
 deployment environment.
 
 ## Overview
+
+<!-- TODO: Fill in for your project -->
 
 `Validation.Run` prints a header, executes each test, accumulates results into a
 `DemaConsulting.TestResults.TestResults` object, prints a summary, and optionally writes
@@ -12,9 +16,13 @@ a results file in TRX or JUnit XML format.
 
 ## Data Model
 
+<!-- TODO: Fill in for your project -->
+
 `Validation` holds no instance state. All state is local to `Run` and the private test methods.
 
 ## Methods
+
+<!-- TODO: Fill in for your project -->
 
 ### Run(Context context)
 
@@ -42,6 +50,8 @@ Writes `testResults` to `context.ResultsFile`. The format is determined by the f
 `.trx` for TRX (MSTest), `.xml` for JUnit.
 
 ## Interactions
+
+<!-- TODO: Fill in for your project -->
 
 | Dependency     | Direction | Purpose                                         |
 |----------------|-----------|-------------------------------------------------|

@@ -1,9 +1,13 @@
 # Introduction
 
+<!-- TODO: Fill in for your project -->
+
 This document provides the detailed design for the Template DotNet Tool, a .NET command-line
 application demonstrating best practices for DEMA Consulting DotNet Tools.
 
 ## Purpose
+
+<!-- TODO: Fill in for your project -->
 
 The purpose of this document is to describe the internal design of each software unit that
 comprises the Template DotNet Tool. It captures data models, algorithms, key methods, and
@@ -12,6 +16,8 @@ verification, and future maintenance. The document does not restate requirements
 how they are realized.
 
 ## Scope
+
+<!-- TODO: Fill in for your project -->
 
 This document covers the detailed design of the following software units:
 
@@ -27,6 +33,8 @@ The following topics are out of scope:
 - Deployment and packaging
 
 ## Software Structure
+
+<!-- TODO: Fill in for your project -->
 
 The following tree shows how the Template DotNet Tool software items are organized across the
 system, subsystem, and unit levels:
@@ -45,6 +53,8 @@ TemplateDotNetTool (System)
 Each unit is described in detail in its own chapter within this document.
 
 ## Folder Layout
+
+<!-- TODO: Fill in for your project -->
 
 The source code folder structure mirrors the top-level subsystem breakdown above, giving
 reviewers an explicit navigation aid from design to code:
@@ -73,6 +83,8 @@ Throughout this document:
 - Text tables are used in preference to diagrams, which may not render in all PDF viewers.
 
 ## References
+
+<!-- TODO: Fill in for your project -->
 
 - [Template DotNet Tool User Guide][user-guide]
 - [Template DotNet Tool Repository][repo]
