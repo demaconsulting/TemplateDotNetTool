@@ -1,0 +1,28 @@
+---
+# Cli Subsystem Requirements
+#
+# PURPOSE:
+# - Define requirements for the TemplateDotNetTool Cli subsystem
+# - The Cli subsystem spans Context.cs (command-line argument parsing and I/O)
+# - Subsystem requirements describe the externally visible command-line interface behavior
+
+sections:
+  - title: Cli Subsystem Requirements
+    requirements:
+      - id: Template-Cli-Interface
+        title: The Cli subsystem shall provide a command-line interface for parsing arguments and routing output.
+        justification: |
+          The Cli subsystem is the primary interface between the user's command-line invocation
+          and the tool's internal logic. It must accept and validate command-line arguments,
+          expose structured properties to the rest of the tool, route output to both the console
+          and an optional log file, and track error state so the tool can return a meaningful
+          exit code. All of these behaviors together constitute the complete Cli subsystem
+          contract visible to callers.
+        tests:
+          - Context_Create_NoArguments_ReturnsDefaultContext
+          - Context_Create_VersionFlag_SetsVersionTrue
+          - Context_Create_SilentFlag_SetsSilentTrue
+          - Context_Create_LogFlag_OpensLogFile
+          - Context_Create_UnknownArgument_ThrowsArgumentException
+          - Context_WriteLine_NotSilent_WritesToConsole
+          - Context_WriteError_SetsErrorExitCode
