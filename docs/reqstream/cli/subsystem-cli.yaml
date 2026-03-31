@@ -9,20 +9,110 @@
 sections:
   - title: Cli Subsystem Requirements
     requirements:
-      - id: Template-Cli-Interface
-        title: The Cli subsystem shall provide a command-line interface for parsing arguments and routing output.
+      - id: Template-Cli-Context
+        title: The Cli subsystem shall implement a Context class for command-line argument handling.
         justification: |
-          The Cli subsystem is the primary interface between the user's command-line invocation
-          and the tool's internal logic. It must accept and validate command-line arguments,
-          expose structured properties to the rest of the tool, route output to both the console
-          and an optional log file, and track error state so the tool can return a meaningful
-          exit code. All of these behaviors together constitute the complete Cli subsystem
-          contract visible to callers.
+          Provides a standardized approach to command-line argument parsing and output
+          handling across all DEMA Consulting DotNet Tools. The Context class encapsulates
+          all parsed flags and output channels so that the rest of the tool has a single,
+          consistent entry point for CLI interaction.
         tests:
           - Context_Create_NoArguments_ReturnsDefaultContext
           - Context_Create_VersionFlag_SetsVersionTrue
           - Context_Create_SilentFlag_SetsSilentTrue
           - Context_Create_LogFlag_OpensLogFile
           - Context_Create_UnknownArgument_ThrowsArgumentException
-          - Context_WriteLine_NotSilent_WritesToConsole
+
+      - id: Template-Cli-Version
+        title: The Cli subsystem shall support -v and --version flags to signal version display.
+        justification: |
+          Users need to quickly identify the version of the tool they are using for
+          troubleshooting and compatibility verification.
+        tests:
+          - Context_Create_VersionFlag_SetsVersionTrue
+          - Context_Create_ShortVersionFlag_SetsVersionTrue
+          - Program_Run_WithVersionFlag_DisplaysVersionOnly
+          - Program_Version_ReturnsNonEmptyString
+          - IntegrationTest_VersionFlag_OutputsVersion
+
+      - id: Template-Cli-Help
+        title: The Cli subsystem shall support -?, -h, and --help flags to signal help display.
+        justification: |
+          Users need access to command-line usage documentation without requiring
+          external resources.
+        tests:
+          - Context_Create_HelpFlag_SetsHelpTrue
+          - Context_Create_ShortHelpFlag_H_SetsHelpTrue
+          - Context_Create_ShortHelpFlag_Question_SetsHelpTrue
+          - Program_Run_WithHelpFlag_DisplaysUsageInformation
+          - IntegrationTest_HelpFlag_OutputsUsageInformation
+
+      - id: Template-Cli-Silent
+        title: The Cli subsystem shall support --silent flag to suppress console output.
+        justification: |
+          Enables automated scripts and CI/CD pipelines to run the tool without
+          cluttering output logs.
+        tests:
+          - Context_Create_SilentFlag_SetsSilentTrue
+          - Context_WriteLine_Silent_DoesNotWriteToConsole
+          - IntegrationTest_SilentFlag_SuppressesOutput
+
+      - id: Template-Cli-Validate
+        title: The Cli subsystem shall support --validate flag to signal self-validation.
+        justification: |
+          Provides a built-in mechanism to verify the tool is functioning correctly
+          in the deployment environment.
+        tests:
+          - Context_Create_ValidateFlag_SetsValidateTrue
+          - Program_Run_WithValidateFlag_RunsValidation
+          - IntegrationTest_ValidateFlag_RunsValidation
+
+      - id: Template-Cli-Results
+        title: The Cli subsystem shall support --results flag to specify a test results output file.
+        justification: |
+          Enables integration with CI/CD systems that expect standard test result formats.
+        tests:
+          - Context_Create_ResultsFlag_SetsResultsFile
+          - Context_Create_ResultsFlag_WithoutValue_ThrowsArgumentException
+          - IntegrationTest_ValidateWithResults_GeneratesTrxFile
+          - IntegrationTest_ValidateWithResults_GeneratesJUnitFile
+
+      - id: Template-Cli-Log
+        title: The Cli subsystem shall support --log flag to write output to a log file.
+        justification: |
+          Provides persistent logging for debugging and audit trails.
+        tests:
+          - Context_Create_LogFlag_OpensLogFile
+          - Context_Create_LogFlag_WithoutValue_ThrowsArgumentException
+          - Context_WriteError_WritesToLogFile
+          - IntegrationTest_LogFlag_WritesOutputToFile
+
+      - id: Template-Cli-ErrorOutput
+        title: The Cli subsystem shall write error messages to stderr.
+        justification: |
+          Error messages must be written to stderr so they remain visible to the user
+          without polluting stdout, which consumers may pipe or redirect for data capture.
+        tests:
+          - Context_WriteError_NotSilent_WritesToConsole
           - Context_WriteError_SetsErrorExitCode
+          - IntegrationTest_UnknownArgument_ReturnsError
+
+      - id: Template-Cli-InvalidArgs
+        title: The Cli subsystem shall reject unknown or malformed command-line arguments with a descriptive error.
+        justification: |
+          Providing clear feedback for invalid arguments helps users quickly correct
+          mistakes and prevents silent misconfiguration.
+        tests:
+          - Context_Create_UnknownArgument_ThrowsArgumentException
+          - Context_Create_LogFlag_WithoutValue_ThrowsArgumentException
+          - Context_Create_ResultsFlag_WithoutValue_ThrowsArgumentException
+          - IntegrationTest_UnknownArgument_ReturnsError
+
+      - id: Template-Cli-ExitCode
+        title: The Cli subsystem shall return a non-zero exit code on failure.
+        justification: |
+          Callers (scripts, CI/CD pipelines) must be able to detect failure conditions
+          programmatically via the process exit code.
+        tests:
+          - Context_WriteError_SetsErrorExitCode
+          - IntegrationTest_UnknownArgument_ReturnsError

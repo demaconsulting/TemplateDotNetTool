@@ -7,6 +7,7 @@
 # Processed in order; prefix a pattern with '!' to exclude.
 needs-review:
   - "**/*.cs"                    # All C# source and test files
+  - "requirements.yaml"          # Root requirements file
   - "docs/reqstream/**/*.yaml"   # Requirements files
   - "docs/design/**/*.md"        # Design documents
   - "!**/obj/**"                 # Exclude build output
@@ -32,9 +33,6 @@ reviews:
       - "docs/design/program.md"                        # design
       - "src/**/Program.cs"                             # implementation
       - "test/**/ProgramTests.cs"                       # unit tests
-      - "test/**/IntegrationTests.cs"                   # integration tests
-      - "test/**/Runner.cs"                             # test infrastructure
-      - "test/**/AssemblyInfo.cs"                       # test infrastructure
 
   - id: TemplateTool-Context
     title: Review of Template DotNet Tool Context Unit
@@ -66,30 +64,47 @@ reviews:
     paths:
       - "docs/reqstream/cli/subsystem-cli.yaml"         # subsystem requirements
       - "docs/design/cli/cli.md"                        # subsystem design
+      - "docs/design/cli/context.md"                    # Context unit design
+      - "docs/design/program.md"                        # Program unit design
 
   - id: TemplateTool-SelfTest
     title: Review of Template DotNet Tool SelfTest subsystem (self-validation)
     paths:
       - "docs/reqstream/self-test/subsystem-self-test.yaml"  # subsystem requirements
       - "docs/design/self-test/self-test.md"            # subsystem design
+      - "docs/design/self-test/validation.md"           # Validation unit design
 
   - id: TemplateTool-Utilities
     title: Review of Template DotNet Tool Utilities subsystem (shared utilities)
     paths:
       - "docs/reqstream/utilities/subsystem-utilities.yaml"  # subsystem requirements
       - "docs/design/utilities/utilities.md"             # subsystem design
+      - "docs/design/utilities/path-helpers.md"          # PathHelpers unit design
+
+  # System review - covers system-level behavior validated through integration tests
+  - id: TemplateTool-System
+    title: Review of Template DotNet Tool system-level behavior and integration
+    paths:
+      - "docs/reqstream/templatetool-system.yaml"        # system requirements
+      - "docs/reqstream/platform-requirements.yaml"      # platform requirements
+      - "docs/design/introduction.md"                    # design introduction and architecture
+      - "test/**/IntegrationTests.cs"                    # integration tests
+      - "test/**/Runner.cs"                              # test infrastructure
+      - "test/**/AssemblyInfo.cs"                        # test infrastructure
 
   - id: TemplateTool-Design
     title: Review of Template DotNet Tool Software Design Document
     paths:
       - "docs/design/**/*.md"                           # all design documents
 
-  # Platform and OTS dependency reviews
-  - id: Platform-Support
-    title: Review of Platform and Runtime Support Requirements
+  # All-requirements review
+  - id: TemplateTool-AllRequirements
+    title: Review of all Template DotNet Tool requirements files
     paths:
-      - "docs/reqstream/platform-requirements.yaml"
+      - "requirements.yaml"                             # root requirements file
+      - "docs/reqstream/**/*.yaml"                      # all requirements files
 
+  # OTS dependency reviews
   - id: OTS-Dependencies
     title: Review of Off-The-Shelf Software Dependencies
     paths:
