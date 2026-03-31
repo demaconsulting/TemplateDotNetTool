@@ -65,20 +65,19 @@ reviews:
     title: Review of Template DotNet Tool Cli subsystem (command-line interface)
     paths:
       - "docs/reqstream/cli/subsystem-cli.yaml"         # subsystem requirements
-      - "docs/design/cli/context.md"                    # Context design
-      - "docs/design/program.md"                        # Program design
+      - "docs/design/cli/cli.md"                        # subsystem design
 
   - id: TemplateTool-SelfTest
     title: Review of Template DotNet Tool SelfTest subsystem (self-validation)
     paths:
       - "docs/reqstream/self-test/subsystem-self-test.yaml"  # subsystem requirements
-      - "docs/design/self-test/validation.md"           # Validation design
+      - "docs/design/self-test/self-test.md"            # subsystem design
 
   - id: TemplateTool-Utilities
     title: Review of Template DotNet Tool Utilities subsystem (shared utilities)
     paths:
       - "docs/reqstream/utilities/subsystem-utilities.yaml"  # subsystem requirements
-      - "docs/design/utilities/path-helpers.md"          # PathHelpers design
+      - "docs/design/utilities/utilities.md"             # subsystem design
 
   - id: TemplateTool-Design
     title: Review of Template DotNet Tool Software Design Document
