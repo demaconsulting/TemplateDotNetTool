@@ -3,12 +3,12 @@
 includes:
   - docs/reqstream/system.yaml
   - docs/reqstream/unit-program.yaml
-  - docs/reqstream/cli/subsystem-cli.yaml
-  - docs/reqstream/cli/unit-context.yaml
-  - docs/reqstream/self-test/subsystem-self-test.yaml
-  - docs/reqstream/self-test/unit-validation.yaml
-  - docs/reqstream/utilities/subsystem-utilities.yaml
-  - docs/reqstream/utilities/unit-path-helpers.yaml
+  - docs/reqstream/cli/cli.yaml
+  - docs/reqstream/cli/context.yaml
+  - docs/reqstream/self-test/self-test.yaml
+  - docs/reqstream/self-test/validation.yaml
+  - docs/reqstream/utilities/utilities.yaml
+  - docs/reqstream/utilities/path-helpers.yaml
   - docs/reqstream/platform-requirements.yaml
   - docs/reqstream/ots/mstest.yaml
   - docs/reqstream/ots/reqstream.yaml

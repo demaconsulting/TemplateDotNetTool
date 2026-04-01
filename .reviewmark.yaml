@@ -37,7 +37,7 @@ reviews:
   - id: TemplateTool-Context
     title: Review of Template DotNet Tool Context Unit
     paths:
-      - "docs/reqstream/cli/unit-context.yaml"          # requirements
+      - "docs/reqstream/cli/context.yaml"               # requirements
       - "docs/design/cli/context.md"                    # design
       - "src/**/Cli/Context.cs"                         # implementation
       - "test/**/Cli/ContextTests.cs"                   # unit tests
@@ -45,7 +45,7 @@ reviews:
   - id: TemplateTool-Validation
     title: Review of Template DotNet Tool Validation Unit
     paths:
-      - "docs/reqstream/self-test/unit-validation.yaml"  # requirements
+      - "docs/reqstream/self-test/validation.yaml"      # requirements
       - "docs/design/self-test/validation.md"           # design
       - "src/**/SelfTest/Validation.cs"                 # implementation
       - "test/**/SelfTest/ValidationTests.cs"           # unit tests
@@ -53,7 +53,7 @@ reviews:
   - id: TemplateTool-PathHelpers
     title: Review of Template DotNet Tool PathHelpers Unit
     paths:
-      - "docs/reqstream/utilities/unit-path-helpers.yaml"  # requirements
+      - "docs/reqstream/utilities/path-helpers.yaml"    # requirements
       - "docs/design/utilities/path-helpers.md"          # design
       - "src/**/Utilities/PathHelpers.cs"                # implementation
       - "test/**/Utilities/PathHelpersTests.cs"          # unit tests
@@ -62,7 +62,7 @@ reviews:
   - id: TemplateTool-Cli
     title: Review of Template DotNet Tool Cli subsystem (command-line interface)
     paths:
-      - "docs/reqstream/cli/subsystem-cli.yaml"         # subsystem requirements
+      - "docs/reqstream/cli/cli.yaml"                   # subsystem requirements
       - "docs/design/cli/cli.md"                        # subsystem design
       - "docs/design/cli/context.md"                    # Context unit design
       - "docs/design/program.md"                        # Program unit design
@@ -70,14 +70,14 @@ reviews:
   - id: TemplateTool-SelfTest
     title: Review of Template DotNet Tool SelfTest subsystem (self-validation)
     paths:
-      - "docs/reqstream/self-test/subsystem-self-test.yaml"  # subsystem requirements
+      - "docs/reqstream/self-test/self-test.yaml"       # subsystem requirements
       - "docs/design/self-test/self-test.md"            # subsystem design
       - "docs/design/self-test/validation.md"           # Validation unit design
 
   - id: TemplateTool-Utilities
     title: Review of Template DotNet Tool Utilities subsystem (shared utilities)
     paths:
-      - "docs/reqstream/utilities/subsystem-utilities.yaml"  # subsystem requirements
+      - "docs/reqstream/utilities/utilities.yaml"       # subsystem requirements
       - "docs/design/utilities/utilities.md"             # subsystem design
       - "docs/design/utilities/path-helpers.md"          # PathHelpers unit design
 
