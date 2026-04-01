@@ -51,7 +51,7 @@ The system accepts command-line arguments following standard conventions:
 The system interacts with the file system for:
 
 - **Log File Output** — Optional logging to user-specified file path
-- **Test Results Output** — Optional test results in TRX format for CI/CD integration
+- **Test Results Output** — Optional test results in TRX or JUnit XML format for CI/CD integration
 - **Path Operations** — Safe path combination and validation through Utilities subsystem
 
 ### Standard I/O Interface
