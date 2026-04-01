@@ -2,7 +2,7 @@
 # Root requirements file - includes all system, unit, platform, and OTS requirements
 includes:
   - docs/reqstream/system.yaml
-  - docs/reqstream/unit-program.yaml
+  - docs/reqstream/program.yaml
   - docs/reqstream/cli/cli.yaml
   - docs/reqstream/cli/context.yaml
   - docs/reqstream/self-test/self-test.yaml

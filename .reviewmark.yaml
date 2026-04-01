@@ -29,7 +29,7 @@ reviews:
   - id: TemplateTool-Program
     title: Review of Template DotNet Tool Program Unit
     paths:
-      - "docs/reqstream/unit-program.yaml"              # requirements
+      - "docs/reqstream/program.yaml"                   # requirements
       - "docs/design/program.md"                        # design
       - "src/**/Program.cs"                             # implementation
       - "test/**/ProgramTests.cs"                       # unit tests
