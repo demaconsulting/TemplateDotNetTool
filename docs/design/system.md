@@ -184,7 +184,7 @@ All external inputs receive validation:
 File system operations follow security best practices:
 
 - **Controlled access** — Only user-specified paths accessed
-- **Permission handling** — Graceful degradation for insufficient permissions  
+- **Permission handling** — Graceful degradation for insufficient permissions
 - **Path sanitization** — All file paths validated and sanitized
 
 ### Information Disclosure
