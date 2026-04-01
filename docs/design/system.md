@@ -40,7 +40,7 @@ between subsystems:
 The system accepts command-line arguments following standard conventions:
 
 - **Version Query**: `-v`, `--version` — Display version information
-- **Help Display**: `-?`, `-h`, `--help` — Show usage information  
+- **Help Display**: `-?`, `-h`, `--help` — Show usage information
 - **Silent Mode**: `--silent` — Suppress console output
 - **Self-Validation**: `--validate` — Run internal test suite
 - **Results Output**: `--results <file>` — Write test results to TRX or XML file
@@ -184,7 +184,7 @@ All external inputs receive validation:
 File system operations follow security best practices:
 
 - **Controlled access** — Only user-specified paths accessed
-- **Permission handling** — Graceful degradation for insufficient permissions  
+- **Permission handling** — Graceful degradation for insufficient permissions
 - **Path sanitization** — All file paths validated and sanitized
 
 ### Information Disclosure
