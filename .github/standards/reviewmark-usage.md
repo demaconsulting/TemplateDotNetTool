@@ -20,8 +20,9 @@ Configure reviews in `.reviewmark.yaml` at repository root:
 # Patterns identifying all files that require review
 needs-review:
   # Include core development artifacts
-  - "docs/reqstream/**/*.yaml"   # Requirements files only
-  - "**/*.md"                    # Requirements and design documentation
+  - "requirements.yaml"          # Root requirements file
+  - "docs/reqstream/**/*.yaml"   # Requirements files
+  - "docs/design/*.md"           # Design documentation
   - "**/*.cs"                    # All C# source and test files
 
   # Exclude build output and generated content
