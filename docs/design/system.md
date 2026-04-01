@@ -40,7 +40,7 @@ between subsystems:
 The system accepts command-line arguments following standard conventions:
 
 - **Version Query**: `-v`, `--version` — Display version information
-- **Help Display**: `-?`, `-h`, `--help` — Show usage information  
+- **Help Display**: `-?`, `-h`, `--help` — Show usage information
 - **Silent Mode**: `--silent` — Suppress console output
 - **Self-Validation**: `--validate` — Run internal test suite
 - **Results Output**: `--results <file>` — Write test results to TRX or XML file
