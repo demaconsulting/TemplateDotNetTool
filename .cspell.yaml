@@ -46,6 +46,7 @@ words:
   - mermaid
   - mstest
   - myterm
+  - nameof
   - ncipollo
   - nuget
   - nupkg
@@ -79,12 +80,14 @@ words:
   - streetsidesoftware
   - templatetool
   - testname
+  - thirdparty
   - TMPL
   - triaging
   - Trivy
   - trx
   - vbproj
   - vcxproj
+  - venv
   - versionmark
   - Weasyprint
   - yamllint
