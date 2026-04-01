@@ -23,14 +23,14 @@ This assessment is a quality control system of the project and MUST be performed
 
 # Reporting
 
-Upon completion create a summary in `.agent-logs/[agent-name]-[subject]-[unique-id].md`
+Upon completion create a summary in `.agent-logs/{agent-name}-{subject}-{unique-id}.md`
 of the project consisting of:
 
 ```markdown
 # Quality Assessment Report
 
-**Result**: <SUCCEEDED/FAILED>
-**Overall Grade**: <PASS/FAIL/NEEDS_WORK>
+**Result**: (SUCCEEDED|FAILED)
+**Overall Grade**: (PASS|FAIL|NEEDS_WORK)
 
 ## Assessment Summary
 
