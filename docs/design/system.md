@@ -107,7 +107,8 @@ System-wide error handling follows consistent patterns:
 
 - **Typed exceptions** — Use specific exception types (ArgumentException, InvalidOperationException)
 - **Context preservation** — Exception messages include sufficient troubleshooting information
-- **Audit logging** — When logging is enabled (for example, via `--log`), all errors are logged for compliance and debugging purposes
+- **Audit logging** — When logging is enabled (for example, via `--log`), all errors are logged for
+  compliance and debugging purposes
 
 ### Thread Safety
 
