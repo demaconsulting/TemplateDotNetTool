@@ -88,6 +88,7 @@ reviews:
       - "docs/reqstream/system.yaml"                 # system requirements
       - "docs/reqstream/platform-requirements.yaml"  # platform requirements
       - "docs/design/introduction.md"                # design introduction and architecture
+      - "docs/design/system.md"                      # system design
       - "test/**/IntegrationTests.cs"                # integration tests
       - "test/**/Runner.cs"                          # test infrastructure
       - "test/**/AssemblyInfo.cs"                    # test infrastructure
