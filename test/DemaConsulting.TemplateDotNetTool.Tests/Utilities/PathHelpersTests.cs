@@ -151,4 +151,22 @@ public class PathHelpersTests
         // Assert
         Assert.AreEqual(Path.Combine(basePath, relativePath), result);
     }
+
+    /// <summary>
+    ///     Test that SafePathCombine correctly handles paths with segments beginning with double dots (not traversal).
+    /// </summary>
+    [TestMethod]
+    public void PathHelpers_SafePathCombine_DotDotPrefixedName_CombinesCorrectly()
+    {
+        // Arrange - "..data" is a valid in-base directory name that starts with ".." but is not a traversal
+        var basePath = "/home/user/project";
+        var relativePath = "..data/file.txt";
+
+        // Act
+        var result = PathHelpers.SafePathCombine(basePath, relativePath);
+
+        // Assert
+        Assert.AreEqual(Path.Combine(basePath, relativePath), result);
+    }
 }
+
