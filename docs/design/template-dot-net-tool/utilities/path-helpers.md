@@ -26,15 +26,17 @@ the base directory.
    caller's relative/absolute style).
 3. Resolve both `basePath` and the candidate to absolute form with `Path.GetFullPath`.
 4. Compute `Path.GetRelativePath(absoluteBase, absoluteCombined)` and reject the input if
-   the result starts with `".."` or is itself rooted (absolute), which would indicate the
-   combined path escapes the base directory.
+   the result is exactly `".."`, starts with `".."` followed by `Path.DirectorySeparatorChar`
+   or `Path.AltDirectorySeparatorChar`, or is itself rooted (absolute), which would indicate
+   the combined path escapes the base directory.
 
 ## Design Decisions
 
 - **`Path.GetRelativePath` for containment check**: Using `GetRelativePath` to verify
   containment handles root paths (e.g. `/`, `C:\`), platform case-sensitivity, and
-  directory-separator normalization natively — without any manual prefix construction,
-  trimming, or platform-specific string comparisons.
+  directory-separator normalization natively. The containment test should treat `..` as an
+  escaping segment only when it is the entire relative result or is followed by a directory
+  separator, avoiding false positives for valid in-base names such as `..data`.
 - **Post-combine canonical-path check**: Resolving paths after combining handles all traversal
   patterns — `../`, embedded `/../`, absolute-path overrides, and platform edge cases —
   without fragile pre-combine string inspection of `relativePath`.
