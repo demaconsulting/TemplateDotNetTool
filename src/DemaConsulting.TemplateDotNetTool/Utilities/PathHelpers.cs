@@ -38,27 +38,27 @@ internal static class PathHelpers
         ArgumentNullException.ThrowIfNull(basePath);
         ArgumentNullException.ThrowIfNull(relativePath);
 
-        // Ensure the relative path doesn't contain path traversal sequences
-        if (relativePath.Contains("..") || Path.IsPathRooted(relativePath))
-        {
-            throw new ArgumentException($"Invalid path component: {relativePath}", nameof(relativePath));
-        }
-
-        // This call to Path.Combine is safe because we've validated that:
-        // 1. relativePath doesn't contain ".." (path traversal)
-        // 2. relativePath is not an absolute path (IsPathRooted check)
-        // This ensures the combined path will always be under basePath
+        // Combine the paths
         var combinedPath = Path.Combine(basePath, relativePath);
 
-        // Additional security validation: ensure the combined path is still under the base path.
-        // This defense-in-depth approach protects against edge cases that might bypass the
-        // initial validation, ensuring the final path stays within the intended directory.
-        var fullBasePath = Path.GetFullPath(basePath);
+        // Security check: verify the combined path stays under the base directory.
+        // Trim any trailing separator from the resolved base so that appending one
+        // separator produces a clean prefix (e.g. base="/a/b/" would otherwise yield
+        // fullBasePathWithSeparator="/a/b//" which never matches the combined path).
+        // Append a trailing directory separator to the base so that a partial match
+        // (e.g. base="/a/b" vs combined="/a/bc/...") is not treated as "inside" the base.
+        var fullBasePath = Path.TrimEndingDirectorySeparator(Path.GetFullPath(basePath));
         var fullCombinedPath = Path.GetFullPath(combinedPath);
+        var fullBasePathWithSeparator = fullBasePath + Path.DirectorySeparatorChar;
 
-        // Use GetRelativePath to verify the relationship between paths
-        var relativeCheck = Path.GetRelativePath(fullBasePath, fullCombinedPath);
-        if (relativeCheck.StartsWith("..") || Path.IsPathRooted(relativeCheck))
+        // Use platform-appropriate string comparison (Windows/macOS paths are case-insensitive).
+        var comparison = OperatingSystem.IsWindows() || OperatingSystem.IsMacOS()
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+
+        // The combined path must either equal the base directory or be inside it.
+        if (!fullCombinedPath.Equals(fullBasePath, comparison) &&
+            !fullCombinedPath.StartsWith(fullBasePathWithSeparator, comparison))
         {
             throw new ArgumentException($"Invalid path component: {relativePath}", nameof(relativePath));
         }

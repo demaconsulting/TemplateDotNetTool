@@ -1,47 +1,49 @@
-# PathHelpers
-
-<!-- TODO: This is an example design section for the PathHelpers class. Replace with your own unit design. -->
-
-The `PathHelpers` class provides safe path-combination utilities for the Template DotNet Tool.
-It protects against path-traversal attacks by validating relative path segments before combining
-them with a base path.
+# PathHelpers Design
 
 ## Overview
 
-<!-- TODO: Fill in for your project -->
+`PathHelpers` is a static utility class that provides a safe path-combination method. It
+protects callers against path-traversal attacks by verifying the canonical combined path
+stays within the base directory, regardless of the form of the relative path input.
 
-`PathHelpers` is a static utility class with a single method, `SafePathCombine`. It is used
-wherever the tool constructs a file path from a base directory and a caller-supplied relative
-segment, ensuring the resulting path cannot escape the intended base directory.
+## Class Structure
 
-## Data Model
+### SafePathCombine Method
 
-<!-- TODO: Fill in for your project -->
+```csharp
+internal static string SafePathCombine(string basePath, string relativePath)
+```
 
-`PathHelpers` has no instance state or instance methods.
+Combines `basePath` and `relativePath` safely, ensuring the resulting path remains within
+the base directory.
 
-## Methods
+**Validation steps:**
 
-<!-- TODO: Fill in for your project -->
+1. Reject null inputs via `ArgumentNullException.ThrowIfNull`.
+2. Combine the paths with `Path.Combine`.
+3. Compute the absolute canonical path of the base directory using `Path.TrimEndingDirectorySeparator`
+   to normalize any trailing separator, then derive a form with a trailing directory separator
+   appended (e.g. `/home/user/project/`). The trailing separator prevents partial-segment
+   false-positives such as `/base/dir` incorrectly matching `/base/dir2/...`. Trimming first
+   avoids a double-separator (e.g. `/tmp//`) when `Path.GetFullPath` preserves a trailing slash.
+4. Compute the absolute canonical path of the combined result.
+5. Verify the combined path either equals the base directory or starts with the base path prefix
+   using a platform-appropriate comparison (case-insensitive on Windows/macOS, case-sensitive on
+   Linux); reject if it escapes the base directory.
 
-### SafePathCombine(string basePath, string relativePath)
+## Design Decisions
 
-Combines `basePath` and `relativePath` safely:
-
-1. Validates that neither argument is `null`.
-2. Rejects `relativePath` values that contain `".."` or are rooted (absolute).
-3. Calls `Path.Combine` to produce the candidate path.
-4. Resolves both `basePath` and the candidate to full paths and calls `Path.GetRelativePath`
-   to confirm the result remains inside `basePath`.
-
-**Throws:** `ArgumentException` — when `relativePath` contains `".."`, is an absolute path, or
-the resolved combined path escapes `basePath`.
-
-**Returns:** `string` — the combined path.
-
-## Interactions
-
-<!-- TODO: Fill in for your project -->
-
-`PathHelpers` has no dependencies on other tool units. It uses only .NET base class library types
-(`Path`, `ArgumentNullException`).
+- **Single canonical-path check**: The combined path is resolved to its absolute canonical form
+  and verified to start with the base directory prefix (with trailing separator). This single
+  check handles all traversal patterns — `../`, embedded `/../`, absolute paths, and edge-case
+  platform path formats — without requiring multiple pre-combine inspections.
+- **Trailing separator on base path**: Appending `Path.DirectorySeparatorChar` to the
+  `TrimEndingDirectorySeparator`-normalized base before the `StartsWith` check prevents
+  partial-segment false-positives (e.g. base `/a/b` incorrectly matching combined `/a/bc/file`)
+  and double-separator issues when `Path.GetFullPath` preserves an input trailing slash.
+- **Platform-appropriate comparison**: Case-insensitive on Windows and macOS; case-sensitive on
+  Linux, matching each platform's file-system semantics.
+- **ArgumentException on invalid input**: Callers receive a specific `ArgumentException`
+  identifying `relativePath` as the problematic parameter, making debugging straightforward.
+- **No logging or error accumulation**: `SafePathCombine` is a pure utility method that throws
+  on invalid input; it does not interact with the `Context` or any output mechanism.
