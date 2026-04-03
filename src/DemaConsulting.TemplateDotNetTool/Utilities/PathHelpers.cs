@@ -31,7 +31,12 @@ internal static class PathHelpers
     /// <param name="basePath">The base path.</param>
     /// <param name="relativePath">The relative path to combine.</param>
     /// <returns>The combined path.</returns>
-    /// <exception cref="ArgumentException">Thrown when the resolved combined path escapes the base directory.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="basePath"/> or <paramref name="relativePath"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException">
+    ///     Thrown when the resolved combined path escapes the base directory, or when a supplied path is invalid.
+    /// </exception>
+    /// <exception cref="NotSupportedException">Thrown when a supplied path contains an unsupported format.</exception>
+    /// <exception cref="PathTooLongException">Thrown when the combined or resolved path exceeds the system-defined maximum length.</exception>
     internal static string SafePathCombine(string basePath, string relativePath)
     {
         // Validate inputs
