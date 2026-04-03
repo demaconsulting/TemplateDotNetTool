@@ -53,7 +53,10 @@ internal static class PathHelpers
         var absoluteCombined = Path.GetFullPath(combinedPath);
         var checkRelative = Path.GetRelativePath(absoluteBase, absoluteCombined);
 
-        if (checkRelative.StartsWith("..") || Path.IsPathRooted(checkRelative))
+        if (string.Equals(checkRelative, "..", StringComparison.Ordinal)
+            || checkRelative.StartsWith(".." + Path.DirectorySeparatorChar, StringComparison.Ordinal)
+            || checkRelative.StartsWith(".." + Path.AltDirectorySeparatorChar, StringComparison.Ordinal)
+            || Path.IsPathRooted(checkRelative))
         {
             throw new ArgumentException($"Invalid path component: {relativePath}", nameof(relativePath));
         }
