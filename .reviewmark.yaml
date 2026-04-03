@@ -86,6 +86,7 @@ reviews:
   - id: TemplateTool-Architecture
     title: Review of Template DotNet Tool system-level behavior and integration
     paths:
+      - "README.md"                                                          # project readme
       - "docs/reqstream/template-dot-net-tool/template-dot-net-tool.yaml"  # system requirements
       - "docs/reqstream/template-dot-net-tool/platform-requirements.yaml"  # platform requirements
       - "docs/design/introduction.md"                                       # design introduction and architecture
@@ -105,15 +106,3 @@ reviews:
     paths:
       - "requirements.yaml"                                               # root requirements file
       - "docs/reqstream/**/*.yaml"                                        # all requirements files
-
-  # OTS dependency reviews
-  - id: OTS-Dependencies
-    title: Review of Off-The-Shelf Software Dependencies
-    paths:
-      - "docs/reqstream/ots/mstest.yaml"
-      - "docs/reqstream/ots/reqstream.yaml"
-      - "docs/reqstream/ots/buildmark.yaml"
-      - "docs/reqstream/ots/versionmark.yaml"
-      - "docs/reqstream/ots/sarifmark.yaml"
-      - "docs/reqstream/ots/sonarmark.yaml"
-      - "docs/reqstream/ots/reviewmark.yaml"
