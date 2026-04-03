@@ -26,42 +26,29 @@ namespace DemaConsulting.TemplateDotNetTool.Utilities;
 internal static class PathHelpers
 {
     /// <summary>
-    ///     Safely combines two paths, ensuring the second path doesn't contain path traversal sequences.
+    ///     Safely combines two paths, ensuring the resolved combined path stays within the base directory.
     /// </summary>
     /// <param name="basePath">The base path.</param>
     /// <param name="relativePath">The relative path to combine.</param>
     /// <returns>The combined path.</returns>
-    /// <exception cref="ArgumentException">Thrown when relativePath contains invalid characters or path traversal sequences.</exception>
+    /// <exception cref="ArgumentException">Thrown when the resolved combined path escapes the base directory.</exception>
     internal static string SafePathCombine(string basePath, string relativePath)
     {
         // Validate inputs
         ArgumentNullException.ThrowIfNull(basePath);
         ArgumentNullException.ThrowIfNull(relativePath);
 
-        // Combine the paths
+        // Combine the paths (preserves the caller's relative/absolute style)
         var combinedPath = Path.Combine(basePath, relativePath);
 
-        // Security check: verify the combined path stays under the base directory.
-        // Trim any trailing separator from the resolved base for non-root paths, but
-        // preserve root paths as-is because TrimEndingDirectorySeparator does not remove
-        // the separator from roots (for example "/", "C:\", or "\\server\share\").
-        // Ensure the prefix used by StartsWith ends with exactly one directory separator
-        // so that a partial match (e.g. base="/a/b" vs combined="/a/bc/...") is not
-        // treated as "inside" the base.
-        var fullBasePath = Path.TrimEndingDirectorySeparator(Path.GetFullPath(basePath));
-        var fullCombinedPath = Path.GetFullPath(combinedPath);
-        var fullBasePathWithSeparator = Path.EndsInDirectorySeparator(fullBasePath)
-            ? fullBasePath
-            : fullBasePath + Path.DirectorySeparatorChar;
+        // Security check: resolve both paths to absolute form and verify the combined
+        // path is still inside the base directory. Path.GetRelativePath handles root
+        // paths, platform case-sensitivity, and directory-separator normalization natively.
+        var absoluteBase = Path.GetFullPath(basePath);
+        var absoluteCombined = Path.GetFullPath(combinedPath);
+        var checkRelative = Path.GetRelativePath(absoluteBase, absoluteCombined);
 
-        // Use platform-appropriate string comparison (Windows/macOS paths are case-insensitive).
-        var comparison = OperatingSystem.IsWindows() || OperatingSystem.IsMacOS()
-            ? StringComparison.OrdinalIgnoreCase
-            : StringComparison.Ordinal;
-
-        // The combined path must either equal the base directory or be inside it.
-        if (!fullCombinedPath.Equals(fullBasePath, comparison) &&
-            !fullCombinedPath.StartsWith(fullBasePathWithSeparator, comparison))
+        if (checkRelative.StartsWith("..") || Path.IsPathRooted(checkRelative))
         {
             throw new ArgumentException($"Invalid path component: {relativePath}", nameof(relativePath));
         }
