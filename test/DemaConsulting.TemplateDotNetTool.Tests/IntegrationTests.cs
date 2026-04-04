@@ -50,14 +50,14 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_VersionFlag_OutputsVersion()
     {
-        // Act
+        // Act: run the tool with version flag
         var exitCode = Runner.Run(
             out var output,
             "dotnet",
             _dllPath,
             "--version");
 
-        // Assert
+        // Assert: verify version output and success exit code
         Assert.AreEqual(0, exitCode);
         Assert.IsFalse(string.IsNullOrWhiteSpace(output));
         Assert.DoesNotContain("Error", output);
@@ -70,14 +70,14 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_HelpFlag_OutputsUsageInformation()
     {
-        // Act
+        // Act: execute the operation being tested
         var exitCode = Runner.Run(
             out var output,
             "dotnet",
             _dllPath,
             "--help");
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.AreEqual(0, exitCode);
         Assert.Contains("Usage:", output);
         Assert.Contains("Options:", output);
@@ -90,14 +90,14 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_ValidateFlag_RunsValidation()
     {
-        // Act
+        // Act: execute the operation being tested
         var exitCode = Runner.Run(
             out var output,
             "dotnet",
             _dllPath,
             "--validate");
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.AreEqual(0, exitCode);
         Assert.Contains("Total Tests:", output);
         Assert.Contains("Passed:", output);
@@ -109,12 +109,12 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_ValidateWithResults_GeneratesTrxFile()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var resultsFile = Path.Combine(Path.GetTempPath(), $"integration_test_{Guid.NewGuid()}.trx");
 
         try
         {
-            // Act
+            // Act: execute the operation being tested
             var exitCode = Runner.Run(
                 out var _,
                 "dotnet",
@@ -123,7 +123,7 @@ public class IntegrationTests
                 "--results",
                 resultsFile);
 
-            // Assert
+            // Assert: verify expected behavior
             Assert.AreEqual(0, exitCode);
             Assert.IsTrue(File.Exists(resultsFile), "Results file was not created");
 
@@ -146,14 +146,14 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_SilentFlag_SuppressesOutput()
     {
-        // Act
+        // Act: execute the operation being tested
         var exitCode = Runner.Run(
             out var _,
             "dotnet",
             _dllPath,
             "--silent");
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.AreEqual(0, exitCode);
 
         // Output check removed since silent mode may still produce some output
@@ -165,12 +165,12 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_LogFlag_WritesOutputToFile()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var logFile = Path.GetTempFileName();
 
         try
         {
-            // Act
+            // Act: execute the operation being tested
             var exitCode = Runner.Run(
                 out var _,
                 "dotnet",
@@ -178,7 +178,7 @@ public class IntegrationTests
                 "--log",
                 logFile);
 
-            // Assert
+            // Assert: verify expected behavior
             Assert.AreEqual(0, exitCode);
             Assert.IsTrue(File.Exists(logFile), "Log file was not created");
 
@@ -200,12 +200,12 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_ValidateWithResults_GeneratesJUnitFile()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var resultsFile = Path.Combine(Path.GetTempPath(), $"integration_test_{Guid.NewGuid()}.xml");
 
         try
         {
-            // Act
+            // Act: execute the operation being tested
             var exitCode = Runner.Run(
                 out var _,
                 "dotnet",
@@ -214,7 +214,7 @@ public class IntegrationTests
                 "--results",
                 resultsFile);
 
-            // Assert
+            // Assert: verify expected behavior
             Assert.AreEqual(0, exitCode);
             Assert.IsTrue(File.Exists(resultsFile), "Results file was not created");
 
@@ -236,15 +236,16 @@ public class IntegrationTests
     [TestMethod]
     public void IntegrationTest_UnknownArgument_ReturnsError()
     {
-        // Act
+        // Act: execute the operation being tested
         var exitCode = Runner.Run(
             out var output,
             "dotnet",
             _dllPath,
             "--unknown");
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.AreNotEqual(0, exitCode);
         Assert.Contains("Error", output);
     }
 }
+

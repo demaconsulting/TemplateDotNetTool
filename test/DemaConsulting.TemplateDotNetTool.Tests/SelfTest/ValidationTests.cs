@@ -35,11 +35,10 @@ public class ValidationTests
     [TestMethod]
     public void Validation_Run_NullContext_ThrowsArgumentNullException()
     {
-        // Arrange
+        // Arrange: setup test conditions
         // No setup required — null is the input under test.
 
-        // Act & Assert
-        // Proves that Run guards against null context with ArgumentNullException.
+        // Act & Assert: invoke Run with null context and verify ArgumentNullException is thrown
         Assert.ThrowsExactly<ArgumentNullException>(() => Validation.Run(null!));
     }
 
@@ -49,20 +48,17 @@ public class ValidationTests
     [TestMethod]
     public void Validation_Run_WithSilentContext_PrintsSummary()
     {
-        // Arrange
-        // A unique log file path is used to capture output from the silent context.
+        // Arrange: setup unique log file path to capture silent context output
         var logFile = Path.Combine(Path.GetTempPath(), $"validation_test_{Guid.NewGuid()}.log");
         try
         {
             using (var context = Context.Create(["--silent", "--log", logFile]))
             {
-                // Act
+                // Act: run validation with silent context and log file
                 Validation.Run(context);
             }
 
-            // Assert
-            // Proves that Run writes the three expected summary lines to the output.
-            // The context is disposed above so the log file is fully flushed and closed.
+            // Assert: verify summary lines are written to log file
             var logContent = File.ReadAllText(logFile);
             Assert.Contains("Total Tests:", logContent);
             Assert.Contains("Passed:", logContent);
@@ -83,14 +79,13 @@ public class ValidationTests
     [TestMethod]
     public void Validation_Run_WithSilentContext_ExitCodeIsZero()
     {
-        // Arrange
+        // Arrange: create silent context for validation run
         using var context = Context.Create(["--silent"]);
 
-        // Act
+        // Act: run validation with silent context
         Validation.Run(context);
 
-        // Assert
-        // Proves that a successful validation run leaves the exit code at 0.
+        // Assert: verify exit code is zero indicating successful validation
         Assert.AreEqual(0, context.ExitCode);
     }
 
@@ -100,17 +95,16 @@ public class ValidationTests
     [TestMethod]
     public void Validation_Run_WithTrxResultsFile_WritesTrxFile()
     {
-        // Arrange
+        // Arrange: setup TRX file path for test results output
         var trxFile = Path.Combine(Path.GetTempPath(), $"validation_test_{Guid.NewGuid()}.trx");
         try
         {
             using var context = Context.Create(["--silent", "--results", trxFile]);
 
-            // Act
+            // Act: run validation with TRX results output
             Validation.Run(context);
 
-            // Assert
-            // Proves that Run creates a TRX-format file at the requested path.
+            // Assert: verify TRX file is created with expected content
             Assert.IsTrue(File.Exists(trxFile));
             var content = File.ReadAllText(trxFile);
             Assert.Contains("<TestRun", content);
@@ -130,17 +124,16 @@ public class ValidationTests
     [TestMethod]
     public void Validation_Run_WithXmlResultsFile_WritesXmlFile()
     {
-        // Arrange
+        // Arrange: setup XML file path for JUnit results output
         var xmlFile = Path.Combine(Path.GetTempPath(), $"validation_test_{Guid.NewGuid()}.xml");
         try
         {
             using var context = Context.Create(["--silent", "--results", xmlFile]);
 
-            // Act
+            // Act: run validation with XML results output  
             Validation.Run(context);
 
-            // Assert
-            // Proves that Run creates a JUnit-format XML file at the requested path.
+            // Assert: verify XML file is created with JUnit format content
             Assert.IsTrue(File.Exists(xmlFile));
             var content = File.ReadAllText(xmlFile);
             Assert.Contains("<testsuites", content);
@@ -160,17 +153,16 @@ public class ValidationTests
     [TestMethod]
     public void Validation_Run_WithUnsupportedResultsFormat_DoesNotWriteFile()
     {
-        // Arrange
+        // Arrange: setup unsupported file extension for results output
         var jsonFile = Path.Combine(Path.GetTempPath(), $"validation_test_{Guid.NewGuid()}.json");
         try
         {
             using var context = Context.Create(["--silent", "--results", jsonFile]);
 
-            // Act
+            // Act: run validation with unsupported results file extension
             Validation.Run(context);
 
-            // Assert
-            // Proves that Run does not create a file for unsupported formats.
+            // Assert: verify no file is created for unsupported format
             Assert.IsFalse(File.Exists(jsonFile));
         }
         finally
@@ -182,3 +174,4 @@ public class ValidationTests
         }
     }
 }
+

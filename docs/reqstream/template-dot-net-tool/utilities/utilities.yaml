@@ -18,7 +18,6 @@ sections:
           file system access. This requirement captures the subsystem-level safety guarantee
           that all consumers of the Utilities subsystem can rely upon.
         tests:
-          - PathHelpers_SafePathCombine_ValidPaths_CombinesCorrectly
-          - PathHelpers_SafePathCombine_PathTraversalWithDoubleDots_ThrowsArgumentException
-          - PathHelpers_SafePathCombine_AbsolutePath_ThrowsArgumentException
-          - PathHelpers_SafePathCombine_NestedPaths_CombinesCorrectly
+          - UtilitiesSubsystem_PathResolutionWorkflow_ValidPaths_ResolvesCorrectly
+          - UtilitiesSubsystem_DirectoryCreationWorkflow_ValidPaths_CreatesDirectories
+          - UtilitiesSubsystem_PathTraversalValidation_DangerousPaths_ThrowsException

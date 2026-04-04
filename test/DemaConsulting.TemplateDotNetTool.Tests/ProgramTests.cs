@@ -34,7 +34,7 @@ public class ProgramTests
     [TestMethod]
     public void Program_Run_WithVersionFlag_DisplaysVersionOnly()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var originalOut = Console.Out;
         try
         {
@@ -42,10 +42,10 @@ public class ProgramTests
             Console.SetOut(outWriter);
             using var context = Context.Create(["--version"]);
 
-            // Act
+            // Act: execute the operation being tested
             Program.Run(context);
 
-            // Assert
+            // Assert: verify expected behavior
             var output = outWriter.ToString();
             Assert.Contains(Program.Version, output);
             Assert.DoesNotContain("Copyright", output);
@@ -63,7 +63,7 @@ public class ProgramTests
     [TestMethod]
     public void Program_Run_WithHelpFlag_DisplaysUsageInformation()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var originalOut = Console.Out;
         try
         {
@@ -71,10 +71,10 @@ public class ProgramTests
             Console.SetOut(outWriter);
             using var context = Context.Create(["--help"]);
 
-            // Act
+            // Act: execute the operation being tested
             Program.Run(context);
 
-            // Assert
+            // Assert: verify expected behavior
             var output = outWriter.ToString();
             Assert.Contains("Usage:", output);
             Assert.Contains("Options:", output);
@@ -93,7 +93,7 @@ public class ProgramTests
     [TestMethod]
     public void Program_Run_WithValidateFlag_RunsValidation()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var originalOut = Console.Out;
         try
         {
@@ -101,10 +101,10 @@ public class ProgramTests
             Console.SetOut(outWriter);
             using var context = Context.Create(["--validate"]);
 
-            // Act
+            // Act: execute the operation being tested
             Program.Run(context);
 
-            // Assert
+            // Assert: verify expected behavior
             var output = outWriter.ToString();
             Assert.Contains("Total Tests:", output);
         }
@@ -120,7 +120,7 @@ public class ProgramTests
     [TestMethod]
     public void Program_Run_NoArguments_DisplaysDefaultBehavior()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var originalOut = Console.Out;
         try
         {
@@ -128,10 +128,10 @@ public class ProgramTests
             Console.SetOut(outWriter);
             using var context = Context.Create([]);
 
-            // Act
+            // Act: execute the operation being tested
             Program.Run(context);
 
-            // Assert
+            // Assert: verify expected behavior
             var output = outWriter.ToString();
             Assert.Contains("Template DotNet Tool version", output);
             Assert.Contains("Copyright", output);
@@ -148,10 +148,11 @@ public class ProgramTests
     [TestMethod]
     public void Program_Version_ReturnsNonEmptyString()
     {
-        // Act
+        // Act: execute the operation being tested
         var version = Program.Version;
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.IsFalse(string.IsNullOrWhiteSpace(version));
     }
 }
+

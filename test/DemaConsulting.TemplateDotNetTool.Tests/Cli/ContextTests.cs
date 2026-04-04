@@ -34,10 +34,10 @@ public class ContextTests
     [TestMethod]
     public void Context_Create_NoArguments_ReturnsDefaultContext()
     {
-        // Act
+        // Act: execute the operation being tested
         using var context = Context.Create([]);
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.IsFalse(context.Version);
         Assert.IsFalse(context.Help);
         Assert.IsFalse(context.Silent);
@@ -52,10 +52,10 @@ public class ContextTests
     [TestMethod]
     public void Context_Create_VersionFlag_SetsVersionTrue()
     {
-        // Act
+        // Act: execute the operation being tested
         using var context = Context.Create(["--version"]);
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.IsTrue(context.Version);
         Assert.IsFalse(context.Help);
         Assert.AreEqual(0, context.ExitCode);
@@ -67,10 +67,10 @@ public class ContextTests
     [TestMethod]
     public void Context_Create_ShortVersionFlag_SetsVersionTrue()
     {
-        // Act
+        // Act: execute the operation being tested
         using var context = Context.Create(["-v"]);
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.IsTrue(context.Version);
         Assert.IsFalse(context.Help);
         Assert.AreEqual(0, context.ExitCode);
@@ -82,10 +82,10 @@ public class ContextTests
     [TestMethod]
     public void Context_Create_HelpFlag_SetsHelpTrue()
     {
-        // Act
+        // Act: execute the operation being tested
         using var context = Context.Create(["--help"]);
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.IsFalse(context.Version);
         Assert.IsTrue(context.Help);
         Assert.AreEqual(0, context.ExitCode);
@@ -97,10 +97,10 @@ public class ContextTests
     [TestMethod]
     public void Context_Create_ShortHelpFlag_H_SetsHelpTrue()
     {
-        // Act
+        // Act: execute the operation being tested
         using var context = Context.Create(["-h"]);
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.IsFalse(context.Version);
         Assert.IsTrue(context.Help);
         Assert.AreEqual(0, context.ExitCode);
@@ -112,10 +112,10 @@ public class ContextTests
     [TestMethod]
     public void Context_Create_ShortHelpFlag_Question_SetsHelpTrue()
     {
-        // Act
+        // Act: execute the operation being tested
         using var context = Context.Create(["-?"]);
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.IsFalse(context.Version);
         Assert.IsTrue(context.Help);
         Assert.AreEqual(0, context.ExitCode);
@@ -127,10 +127,10 @@ public class ContextTests
     [TestMethod]
     public void Context_Create_SilentFlag_SetsSilentTrue()
     {
-        // Act
+        // Act: execute the operation being tested
         using var context = Context.Create(["--silent"]);
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.IsTrue(context.Silent);
         Assert.AreEqual(0, context.ExitCode);
     }
@@ -141,10 +141,10 @@ public class ContextTests
     [TestMethod]
     public void Context_Create_ValidateFlag_SetsValidateTrue()
     {
-        // Act
+        // Act: execute the operation being tested
         using var context = Context.Create(["--validate"]);
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.IsTrue(context.Validate);
         Assert.AreEqual(0, context.ExitCode);
     }
@@ -155,10 +155,10 @@ public class ContextTests
     [TestMethod]
     public void Context_Create_ResultsFlag_SetsResultsFile()
     {
-        // Act
+        // Act: execute the operation being tested
         using var context = Context.Create(["--results", "test.trx"]);
 
-        // Assert
+        // Assert: verify expected behavior
         Assert.AreEqual("test.trx", context.ResultsFile);
         Assert.AreEqual(0, context.ExitCode);
     }
@@ -169,18 +169,18 @@ public class ContextTests
     [TestMethod]
     public void Context_Create_LogFlag_OpensLogFile()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var logFile = Path.GetTempFileName();
         try
         {
-            // Act
+            // Act: execute the operation being tested
             using (var context = Context.Create(["--log", logFile]))
             {
                 context.WriteLine("Test message");
                 Assert.AreEqual(0, context.ExitCode);
             }
 
-            // Assert
+            // Assert: verify expected behavior
             // Verify log file was written
             Assert.IsTrue(File.Exists(logFile));
             var logContent = File.ReadAllText(logFile);
@@ -234,7 +234,7 @@ public class ContextTests
     [TestMethod]
     public void Context_WriteLine_NotSilent_WritesToConsole()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var originalOut = Console.Out;
         try
         {
@@ -242,10 +242,10 @@ public class ContextTests
             Console.SetOut(outWriter);
             using var context = Context.Create([]);
 
-            // Act
+            // Act: execute the operation being tested
             context.WriteLine("Test message");
 
-            // Assert
+            // Assert: verify expected behavior
             var output = outWriter.ToString();
             Assert.Contains("Test message", output);
         }
@@ -261,7 +261,7 @@ public class ContextTests
     [TestMethod]
     public void Context_WriteLine_Silent_DoesNotWriteToConsole()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var originalOut = Console.Out;
         try
         {
@@ -269,10 +269,10 @@ public class ContextTests
             Console.SetOut(outWriter);
             using var context = Context.Create(["--silent"]);
 
-            // Act
+            // Act: execute the operation being tested
             context.WriteLine("Test message");
 
-            // Assert
+            // Assert: verify expected behavior
             var output = outWriter.ToString();
             Assert.DoesNotContain("Test message", output);
         }
@@ -288,7 +288,7 @@ public class ContextTests
     [TestMethod]
     public void Context_WriteError_Silent_DoesNotWriteToConsole()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var originalError = Console.Error;
         try
         {
@@ -296,7 +296,7 @@ public class ContextTests
             Console.SetError(errWriter);
             using var context = Context.Create(["--silent"]);
 
-            // Act
+            // Act: execute the operation being tested
             context.WriteError("Test error message");
 
             // Assert - error output should be suppressed in silent mode
@@ -315,7 +315,7 @@ public class ContextTests
     [TestMethod]
     public void Context_WriteError_SetsErrorExitCode()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var originalError = Console.Error;
         try
         {
@@ -323,10 +323,10 @@ public class ContextTests
             Console.SetError(errWriter);
             using var context = Context.Create([]);
 
-            // Act
+            // Act: execute the operation being tested
             context.WriteError("Test error message");
 
-            // Assert
+            // Assert: verify expected behavior
             Assert.AreEqual(1, context.ExitCode);
         }
         finally
@@ -341,7 +341,7 @@ public class ContextTests
     [TestMethod]
     public void Context_WriteError_NotSilent_WritesToConsole()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var originalError = Console.Error;
         try
         {
@@ -349,10 +349,10 @@ public class ContextTests
             Console.SetError(errWriter);
             using var context = Context.Create([]);
 
-            // Act
+            // Act: execute the operation being tested
             context.WriteError("Test error message");
 
-            // Assert
+            // Assert: verify expected behavior
             var output = errWriter.ToString();
             Assert.Contains("Test error message", output);
         }
@@ -368,7 +368,7 @@ public class ContextTests
     [TestMethod]
     public void Context_WriteError_WritesToLogFile()
     {
-        // Arrange
+        // Arrange: setup test conditions
         var logFile = Path.GetTempFileName();
         try
         {
@@ -393,4 +393,5 @@ public class ContextTests
         }
     }
 }
+
 
