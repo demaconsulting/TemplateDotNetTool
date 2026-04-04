@@ -19,6 +19,8 @@ sections:
         tests:
           - CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits
           - CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits
+          - CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortQuestionFlag
+          - CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortHFlag
           - CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits
           - CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput
 
@@ -37,6 +39,8 @@ sections:
           external resources.
         tests:
           - CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits
+          - CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortQuestionFlag
+          - CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortHFlag
 
       - id: Template-Cli-Silent
         title: The Cli subsystem shall support --silent flag to suppress console output.

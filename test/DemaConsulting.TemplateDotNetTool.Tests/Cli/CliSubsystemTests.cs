@@ -35,16 +35,28 @@ public class CliSubsystemTests
     [TestMethod]
     public void CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits()
     {
-        // Arrange: command line arguments with version flag
+        // Arrange: command line arguments with version flag; capture console output
         var args = new[] { "--version" };
+        var originalOut = Console.Out;
+        using var capturedOut = new StringWriter();
 
-        // Act: create context and run program logic
-        using var context = Context.Create(args);
-        Program.Run(context);
+        try
+        {
+            Console.SetOut(capturedOut);
 
-        // Assert: version flag is parsed and exit code is success
-        Assert.IsTrue(context.Version, "Context should parse version flag");
-        Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+            // Act: create context and run program logic
+            using var context = Context.Create(args);
+            Program.Run(context);
+
+            // Assert: version flag is parsed, version text is displayed, and exit code is success
+            Assert.IsTrue(context.Version, "Context should parse version flag");
+            Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+            StringAssert.Contains(capturedOut.ToString(), Program.Version, "Console output should contain the program version");
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
     }
 
     /// <summary>
@@ -53,16 +65,94 @@ public class CliSubsystemTests
     [TestMethod]
     public void CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits()
     {
-        // Arrange: command line arguments with help flag
+        // Arrange: command line arguments with help flag; capture console output
         var args = new[] { "--help" };
+        var originalOut = Console.Out;
+        using var capturedOut = new StringWriter();
 
-        // Act: create context and run program logic
-        using var context = Context.Create(args);
-        Program.Run(context);
+        try
+        {
+            Console.SetOut(capturedOut);
 
-        // Assert: help flag is parsed and exit code is success
-        Assert.IsTrue(context.Help, "Context should parse help flag");
-        Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+            // Act: create context and run program logic
+            using var context = Context.Create(args);
+            Program.Run(context);
+
+            // Assert: help flag is parsed, usage text is displayed, and exit code is success
+            Assert.IsTrue(context.Help, "Context should parse help flag");
+            Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+            var output = capturedOut.ToString();
+            StringAssert.Contains(output, "Usage:", "Console output should contain usage information");
+            StringAssert.Contains(output, "Options:", "Console output should contain options information");
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
+    }
+
+    /// <summary>
+    ///     Test that Context and Program work together to handle the -? short help flag.
+    /// </summary>
+    [TestMethod]
+    public void CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortQuestionFlag()
+    {
+        // Arrange: command line arguments with -? short help flag; capture console output
+        var args = new[] { "-?" };
+        var originalOut = Console.Out;
+        using var capturedOut = new StringWriter();
+
+        try
+        {
+            Console.SetOut(capturedOut);
+
+            // Act: create context and run program logic
+            using var context = Context.Create(args);
+            Program.Run(context);
+
+            // Assert: help flag is parsed, usage text is displayed, and exit code is success
+            Assert.IsTrue(context.Help, "Context should parse -? flag as help");
+            Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+            var output = capturedOut.ToString();
+            StringAssert.Contains(output, "Usage:", "Console output should contain usage information");
+            StringAssert.Contains(output, "Options:", "Console output should contain options information");
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
+    }
+
+    /// <summary>
+    ///     Test that Context and Program work together to handle the -h short help flag.
+    /// </summary>
+    [TestMethod]
+    public void CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortHFlag()
+    {
+        // Arrange: command line arguments with -h short help flag; capture console output
+        var args = new[] { "-h" };
+        var originalOut = Console.Out;
+        using var capturedOut = new StringWriter();
+
+        try
+        {
+            Console.SetOut(capturedOut);
+
+            // Act: create context and run program logic
+            using var context = Context.Create(args);
+            Program.Run(context);
+
+            // Assert: help flag is parsed, usage text is displayed, and exit code is success
+            Assert.IsTrue(context.Help, "Context should parse -h flag as help");
+            Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+            var output = capturedOut.ToString();
+            StringAssert.Contains(output, "Usage:", "Console output should contain usage information");
+            StringAssert.Contains(output, "Options:", "Console output should contain options information");
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
     }
 
     /// <summary>
