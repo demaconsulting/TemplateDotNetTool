@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Reflection;
 using DemaConsulting.TemplateDotNetTool.Cli;
 
 namespace DemaConsulting.TemplateDotNetTool.Tests;
@@ -88,16 +89,33 @@ public class CliSubsystemTests
     [TestMethod]
     public void CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput()
     {
-        // Arrange: command line arguments with version and silent flags
+        // Arrange: command line arguments with version and silent flags; capture console streams
         var args = new[] { "--version", "--silent" };
+        var originalOut = Console.Out;
+        var originalError = Console.Error;
+        using var capturedOut = new StringWriter();
+        using var capturedError = new StringWriter();
 
-        // Act: create context and run program logic
-        using var context = Context.Create(args);
-        Program.Run(context);
+        try
+        {
+            Console.SetOut(capturedOut);
+            Console.SetError(capturedError);
 
-        // Assert: silent flag is parsed and exit code is success
-        Assert.IsTrue(context.Silent, "Context should parse silent flag");
-        Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+            // Act: create context and run program logic
+            using var context = Context.Create(args);
+            Program.Run(context);
+
+            // Assert: silent flag is parsed, exit code is success, and no console output is produced
+            Assert.IsTrue(context.Silent, "Context should parse silent flag");
+            Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+            Assert.AreEqual(string.Empty, capturedOut.ToString(), "Program should not write to stdout when --silent is set");
+            Assert.AreEqual(string.Empty, capturedError.ToString(), "Program should not write to stderr when --silent is set");
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+            Console.SetError(originalError);
+        }
     }
 
     /// <summary>
@@ -171,18 +189,42 @@ public class CliSubsystemTests
     }
 
     /// <summary>
-    ///     Test that Context rejects unknown arguments and would cause a non-zero exit code.
+    ///     Test that Program rejects unknown arguments, writes an error to stderr, and exits non-zero.
     /// </summary>
     [TestMethod]
     public void CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero()
     {
-        // Arrange: unknown command-line argument
+        // Arrange: unknown command-line argument and reflection to access private Program.Main
         var args = new[] { "--unknown-flag" };
+        var mainMethod = typeof(Program).GetMethod(
+            "Main",
+            BindingFlags.Static | BindingFlags.NonPublic,
+            binder: null,
+            types: [typeof(string[])],
+            modifiers: null);
 
-        // Act & Assert: unknown arguments throw an ArgumentException (causing non-zero exit in Main)
-        var exception = Assert.Throws<ArgumentException>(() => Context.Create(args));
-        Assert.IsNotNull(exception, "Context.Create should throw for unknown arguments");
-        StringAssert.Contains(exception.Message, "--unknown-flag");
+        Assert.IsNotNull(mainMethod, "Program.Main(string[]) should exist");
+
+        var originalError = Console.Error;
+        try
+        {
+            using var errWriter = new StringWriter();
+            Console.SetError(errWriter);
+
+            // Act: invoke the actual CLI entry point with an unknown flag
+            var result = mainMethod.Invoke(null, [args]);
+
+            // Assert: invalid arguments produce a non-zero exit code and an error on stderr
+            Assert.IsNotNull(result, "Program.Main should return an exit code");
+            Assert.AreEqual(1, Convert.ToInt32(result), "Unknown arguments should cause exit code 1");
+            var errorOutput = errWriter.ToString();
+            Assert.IsFalse(string.IsNullOrWhiteSpace(errorOutput), "Program should write an error to stderr for unknown arguments");
+            StringAssert.Contains(errorOutput, "--unknown-flag");
+        }
+        finally
+        {
+            Console.SetError(originalError);
+        }
     }
 
     /// <summary>
