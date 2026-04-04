@@ -112,33 +112,53 @@ public class SelfTestSubsystemTests
     }
 
     /// <summary>
-    ///     Test that self-test subsystem can run validation workflow with both result files.
+    ///     Test that self-test subsystem can run validation workflow with both result file formats.
     /// </summary>
     [TestMethod]
     public void SelfTestSubsystem_ValidationWorkflow_WithBothResultFiles_GeneratesBothResults()
     {
-        // Arrange: setup validation arguments with TRX result file output
+        // Arrange: setup validation arguments for both TRX and JUnit result file outputs
         var tempDir = Path.GetTempPath();
-        var resultsFile = Path.Combine(tempDir, $"test_{Guid.NewGuid()}.trx");
-        var args = new[] { "--validate", "--silent", "--results", resultsFile };
+        var trxFile = Path.Combine(tempDir, $"test_{Guid.NewGuid()}.trx");
+        var junitFile = Path.Combine(tempDir, $"test_{Guid.NewGuid()}.xml");
+        var trxArgs = new[] { "--validate", "--silent", "--results", trxFile };
+        var junitArgs = new[] { "--validate", "--silent", "--results", junitFile };
 
         try
         {
-            // Act: create context and run validation with result file output
-            using var context = Context.Create(args);
-            Validation.Run(context);
+            // Act: run validation with TRX output
+            using (var trxContext = Context.Create(trxArgs))
+            {
+                Validation.Run(trxContext);
 
-            // Assert: verify validation completed and result file was generated
-            Assert.IsTrue(context.Validate, "Context should have validate flag set");
-            Assert.AreEqual(0, context.ExitCode, "Validation should complete successfully");
-            Assert.IsTrue(File.Exists(resultsFile), "Results file should be generated");
+                // Assert: verify validation completed and TRX result file was generated
+                Assert.IsTrue(trxContext.Validate, "Context should have validate flag set for TRX run");
+                Assert.AreEqual(0, trxContext.ExitCode, "Validation should complete successfully for TRX run");
+                Assert.IsTrue(File.Exists(trxFile), "TRX file should be generated");
+            }
+
+            // Act: run validation with JUnit XML output
+            using (var junitContext = Context.Create(junitArgs))
+            {
+                Validation.Run(junitContext);
+
+                // Assert: verify validation completed and JUnit XML result file was generated
+                Assert.IsTrue(junitContext.Validate, "Context should have validate flag set for JUnit run");
+                Assert.AreEqual(0, junitContext.ExitCode, "Validation should complete successfully for JUnit run");
+                Assert.IsTrue(File.Exists(junitFile), "JUnit file should be generated");
+            }
         }
         finally
         {
             // Cleanup
-            if (File.Exists(resultsFile))
+            if (File.Exists(trxFile))
             {
-                File.Delete(resultsFile);
+                File.Delete(trxFile);
+            }
+
+            if (File.Exists(junitFile))
+            {
+                File.Delete(junitFile);
             }
         }
     }

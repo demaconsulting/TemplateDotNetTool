@@ -20,4 +20,4 @@ sections:
         tests:
           - UtilitiesSubsystem_PathResolutionWorkflow_ValidPaths_ResolvesCorrectly
           - UtilitiesSubsystem_DirectoryCreationWorkflow_ValidPaths_CreatesDirectories
-          - UtilitiesSubsystem_FilePathValidationWorkflow_VariousPaths_ValidatesCorrectly
+          - UtilitiesSubsystem_PathTraversalValidation_DangerousPaths_ThrowsException

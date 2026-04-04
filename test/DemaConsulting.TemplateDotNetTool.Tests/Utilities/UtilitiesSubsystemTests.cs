@@ -47,10 +47,17 @@ public class UtilitiesSubsystemTests
         foreach (var testPath in testPaths)
         {
             var combinedPath = PathHelpers.SafePathCombine(basePath, testPath);
+            var fullBasePath = Path.GetFullPath(basePath);
+            var fullCombinedPath = Path.GetFullPath(combinedPath);
+            var relativePath = Path.GetRelativePath(fullBasePath, fullCombinedPath);
 
             Assert.IsTrue(Path.IsPathFullyQualified(combinedPath),
                 $"SafePathCombine should return absolute path for {testPath}");
-            Assert.IsTrue(combinedPath.StartsWith(basePath),
+            Assert.IsFalse(
+                Path.IsPathRooted(relativePath) ||
+                relativePath.Equals("..", StringComparison.Ordinal) ||
+                relativePath.StartsWith(".." + Path.DirectorySeparatorChar, StringComparison.Ordinal) ||
+                relativePath.StartsWith(".." + Path.AltDirectorySeparatorChar, StringComparison.Ordinal),
                 $"Combined path should be within base directory for {testPath}");
         }
     }
@@ -85,12 +92,14 @@ public class UtilitiesSubsystemTests
     [TestMethod]
     public void UtilitiesSubsystem_DirectoryCreationWorkflow_ValidPaths_CreatesDirectories()
     {
-        // Arrange: setup temp directory and test directory paths for creation testing
+        // Arrange: setup temp directory and unique root directories for cleanup tracking
         var tempDir = Path.GetTempPath();
+        var rootDir1 = PathHelpers.SafePathCombine(tempDir, $"test_{Guid.NewGuid()}");
+        var rootDir2 = PathHelpers.SafePathCombine(tempDir, $"nested_{Guid.NewGuid()}");
         var testDirs = new[]
         {
-            PathHelpers.SafePathCombine(tempDir, $"test_{Guid.NewGuid()}"),
-            PathHelpers.SafePathCombine(tempDir, $"nested_{Guid.NewGuid()}/subdirectory")
+            rootDir1,
+            PathHelpers.SafePathCombine(rootDir2, "subdirectory")
         };
 
         try
@@ -98,22 +107,20 @@ public class UtilitiesSubsystemTests
             // Act & Assert: create directories and verify they exist
             foreach (var testDir in testDirs)
             {
-                var parentDir = Path.GetDirectoryName(testDir) ?? throw new InvalidOperationException("Invalid test directory");
-                Directory.CreateDirectory(parentDir);
+                Directory.CreateDirectory(testDir);
 
-                Assert.IsTrue(Directory.Exists(parentDir),
-                    $"Directory should be created successfully: {parentDir}");
+                Assert.IsTrue(Directory.Exists(testDir),
+                    $"Directory should be created successfully: {testDir}");
             }
         }
         finally
         {
-            // Cleanup
-            foreach (var testDir in testDirs)
+            // Cleanup: delete only the root directories created by this test
+            foreach (var rootDir in new[] { rootDir1, rootDir2 })
             {
-                var topLevelDir = Path.Combine(tempDir, Path.GetFileName(testDir.Split(Path.DirectorySeparatorChar)[^2]));
-                if (Directory.Exists(topLevelDir))
+                if (Directory.Exists(rootDir))
                 {
-                    Directory.Delete(topLevelDir, true);
+                    Directory.Delete(rootDir, true);
                 }
             }
         }
