@@ -20,10 +20,7 @@ sections:
           summary, enabling quality assurance teams to obtain tool qualification evidence
           without requiring a separate test harness.
         tests:
-          - Validation_Run_NullContext_ThrowsArgumentNullException
-          - Validation_Run_WithSilentContext_PrintsSummary
-          - Validation_Run_WithSilentContext_ExitCodeIsZero
-          - IntegrationTest_ValidateFlag_RunsValidation
+          - SelfTestSubsystem_ValidationWorkflow_NoResultFiles_CompletesSuccessfully
 
       - id: Template-SelfTest-ResultsOutput
         title: The tool shall write self-validation results to a standard test result file when --results is provided.
@@ -34,7 +31,6 @@ sections:
           directly into pipeline tooling and traceability reports without additional
           conversion steps, satisfying audit trail requirements.
         tests:
-          - Validation_Run_WithTrxResultsFile_WritesTrxFile
-          - Validation_Run_WithXmlResultsFile_WritesXmlFile
-          - IntegrationTest_ValidateWithResults_GeneratesTrxFile
-          - IntegrationTest_ValidateWithResults_GeneratesJUnitFile
+          - SelfTestSubsystem_ValidationWorkflow_WithTrxFile_GeneratesResults
+          - SelfTestSubsystem_ValidationWorkflow_WithJUnitFile_GeneratesResults
+          - SelfTestSubsystem_ValidationWorkflow_WithBothResultFiles_GeneratesBothResults
