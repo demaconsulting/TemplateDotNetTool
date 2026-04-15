@@ -28,7 +28,9 @@ a results file in TRX or JUnit XML format.
 
 Orchestrates the validation sequence:
 
-1. Calls `PrintValidationHeader` to emit a Markdown table with tool and environment metadata.
+1. Calls `PrintValidationHeader` to emit a Markdown heading and a table with tool and
+   environment metadata. The heading level is controlled by `context.HeadingDepth`
+   (default `1`, producing a `#` heading; `--depth 2` produces `##`, etc.).
 2. Constructs a `TestResults` object named `"Template DotNet Tool Self-Validation"`.
 3. Calls each test runner (`RunVersionTest`, `RunHelpTest`).
 4. Prints a summary line for each test result.

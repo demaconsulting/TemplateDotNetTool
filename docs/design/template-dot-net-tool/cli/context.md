@@ -27,7 +27,8 @@ properties. It also owns the two output channels — console and log file — th
 | `Help`       | `bool`          | `true` when `-?`, `-h`, or `--help` was passed.   |
 | `Silent`     | `bool`          | `true` when `--silent` was passed.                |
 | `Validate`   | `bool`          | `true` when `--validate` was passed.              |
-| `ResultsFile`| `string?`       | Path supplied after `--results`, or `null`.       |
+| `ResultsFile`| `string?`       | Path supplied after `--results` or `--result`, or `null`.     |
+| `HeadingDepth` | `int`           | Heading depth for markdown output; supplied via `--depth` (default 1). |
 | `ExitCode`   | `int`           | `1` if `_hasErrors`; `0` otherwise.               |
 
 ## Methods
