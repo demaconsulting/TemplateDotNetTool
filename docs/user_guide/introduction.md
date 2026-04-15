@@ -77,6 +77,16 @@ templatetool --validate --results results.trx
 The results file format is determined by the file extension: `.trx` for TRX (MSTest) format,
 or `.xml` for JUnit format.
 
+### Heading Depth
+
+Use `--depth <#>` to control the heading level of the validation output (default: `1`).
+This is useful when embedding the validation report into a larger markdown document:
+
+```bash
+# Embed validation at heading level 2
+templatetool --validate --depth 2
+```
+
 ### Validation Report
 
 The validation report contains the tool version, machine name, operating system version,
@@ -137,6 +147,7 @@ The following command-line options are supported:
 | `--silent`           | Suppress console output                                      |
 | `--validate`         | Run self-validation                                          |
 | `--results <file>`   | Write validation results to file (TRX or JUnit format)       |
+| `--depth <#>`        | Set heading depth for markdown output (default: 1)           |
 | `--log <file>`       | Write output to log file                                     |
 
 # Examples

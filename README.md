@@ -16,7 +16,7 @@ DEMA Consulting template project for DotNet Tools, demonstrating best practices 
 This template demonstrates:
 
 - **Standardized Command-Line Interface**: Context class handling common arguments
-  (`--version`, `--help`, `--silent`, `--validate`, `--results`, `--log`)
+  (`--version`, `--help`, `--silent`, `--validate`, `--results`, `--depth`, `--log`)
 - **Self-Validation**: Built-in validation tests with TRX/JUnit output
 - **Multi-Platform Support**: Builds and runs on Windows, Linux, and macOS
 - **Multi-Runtime Support**: Targets .NET 8, 9, and 10
@@ -53,6 +53,9 @@ templatetool --validate
 # Save validation results
 templatetool --validate --results results.trx
 
+# Set heading depth for embedded validation output
+templatetool --validate --depth 2
+
 # Silent mode with logging
 templatetool --silent --log output.log
 ```
@@ -66,6 +69,7 @@ templatetool --silent --log output.log
 | `--silent`           | Suppress console output                                      |
 | `--validate`         | Run self-validation                                          |
 | `--results <file>`   | Write validation results to file (TRX or JUnit format)       |
+| `--depth <#>`        | Set heading depth for markdown output (default: 1)           |
 | `--log <file>`       | Write output to log file                                     |
 
 ## Self Validation
@@ -95,6 +99,14 @@ Each test in the report proves:
 
 - **`TemplateTool_VersionDisplay`** - `--version` outputs a valid version string.
 - **`TemplateTool_HelpDisplay`** - `--help` outputs usage and options information.
+
+Use `--depth <#>` to control the heading level of the validation output (default: `1`).
+This is useful when embedding validation output into a larger markdown document:
+
+```bash
+# Embed validation at heading level 2
+templatetool --validate --depth 2
+```
 
 See the [User Guide][link-guide] for more details on the self-validation tests.
 
