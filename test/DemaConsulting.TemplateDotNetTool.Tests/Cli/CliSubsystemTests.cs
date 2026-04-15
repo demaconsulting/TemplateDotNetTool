@@ -344,4 +344,73 @@ public class CliSubsystemTests
             Console.SetError(originalError);
         }
     }
+
+    /// <summary>
+    ///     Test that Context and Program work together to handle the --result legacy alias for results.
+    /// </summary>
+    [TestMethod]
+    public void CliSubsystem_ResultAliasFlow_ContextAndProgram_WritesResultsFile()
+    {
+        // Arrange: temporary results file path and validation command with legacy --result alias
+        var tempDir = Path.GetTempPath();
+        var resultsFile = Path.Combine(tempDir, $"cli_test_{Guid.NewGuid()}.trx");
+        var args = new[] { "--validate", "--silent", "--result", resultsFile };
+
+        try
+        {
+            // Act: create context and run program logic
+            using var context = Context.Create(args);
+            Program.Run(context);
+
+            // Assert: legacy --result alias is parsed, validation runs, and results file is written
+            Assert.AreEqual(resultsFile, context.ResultsFile, "Context should parse results file path via --result alias");
+            Assert.AreEqual(0, context.ExitCode, "Program should complete successfully");
+            Assert.IsTrue(File.Exists(resultsFile), "Results file should be written to specified path");
+        }
+        finally
+        {
+            // Cleanup
+            if (File.Exists(resultsFile))
+            {
+                File.Delete(resultsFile);
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Test that Context and Program work together to handle depth flag with self-validation.
+    /// </summary>
+    [TestMethod]
+    public void CliSubsystem_DepthFlow_ContextAndProgram_AdjustsHeadingDepth()
+    {
+        // Arrange: command line with --validate, --depth 2, and a log file to capture output
+        var tempDir = Path.GetTempPath();
+        var logFile = Path.Combine(tempDir, $"cli_test_{Guid.NewGuid()}.log");
+        var args = new[] { "--validate", "--silent", "--depth", "2", "--log", logFile };
+
+        try
+        {
+            // Act: create context and run program logic
+            using (var context = Context.Create(args))
+            {
+                Program.Run(context);
+
+                // Assert: depth is parsed correctly
+                Assert.AreEqual(2, context.HeadingDepth, "Context should parse depth value");
+                Assert.AreEqual(0, context.ExitCode, "Program should complete successfully");
+            }
+
+            // Assert: log contains level-2 heading
+            var logContent = File.ReadAllText(logFile);
+            StringAssert.Contains(logContent, "## DEMA Consulting", "Validation output should use depth-2 heading");
+        }
+        finally
+        {
+            // Cleanup
+            if (File.Exists(logFile))
+            {
+                File.Delete(logFile);
+            }
+        }
+    }
 }
