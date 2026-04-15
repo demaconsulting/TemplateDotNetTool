@@ -83,7 +83,8 @@ internal static class Validation
     /// <param name="context">The context for output.</param>
     private static void PrintValidationHeader(Context context)
     {
-        context.WriteLine("# DEMA Consulting Template DotNet Tool");
+        var heading = new string('#', context.HeadingDepth);
+        context.WriteLine($"{heading} DEMA Consulting Template DotNet Tool");
         context.WriteLine("");
         context.WriteLine("| Information         | Value                                              |");
         context.WriteLine("| :------------------ | :------------------------------------------------- |");

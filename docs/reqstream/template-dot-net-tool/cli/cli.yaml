@@ -65,6 +65,15 @@ sections:
         tests:
           - CliSubsystem_ResultsFlow_ContextAndProgram_WritesResultsFile
 
+      - id: Template-Cli-Depth
+        title: The Cli subsystem shall support --depth flag to control the heading depth of markdown output.
+        justification: |
+          Enables validation output to be embedded within larger markdown documents at
+          the appropriate heading level, supporting documentation workflows that combine
+          multiple reports.
+        tests:
+          - CliSubsystem_DepthFlow_ContextAndProgram_AdjustsHeadingDepth
+
       - id: Template-Cli-Log
         title: The Cli subsystem shall support --log flag to write output to a log file.
         justification: |

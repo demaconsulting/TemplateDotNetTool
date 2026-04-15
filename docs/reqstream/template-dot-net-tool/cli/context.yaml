@@ -24,6 +24,9 @@ sections:
           - Context_Create_ValidateFlag_SetsValidateTrue
           - Context_Create_ResultsFlag_SetsResultsFile
           - Context_Create_LogFlag_OpensLogFile
+          - Context_Create_ResultAliasFlag_SetsResultsFile
+          - Context_Create_DepthFlag_SetsHeadingDepth
+          - Context_Create_NoDepthFlag_ReturnsDefaultHeadingDepth
 
       - id: Template-Context-InvalidArgs
         title: The Context class shall reject unknown or malformed command-line arguments with a descriptive error.
@@ -34,6 +37,11 @@ sections:
           - Context_Create_UnknownArgument_ThrowsArgumentException
           - Context_Create_LogFlag_WithoutValue_ThrowsArgumentException
           - Context_Create_ResultsFlag_WithoutValue_ThrowsArgumentException
+          - Context_Create_ResultAliasFlag_WithoutValue_ThrowsArgumentException
+          - Context_Create_DepthFlag_WithoutValue_ThrowsArgumentException
+          - Context_Create_DepthFlag_NonIntegerValue_ThrowsArgumentException
+          - Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException
+          - Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException
 
       - id: Template-Context-Output
         title: The Context class shall write output to the console and optionally to a log file.

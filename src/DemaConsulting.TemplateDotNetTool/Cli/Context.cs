@@ -61,6 +61,11 @@ internal sealed class Context : IDisposable
     public string? ResultsFile { get; private init; }
 
     /// <summary>
+    ///     Gets the heading depth for markdown output (default is 1).
+    /// </summary>
+    public int HeadingDepth { get; private init; } = 1;
+
+    /// <summary>
     ///     Gets the proposed exit code for the application (0 for success, 1 for errors).
     /// </summary>
     public int ExitCode => _hasErrors ? 1 : 0;
@@ -92,7 +97,8 @@ internal sealed class Context : IDisposable
             Help = parser.Help,
             Silent = parser.Silent,
             Validate = parser.Validate,
-            ResultsFile = parser.ResultsFile
+            ResultsFile = parser.ResultsFile,
+            HeadingDepth = parser.HeadingDepth
         };
 
         // Open log file if specified
@@ -161,6 +167,11 @@ internal sealed class Context : IDisposable
         public string? ResultsFile { get; private set; }
 
         /// <summary>
+        ///     Gets the heading depth for markdown output.
+        /// </summary>
+        public int HeadingDepth { get; private set; } = 1;
+
+        /// <summary>
         ///     Parses command-line arguments
         /// </summary>
         /// <param name="args">Command-line arguments.</param>
@@ -212,7 +223,12 @@ internal sealed class Context : IDisposable
                     return index + 1;
 
                 case "--results":
+                case "--result":
                     ResultsFile = GetRequiredStringArgument(arg, args, index, "a results filename argument");
+                    return index + 1;
+
+                case "--depth":
+                    HeadingDepth = GetRequiredIntArgument(arg, args, index, "a heading depth argument", 1, 6);
                     return index + 1;
 
                 default:
@@ -236,6 +252,27 @@ internal sealed class Context : IDisposable
             }
 
             return args[index];
+        }
+
+        /// <summary>
+        ///     Gets a required integer argument value
+        /// </summary>
+        /// <param name="arg">Argument name</param>
+        /// <param name="args">All arguments</param>
+        /// <param name="index">Current index</param>
+        /// <param name="description">Description of what's required</param>
+        /// <param name="min">Minimum valid value (inclusive)</param>
+        /// <param name="max">Maximum valid value (inclusive)</param>
+        /// <returns>Argument value as an integer in [min, max]</returns>
+        private static int GetRequiredIntArgument(string arg, string[] args, int index, string description, int min = 1, int max = int.MaxValue)
+        {
+            var value = GetRequiredStringArgument(arg, args, index, description);
+            if (!int.TryParse(value, out var result) || result < min || result > max)
+            {
+                throw new ArgumentException($"{arg} requires an integer between {min} and {max} for {description}", nameof(args));
+            }
+
+            return result;
         }
     }
 

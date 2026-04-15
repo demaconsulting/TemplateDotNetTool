@@ -43,6 +43,7 @@ public class ContextTests
         Assert.IsFalse(context.Silent);
         Assert.IsFalse(context.Validate);
         Assert.IsNull(context.ResultsFile);
+        Assert.AreEqual(1, context.HeadingDepth);
         Assert.AreEqual(0, context.ExitCode);
     }
 
@@ -226,6 +227,103 @@ public class ContextTests
         // Act & Assert
         var exception = Assert.Throws<ArgumentException>(() => Context.Create(["--results"]));
         Assert.Contains("--results", exception.Message);
+    }
+
+    /// <summary>
+    ///     Test creating a context with the --result alias flag (legacy alias for --results).
+    /// </summary>
+    [TestMethod]
+    public void Context_Create_ResultAliasFlag_SetsResultsFile()
+    {
+        // Act: execute the operation using the legacy --result alias
+        using var context = Context.Create(["--result", "test.trx"]);
+
+        // Assert: verify --result sets ResultsFile identically to --results
+        Assert.AreEqual("test.trx", context.ResultsFile);
+        Assert.AreEqual(0, context.ExitCode);
+    }
+
+    /// <summary>
+    ///     Test creating a context with --result flag but no value throws exception.
+    /// </summary>
+    [TestMethod]
+    public void Context_Create_ResultAliasFlag_WithoutValue_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => Context.Create(["--result"]));
+        Assert.Contains("--result", exception.Message);
+    }
+
+    /// <summary>
+    ///     Test creating a context with the depth flag.
+    /// </summary>
+    [TestMethod]
+    public void Context_Create_DepthFlag_SetsHeadingDepth()
+    {
+        // Act: execute the operation being tested
+        using var context = Context.Create(["--depth", "3"]);
+
+        // Assert: verify expected behavior
+        Assert.AreEqual(3, context.HeadingDepth);
+        Assert.AreEqual(0, context.ExitCode);
+    }
+
+    /// <summary>
+    ///     Test creating a context with no depth flag returns default heading depth of 1.
+    /// </summary>
+    [TestMethod]
+    public void Context_Create_NoDepthFlag_ReturnsDefaultHeadingDepth()
+    {
+        // Act: execute the operation being tested
+        using var context = Context.Create([]);
+
+        // Assert: verify default depth is 1
+        Assert.AreEqual(1, context.HeadingDepth);
+        Assert.AreEqual(0, context.ExitCode);
+    }
+
+    /// <summary>
+    ///     Test creating a context with --depth flag but no value throws exception.
+    /// </summary>
+    [TestMethod]
+    public void Context_Create_DepthFlag_WithoutValue_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => Context.Create(["--depth"]));
+        Assert.Contains("--depth", exception.Message);
+    }
+
+    /// <summary>
+    ///     Test creating a context with --depth flag and non-integer value throws exception.
+    /// </summary>
+    [TestMethod]
+    public void Context_Create_DepthFlag_NonIntegerValue_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => Context.Create(["--depth", "abc"]));
+        Assert.Contains("--depth", exception.Message);
+    }
+
+    /// <summary>
+    ///     Test creating a context with --depth flag and zero value throws exception.
+    /// </summary>
+    [TestMethod]
+    public void Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => Context.Create(["--depth", "0"]));
+        Assert.Contains("--depth", exception.Message);
+    }
+
+    /// <summary>
+    ///     Test creating a context with --depth flag and value exceeding maximum throws exception.
+    /// </summary>
+    [TestMethod]
+    public void Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => Context.Create(["--depth", "7"]));
+        Assert.Contains("--depth", exception.Message);
     }
 
     /// <summary>
