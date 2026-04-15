@@ -41,6 +41,7 @@ sections:
           - Context_Create_DepthFlag_WithoutValue_ThrowsArgumentException
           - Context_Create_DepthFlag_NonIntegerValue_ThrowsArgumentException
           - Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException
+          - Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException
 
       - id: Template-Context-Output
         title: The Context class shall write output to the console and optionally to a log file.

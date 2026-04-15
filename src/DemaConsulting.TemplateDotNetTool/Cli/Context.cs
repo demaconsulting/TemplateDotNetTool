@@ -223,15 +223,12 @@ internal sealed class Context : IDisposable
                     return index + 1;
 
                 case "--results":
-                    ResultsFile = GetRequiredStringArgument(arg, args, index, "a results filename argument");
-                    return index + 1;
-
                 case "--result":
                     ResultsFile = GetRequiredStringArgument(arg, args, index, "a results filename argument");
                     return index + 1;
 
                 case "--depth":
-                    HeadingDepth = GetRequiredIntArgument(arg, args, index, "a heading depth argument");
+                    HeadingDepth = GetRequiredIntArgument(arg, args, index, "a heading depth argument", 1, 6);
                     return index + 1;
 
                 default:
@@ -264,13 +261,15 @@ internal sealed class Context : IDisposable
         /// <param name="args">All arguments</param>
         /// <param name="index">Current index</param>
         /// <param name="description">Description of what's required</param>
-        /// <returns>Argument value as a positive integer</returns>
-        private static int GetRequiredIntArgument(string arg, string[] args, int index, string description)
+        /// <param name="min">Minimum valid value (inclusive)</param>
+        /// <param name="max">Maximum valid value (inclusive)</param>
+        /// <returns>Argument value as an integer in [min, max]</returns>
+        private static int GetRequiredIntArgument(string arg, string[] args, int index, string description, int min = 1, int max = int.MaxValue)
         {
             var value = GetRequiredStringArgument(arg, args, index, description);
-            if (!int.TryParse(value, out var result) || result < 1)
+            if (!int.TryParse(value, out var result) || result < min || result > max)
             {
-                throw new ArgumentException($"{arg} requires a positive integer for {description}", nameof(args));
+                throw new ArgumentException($"{arg} requires an integer between {min} and {max} for {description}", nameof(args));
             }
 
             return result;

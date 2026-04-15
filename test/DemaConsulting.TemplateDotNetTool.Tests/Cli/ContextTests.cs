@@ -316,6 +316,17 @@ public class ContextTests
     }
 
     /// <summary>
+    ///     Test creating a context with --depth flag and value exceeding maximum throws exception.
+    /// </summary>
+    [TestMethod]
+    public void Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => Context.Create(["--depth", "7"]));
+        Assert.Contains("--depth", exception.Message);
+    }
+
+    /// <summary>
     ///     Test WriteLine writes to console output when not silent.
     /// </summary>
     [TestMethod]
