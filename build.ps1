@@ -14,7 +14,7 @@
 
 $ErrorActionPreference = 'Stop'
 
-Write-Host "Building Template DotNet Library..."
+Write-Host "Building TemplateDotNetTool..."
 dotnet build --configuration Release
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
