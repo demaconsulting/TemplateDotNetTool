@@ -19,7 +19,7 @@ jobs:
       contents: read
     steps:
       # === INSTALL DEPENDENCIES ===
-      # This section installs all required dependencies for quality checks.
+      # This section installs all required dependencies and tools for quality checks.
       # Downstream projects: Add any additional dependency installations here.
 
       - name: Checkout
@@ -44,6 +44,10 @@ jobs:
         with:
           python-version: '3.14'
 
+      # === CAPTURE TOOL VERSIONS ===
+      # This section captures the versions of all tools used in the build process.
+      # Downstream projects: Add any additional tools to capture here.
+
       - name: Capture tool versions
         shell: bash
         run: |
@@ -55,19 +59,27 @@ jobs:
           echo "✓ Tool versions captured"
 
       # === CAPTURE OTS SELF-VALIDATION RESULTS ===
-      # This section captures self-validation results from OTS tools.
-      # Downstream projects: Add any additional self-validation steps here.
+      # This section runs the self-validation of each OTS tool and saves TRX results
+      # so that OTS Software Requirements in requirements.yaml can be satisfied.
+      # Downstream projects: Add any additional OTS tool self-validation steps here.
 
       - name: Run VersionMark self-validation
-        run: dotnet versionmark --validate --results artifacts/versionmark-self-validation-quality.trx
+        run: >
+          dotnet versionmark
+          --validate
+          --results artifacts/versionmark-self-validation-quality.trx
 
       # === RUN QUALITY CHECKS ===
-      # This section runs all quality checks for the project.
-      # Downstream projects: Add any additional quality checks here.
+      # This section runs the linting and quality checks for the project.
+      # Downstream projects: Add any additional quality check steps here.
 
       - name: Run linters
-        shell: bash
-        run: bash ./lint.sh
+        shell: pwsh
+        run: ./lint.ps1
+
+      # === UPLOAD ARTIFACTS ===
+      # This section uploads all generated artifacts for use by downstream jobs.
+      # Downstream projects: Add any additional artifact uploads here.
 
       - name: Upload quality artifacts
         uses: actions/upload-artifact@v7
@@ -94,7 +106,7 @@ jobs:
     steps:
 
       # === INSTALL DEPENDENCIES ===
-      # This section installs all required dependencies for the build.
+      # This section installs all required dependencies and tools for building the project.
       # Downstream projects: Add any additional dependency installations here.
 
       - name: Checkout
@@ -132,15 +144,19 @@ jobs:
           echo "✓ Tool versions captured"
 
       # === CAPTURE OTS SELF-VALIDATION RESULTS ===
-      # This section captures self-validation results from OTS tools.
-      # Downstream projects: Add any additional self-validation steps here.
+      # This section runs the self-validation of each OTS tool and saves TRX results
+      # so that OTS Software Requirements in requirements.yaml can be satisfied.
+      # Downstream projects: Add any additional OTS tool self-validation steps here.
 
       - name: Run VersionMark self-validation
-        run: dotnet versionmark --validate --results artifacts/versionmark-self-validation-${{ matrix.os }}.trx
+        run: >
+          dotnet versionmark
+          --validate
+          --results artifacts/versionmark-self-validation-${{ matrix.os }}.trx
 
       # === BUILD AND TEST ===
       # This section builds and tests the project.
-      # Downstream projects: Add any additional build and test steps here.
+      # Downstream projects: Add any additional build or test steps here.
 
       - name: Restore Dependencies
         run: >
@@ -192,7 +208,7 @@ jobs:
           --property:PackageVersion=${{ inputs.version }}
 
       # === UPLOAD ARTIFACTS ===
-      # This section uploads all build artifacts.
+      # This section uploads all generated artifacts for use by downstream jobs.
       # Downstream projects: Add any additional artifact uploads here.
 
       - name: Upload build artifacts
@@ -222,7 +238,7 @@ jobs:
 
     steps:
       # === INSTALL DEPENDENCIES ===
-      # This section installs all required dependencies for CodeQL analysis.
+      # This section installs all required dependencies and tools for CodeQL analysis.
       # Downstream projects: Add any additional dependency installations here.
 
       - name: Checkout
@@ -255,7 +271,7 @@ jobs:
           dotnet restore
 
       # === BUILD AND ANALYZE ===
-      # This section builds the project and runs CodeQL analysis.
+      # This section builds the project and performs CodeQL analysis.
       # Downstream projects: Add any additional analysis steps here.
 
       - name: Build
@@ -273,7 +289,7 @@ jobs:
           upload: false
 
       # === UPLOAD ARTIFACTS ===
-      # This section uploads all CodeQL artifacts.
+      # This section uploads all generated artifacts for use by downstream jobs.
       # Downstream projects: Add any additional artifact uploads here.
 
       - name: Upload CodeQL artifacts
@@ -414,12 +430,6 @@ jobs:
           merge-multiple: true
         continue-on-error: true
 
-      - name: Download packages artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: packages-ubuntu-latest
-          path: packages
-
       # === INSTALL DEPENDENCIES ===
       # This section installs all required dependencies and tools for document generation.
       # Downstream projects: Add any additional dependency installations here.
@@ -437,15 +447,6 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
-      - name: Install TemplateTool from package
-        shell: bash
-        run: |
-          echo "Installing TemplateTool version ${{ inputs.version }}"
-          dotnet tool install --global \
-            --add-source packages \
-            --version ${{ inputs.version }} \
-            DemaConsulting.TemplateDotNetTool
-
       - name: Restore Tools
         run: dotnet tool restore
 
@@ -456,7 +457,6 @@ jobs:
       - name: Capture tool versions for build-docs
         shell: bash
         run: |
-          mkdir -p artifacts
           echo "Capturing tool versions..."
           dotnet versionmark --capture --job-id "build-docs" \
             --output "artifacts/versionmark-build-docs.json" -- \
@@ -464,26 +464,45 @@ jobs:
           echo "✓ Tool versions captured"
 
       # === CAPTURE OTS SELF-VALIDATION RESULTS ===
-      # This section captures self-validation results from OTS tools.
-      # Downstream projects: Add any additional self-validation steps here.
+      # This section runs the self-validation of each OTS tool and saves TRX results
+      # so that OTS Software Requirements in requirements.yaml can be satisfied.
+      # Downstream projects: Add any additional OTS tool self-validation steps here.
 
       - name: Run ReqStream self-validation
-        run: dotnet reqstream --validate --results artifacts/reqstream-self-validation.trx
+        run: >
+          dotnet reqstream
+          --validate
+          --results artifacts/reqstream-self-validation.trx
 
       - name: Run BuildMark self-validation
-        run: dotnet buildmark --validate --results artifacts/buildmark-self-validation.trx
+        run: >
+          dotnet buildmark
+          --validate
+          --results artifacts/buildmark-self-validation.trx
 
       - name: Run VersionMark self-validation
-        run: dotnet versionmark --validate --results artifacts/versionmark-self-validation.trx
+        run: >
+          dotnet versionmark
+          --validate
+          --results artifacts/versionmark-self-validation.trx
 
       - name: Run SarifMark self-validation
-        run: dotnet sarifmark --validate --results artifacts/sarifmark-self-validation.trx
+        run: >
+          dotnet sarifmark
+          --validate
+          --results artifacts/sarifmark-self-validation.trx
 
       - name: Run SonarMark self-validation
-        run: dotnet sonarmark --validate --results artifacts/sonarmark-self-validation.trx
+        run: >
+          dotnet sonarmark
+          --validate
+          --results artifacts/sonarmark-self-validation.trx
 
       - name: Run ReviewMark self-validation
-        run: dotnet reviewmark --validate --results artifacts/reviewmark-self-validation.trx
+        run: >
+          dotnet reviewmark
+          --validate
+          --results artifacts/reviewmark-self-validation.trx
 
       # === GENERATE MARKDOWN REPORTS ===
       # This section generates all markdown reports from various tools and sources.
@@ -596,9 +615,9 @@ jobs:
           --filter node_modules/.bin/mermaid-filter.cmd
           --metadata version="${{ inputs.version }}"
           --metadata date="$(date +'%Y-%m-%d')"
-          --output docs/build_notes/buildnotes.html
+          --output docs/build_notes/build_notes.html
 
-      - name: Generate Guide HTML with Pandoc
+      - name: Generate User Guide HTML with Pandoc
         shell: bash
         run: >
           dotnet pandoc
@@ -606,7 +625,7 @@ jobs:
           --filter node_modules/.bin/mermaid-filter.cmd
           --metadata version="${{ inputs.version }}"
           --metadata date="$(date +'%Y-%m-%d')"
-          --output docs/user_guide/guide.html
+          --output docs/user_guide/user_guide.html
 
       - name: Generate Design HTML with Pandoc
         shell: bash
@@ -676,14 +695,14 @@ jobs:
         run: >
           dotnet weasyprint
           --pdf-variant pdf/a-3u
-          docs/build_notes/buildnotes.html
+          docs/build_notes/build_notes.html
           "docs/TemplateDotNetTool Build Notes.pdf"
 
-      - name: Generate Guide PDF with Weasyprint
+      - name: Generate User Guide PDF with Weasyprint
         run: >
           dotnet weasyprint
           --pdf-variant pdf/a-3u
-          docs/user_guide/guide.html
+          docs/user_guide/user_guide.html
           "docs/TemplateDotNetTool User Guide.pdf"
 
       - name: Generate Design PDF with Weasyprint
@@ -736,6 +755,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: documents
-          path: |
+          path: |-
             docs/*.pdf
             docs/build_notes.md
