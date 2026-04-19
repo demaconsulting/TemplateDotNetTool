@@ -24,6 +24,7 @@ words:
   - doctitle
   - docversion
   - errorlevel
+  - fileassert
   - MSTEST
   - nameof
   - pagetitle
