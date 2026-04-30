@@ -25,149 +25,149 @@ namespace DemaConsulting.TemplateDotNetTool.Tests;
 /// <summary>
 ///     Unit tests for the Context class.
 /// </summary>
-[TestClass]
+[Collection("Sequential")]
 public class ContextTests
 {
     /// <summary>
     ///     Test creating a context with no arguments.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_NoArguments_ReturnsDefaultContext()
     {
         // Act: execute the operation being tested
         using var context = Context.Create([]);
 
         // Assert: verify expected behavior
-        Assert.IsFalse(context.Version);
-        Assert.IsFalse(context.Help);
-        Assert.IsFalse(context.Silent);
-        Assert.IsFalse(context.Validate);
-        Assert.IsNull(context.ResultsFile);
-        Assert.AreEqual(1, context.HeadingDepth);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.False(context.Version);
+        Assert.False(context.Help);
+        Assert.False(context.Silent);
+        Assert.False(context.Validate);
+        Assert.Null(context.ResultsFile);
+        Assert.Equal(1, context.HeadingDepth);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with the version flag.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_VersionFlag_SetsVersionTrue()
     {
         // Act: execute the operation being tested
         using var context = Context.Create(["--version"]);
 
         // Assert: verify expected behavior
-        Assert.IsTrue(context.Version);
-        Assert.IsFalse(context.Help);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.True(context.Version);
+        Assert.False(context.Help);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with the short version flag.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_ShortVersionFlag_SetsVersionTrue()
     {
         // Act: execute the operation being tested
         using var context = Context.Create(["-v"]);
 
         // Assert: verify expected behavior
-        Assert.IsTrue(context.Version);
-        Assert.IsFalse(context.Help);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.True(context.Version);
+        Assert.False(context.Help);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with the help flag.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_HelpFlag_SetsHelpTrue()
     {
         // Act: execute the operation being tested
         using var context = Context.Create(["--help"]);
 
         // Assert: verify expected behavior
-        Assert.IsFalse(context.Version);
-        Assert.IsTrue(context.Help);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.False(context.Version);
+        Assert.True(context.Help);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with the short help flag -h.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_ShortHelpFlag_H_SetsHelpTrue()
     {
         // Act: execute the operation being tested
         using var context = Context.Create(["-h"]);
 
         // Assert: verify expected behavior
-        Assert.IsFalse(context.Version);
-        Assert.IsTrue(context.Help);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.False(context.Version);
+        Assert.True(context.Help);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with the short help flag -?.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_ShortHelpFlag_Question_SetsHelpTrue()
     {
         // Act: execute the operation being tested
         using var context = Context.Create(["-?"]);
 
         // Assert: verify expected behavior
-        Assert.IsFalse(context.Version);
-        Assert.IsTrue(context.Help);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.False(context.Version);
+        Assert.True(context.Help);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with the silent flag.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_SilentFlag_SetsSilentTrue()
     {
         // Act: execute the operation being tested
         using var context = Context.Create(["--silent"]);
 
         // Assert: verify expected behavior
-        Assert.IsTrue(context.Silent);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.True(context.Silent);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with the validate flag.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_ValidateFlag_SetsValidateTrue()
     {
         // Act: execute the operation being tested
         using var context = Context.Create(["--validate"]);
 
         // Assert: verify expected behavior
-        Assert.IsTrue(context.Validate);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.True(context.Validate);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with the results flag.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_ResultsFlag_SetsResultsFile()
     {
         // Act: execute the operation being tested
         using var context = Context.Create(["--results", "test.trx"]);
 
         // Assert: verify expected behavior
-        Assert.AreEqual("test.trx", context.ResultsFile);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.Equal("test.trx", context.ResultsFile);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with the log flag.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_LogFlag_OpensLogFile()
     {
         // Arrange: setup test conditions
@@ -178,12 +178,12 @@ public class ContextTests
             using (var context = Context.Create(["--log", logFile]))
             {
                 context.WriteLine("Test message");
-                Assert.AreEqual(0, context.ExitCode);
+                Assert.Equal(0, context.ExitCode);
             }
 
             // Assert: verify expected behavior
             // Verify log file was written
-            Assert.IsTrue(File.Exists(logFile));
+            Assert.True(File.Exists(logFile));
             var logContent = File.ReadAllText(logFile);
             Assert.Contains("Test message", logContent);
         }
@@ -199,7 +199,7 @@ public class ContextTests
     /// <summary>
     ///     Test creating a context with an unknown argument throws exception.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_UnknownArgument_ThrowsArgumentException()
     {
         // Act & Assert
@@ -210,7 +210,7 @@ public class ContextTests
     /// <summary>
     ///     Test creating a context with --log flag but no value throws exception.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_LogFlag_WithoutValue_ThrowsArgumentException()
     {
         // Act & Assert
@@ -221,7 +221,7 @@ public class ContextTests
     /// <summary>
     ///     Test creating a context with --results flag but no value throws exception.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_ResultsFlag_WithoutValue_ThrowsArgumentException()
     {
         // Act & Assert
@@ -232,21 +232,21 @@ public class ContextTests
     /// <summary>
     ///     Test creating a context with the --result alias flag (legacy alias for --results).
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_ResultAliasFlag_SetsResultsFile()
     {
         // Act: execute the operation using the legacy --result alias
         using var context = Context.Create(["--result", "test.trx"]);
 
         // Assert: verify --result sets ResultsFile identically to --results
-        Assert.AreEqual("test.trx", context.ResultsFile);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.Equal("test.trx", context.ResultsFile);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with --result flag but no value throws exception.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_ResultAliasFlag_WithoutValue_ThrowsArgumentException()
     {
         // Act & Assert
@@ -257,35 +257,35 @@ public class ContextTests
     /// <summary>
     ///     Test creating a context with the depth flag.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_DepthFlag_SetsHeadingDepth()
     {
         // Act: execute the operation being tested
         using var context = Context.Create(["--depth", "3"]);
 
         // Assert: verify expected behavior
-        Assert.AreEqual(3, context.HeadingDepth);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.Equal(3, context.HeadingDepth);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with no depth flag returns default heading depth of 1.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_NoDepthFlag_ReturnsDefaultHeadingDepth()
     {
         // Act: execute the operation being tested
         using var context = Context.Create([]);
 
         // Assert: verify default depth is 1
-        Assert.AreEqual(1, context.HeadingDepth);
-        Assert.AreEqual(0, context.ExitCode);
+        Assert.Equal(1, context.HeadingDepth);
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test creating a context with --depth flag but no value throws exception.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_DepthFlag_WithoutValue_ThrowsArgumentException()
     {
         // Act & Assert
@@ -296,7 +296,7 @@ public class ContextTests
     /// <summary>
     ///     Test creating a context with --depth flag and non-integer value throws exception.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_DepthFlag_NonIntegerValue_ThrowsArgumentException()
     {
         // Act & Assert
@@ -307,7 +307,7 @@ public class ContextTests
     /// <summary>
     ///     Test creating a context with --depth flag and zero value throws exception.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException()
     {
         // Act & Assert
@@ -318,7 +318,7 @@ public class ContextTests
     /// <summary>
     ///     Test creating a context with --depth flag and value exceeding maximum throws exception.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException()
     {
         // Act & Assert
@@ -329,7 +329,7 @@ public class ContextTests
     /// <summary>
     ///     Test WriteLine writes to console output when not silent.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_WriteLine_NotSilent_WritesToConsole()
     {
         // Arrange: setup test conditions
@@ -356,7 +356,7 @@ public class ContextTests
     /// <summary>
     ///     Test WriteLine does not write to console when silent.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_WriteLine_Silent_DoesNotWriteToConsole()
     {
         // Arrange: setup test conditions
@@ -383,7 +383,7 @@ public class ContextTests
     /// <summary>
     ///     Test WriteError does not write to console when silent.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_WriteError_Silent_DoesNotWriteToConsole()
     {
         // Arrange: setup test conditions
@@ -410,7 +410,7 @@ public class ContextTests
     /// <summary>
     ///     Test WriteError sets exit code to 1.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_WriteError_SetsErrorExitCode()
     {
         // Arrange: setup test conditions
@@ -425,7 +425,7 @@ public class ContextTests
             context.WriteError("Test error message");
 
             // Assert: verify expected behavior
-            Assert.AreEqual(1, context.ExitCode);
+            Assert.Equal(1, context.ExitCode);
         }
         finally
         {
@@ -436,7 +436,7 @@ public class ContextTests
     /// <summary>
     ///     Test WriteError writes message to console when not silent.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_WriteError_NotSilent_WritesToConsole()
     {
         // Arrange: setup test conditions
@@ -463,7 +463,7 @@ public class ContextTests
     /// <summary>
     ///     Test WriteError writes message to log file when logging is enabled.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void Context_WriteError_WritesToLogFile()
     {
         // Arrange: setup test conditions
@@ -474,11 +474,11 @@ public class ContextTests
             using (var context = Context.Create(["--silent", "--log", logFile]))
             {
                 context.WriteError("Test error in log");
-                Assert.AreEqual(1, context.ExitCode);
+                Assert.Equal(1, context.ExitCode);
             }
 
             // Assert - log file should contain the error message
-            Assert.IsTrue(File.Exists(logFile));
+            Assert.True(File.Exists(logFile));
             var logContent = File.ReadAllText(logFile);
             Assert.Contains("Test error in log", logContent);
         }

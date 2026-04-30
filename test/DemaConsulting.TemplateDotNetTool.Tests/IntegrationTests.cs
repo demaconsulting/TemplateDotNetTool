@@ -25,29 +25,28 @@ namespace DemaConsulting.TemplateDotNetTool.Tests;
 /// <summary>
 ///     Integration tests that run the Template DotNet Tool application through dotnet.
 /// </summary>
-[TestClass]
+[Collection("Sequential")]
 public class IntegrationTests
 {
-    private string _dllPath = string.Empty;
+    private readonly string _dllPath;
 
     /// <summary>
     ///     Initialize test by locating the Template DotNet Tool DLL.
     /// </summary>
-    [TestInitialize]
-    public void TestInitialize()
+    public IntegrationTests()
     {
         // The DLL should be in the same directory as the test assembly
         // because the test project references the main project
         var baseDir = AppContext.BaseDirectory;
         _dllPath = PathHelpers.SafePathCombine(baseDir, "DemaConsulting.TemplateDotNetTool.dll");
 
-        Assert.IsTrue(File.Exists(_dllPath), $"Could not find Template DotNet Tool DLL at {_dllPath}");
+        Assert.True(File.Exists(_dllPath), $"Could not find Template DotNet Tool DLL at {_dllPath}");
     }
 
     /// <summary>
     ///     Test that version flag outputs version information.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void IntegrationTest_VersionFlag_OutputsVersion()
     {
         // Act: run the tool with version flag
@@ -58,8 +57,8 @@ public class IntegrationTests
             "--version");
 
         // Assert: verify version output and success exit code
-        Assert.AreEqual(0, exitCode);
-        Assert.IsFalse(string.IsNullOrWhiteSpace(output));
+        Assert.Equal(0, exitCode);
+        Assert.False(string.IsNullOrWhiteSpace(output));
         Assert.DoesNotContain("Error", output);
         Assert.DoesNotContain("Copyright", output);
     }
@@ -67,7 +66,7 @@ public class IntegrationTests
     /// <summary>
     ///     Test that help flag outputs usage information.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void IntegrationTest_HelpFlag_OutputsUsageInformation()
     {
         // Act: execute the operation being tested
@@ -78,7 +77,7 @@ public class IntegrationTests
             "--help");
 
         // Assert: verify expected behavior
-        Assert.AreEqual(0, exitCode);
+        Assert.Equal(0, exitCode);
         Assert.Contains("Usage:", output);
         Assert.Contains("Options:", output);
         Assert.Contains("--version", output);
@@ -87,7 +86,7 @@ public class IntegrationTests
     /// <summary>
     ///     Test that validate flag runs self-validation.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void IntegrationTest_ValidateFlag_RunsValidation()
     {
         // Act: execute the operation being tested
@@ -98,7 +97,7 @@ public class IntegrationTests
             "--validate");
 
         // Assert: verify expected behavior
-        Assert.AreEqual(0, exitCode);
+        Assert.Equal(0, exitCode);
         Assert.Contains("Total Tests:", output);
         Assert.Contains("Passed:", output);
     }
@@ -106,7 +105,7 @@ public class IntegrationTests
     /// <summary>
     ///     Test that validate with results flag generates TRX file.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void IntegrationTest_ValidateWithResults_GeneratesTrxFile()
     {
         // Arrange: setup test conditions
@@ -124,8 +123,8 @@ public class IntegrationTests
                 resultsFile);
 
             // Assert: verify expected behavior
-            Assert.AreEqual(0, exitCode);
-            Assert.IsTrue(File.Exists(resultsFile), "Results file was not created");
+            Assert.Equal(0, exitCode);
+            Assert.True(File.Exists(resultsFile), "Results file was not created");
 
             var trxContent = File.ReadAllText(resultsFile);
             Assert.Contains("<TestRun", trxContent);
@@ -143,7 +142,7 @@ public class IntegrationTests
     /// <summary>
     ///     Test that silent flag suppresses output.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void IntegrationTest_SilentFlag_SuppressesOutput()
     {
         // Act: execute the operation being tested
@@ -154,7 +153,7 @@ public class IntegrationTests
             "--silent");
 
         // Assert: verify expected behavior
-        Assert.AreEqual(0, exitCode);
+        Assert.Equal(0, exitCode);
 
         // Output check removed since silent mode may still produce some output
     }
@@ -162,7 +161,7 @@ public class IntegrationTests
     /// <summary>
     ///     Test that log flag writes output to file.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void IntegrationTest_LogFlag_WritesOutputToFile()
     {
         // Arrange: setup test conditions
@@ -179,8 +178,8 @@ public class IntegrationTests
                 logFile);
 
             // Assert: verify expected behavior
-            Assert.AreEqual(0, exitCode);
-            Assert.IsTrue(File.Exists(logFile), "Log file was not created");
+            Assert.Equal(0, exitCode);
+            Assert.True(File.Exists(logFile), "Log file was not created");
 
             var logContent = File.ReadAllText(logFile);
             Assert.Contains("Template DotNet Tool version", logContent);
@@ -197,7 +196,7 @@ public class IntegrationTests
     /// <summary>
     ///     Test that validate with results flag generates JUnit XML file.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void IntegrationTest_ValidateWithResults_GeneratesJUnitFile()
     {
         // Arrange: setup test conditions
@@ -215,8 +214,8 @@ public class IntegrationTests
                 resultsFile);
 
             // Assert: verify expected behavior
-            Assert.AreEqual(0, exitCode);
-            Assert.IsTrue(File.Exists(resultsFile), "Results file was not created");
+            Assert.Equal(0, exitCode);
+            Assert.True(File.Exists(resultsFile), "Results file was not created");
 
             var xmlContent = File.ReadAllText(resultsFile);
             Assert.Contains("<testsuites", xmlContent);
@@ -233,7 +232,7 @@ public class IntegrationTests
     /// <summary>
     ///     Test that unknown argument returns error.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void IntegrationTest_UnknownArgument_ReturnsError()
     {
         // Act: execute the operation being tested
@@ -244,7 +243,7 @@ public class IntegrationTests
             "--unknown");
 
         // Assert: verify expected behavior
-        Assert.AreNotEqual(0, exitCode);
+        Assert.NotEqual(0, exitCode);
         Assert.Contains("Error", output);
     }
 }
