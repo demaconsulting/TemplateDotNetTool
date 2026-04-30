@@ -26,13 +26,13 @@ namespace DemaConsulting.TemplateDotNetTool.Tests;
 /// <summary>
 ///     Subsystem tests for the CLI subsystem covering Context and Program integration.
 /// </summary>
-[TestClass]
+[Collection("Sequential")]
 public class CliSubsystemTests
 {
     /// <summary>
     ///     Test that Context and Program work together to handle version flag workflow.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits()
     {
         // Arrange: command line arguments with version flag; capture console output
@@ -49,9 +49,9 @@ public class CliSubsystemTests
             Program.Run(context);
 
             // Assert: version flag is parsed, version text is displayed, and exit code is success
-            Assert.IsTrue(context.Version, "Context should parse version flag");
-            Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
-            StringAssert.Contains(capturedOut.ToString(), Program.Version, "Console output should contain the program version");
+            Assert.True(context.Version, "Context should parse version flag");
+            Assert.Equal(0, context.ExitCode);
+            Assert.Contains(Program.Version, capturedOut.ToString());
         }
         finally
         {
@@ -62,7 +62,7 @@ public class CliSubsystemTests
     /// <summary>
     ///     Test that Context and Program work together to handle help flag workflow.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits()
     {
         // Arrange: command line arguments with help flag; capture console output
@@ -79,11 +79,11 @@ public class CliSubsystemTests
             Program.Run(context);
 
             // Assert: help flag is parsed, usage text is displayed, and exit code is success
-            Assert.IsTrue(context.Help, "Context should parse help flag");
-            Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+            Assert.True(context.Help, "Context should parse help flag");
+            Assert.Equal(0, context.ExitCode);
             var output = capturedOut.ToString();
-            StringAssert.Contains(output, "Usage:", "Console output should contain usage information");
-            StringAssert.Contains(output, "Options:", "Console output should contain options information");
+            Assert.Contains("Usage:", output);
+            Assert.Contains("Options:", output);
         }
         finally
         {
@@ -94,7 +94,7 @@ public class CliSubsystemTests
     /// <summary>
     ///     Test that Context and Program work together to handle the -? short help flag.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortQuestionFlag()
     {
         // Arrange: command line arguments with -? short help flag; capture console output
@@ -111,11 +111,11 @@ public class CliSubsystemTests
             Program.Run(context);
 
             // Assert: help flag is parsed, usage text is displayed, and exit code is success
-            Assert.IsTrue(context.Help, "Context should parse -? flag as help");
-            Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+            Assert.True(context.Help, "Context should parse -? flag as help");
+            Assert.Equal(0, context.ExitCode);
             var output = capturedOut.ToString();
-            StringAssert.Contains(output, "Usage:", "Console output should contain usage information");
-            StringAssert.Contains(output, "Options:", "Console output should contain options information");
+            Assert.Contains("Usage:", output);
+            Assert.Contains("Options:", output);
         }
         finally
         {
@@ -126,7 +126,7 @@ public class CliSubsystemTests
     /// <summary>
     ///     Test that Context and Program work together to handle the -h short help flag.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortHFlag()
     {
         // Arrange: command line arguments with -h short help flag; capture console output
@@ -143,11 +143,11 @@ public class CliSubsystemTests
             Program.Run(context);
 
             // Assert: help flag is parsed, usage text is displayed, and exit code is success
-            Assert.IsTrue(context.Help, "Context should parse -h flag as help");
-            Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+            Assert.True(context.Help, "Context should parse -h flag as help");
+            Assert.Equal(0, context.ExitCode);
             var output = capturedOut.ToString();
-            StringAssert.Contains(output, "Usage:", "Console output should contain usage information");
-            StringAssert.Contains(output, "Options:", "Console output should contain options information");
+            Assert.Contains("Usage:", output);
+            Assert.Contains("Options:", output);
         }
         finally
         {
@@ -158,7 +158,7 @@ public class CliSubsystemTests
     /// <summary>
     ///     Test that Context and Program work together to handle validation flag workflow.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits()
     {
         // Arrange: command line arguments with validate flag
@@ -169,14 +169,14 @@ public class CliSubsystemTests
         Program.Run(context);
 
         // Assert: validate flag is parsed and exit code is success
-        Assert.IsTrue(context.Validate, "Context should parse validate flag");
-        Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
+        Assert.True(context.Validate, "Context should parse validate flag");
+        Assert.Equal(0, context.ExitCode);
     }
 
     /// <summary>
     ///     Test that Context and Program work together to handle silent flag workflow.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput()
     {
         // Arrange: command line arguments with version and silent flags; capture console streams
@@ -196,10 +196,10 @@ public class CliSubsystemTests
             Program.Run(context);
 
             // Assert: silent flag is parsed, exit code is success, and no console output is produced
-            Assert.IsTrue(context.Silent, "Context should parse silent flag");
-            Assert.AreEqual(0, context.ExitCode, "Context should have success exit code");
-            Assert.AreEqual(string.Empty, capturedOut.ToString(), "Program should not write to stdout when --silent is set");
-            Assert.AreEqual(string.Empty, capturedError.ToString(), "Program should not write to stderr when --silent is set");
+            Assert.True(context.Silent, "Context should parse silent flag");
+            Assert.Equal(0, context.ExitCode);
+            Assert.Equal(string.Empty, capturedOut.ToString());
+            Assert.Equal(string.Empty, capturedError.ToString());
         }
         finally
         {
@@ -211,7 +211,7 @@ public class CliSubsystemTests
     /// <summary>
     ///     Test that Context and Program work together to handle results flag workflow.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_ResultsFlow_ContextAndProgram_WritesResultsFile()
     {
         // Arrange: temporary results file path and validation command with results output
@@ -226,9 +226,9 @@ public class CliSubsystemTests
             Program.Run(context);
 
             // Assert: results flag is parsed, validation runs, and results file is written
-            Assert.AreEqual(resultsFile, context.ResultsFile, "Context should parse results file path");
-            Assert.AreEqual(0, context.ExitCode, "Program should complete successfully");
-            Assert.IsTrue(File.Exists(resultsFile), "Results file should be written to specified path");
+            Assert.Equal(resultsFile, context.ResultsFile);
+            Assert.Equal(0, context.ExitCode);
+            Assert.True(File.Exists(resultsFile), "Results file should be written to specified path");
         }
         finally
         {
@@ -243,7 +243,7 @@ public class CliSubsystemTests
     /// <summary>
     ///     Test that Context and Program work together to handle log flag workflow.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_LogFlow_ContextAndProgram_WritesLogFile()
     {
         // Arrange: temporary log file path and version command with log output
@@ -259,14 +259,14 @@ public class CliSubsystemTests
                 Program.Run(context);
 
                 // Assert: version flag is parsed and exit code is success
-                Assert.IsTrue(context.Version, "Context should parse version flag");
-                Assert.AreEqual(0, context.ExitCode, "Program should complete successfully");
+                Assert.True(context.Version, "Context should parse version flag");
+                Assert.Equal(0, context.ExitCode);
             }
 
             // Assert: log file is written with version output
-            Assert.IsTrue(File.Exists(logFile), "Log file should be created at specified path");
+            Assert.True(File.Exists(logFile), "Log file should be created at specified path");
             var logContent = File.ReadAllText(logFile);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(logContent), "Log file should contain version output");
+            Assert.False(string.IsNullOrWhiteSpace(logContent), "Log file should contain version output");
         }
         finally
         {
@@ -281,7 +281,7 @@ public class CliSubsystemTests
     /// <summary>
     ///     Test that Program rejects unknown arguments, writes an error to stderr, and exits non-zero.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero()
     {
         // Arrange: unknown command-line argument and reflection to access private Program.Main
@@ -293,7 +293,7 @@ public class CliSubsystemTests
             types: [typeof(string[])],
             modifiers: null);
 
-        Assert.IsNotNull(mainMethod, "Program.Main(string[]) should exist");
+        Assert.NotNull(mainMethod);
 
         var originalError = Console.Error;
         try
@@ -305,11 +305,11 @@ public class CliSubsystemTests
             var result = mainMethod.Invoke(null, [args]);
 
             // Assert: invalid arguments produce a non-zero exit code and an error on stderr
-            Assert.IsNotNull(result, "Program.Main should return an exit code");
-            Assert.AreEqual(1, Convert.ToInt32(result), "Unknown arguments should cause exit code 1");
+            Assert.NotNull(result);
+            Assert.Equal(1, Convert.ToInt32(result));
             var errorOutput = errWriter.ToString();
-            Assert.IsFalse(string.IsNullOrWhiteSpace(errorOutput), "Program should write an error to stderr for unknown arguments");
-            StringAssert.Contains(errorOutput, "--unknown-flag");
+            Assert.False(string.IsNullOrWhiteSpace(errorOutput), "Program should write an error to stderr for unknown arguments");
+            Assert.Contains("--unknown-flag", errorOutput);
         }
         finally
         {
@@ -320,7 +320,7 @@ public class CliSubsystemTests
     /// <summary>
     ///     Test that Context writes error messages to stderr.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_ErrorOutput_ContextAndProgram_WritesErrorToStderr()
     {
         // Arrange: redirect stderr to capture error output
@@ -336,8 +336,8 @@ public class CliSubsystemTests
 
             // Assert: error is written to stderr and exit code reflects failure
             var errorOutput = errWriter.ToString();
-            StringAssert.Contains(errorOutput, "Test error message");
-            Assert.AreEqual(1, context.ExitCode, "Exit code should be non-zero after error");
+            Assert.Contains("Test error message", errorOutput);
+            Assert.Equal(1, context.ExitCode);
         }
         finally
         {
@@ -348,7 +348,7 @@ public class CliSubsystemTests
     /// <summary>
     ///     Test that Context and Program work together to handle the --result legacy alias for results.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_ResultAliasFlow_ContextAndProgram_WritesResultsFile()
     {
         // Arrange: temporary results file path and validation command with legacy --result alias
@@ -363,9 +363,9 @@ public class CliSubsystemTests
             Program.Run(context);
 
             // Assert: legacy --result alias is parsed, validation runs, and results file is written
-            Assert.AreEqual(resultsFile, context.ResultsFile, "Context should parse results file path via --result alias");
-            Assert.AreEqual(0, context.ExitCode, "Program should complete successfully");
-            Assert.IsTrue(File.Exists(resultsFile), "Results file should be written to specified path");
+            Assert.Equal(resultsFile, context.ResultsFile);
+            Assert.Equal(0, context.ExitCode);
+            Assert.True(File.Exists(resultsFile), "Results file should be written to specified path");
         }
         finally
         {
@@ -380,7 +380,7 @@ public class CliSubsystemTests
     /// <summary>
     ///     Test that Context and Program work together to handle depth flag with self-validation.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void CliSubsystem_DepthFlow_ContextAndProgram_AdjustsHeadingDepth()
     {
         // Arrange: command line with --validate, --depth 2, and a log file to capture output
@@ -396,13 +396,13 @@ public class CliSubsystemTests
                 Program.Run(context);
 
                 // Assert: depth is parsed correctly
-                Assert.AreEqual(2, context.HeadingDepth, "Context should parse depth value");
-                Assert.AreEqual(0, context.ExitCode, "Program should complete successfully");
+                Assert.Equal(2, context.HeadingDepth);
+                Assert.Equal(0, context.ExitCode);
             }
 
             // Assert: log contains level-2 heading
             var logContent = File.ReadAllText(logFile);
-            StringAssert.Contains(logContent, "## DEMA Consulting", "Validation output should use depth-2 heading");
+            Assert.Contains("## DEMA Consulting", logContent);
         }
         finally
         {

@@ -25,13 +25,13 @@ namespace DemaConsulting.TemplateDotNetTool.Tests;
 /// <summary>
 ///     Tests for the PathHelpers class.
 /// </summary>
-[TestClass]
+[Collection("Sequential")]
 public class PathHelpersTests
 {
     /// <summary>
     ///     Test that SafePathCombine correctly combines valid paths.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void PathHelpers_SafePathCombine_ValidPaths_CombinesCorrectly()
     {
         // Arrange: setup valid base path and relative path for combining
@@ -42,13 +42,13 @@ public class PathHelpersTests
         var result = PathHelpers.SafePathCombine(basePath, relativePath);
 
         // Assert: verify expected behavior
-        Assert.AreEqual(Path.Combine(basePath, relativePath), result);
+        Assert.Equal(Path.Combine(basePath, relativePath), result);
     }
 
     /// <summary>
     ///     Test that SafePathCombine throws ArgumentException for path traversal with double dots.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void PathHelpers_SafePathCombine_PathTraversalWithDoubleDots_ThrowsArgumentException()
     {
         // Arrange: setup base path and dangerous path traversal using double dots
@@ -64,7 +64,7 @@ public class PathHelpersTests
     /// <summary>
     ///     Test that SafePathCombine throws ArgumentException for path with double dots in middle.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void PathHelpers_SafePathCombine_DoubleDotsInMiddle_ThrowsArgumentException()
     {
         // Arrange: setup base path and path with double dots in middle for traversal attempt
@@ -80,7 +80,7 @@ public class PathHelpersTests
     /// <summary>
     ///     Test that SafePathCombine throws ArgumentException for absolute paths.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void PathHelpers_SafePathCombine_AbsolutePath_ThrowsArgumentException()
     {
         // Arrange & Act & Assert: test Unix absolute path rejection
@@ -104,7 +104,7 @@ public class PathHelpersTests
     /// <summary>
     ///     Test that SafePathCombine correctly handles current directory reference.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void PathHelpers_SafePathCombine_CurrentDirectoryReference_CombinesCorrectly()
     {
         // Arrange: setup base path and current directory reference for testing
@@ -115,13 +115,13 @@ public class PathHelpersTests
         var result = PathHelpers.SafePathCombine(basePath, relativePath);
 
         // Assert: verify expected behavior
-        Assert.AreEqual(Path.Combine(basePath, relativePath), result);
+        Assert.Equal(Path.Combine(basePath, relativePath), result);
     }
 
     /// <summary>
     ///     Test that SafePathCombine correctly handles nested paths.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void PathHelpers_SafePathCombine_NestedPaths_CombinesCorrectly()
     {
         // Arrange: setup base path and deeply nested relative path
@@ -132,13 +132,13 @@ public class PathHelpersTests
         var result = PathHelpers.SafePathCombine(basePath, relativePath);
 
         // Assert: verify expected behavior
-        Assert.AreEqual(Path.Combine(basePath, relativePath), result);
+        Assert.Equal(Path.Combine(basePath, relativePath), result);
     }
 
     /// <summary>
     ///     Test that SafePathCombine correctly handles empty relative path.
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void PathHelpers_SafePathCombine_EmptyRelativePath_ReturnsBasePath()
     {
         // Arrange: setup base path and empty relative path for testing edge case
@@ -149,13 +149,13 @@ public class PathHelpersTests
         var result = PathHelpers.SafePathCombine(basePath, relativePath);
 
         // Assert: verify expected behavior
-        Assert.AreEqual(Path.Combine(basePath, relativePath), result);
+        Assert.Equal(Path.Combine(basePath, relativePath), result);
     }
 
     /// <summary>
     ///     Test that SafePathCombine correctly handles paths with segments beginning with double dots (not traversal).
     /// </summary>
-    [TestMethod]
+    [Fact]
     public void PathHelpers_SafePathCombine_DotDotPrefixedName_CombinesCorrectly()
     {
         // Arrange: setup base path and directory name starting with double dots (not traversal)
@@ -166,7 +166,7 @@ public class PathHelpersTests
         var result = PathHelpers.SafePathCombine(basePath, relativePath);
 
         // Assert: verify expected behavior
-        Assert.AreEqual(Path.Combine(basePath, relativePath), result);
+        Assert.Equal(Path.Combine(basePath, relativePath), result);
     }
 }
 

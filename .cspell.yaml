@@ -25,7 +25,7 @@ words:
   - docversion
   - errorlevel
   - fileassert
-  - MSTEST
+  - xunit
   - nameof
   - pagetitle
   - Pandoc
