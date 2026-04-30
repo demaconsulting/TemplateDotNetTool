@@ -1,19 +1,21 @@
 ---
 # ReviewMark Configuration File
 # This file defines which files require review, where the evidence store is located,
-# and how files are grouped into named review-sets following software unit boundaries.
+# and how files are grouped into named review-sets following hierarchical scope principles.
 
 # Patterns identifying all files that require review.
 # Processed in order; prefix a pattern with '!' to exclude.
 needs-review:
-  - "README.md"                  # Project readme
-  - "**/*.cs"                    # All C# source and test files
+  - "README.md"                  # Root README file
   - "requirements.yaml"          # Root requirements file
+  - "**/*.cs"                    # All C# source and test files
   - "docs/reqstream/**/*.yaml"   # Requirements files
-  - "docs/user_guide/**/*.md"    # User guide documents
-  - "docs/design/**/*.md"        # Design documents
+  - "docs/design/**/*.md"        # Design documentation files
+  - "docs/user_guide/**/*.md"    # User guide documentation
   - "!**/obj/**"                 # Exclude build output
   - "!**/bin/**"                 # Exclude build output
+  - "!node_modules/**"           # Exclude npm dependencies
+  - "!**/.venv/**"               # Exclude Python virtual environment
 
 # Evidence source: review data and index.json are located in the 'reviews' branch
 # of this repository, accessed through the GitHub public HTTPS raw content access.
@@ -23,7 +25,8 @@ evidence-source:
   type: url
   location: https://raw.githubusercontent.com/demaconsulting/TemplateDotNetTool/reviews/index.json
 
-# Review sets following standardized patterns for hierarchical compliance coverage
+# Review sets following hierarchical scope principles.
+# Each review-set focuses on a single compliance question with manageable file counts.
 reviews:
   # Purpose Review (only one per repository)
   - id: Purpose
