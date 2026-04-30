@@ -17,3 +17,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+
+namespace DemaConsulting.TemplateDotNetTool.Tests;
+
+// Tests share Console state, so they must not run in parallel.
+/// <summary>
+/// Defines the Sequential test collection.
+/// Tests in this collection are disabled from running in parallel to
+/// prevent conflicts when sharing Console state.
+/// </summary>
+[CollectionDefinition("Sequential", DisableParallelization = true)]
+public sealed class SequentialCollection { }
