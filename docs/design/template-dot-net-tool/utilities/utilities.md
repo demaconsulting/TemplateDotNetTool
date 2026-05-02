@@ -20,14 +20,15 @@ The `Utilities` subsystem contains the following software unit:
 
 ## Interfaces
 
-The `Utilities` subsystem exposes the following interface to the rest of the tool:
+The `Utilities` subsystem exposes the following outbound interface to the rest of the tool:
 
-| Interface                     | Direction | Description                                                                           |
-|-------------------------------|-----------|---------------------------------------------------------------------------------------|
-| `PathHelpers.SafePathCombine` | Outbound  | Combines two path segments, rejecting traversal sequences and absolute path overrides. |
+- **`PathHelpers.SafePathCombine`**: Combines two path segments, rejecting traversal sequences
+  and absolute path overrides.
 
 `SafePathCombine` throws `ArgumentException` when the combined path escapes the base
-directory, and `ArgumentNullException` for null inputs.
+directory, and `ArgumentNullException` for null inputs. `NotSupportedException`
+(unsupported path format) and `PathTooLongException` (path exceeds system limit) may
+propagate from the underlying BCL path operations.
 
 ## Interactions
 

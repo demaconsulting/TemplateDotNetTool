@@ -73,7 +73,9 @@ sections:
           - IntegrationTest_UnknownArgument_ReturnsError
 
       - id: Template-System-Results
-        title: The tool shall write self-validation results to a standard test result file when the `--results` flag is provided.
+        title: >-
+          The tool shall write self-validation results to a standard test result
+          file when the `--results` flag is provided.
         justification: |
           Enables integration with CI/CD systems that expect standard test result formats.
           TRX format is compatible with MSTest; JUnit XML is compatible with many CI tools.
@@ -89,3 +91,29 @@ sections:
           multiple reports.
         tests:
           - IntegrationTest_ValidateFlag_RunsValidation
+          - IntegrationTest_ValidateWithDepth_OutputsHeadingAtCorrectDepth
+
+      - id: Template-System-ValidateFailure
+        title: The tool shall return a non-zero exit code when one or more self-validation tests fail.
+        justification: |
+          A non-zero exit code on validation failure enables CI/CD pipelines to detect
+          and surface qualification failures automatically, preventing the use of a
+          mis-behaving tool in compliance-critical workflows.
+        tests: []
+
+      - id: Template-System-DefaultBehavior
+        title: The tool shall display a banner and run the default tool logic when invoked without any action flags.
+        justification: |
+          When a user invokes the tool without any recognized action flag, the tool shall
+          display a banner identifying itself and run its primary logic so that the
+          invocation is never silently empty.
+        # Gap: no integration test for default behavior yet; covered by unit test
+        # Program_Run_NoArguments_DisplaysDefaultBehavior
+        tests: []
+
+      - id: Template-System-ResultAlias
+        title: The tool shall accept `--result` as a legacy alias for `--results`.
+        justification: |
+          Backward compatibility with scripts that use the earlier `--result` spelling
+          prevents breakage when upgrading to newer tool versions.
+        tests: []

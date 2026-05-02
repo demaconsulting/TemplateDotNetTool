@@ -121,15 +121,15 @@ path.
 
 ## Requirements Coverage
 
-| Requirement                                                         | Test Scenario                                                                    |
-|---------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| `Template-PathHelpers-SafeCombine` (valid path combination)         | PathHelpers_SafePathCombine_ValidPaths_CombinesCorrectly                         |
-| `Template-PathHelpers-SafeCombine` (leading traversal rejection)    | PathHelpers_SafePathCombine_PathTraversalWithDoubleDots_ThrowsArgumentException  |
-| `Template-PathHelpers-SafeCombine` (embedded traversal rejection)   | PathHelpers_SafePathCombine_DoubleDotsInMiddle_ThrowsArgumentException           |
-| `Template-PathHelpers-SafeCombine` (absolute path rejection)        | PathHelpers_SafePathCombine_AbsolutePath_ThrowsArgumentException                 |
-| `Template-PathHelpers-SafeCombine` (current-directory prefix)       | PathHelpers_SafePathCombine_CurrentDirectoryReference_CombinesCorrectly          |
-| `Template-PathHelpers-SafeCombine` (nested path combination)        | PathHelpers_SafePathCombine_NestedPaths_CombinesCorrectly                        |
-| `Template-PathHelpers-SafeCombine` (empty relative path)            | PathHelpers_SafePathCombine_EmptyRelativePath_ReturnsBasePath                    |
-| `Template-PathHelpers-SafeCombine` (dot-dot filename, not traversal)| PathHelpers_SafePathCombine_DotDotPrefixedName_CombinesCorrectly                 |
-| `Template-PathHelpers-SafeCombine` (null basePath rejection)        | PathHelpers_SafePathCombine_NullBasePath_ThrowsArgumentNullException             |
-| `Template-PathHelpers-SafeCombine` (null relativePath rejection)    | PathHelpers_SafePathCombine_NullRelativePath_ThrowsArgumentNullException         |
+The `Template-PathHelpers-SafeCombine` requirement is verified by the following test scenarios:
+
+- (valid path combination): PathHelpers_SafePathCombine_ValidPaths_CombinesCorrectly
+- (leading traversal rejection): PathHelpers_SafePathCombine_PathTraversalWithDoubleDots_ThrowsArgumentException
+- (embedded traversal rejection): PathHelpers_SafePathCombine_DoubleDotsInMiddle_ThrowsArgumentException
+- (absolute path rejection): PathHelpers_SafePathCombine_AbsolutePath_ThrowsArgumentException
+- (current-directory prefix): PathHelpers_SafePathCombine_CurrentDirectoryReference_CombinesCorrectly
+- (nested path combination): PathHelpers_SafePathCombine_NestedPaths_CombinesCorrectly
+- (empty relative path): PathHelpers_SafePathCombine_EmptyRelativePath_ReturnsBasePath
+- (dot-dot filename, not traversal): PathHelpers_SafePathCombine_DotDotPrefixedName_CombinesCorrectly
+- (null basePath rejection): PathHelpers_SafePathCombine_NullBasePath_ThrowsArgumentNullException
+- (null relativePath rejection): PathHelpers_SafePathCombine_NullRelativePath_ThrowsArgumentNullException

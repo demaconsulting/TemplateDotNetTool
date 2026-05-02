@@ -51,6 +51,7 @@ internal static class Program
     /// </summary>
     /// <param name="args">Command-line arguments.</param>
     /// <returns>Exit code: 0 for success, non-zero for failure.</returns>
+    /// <exception cref="Exception">Thrown when an unexpected error occurs; re-thrown after writing to stderr.</exception>
     private static int Main(string[] args)
     {
         try

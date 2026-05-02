@@ -18,8 +18,9 @@ sections:
           - Validation_Run_WithSilentContext_ExitCodeIsZero
 
       - id: Template-Validation-TrxResults
-        title: The Validation class shall write test results to a `.trx` file in TRX format when the results file path ends
-          with `.trx`.
+        title: >-
+          The Validation class shall write test results to a `.trx` file in TRX
+          format when the results file path ends with `.trx`.
         justification: |
           TRX format is compatible with MSTest and ReqStream requirements traceability tools,
           enabling integration with CI/CD systems that process MSTest output.
@@ -27,8 +28,9 @@ sections:
           - Validation_Run_WithTrxResultsFile_WritesTrxFile
 
       - id: Template-Validation-XmlResults
-        title: The Validation class shall write test results to a `.xml` file in JUnit XML format when the results file path
-          ends with `.xml`.
+        title: >-
+          The Validation class shall write test results to a `.xml` file in
+          JUnit XML format when the results file path ends with `.xml`.
         justification: |
           JUnit XML format is compatible with many CI tools (Jenkins, GitHub Actions, GitLab CI),
           enabling broad integration with CI/CD pipelines that process JUnit output.

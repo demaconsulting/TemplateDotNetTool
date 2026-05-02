@@ -34,6 +34,7 @@ internal static class Validation
     ///     Runs self-validation tests and optionally writes results to a file.
     /// </summary>
     /// <param name="context">The context containing command line arguments and program state.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="context"/> is null.</exception>
     public static void Run(Context context)
     {
         // Validate input

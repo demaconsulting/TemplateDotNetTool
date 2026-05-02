@@ -171,7 +171,7 @@ public class IntegrationTests
         {
             // Act: execute the operation being tested
             var exitCode = Runner.Run(
-                out var _,
+                out var output,
                 "dotnet",
                 _dllPath,
                 "--log",
@@ -183,6 +183,7 @@ public class IntegrationTests
 
             var logContent = File.ReadAllText(logFile);
             Assert.Contains("Template DotNet Tool version", logContent);
+            Assert.Contains("Template DotNet Tool version", output);
         }
         finally
         {
@@ -245,6 +246,27 @@ public class IntegrationTests
         // Assert: verify expected behavior
         Assert.NotEqual(0, exitCode);
         Assert.Contains("Error", output);
+        Assert.Contains("--unknown", output);
+    }
+
+    /// <summary>
+    ///     Test that validate with depth flag outputs headings at the specified depth.
+    /// </summary>
+    [Fact]
+    public void IntegrationTest_ValidateWithDepth_OutputsHeadingAtCorrectDepth()
+    {
+        // Act: execute the operation being tested with --depth 3
+        var exitCode = Runner.Run(
+            out var output,
+            "dotnet",
+            _dllPath,
+            "--validate",
+            "--depth",
+            "3");
+
+        // Assert: verify expected behavior
+        Assert.Equal(0, exitCode);
+        Assert.Contains("###", output);
     }
 }
 

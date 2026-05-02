@@ -105,15 +105,21 @@ through `Context.Create` and `Program.Run`.
 
 ## Requirements Coverage
 
-| Requirement                   | Test Scenario                                                                      |
-|-------------------------------|------------------------------------------------------------------------------------|
-| `Template-Cli-Version`        | CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits                 |
-| `Template-Cli-Help`           | CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits, CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortQuestionFlag, CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortHFlag |
-| `Template-Cli-Validate`       | CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits                 |
-| `Template-Cli-Silent`         | CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput                         |
-| `Template-Cli-Results`        | CliSubsystem_ResultsFlow_ContextAndProgram_WritesResultsFile                       |
-| `Template-Cli-Log`            | CliSubsystem_LogFlow_ContextAndProgram_WritesLogFile                               |
-| `Template-Cli-InvalidArgs`    | CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero  |
-| `Template-Cli-ErrorOutput`    | CliSubsystem_ErrorOutput_ContextAndProgram_WritesErrorToStderr                     |
-| `Template-Cli-Context`        | CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits, CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits, CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits, CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput |
-| `Template-Cli-ExitCode`       | CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero  |
+- **`Template-Cli-Version`**: CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits
+- **`Template-Cli-Help`**: CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits,
+  CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortQuestionFlag,
+  CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortHFlag
+- **`Template-Cli-Validate`**: CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits
+- **`Template-Cli-Silent`**: CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput
+- **`Template-Cli-Results`**: CliSubsystem_ResultsFlow_ContextAndProgram_WritesResultsFile
+- **`Template-Cli-Log`**: CliSubsystem_LogFlow_ContextAndProgram_WritesLogFile
+- **`Template-Cli-InvalidArgs`**: CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero
+- **`Template-Cli-ErrorOutput`**: CliSubsystem_ErrorOutput_ContextAndProgram_WritesErrorToStderr
+- **`Template-Cli-ArgumentParsing`**: CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits,
+  CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits,
+  CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits
+- **`Template-Cli-OutputChannels`**: CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput,
+  CliSubsystem_ErrorOutput_ContextAndProgram_WritesErrorToStderr
+- **`Template-Cli-ExitCode`**: CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero
+- **`Template-Cli-Depth`**: CliSubsystem_DepthFlow_ContextAndProgram_AdjustsHeadingDepth
+- **`Template-Cli-ResultAlias`**: CliSubsystem_ResultAliasFlow_ContextAndProgram_WritesResultsFile

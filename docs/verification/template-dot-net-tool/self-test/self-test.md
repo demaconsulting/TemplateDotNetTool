@@ -51,11 +51,21 @@ targeting a `.xml` path.
 **Expected**: Both files are created; each file contains the correct root XML element for its
 format; exit code is 0 for each run.
 
+### SelfTestSubsystem_ValidationWorkflow_WithUnsupportedExtension_EmitsErrorAndNoFile
+
+**Scenario**: `Validation.Run` is called with a context whose `ResultsFile` has an unsupported
+extension (e.g., `.bad`).
+
+**Expected**: No file is created at the specified path; `context.ExitCode` is 1; an error
+message is written via `context.WriteError` indicating the unsupported format.
+
 ## Requirements Coverage
 
-| Requirement                     | Test Scenario                                                                 |
-|---------------------------------|-------------------------------------------------------------------------------|
-| Self-validation without results | SelfTestSubsystem_ValidationWorkflow_NoResultFiles_CompletesSuccessfully      |
-| TRX results file generation     | SelfTestSubsystem_ValidationWorkflow_WithTrxFile_GeneratesResults             |
-| JUnit results file generation   | SelfTestSubsystem_ValidationWorkflow_WithJUnitFile_GeneratesResults           |
-| Both result formats generation  | SelfTestSubsystem_ValidationWorkflow_WithBothResultFiles_GeneratesBothResults |
+- `Template-SelfTest-Qualification`:
+  SelfTestSubsystem_ValidationWorkflow_NoResultFiles_CompletesSuccessfully
+- `Template-SelfTest-ResultsOutput`:
+  SelfTestSubsystem_ValidationWorkflow_WithTrxFile_GeneratesResults,
+  SelfTestSubsystem_ValidationWorkflow_WithJUnitFile_GeneratesResults,
+  SelfTestSubsystem_ValidationWorkflow_WithBothResultFiles_GeneratesBothResults
+- Error path (no formal requirement):
+  SelfTestSubsystem_ValidationWorkflow_WithUnsupportedExtension_EmitsErrorAndNoFile

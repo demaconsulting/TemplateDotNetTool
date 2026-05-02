@@ -52,9 +52,9 @@ path is passed to `Directory.CreateDirectory`.
 
 ## Requirements Coverage
 
-| Requirement                                              | Test Scenario                                                              |
-|----------------------------------------------------------|----------------------------------------------------------------------------|
-| `Template-Utilities-SafePaths` (valid path resolution)   | UtilitiesSubsystem_PathResolutionWorkflow_ValidPaths_ResolvesCorrectly     |
-| `Template-Utilities-SafePaths` (traversal rejection)     | UtilitiesSubsystem_PathTraversalValidation_DangerousPaths_ThrowsException  |
-| `Template-Utilities-SafePaths` (absolute path rejection) | UtilitiesSubsystem_AbsolutePathRejection_ThrowsException                   |
-| `Template-Utilities-SafePaths` (directory creation)      | UtilitiesSubsystem_DirectoryCreationWorkflow_ValidPaths_CreatesDirectories |
+The `Template-Utilities-SafePaths` requirement is verified by the following test scenarios:
+
+- (valid path resolution): UtilitiesSubsystem_PathResolutionWorkflow_ValidPaths_ResolvesCorrectly
+- (traversal rejection): UtilitiesSubsystem_PathTraversalValidation_DangerousPaths_ThrowsException
+- (absolute path rejection): UtilitiesSubsystem_AbsolutePathRejection_ThrowsException
+- (directory creation): UtilitiesSubsystem_DirectoryCreationWorkflow_ValidPaths_CreatesDirectories

@@ -15,6 +15,7 @@ how they are realized.
 
 This document covers the detailed design of the following subsystems and software units:
 
+- **TemplateDotNetTool** — the system as a whole (`template-dot-net-tool.md`)
 - **Program** — entry point and execution orchestrator (`Program.cs`)
 - **Cli** subsystem
   - **Context** — command-line argument parser and I/O owner (`Cli/Context.cs`)
@@ -88,5 +89,5 @@ Each software item in the structure above has corresponding artifacts in paralle
 
 ## References
 
-See the *Template DotNet Tool User Guide* (`docs/user_guide/introduction.md`) and the project
-repository at `https://github.com/demaconsulting/TemplateDotNetTool`.
+- [REF-1] Template DotNet Tool User Guide — `docs/user_guide/introduction.md`
+- [REF-2] Template DotNet Tool Repository — `https://github.com/demaconsulting/TemplateDotNetTool`

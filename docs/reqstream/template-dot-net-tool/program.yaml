@@ -15,6 +15,7 @@ sections:
           troubleshooting and compatibility verification.
         tests:
           - Program_Run_WithVersionFlag_DisplaysVersionOnly
+          - Program_Run_WithShortVersionFlag_DisplaysVersion
           - Program_Version_ReturnsNonEmptyString
 
       - id: Template-Program-Help
@@ -24,6 +25,8 @@ sections:
           external resources.
         tests:
           - Program_Run_WithHelpFlag_DisplaysUsageInformation
+          - Program_Run_WithShortHelpFlag_DisplaysUsage
+          - Program_Run_WithQuestionMarkFlag_DisplaysUsage
 
       - id: Template-Program-Validate
         title: The Program class shall support --validate flag to invoke the self-validation framework.
@@ -43,3 +46,4 @@ sections:
           - Program_Run_WithHelpFlag_DisplaysUsageInformation
           - Program_Run_WithValidateFlag_RunsValidation
           - Program_Run_NoArguments_DisplaysDefaultBehavior
+          - Program_Run_WithInvalidArgs_ReturnsNonZeroExitCode

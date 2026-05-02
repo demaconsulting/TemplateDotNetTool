@@ -47,3 +47,7 @@ the base directory.
   identifying `relativePath` as the problematic parameter, making debugging straightforward.
 - **No logging or error accumulation**: `SafePathCombine` is a pure utility method that throws
   on invalid input; it does not interact with the `Context` or any output mechanism.
+- **BCL pass-through exceptions**: `NotSupportedException` (unsupported path format) and
+  `PathTooLongException` (path exceeds system limit) may propagate from underlying BCL path
+  operations (`Path.Combine`, `Path.GetFullPath`). Callers that supply paths from external
+  sources should handle these exceptions alongside `ArgumentException`.

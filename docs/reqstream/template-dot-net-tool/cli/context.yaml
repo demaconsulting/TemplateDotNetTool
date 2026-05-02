@@ -50,9 +50,7 @@ sections:
           automated environments to suppress console output via the silent flag.
         tests:
           - Context_WriteLine_NotSilent_WritesToConsole
-          - Context_WriteLine_Silent_DoesNotWriteToConsole
           - Context_WriteError_NotSilent_WritesToConsole
-          - Context_WriteError_Silent_DoesNotWriteToConsole
 
       - id: Template-Context-LogOutput
         title: The Context class shall additionally write output to a log file when the log flag is set.
@@ -80,7 +78,6 @@ sections:
           without polluting stdout, which consumers may pipe or redirect for data capture.
         tests:
           - Context_WriteError_NotSilent_WritesToConsole
-          - Context_WriteError_SetsErrorExitCode
 
       - id: Template-Context-ExitCode
         title: The Context class shall track errors and expose a non-zero exit code when errors have occurred.
@@ -89,3 +86,12 @@ sections:
           programmatically via the process exit code.
         tests:
           - Context_WriteError_SetsErrorExitCode
+
+      - id: Template-Context-LogFailure
+        title: The Context class shall report an error when the specified log file cannot be opened.
+        justification: |
+          Failure to open a log file must be surfaced immediately so that users know their
+          log output will not be captured, preventing silent data loss in audit or
+          compliance workflows.
+        tests:
+          - Context_Create_LogFlag_InvalidPath_ThrowsInvalidOperationException

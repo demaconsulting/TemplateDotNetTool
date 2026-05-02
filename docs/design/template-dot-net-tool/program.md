@@ -34,10 +34,11 @@ writes `"Unexpected error: {message}"` to stderr and re-throws.
 
 Inspects the flags on `context` and dispatches:
 
-- `Version` flag → prints `Version` string only, then returns.
-- `Help` flag → calls `PrintHelp`, then returns.
-- `Validate` flag → calls `Validation.Run(context)`.
-- No flags → calls `PrintBanner` then `RunToolLogic`.
+- `Version` flag → prints `Version` string only, then returns (no banner).
+- Otherwise: calls `PrintBanner`, then:
+  - `Help` flag → calls `PrintHelp`, then returns.
+  - `Validate` flag → calls `Validation.Run(context)`.
+  - No flags → calls `RunToolLogic`.
 
 ### PrintBanner(Context context)
 
@@ -49,8 +50,16 @@ Writes the usage/options table to `context`.
 
 ### RunToolLogic(Context context)
 
-Placeholder for main tool logic; currently writes the banner. Downstream projects replace
-this with actual tool behavior.
+Placeholder for main tool logic. Currently writes a demo message:
+
+```text
+Template DotNet Tool - Demo Functionality
+This is a template project demonstrating best practices.
+
+Replace this with your actual tool implementation.
+```
+
+Downstream projects replace this method body with actual tool behavior.
 
 ### Version (property)
 
@@ -59,7 +68,7 @@ Reads `AssemblyInformationalVersionAttribute` from the executing assembly, falli
 
 ## Interactions
 
-| Dependency   | Direction | Purpose                                             |
-|--------------|-----------|-----------------------------------------------------|
-| `Context`    | Uses      | Reads flags; calls `WriteLine`/`WriteError`         |
-| `Validation` | Uses      | Calls `Validation.Run` when validate flag is set    |
+The `Program` unit uses the following dependencies:
+
+- **`Context`**: Reads flags; calls `WriteLine`/`WriteError`.
+- **`Validation`**: Calls `Validation.Run` when validate flag is set.

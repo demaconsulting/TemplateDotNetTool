@@ -136,6 +136,18 @@ Write output to a log file:
 templatetool --log output.log
 ```
 
+## Error Handling
+
+Unrecognized arguments cause the tool to print an error message to standard error and exit
+with a non-zero exit code. For example:
+
+```text
+Error: Unsupported argument '--unknown'
+```
+
+This behavior enables automated scripts and CI/CD pipelines to detect and surface
+misconfiguration failures automatically.
+
 # Command-Line Options
 
 The following command-line options are supported:

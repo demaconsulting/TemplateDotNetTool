@@ -20,17 +20,18 @@ The `SelfTest` subsystem contains the following software unit:
 
 ## Interfaces
 
-The `SelfTest` subsystem exposes the following interface to the rest of the tool:
+The `SelfTest` subsystem exposes the following outbound interface to the rest of the tool:
 
-| Interface        | Direction | Description                                                           |
-|------------------|-----------|-----------------------------------------------------------------------|
-| `Validation.Run` | Inbound   | Runs all self-validation tests, prints a summary, and writes results. |
+- **`Validation.Run`**: Runs all self-validation tests, prints a summary, and writes results.
 
 ## Interactions
 
-| Dependency                   | Direction | Purpose                                                          |
-|------------------------------|-----------|------------------------------------------------------------------|
-| `Context`                    | Uses      | Output channel for header lines, test summaries, and errors.     |
-| `Program`                    | Uses      | `Program.Run` is called internally to exercise the tool.         |
-| `PathHelpers`                | Uses      | `SafePathCombine` for constructing log file paths in tests.      |
-| `DemaConsulting.TestResults.IO` | Uses   | TrxSerializer and JUnitSerializer provide TRX and JUnit XML serialization for results output. |
+The `SelfTest` subsystem uses the following dependencies:
+
+- **`Context`**: Output channel for header lines, test summaries, and errors.
+- **`Program`**: `Program.Run` is called internally to exercise the tool.
+- **`PathHelpers`**: `SafePathCombine` for constructing log file paths in tests.
+- **`DemaConsulting.TestResults.IO`**: TrxSerializer and JUnitSerializer provide TRX and JUnit XML
+  serialization for results output.
+- **`DemaConsulting.TestResults`**: `TestResults`, `TestResult`, and `TestOutcome` data-model types
+  used for accumulating and representing self-validation results.

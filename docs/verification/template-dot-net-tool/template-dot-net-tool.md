@@ -110,18 +110,27 @@ on standard output.
 **Expected**: Exit code non-zero; combined output contains an error message indicating the
 unrecognized argument.
 
+### IntegrationTest_ValidateWithDepth_OutputsHeadingAtCorrectDepth
+
+**Scenario**: The `--validate` flag is combined with `--depth 3`.
+
+**Expected**: Exit code 0; combined output contains `###` (heading at depth 3).
+
 ## Requirements Coverage
 
-The table below maps each system-level requirement category to the integration test scenarios that
-verify it.
+The following list maps each system-level requirement category to the integration test scenarios
+that verify it.
 
-| Requirement Category       | Test Scenarios                                         |
-|----------------------------|--------------------------------------------------------|
-| Version display            | IntegrationTest_VersionFlag_OutputsVersion             |
-| Help display               | IntegrationTest_HelpFlag_OutputsUsageInformation       |
-| Self-validation            | IntegrationTest_ValidateFlag_RunsValidation            |
-| TRX results output         | IntegrationTest_ValidateWithResults_GeneratesTrxFile   |
-| JUnit results output       | IntegrationTest_ValidateWithResults_GeneratesJUnitFile |
-| Silent mode                | IntegrationTest_SilentFlag_SuppressesOutput            |
-| Log file output            | IntegrationTest_LogFlag_WritesOutputToFile             |
-| Invalid argument rejection | IntegrationTest_UnknownArgument_ReturnsError           |
+- **Version display**: IntegrationTest_VersionFlag_OutputsVersion
+- **Help display**: IntegrationTest_HelpFlag_OutputsUsageInformation
+- **Self-validation**: IntegrationTest_ValidateFlag_RunsValidation
+- **TRX results output**: IntegrationTest_ValidateWithResults_GeneratesTrxFile
+- **JUnit results output**: IntegrationTest_ValidateWithResults_GeneratesJUnitFile
+- **Silent mode**: IntegrationTest_SilentFlag_SuppressesOutput
+- **Log file output**: IntegrationTest_LogFlag_WritesOutputToFile
+- **Invalid argument rejection**: IntegrationTest_UnknownArgument_ReturnsError
+- **`Template-System-Depth`**: IntegrationTest_ValidateFlag_RunsValidation,
+  IntegrationTest_ValidateWithDepth_OutputsHeadingAtCorrectDepth
+- **`Template-System-ValidateFailure`**: *(no integration test yet)*
+- **`Template-System-DefaultBehavior`**: *(no integration test yet)*
+- **`Template-System-ResultAlias`**: *(no integration test yet)*

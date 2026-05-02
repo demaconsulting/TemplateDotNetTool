@@ -13,17 +13,17 @@ properties. It also owns the two output channels — console and log file — th
 
 ## Data Model
 
-| Field          | Type            | Description                                                                        |
-|----------------|-----------------|------------------------------------------------------------------------------------|
-| `_logWriter`   | `StreamWriter?` | Log file writer; `null` when logging is disabled.                                  |
-| `_hasErrors`   | `bool`          | Set to `true` on the first `WriteError` call.                                      |
-| `Version`      | `bool`          | `true` when `-v` or `--version` was passed.                                        |
-| `Help`         | `bool`          | `true` when `-?`, `-h`, or `--help` was passed.                                    |
-| `Silent`       | `bool`          | `true` when `--silent` was passed.                                                 |
-| `Validate`     | `bool`          | `true` when `--validate` was passed.                                               |
-| `ResultsFile`  | `string?`       | Path supplied after `--results` or `--result`, or `null`.                          |
-| `HeadingDepth` | `int`           | Heading depth for markdown output; valid range 1–6 (default 1); via `--depth`.     |
-| `ExitCode`     | `int`           | `1` if `_hasErrors`; `0` otherwise.                                                |
+| Field          | Type            | Description                                                                       |
+|----------------|-----------------|-----------------------------------------------------------------------------------|
+| `_logWriter`   | `StreamWriter?` | Log file writer; `null` when logging is disabled.                                 |
+| `_hasErrors`   | `bool`          | Set to `true` on the first `WriteError` call.                                     |
+| `Version`      | `bool`          | `true` when `-v` or `--version` was passed.                                       |
+| `Help`         | `bool`          | `true` when `-?`, `-h`, or `--help` was passed.                                   |
+| `Silent`       | `bool`          | `true` when `--silent` was passed.                                                |
+| `Validate`     | `bool`          | `true` when `--validate` was passed.                                              |
+| `ResultsFile`  | `string?`       | Path supplied after `--results` or `--result`, or `null`.                         |
+| `HeadingDepth` | `int`           | Heading depth for markdown output; valid range 1–6 (default 1); via `--depth`.    |
+| `ExitCode`     | `int`           | `1` if `_hasErrors`; `0` otherwise.                                               |
 
 ## Methods
 
@@ -51,4 +51,4 @@ Disposes `_logWriter` and sets it to `null`.
 ## Interactions
 
 `Context` has no dependencies on other tool units. It uses only .NET base class library types
-(`Console`, `StreamWriter`, `Path`).
+(`Console`, `StreamWriter`).

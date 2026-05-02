@@ -170,5 +170,35 @@ public class SelfTestSubsystemTests
             }
         }
     }
-}
 
+    /// <summary>
+    ///     Test that self-test subsystem with unsupported results extension emits an error and does not create the file.
+    /// </summary>
+    [Fact]
+    public void SelfTestSubsystem_ValidationWorkflow_WithUnsupportedExtension_EmitsErrorAndNoFile()
+    {
+        // Arrange: unsupported results file extension
+        var tempDir = Path.GetTempPath();
+        var badFile = Path.Combine(tempDir, $"test_{Guid.NewGuid()}.bad");
+        var args = new[] { "--validate", "--silent", "--results", badFile };
+
+        try
+        {
+            // Act: create context and run validation with unsupported extension
+            using var context = Context.Create(args);
+            Validation.Run(context);
+
+            // Assert: error is reported and no file is created
+            Assert.Equal(1, context.ExitCode);
+            Assert.False(File.Exists(badFile), "No file should be created for unsupported extension");
+        }
+        finally
+        {
+            // Cleanup
+            if (File.Exists(badFile))
+            {
+                File.Delete(badFile);
+            }
+        }
+    }
+}

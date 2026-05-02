@@ -30,7 +30,7 @@ No test doubles are introduced at the `Validation` unit level.
 
 **Boundary / error path**: Null guard at the unit boundary.
 
-**Requirement coverage**: Input validation requirement.
+**Coverage type**: Defensive/boundary test — no formal requirement.
 
 ### Validation_Run_WithSilentContext_PrintsSummary
 
@@ -76,15 +76,15 @@ is written to `context` indicating the unsupported format.
 
 **Boundary / error path**: Tests the unsupported-format error path.
 
-**Requirement coverage**: Unsupported results format handling requirement.
+**Coverage type**: Defensive/boundary test — no formal requirement.
 
 ## Requirements Coverage
 
 | Requirement                          | Test Scenario                                                |
 |--------------------------------------|--------------------------------------------------------------|
-| Null context guard                   | Validation_Run_NullContext_ThrowsArgumentNullException       |
-| Summary output                       | Validation_Run_WithSilentContext_PrintsSummary               |
-| Successful exit code                 | Validation_Run_WithSilentContext_ExitCodeIsZero              |
+| Defensive boundary (no req.)         | Validation_Run_NullContext_ThrowsArgumentNullException       |
+| `Template-Validation-Run`            | Validation_Run_WithSilentContext_PrintsSummary               |
+| `Template-Validation-Run`            | Validation_Run_WithSilentContext_ExitCodeIsZero              |
 | `Template-Validation-TrxResults`     | Validation_Run_WithTrxResultsFile_WritesTrxFile              |
 | `Template-Validation-XmlResults`     | Validation_Run_WithXmlResultsFile_WritesXmlFile              |
-| Unsupported format handling          | Validation_Run_WithUnsupportedResultsFormat_DoesNotWriteFile |
+| Defensive boundary (no req.)         | Validation_Run_WithUnsupportedResultsFormat_DoesNotWriteFile |

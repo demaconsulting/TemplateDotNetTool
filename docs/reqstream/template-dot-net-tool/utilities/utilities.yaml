@@ -10,7 +10,9 @@ sections:
   - title: Utilities Subsystem Requirements
     requirements:
       - id: Template-Utilities-SafePaths
-        title: The Utilities subsystem shall provide safe file path manipulation that prevents path traversal.
+        title: >-
+          The Utilities subsystem shall provide safe file path manipulation that
+          prevents path traversal and absolute path injection.
         justification: |
           The Utilities subsystem provides shared path utilities consumed by other subsystems.
           When constructing file paths from caller-supplied inputs, the subsystem must reject
@@ -21,3 +23,4 @@ sections:
           - UtilitiesSubsystem_PathResolutionWorkflow_ValidPaths_ResolvesCorrectly
           - UtilitiesSubsystem_DirectoryCreationWorkflow_ValidPaths_CreatesDirectories
           - UtilitiesSubsystem_PathTraversalValidation_DangerousPaths_ThrowsException
+          - UtilitiesSubsystem_AbsolutePathRejection_ThrowsException

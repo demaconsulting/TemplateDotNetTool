@@ -490,6 +490,20 @@ public class ContextTests
             }
         }
     }
+
+    /// <summary>
+    ///     Test creating a context with --log flag pointing to an invalid path throws InvalidOperationException.
+    /// </summary>
+    [Fact]
+    public void Context_Create_LogFlag_InvalidPath_ThrowsInvalidOperationException()
+    {
+        // Arrange: a path that cannot be opened as a file (directory or invalid characters)
+        // Use a directory path so it cannot be opened as a file
+        var invalidLogPath = Path.GetTempPath(); // temp directory itself, not a file
+
+        // Act & Assert
+        Assert.Throws<InvalidOperationException>(() => Context.Create(["--log", invalidLogPath]));
+    }
 }
 
 

@@ -21,20 +21,21 @@ The `Cli` subsystem contains the following software unit:
 
 ## Interfaces
 
-The `Cli` subsystem exposes the following interface to the rest of the tool:
+The `Cli` subsystem exposes the following outbound interfaces to the rest of the tool:
 
-| Interface              | Direction | Description                                                                           |
-|------------------------|-----------|---------------------------------------------------------------------------------------|
-| `Context.Create`       | Outbound  | Factory method constructing a `Context` from `string[] args`. `--result` is accepted as a legacy alias for `--results`. |
-| `Context.WriteLine`    | Outbound  | Writes a message to console and optional log file.                                    |
-| `Context.WriteError`   | Outbound  | Writes an error to stderr and sets the error exit code.                               |
-| `Context.ExitCode`     | Outbound  | Returns 0 for success or 1 when errors have been reported.                            |
-| `Context.HeadingDepth` | Outbound  | Heading depth for markdown output (default 1); supplied via `--depth`.                |
-| `Context.Version`      | Outbound  | `true` when `-v` or `--version` was passed.                                           |
-| `Context.Help`         | Outbound  | `true` when `-?`, `-h`, or `--help` was passed.                                       |
-| `Context.Silent`       | Outbound  | `true` when `--silent` was passed.                                                    |
-| `Context.Validate`     | Outbound  | `true` when `--validate` was passed.                                                  |
-| `Context.ResultsFile`  | Outbound  | Path supplied after `--results` or `--result`, or `null`.                             |
+- **`Context.Create`**: Factory method constructing a `Context` from `string[] args`.
+  `--result` is accepted as a legacy alias for `--results`.
+- **`Context.WriteLine`**: Writes a message to console and optional log file.
+- **`Context.WriteError`**: Writes an error to stderr and sets the error exit code.
+- **`Context.ExitCode`**: Returns 0 for success or 1 when errors have been reported.
+- **`Context.HeadingDepth`**: Heading depth for markdown output (default 1); supplied via `--depth`.
+- **`Context.Version`**: `true` when `-v` or `--version` was passed.
+- **`Context.Help`**: `true` when `-?`, `-h`, or `--help` was passed.
+- **`Context.Silent`**: `true` when `--silent` was passed.
+- **`Context.Validate`**: `true` when `--validate` was passed.
+- **`Context.ResultsFile`**: Path supplied after `--results` or `--result`, or `null`.
+- **`Context.Dispose`**: Releases the log file `StreamWriter` if `--log` was specified.
+  Callers are responsible for disposal (use `using` statement).
 
 ## Interactions
 
@@ -45,3 +46,14 @@ to all subsystems that need to produce output.
 Subsystem verification uses `Program.Run` as an observable entry point alongside `Context.Create`.
 This is intentional: the subsystem boundary is defined as the pair `(Context.Create, Program.Run)`,
 and subsystem tests exercise both together to confirm end-to-end argument-to-behavior flow.
+
+## Error Handling
+
+`Context.Create` throws `ArgumentException` for unknown or malformed arguments.
+`Program.Main` catches this exception, writes `"Error: {message}"` to stderr, and returns exit code 1.
+
+## Resource Lifecycle
+
+When `--log` is active, `Context` holds an open `StreamWriter` for the duration of the invocation.
+Callers must ensure `Context` is disposed (via a `using` statement or explicit `Dispose` call) to
+release the file handle and flush any buffered log content.

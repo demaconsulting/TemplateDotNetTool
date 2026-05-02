@@ -68,9 +68,21 @@ templatetool --silent --log output.log
 | `-?`, `-h`, `--help` | Display help message                                         |
 | `--silent`           | Suppress console output                                      |
 | `--validate`         | Run self-validation                                          |
-| `--results <file>`   | Write validation results to file (TRX or JUnit format)       |
+| `--results <file>`   | Write results to `.trx` (TRX) or `.xml` (JUnit XML) file.    |
 | `--depth <#>`        | Set heading depth for markdown output (default: 1)           |
 | `--log <file>`       | Write output to log file                                     |
+
+## Error Handling
+
+Unrecognized arguments cause the tool to print an error message to standard error and exit
+with a non-zero exit code. For example:
+
+```text
+Error: Unsupported argument '--unknown'
+```
+
+This behavior enables CI/CD pipelines to detect and surface misconfiguration failures
+automatically.
 
 ## Self Validation
 

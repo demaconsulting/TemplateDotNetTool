@@ -74,11 +74,49 @@ related coverage.
 
 **Requirement coverage**: `Template-Program-Version`.
 
+### Program_Run_WithInvalidArgs_ReturnsNonZeroExitCode
+
+**Scenario**: `Program.Main` is invoked via reflection with `["--invalid-argument"]`.
+
+**Expected**: Exit code is 1.
+
+**Requirement coverage**: `Template-Program-ExitCode`.
+
+### Program_Run_WithShortVersionFlag_DisplaysVersion
+
+**Scenario**: `Program.Run` is called with a context created from `["-v"]`.
+
+**Expected**: Standard output contains the version string; exit code is 0.
+
+**Requirement coverage**: `Template-Program-Version`.
+
+### Program_Run_WithShortHelpFlag_DisplaysUsage
+
+**Scenario**: `Program.Run` is called with a context created from `["-h"]`.
+
+**Expected**: Standard output contains "Usage:" and "Options:"; exit code is 0.
+
+**Requirement coverage**: `Template-Program-Help`.
+
+### Program_Run_WithQuestionMarkFlag_DisplaysUsage
+
+**Scenario**: `Program.Run` is called with a context created from `["-?"]`.
+
+**Expected**: Standard output contains "Usage:" and "Options:"; exit code is 0.
+
+**Requirement coverage**: `Template-Program-Help`.
+
 ## Requirements Coverage
 
-| Requirement                   | Test Scenario                                     |
-|-------------------------------|---------------------------------------------------|
-| `Template-Program-Version`    | Program_Run_WithVersionFlag_DisplaysVersionOnly, Program_Version_ReturnsNonEmptyString |
-| `Template-Program-Help`       | Program_Run_WithHelpFlag_DisplaysUsageInformation |
-| `Template-Program-Validate`   | Program_Run_WithValidateFlag_RunsValidation       |
-| `Template-Program-ExitCode`   | Program_Run_WithVersionFlag_DisplaysVersionOnly, Program_Run_WithHelpFlag_DisplaysUsageInformation, Program_Run_WithValidateFlag_RunsValidation, Program_Run_NoArguments_DisplaysDefaultBehavior |
+- **`Template-Program-Version`**: Program_Run_WithVersionFlag_DisplaysVersionOnly,
+  Program_Run_WithShortVersionFlag_DisplaysVersion,
+  Program_Version_ReturnsNonEmptyString
+- **`Template-Program-Help`**: Program_Run_WithHelpFlag_DisplaysUsageInformation,
+  Program_Run_WithShortHelpFlag_DisplaysUsage,
+  Program_Run_WithQuestionMarkFlag_DisplaysUsage
+- **`Template-Program-Validate`**: Program_Run_WithValidateFlag_RunsValidation
+- **`Template-Program-ExitCode`**: Program_Run_WithVersionFlag_DisplaysVersionOnly,
+  Program_Run_WithHelpFlag_DisplaysUsageInformation,
+  Program_Run_WithValidateFlag_RunsValidation,
+  Program_Run_NoArguments_DisplaysDefaultBehavior,
+  Program_Run_WithInvalidArgs_ReturnsNonZeroExitCode
