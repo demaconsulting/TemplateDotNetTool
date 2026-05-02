@@ -1,13 +1,9 @@
 # PathHelpers Verification
 
-<!-- TODO: Fill in for your project -->
-
 This document describes the unit-level verification design for the `PathHelpers` unit. It defines
 the test scenarios, dependency usage, and requirement coverage for `Utilities/PathHelpers.cs`.
 
 ## Verification Approach
-
-<!-- TODO: Fill in for your project -->
 
 `PathHelpers` is verified with unit tests defined in `PathHelpersTests.cs`. Because `PathHelpers`
 performs pure path manipulation using only .NET BCL types, no mocking or test doubles are needed.
@@ -16,14 +12,10 @@ and assert on the returned string or the thrown exception.
 
 ## Dependencies
 
-<!-- TODO: Fill in for your project -->
-
 `PathHelpers` has no dependencies on other tool units. All path operations use .NET BCL types
 (`Path`, `string`); no mocking is needed at this level.
 
 ## Test Scenarios
-
-<!-- TODO: Fill in for your project -->
 
 ### PathHelpers_SafePathCombine_ValidPaths_CombinesCorrectly
 
@@ -31,7 +23,7 @@ and assert on the returned string or the thrown exception.
 
 **Expected**: The returned path equals the expected combined result; no exception is thrown.
 
-**Requirement coverage**: Valid path combination requirement.
+**Requirement coverage**: `Template-PathHelpers-SafeCombine` (valid path combination).
 
 ### PathHelpers_SafePathCombine_PathTraversalWithDoubleDots_ThrowsArgumentException
 
@@ -41,28 +33,32 @@ and assert on the returned string or the thrown exception.
 
 **Boundary / error path**: Directory traversal attempt via leading `../`.
 
-**Requirement coverage**: Path traversal rejection requirement.
+**Requirement coverage**: `Template-PathHelpers-SafeCombine` (traversal rejection).
 
 ### PathHelpers_SafePathCombine_DoubleDotsInMiddle_ThrowsArgumentException
 
-**Scenario**: A relative path containing `"subfolder/../../../"` is passed to `SafePathCombine`.
+**Scenario**: A relative path containing `"subfolder/../../../etc/passwd"` is passed to
+`SafePathCombine`.
 
 **Expected**: An `ArgumentException` is thrown.
 
 **Boundary / error path**: Directory traversal attempt via embedded `../` sequence.
 
-**Requirement coverage**: Path traversal rejection requirement (embedded traversal).
+**Requirement coverage**: `Template-PathHelpers-SafeCombine` (embedded traversal rejection).
 
 ### PathHelpers_SafePathCombine_AbsolutePath_ThrowsArgumentException
 
-**Scenario**: An absolute path (Unix-style `/etc/passwd` or Windows-style `C:\Windows`) is passed
-as the relative argument to `SafePathCombine`.
+**Scenario**: An absolute path is passed as the relative argument to `SafePathCombine`.
+Sub-cases:
 
-**Expected**: An `ArgumentException` is thrown.
+- Unix-style: `"/etc/passwd"` (tested on all platforms).
+- Windows-style: `"C:\Windows\System32\file.txt"` (tested only when `OperatingSystem.IsWindows()` is true).
+
+**Expected**: An `ArgumentException` is thrown for each sub-case.
 
 **Boundary / error path**: Absolute path used where a relative path is required.
 
-**Requirement coverage**: Absolute path rejection requirement.
+**Requirement coverage**: `Template-PathHelpers-SafeCombine` (absolute path rejection).
 
 ### PathHelpers_SafePathCombine_CurrentDirectoryReference_CombinesCorrectly
 
@@ -71,7 +67,7 @@ with a base path.
 
 **Expected**: The returned path equals the expected combined result; no exception is thrown.
 
-**Requirement coverage**: Current-directory-prefixed path requirement.
+**Requirement coverage**: `Template-PathHelpers-SafeCombine` (current-directory prefix).
 
 ### PathHelpers_SafePathCombine_NestedPaths_CombinesCorrectly
 
@@ -80,7 +76,7 @@ path.
 
 **Expected**: The returned path equals the expected combined result; no exception is thrown.
 
-**Requirement coverage**: Nested path combination requirement.
+**Requirement coverage**: `Template-PathHelpers-SafeCombine` (nested path combination).
 
 ### PathHelpers_SafePathCombine_EmptyRelativePath_ReturnsBasePath
 
@@ -90,7 +86,7 @@ path.
 
 **Boundary / error path**: Empty relative path edge case.
 
-**Requirement coverage**: Empty relative path handling requirement.
+**Requirement coverage**: `Template-PathHelpers-SafeCombine` (empty relative path).
 
 ### PathHelpers_SafePathCombine_DotDotPrefixedName_CombinesCorrectly
 
@@ -101,19 +97,39 @@ path.
 
 **Boundary / error path**: Filename beginning with `".."` must not be misidentified as a traversal.
 
-**Requirement coverage**: Non-traversal dot-dot-prefixed name requirement.
+**Requirement coverage**: `Template-PathHelpers-SafeCombine` (dot-dot-prefixed filename).
+
+### PathHelpers_SafePathCombine_NullBasePath_ThrowsArgumentNullException
+
+**Scenario**: `null` is passed as the `basePath` argument to `SafePathCombine`.
+
+**Expected**: An `ArgumentNullException` is thrown.
+
+**Boundary / error path**: Null guard on `basePath`.
+
+**Requirement coverage**: `Template-PathHelpers-SafeCombine` (null input rejection).
+
+### PathHelpers_SafePathCombine_NullRelativePath_ThrowsArgumentNullException
+
+**Scenario**: `null` is passed as the `relativePath` argument to `SafePathCombine`.
+
+**Expected**: An `ArgumentNullException` is thrown.
+
+**Boundary / error path**: Null guard on `relativePath`.
+
+**Requirement coverage**: `Template-PathHelpers-SafeCombine` (null input rejection).
 
 ## Requirements Coverage
 
-<!-- TODO: Fill in for your project -->
-
-| Requirement                       | Test Scenario                                                                    |
-|-----------------------------------|----------------------------------------------------------------------------------|
-| Valid relative path combination   | PathHelpers_SafePathCombine_ValidPaths_CombinesCorrectly                         |
-| Leading traversal rejection       | PathHelpers_SafePathCombine_PathTraversalWithDoubleDots_ThrowsArgumentException  |
-| Embedded traversal rejection      | PathHelpers_SafePathCombine_DoubleDotsInMiddle_ThrowsArgumentException           |
-| Absolute path rejection           | PathHelpers_SafePathCombine_AbsolutePath_ThrowsArgumentException                 |
-| Current-directory prefix handling | PathHelpers_SafePathCombine_CurrentDirectoryReference_CombinesCorrectly          |
-| Nested path combination           | PathHelpers_SafePathCombine_NestedPaths_CombinesCorrectly                        |
-| Empty relative path handling      | PathHelpers_SafePathCombine_EmptyRelativePath_ReturnsBasePath                    |
-| Dot-dot filename (not traversal)  | PathHelpers_SafePathCombine_DotDotPrefixedName_CombinesCorrectly                 |
+| Requirement                                                         | Test Scenario                                                                    |
+|---------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| `Template-PathHelpers-SafeCombine` (valid path combination)         | PathHelpers_SafePathCombine_ValidPaths_CombinesCorrectly                         |
+| `Template-PathHelpers-SafeCombine` (leading traversal rejection)    | PathHelpers_SafePathCombine_PathTraversalWithDoubleDots_ThrowsArgumentException  |
+| `Template-PathHelpers-SafeCombine` (embedded traversal rejection)   | PathHelpers_SafePathCombine_DoubleDotsInMiddle_ThrowsArgumentException           |
+| `Template-PathHelpers-SafeCombine` (absolute path rejection)        | PathHelpers_SafePathCombine_AbsolutePath_ThrowsArgumentException                 |
+| `Template-PathHelpers-SafeCombine` (current-directory prefix)       | PathHelpers_SafePathCombine_CurrentDirectoryReference_CombinesCorrectly          |
+| `Template-PathHelpers-SafeCombine` (nested path combination)        | PathHelpers_SafePathCombine_NestedPaths_CombinesCorrectly                        |
+| `Template-PathHelpers-SafeCombine` (empty relative path)            | PathHelpers_SafePathCombine_EmptyRelativePath_ReturnsBasePath                    |
+| `Template-PathHelpers-SafeCombine` (dot-dot filename, not traversal)| PathHelpers_SafePathCombine_DotDotPrefixedName_CombinesCorrectly                 |
+| `Template-PathHelpers-SafeCombine` (null basePath rejection)        | PathHelpers_SafePathCombine_NullBasePath_ThrowsArgumentNullException             |
+| `Template-PathHelpers-SafeCombine` (null relativePath rejection)    | PathHelpers_SafePathCombine_NullRelativePath_ThrowsArgumentNullException         |

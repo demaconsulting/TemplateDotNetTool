@@ -1,13 +1,9 @@
 # Context Verification
 
-<!-- TODO: Fill in for your project -->
-
 This document describes the unit-level verification design for the `Context` unit. It defines the
 test scenarios, dependency usage, and requirement coverage for `Cli/Context.cs`.
 
 ## Verification Approach
-
-<!-- TODO: Fill in for your project -->
 
 `Context` is verified with unit tests defined in `ContextTests.cs`. Because `Context` depends only
 on .NET base class library types (`Console`, `StreamWriter`, `Path`), no mocking or test doubles
@@ -16,14 +12,10 @@ properties and exit codes, and verify output written to captured streams.
 
 ## Dependencies
 
-<!-- TODO: Fill in for your project -->
-
 `Context` has no dependencies on other tool units. All dependencies are real .NET BCL types;
 no mocking is needed at this level.
 
 ## Test Scenarios
-
-<!-- TODO: Fill in for your project -->
 
 ### Context_Create_NoArguments_ReturnsDefaultContext
 
@@ -159,7 +151,7 @@ with a test message.
 
 **Scenario**: `Context.Create` is called with an empty argument array.
 
-**Expected**: `HeadingDepth` property equals 1 (the default).
+**Expected**: `HeadingDepth` property equals 1 (the default; minimum is 1, maximum is 6).
 
 **Requirement coverage**: Default heading depth requirement.
 
@@ -181,19 +173,19 @@ with a test message.
 
 ### Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException
 
-**Scenario**: `Context.Create` is called with `["--depth", "0"]`.
+**Scenario**: `Context.Create` is called with `["--depth", "0"]` (below minimum of 1).
 
 **Expected**: An `ArgumentException` is thrown.
 
-**Requirement coverage**: Depth flag minimum-value validation requirement.
+**Requirement coverage**: Depth flag minimum-value validation requirement (minimum is 1).
 
 ### Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException
 
-**Scenario**: `Context.Create` is called with `["--depth", "7"]` (above the maximum allowed).
+**Scenario**: `Context.Create` is called with `["--depth", "7"]` (above the maximum of 6).
 
 **Expected**: An `ArgumentException` is thrown.
 
-**Requirement coverage**: Depth flag maximum-value validation requirement.
+**Requirement coverage**: Depth flag maximum-value validation requirement (maximum is 6).
 
 ### Context_WriteLine_NotSilent_WritesToConsole
 
@@ -237,16 +229,14 @@ with a test message.
 
 ### Context_WriteError_WritesToLogFile
 
-**Scenario**: A `Context` created with `["--log", "<tmp>.log"]` calls `WriteError` with a test
-message.
+**Scenario**: A `Context` created with `["--silent", "--log", "<tmp>.log"]` calls `WriteError`
+with a test message.
 
 **Expected**: The test message appears in the log file.
 
 **Requirement coverage**: Error log writing requirement.
 
 ## Requirements Coverage
-
-<!-- TODO: Fill in for your project -->
 
 | Requirement                    | Test Scenario                                                       |
 |--------------------------------|---------------------------------------------------------------------|
@@ -269,8 +259,8 @@ message.
 | Default heading depth          | Context_Create_NoDepthFlag_ReturnsDefaultHeadingDepth               |
 | --depth missing value          | Context_Create_DepthFlag_WithoutValue_ThrowsArgumentException       |
 | --depth non-integer value      | Context_Create_DepthFlag_NonIntegerValue_ThrowsArgumentException    |
-| --depth zero value             | Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException          |
-| --depth exceeds maximum        | Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException    |
+| --depth zero value (min 1)     | Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException          |
+| --depth exceeds maximum (max 6)| Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException    |
 | Normal output writing          | Context_WriteLine_NotSilent_WritesToConsole                         |
 | Silent mode output suppression | Context_WriteLine_Silent_DoesNotWriteToConsole                      |
 | Silent mode error suppression  | Context_WriteError_Silent_DoesNotWriteToConsole                     |

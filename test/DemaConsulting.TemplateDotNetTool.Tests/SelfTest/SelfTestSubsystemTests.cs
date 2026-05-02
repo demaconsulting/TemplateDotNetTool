@@ -21,7 +21,7 @@
 using DemaConsulting.TemplateDotNetTool.Cli;
 using DemaConsulting.TemplateDotNetTool.SelfTest;
 
-namespace DemaConsulting.TemplateDotNetTool.Tests;
+namespace DemaConsulting.TemplateDotNetTool.Tests.SelfTest;
 
 /// <summary>
 ///     Subsystem tests for the SelfTest subsystem covering Validation workflows.

@@ -145,17 +145,17 @@ public class IntegrationTests
     [Fact]
     public void IntegrationTest_SilentFlag_SuppressesOutput()
     {
-        // Act: execute the operation being tested
+        // Act: run the tool with --version and --silent to produce deterministic silent output
         var exitCode = Runner.Run(
-            out var _,
+            out var output,
             "dotnet",
             _dllPath,
+            "--version",
             "--silent");
 
         // Assert: verify expected behavior
         Assert.Equal(0, exitCode);
-
-        // Output check removed since silent mode may still produce some output
+        Assert.True(string.IsNullOrWhiteSpace(output), $"Expected no output in silent mode but got: {output}");
     }
 
     /// <summary>

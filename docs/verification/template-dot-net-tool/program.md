@@ -1,13 +1,9 @@
 # Program Verification
 
-<!-- TODO: Fill in for your project -->
-
 This document describes the unit-level verification design for the `Program` unit. It defines the
 test scenarios, dependency usage, and requirement coverage for `Program.cs`.
 
 ## Verification Approach
-
-<!-- TODO: Fill in for your project -->
 
 `Program` is verified with unit tests defined in `ProgramTests.cs`. Because `Program` directly
 instantiates `Context` from real arguments and calls `Validation.Run` when needed, no mocking is
@@ -15,8 +11,6 @@ required. The tests pass controlled argument arrays and assert on captured conso
 codes.
 
 ## Dependencies
-
-<!-- TODO: Fill in for your project -->
 
 | Dependency   | Usage in Tests                                                           |
 |--------------|--------------------------------------------------------------------------|
@@ -27,16 +21,14 @@ No test doubles are introduced at the `Program` level; all collaborators execute
 
 ## Test Scenarios
 
-<!-- TODO: Fill in for your project -->
-
 ### Program_Run_WithVersionFlag_DisplaysVersionOnly
 
 **Scenario**: `Program.Run` is called with a context created from `["--version"]`.
 
 **Expected**: Standard output contains the version string; the word "Copyright" does not appear;
-exit code is 0.
+the banner prefix "Template DotNet Tool version" does not appear; exit code is 0.
 
-**Requirement coverage**: Version display requirement.
+**Requirement coverage**: `Template-Program-Version`, `Template-Program-ExitCode`.
 
 ### Program_Run_WithHelpFlag_DisplaysUsageInformation
 
@@ -44,7 +36,7 @@ exit code is 0.
 
 **Expected**: Standard output contains "Usage:" and "Options:"; exit code is 0.
 
-**Requirement coverage**: Help display requirement.
+**Requirement coverage**: `Template-Program-Help`, `Template-Program-ExitCode`.
 
 ### Program_Run_WithValidateFlag_RunsValidation
 
@@ -52,7 +44,7 @@ exit code is 0.
 
 **Expected**: Standard output contains "Total Tests:"; exit code is 0.
 
-**Requirement coverage**: Self-validation execution requirement.
+**Requirement coverage**: `Template-Program-Validate`, `Template-Program-ExitCode`.
 
 ### Program_Run_NoArguments_DisplaysDefaultBehavior
 
@@ -60,7 +52,19 @@ exit code is 0.
 
 **Expected**: Standard output contains the tool name and copyright notice; exit code is 0.
 
-**Requirement coverage**: Default execution requirement.
+**Requirement coverage**: `Template-Program-ExitCode`.
+
+### Program_Run_ErrorHandling_ExitCodeIsNonZero
+
+**Scenario**: `Program.Main` is called with an unknown flag `["--unknown-flag"]`. The exception
+handler in `Main` catches the `ArgumentException` thrown by `Context.Create`, writes an error to
+stderr, and returns exit code 1. This scenario is tested via reflection through the Cli subsystem
+test `CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero` as
+related coverage.
+
+**Expected**: Exit code is 1; stderr contains an error message.
+
+**Requirement coverage**: `Template-Program-ExitCode`.
 
 ### Program_Version_ReturnsNonEmptyString
 
@@ -68,16 +72,13 @@ exit code is 0.
 
 **Expected**: The returned string is non-empty and non-null.
 
-**Requirement coverage**: Version availability requirement.
+**Requirement coverage**: `Template-Program-Version`.
 
 ## Requirements Coverage
 
-<!-- TODO: Fill in for your project -->
-
 | Requirement                   | Test Scenario                                     |
 |-------------------------------|---------------------------------------------------|
-| Version display               | Program_Run_WithVersionFlag_DisplaysVersionOnly   |
-| Help display                  | Program_Run_WithHelpFlag_DisplaysUsageInformation |
-| Self-validation execution     | Program_Run_WithValidateFlag_RunsValidation       |
-| Default execution behavior    | Program_Run_NoArguments_DisplaysDefaultBehavior   |
-| Version property availability | Program_Version_ReturnsNonEmptyString             |
+| `Template-Program-Version`    | Program_Run_WithVersionFlag_DisplaysVersionOnly, Program_Version_ReturnsNonEmptyString |
+| `Template-Program-Help`       | Program_Run_WithHelpFlag_DisplaysUsageInformation |
+| `Template-Program-Validate`   | Program_Run_WithValidateFlag_RunsValidation       |
+| `Template-Program-ExitCode`   | Program_Run_WithVersionFlag_DisplaysVersionOnly, Program_Run_WithHelpFlag_DisplaysUsageInformation, Program_Run_WithValidateFlag_RunsValidation, Program_Run_NoArguments_DisplaysDefaultBehavior |

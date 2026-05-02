@@ -86,6 +86,26 @@ public class UtilitiesSubsystemTests
     }
 
     /// <summary>
+    ///     Test that utilities subsystem rejects absolute path injection at the subsystem level.
+    /// </summary>
+    [Fact]
+    public void UtilitiesSubsystem_AbsolutePathRejection_ThrowsException()
+    {
+        var basePath = Path.GetTempPath();
+        var absolutePaths = new List<string> { "/etc/passwd" };
+        if (OperatingSystem.IsWindows())
+        {
+            absolutePaths.Add(@"C:\Windows\System32\file.txt");
+        }
+
+        foreach (var absolutePath in absolutePaths)
+        {
+            Assert.Throws<ArgumentException>(() =>
+                PathHelpers.SafePathCombine(basePath, absolutePath));
+        }
+    }
+
+    /// <summary>
     ///     Test that utilities subsystem can handle directory creation workflows.
     /// </summary>
     [Fact]

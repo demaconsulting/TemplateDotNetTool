@@ -29,6 +29,9 @@ the base directory.
    the result is exactly `".."`, starts with `".."` followed by `Path.DirectorySeparatorChar`
    or `Path.AltDirectorySeparatorChar`, or is itself rooted (absolute), which would indicate
    the combined path escapes the base directory.
+5. Return `combinedPath` (the pre-resolved combined path), preserving the caller's
+   relative/absolute style. The returned value is the candidate produced by `Path.Combine`,
+   not the resolved absolute path.
 
 ## Design Decisions
 

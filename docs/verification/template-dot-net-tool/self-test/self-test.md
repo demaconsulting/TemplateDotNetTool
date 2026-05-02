@@ -1,22 +1,16 @@
 # SelfTest Subsystem Verification
 
-<!-- TODO: Fill in for your project -->
-
 This document describes the subsystem-level verification design for the `SelfTest` subsystem. It
 defines the integration test approach, subsystem boundary, mocking strategy, and test scenarios
 that together verify the `SelfTest` subsystem requirements.
 
 ## Verification Approach
 
-<!-- TODO: Fill in for your project -->
-
 The `SelfTest` subsystem is verified by integration tests defined in `SelfTestSubsystemTests.cs`.
 Each test exercises the `Validation.Run` method with a real `Context` to confirm that the
 subsystem produces correct output and result files across the supported result-format options.
 
 ## Dependencies and Mocking Strategy
-
-<!-- TODO: Fill in for your project -->
 
 At the subsystem boundary, `Context` (from the `Cli` subsystem) and `PathHelpers` (from the
 `Utilities` subsystem) are both used with their real implementations. No mocking is applied.
@@ -25,16 +19,13 @@ leave no permanent file-system side-effects.
 
 ## Integration Test Scenarios
 
-<!-- TODO: Fill in for your project -->
-
 The following integration test scenarios are defined in `SelfTestSubsystemTests.cs`.
 
 ### SelfTestSubsystem_ValidationWorkflow_NoResultFiles_CompletesSuccessfully
 
 **Scenario**: `Validation.Run` is called with a context that does not specify any results file.
 
-**Expected**: Validation completes without error; exit code is 0; the summary text appears in
-the output.
+**Expected**: Validation completes without error; exit code is 0 and the validate flag is set.
 
 ### SelfTestSubsystem_ValidationWorkflow_WithTrxFile_GeneratesResults
 
@@ -61,8 +52,6 @@ targeting a `.xml` path.
 format; exit code is 0 for each run.
 
 ## Requirements Coverage
-
-<!-- TODO: Fill in for your project -->
 
 | Requirement                     | Test Scenario                                                                 |
 |---------------------------------|-------------------------------------------------------------------------------|

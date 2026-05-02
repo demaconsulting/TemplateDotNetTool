@@ -1,14 +1,10 @@
 # Cli Subsystem Verification
 
-<!-- TODO: Fill in for your project -->
-
 This document describes the subsystem-level verification design for the `Cli` subsystem. It
 defines the integration test approach, subsystem boundary, mocking strategy, and test scenarios
 that together verify the `Cli` subsystem requirements.
 
 ## Verification Approach
-
-<!-- TODO: Fill in for your project -->
 
 The `Cli` subsystem boundary at `Program` is verified by integration tests defined in
 `CliSubsystemTests.cs`. Each test exercises `Context.Create` and `Program.Run` together, treating
@@ -16,8 +12,6 @@ the pair as the observable subsystem interface. Tests pass controlled argument a
 on captured console output, file system side-effects, and exit codes.
 
 ## Dependencies and Mocking Strategy
-
-<!-- TODO: Fill in for your project -->
 
 At the subsystem boundary, `Validation` (part of the `SelfTest` subsystem) is the only external
 collaborator that `Program` calls. In scenarios that exercise the `--validate` path, `Validation`
@@ -28,8 +22,6 @@ No mocking is applied at this level; all collaborators within and directly adjac
 subsystem use their real implementations.
 
 ## Integration Test Scenarios
-
-<!-- TODO: Fill in for your project -->
 
 The following integration test scenarios are defined in `CliSubsystemTests.cs`.
 
@@ -85,14 +77,16 @@ The following integration test scenarios are defined in `CliSubsystemTests.cs`.
 
 ### CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero
 
-**Scenario**: Arguments containing an unknown flag are passed through `Context.Create` and
-`Program.Run`.
+**Scenario**: The private `Program.Main` entry point is invoked via reflection with
+`["--unknown-flag"]`. This exercises the full argument-parsing and error-reporting path
+including the `ArgumentException` handler in `Main`.
 
-**Expected**: Exit code is non-zero; standard error contains an error message.
+**Expected**: Exit code is 1; standard error contains an error message including the unknown flag.
 
 ### CliSubsystem_ErrorOutput_ContextAndProgram_WritesErrorToStderr
 
-**Scenario**: An error condition is triggered through the subsystem.
+**Scenario**: A `Context` is created with no arguments. `WriteError` is called directly with a
+known message string.
 
 **Expected**: Standard error receives the error message; exit code is non-zero.
 
@@ -111,19 +105,15 @@ through `Context.Create` and `Program.Run`.
 
 ## Requirements Coverage
 
-<!-- TODO: Fill in for your project -->
-
-| Requirement                 | Test Scenario                                                                      |
-|-----------------------------|------------------------------------------------------------------------------------|
-| Version flag handling       | CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits                 |
-| Help flag (long form)       | CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits                       |
-| Help flag (-?)              | CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortQuestionFlag |
-| Help flag (-h)              | CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortHFlag        |
-| Validate flag handling      | CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits                 |
-| Silent flag handling        | CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput                         |
-| Results flag handling       | CliSubsystem_ResultsFlow_ContextAndProgram_WritesResultsFile                       |
-| Log flag handling           | CliSubsystem_LogFlow_ContextAndProgram_WritesLogFile                               |
-| Unknown argument rejection  | CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero  |
-| Error output to stderr      | CliSubsystem_ErrorOutput_ContextAndProgram_WritesErrorToStderr                     |
-| Results alias flag handling | CliSubsystem_ResultAliasFlow_ContextAndProgram_WritesResultsFile                   |
-| Depth flag handling         | CliSubsystem_DepthFlow_ContextAndProgram_AdjustsHeadingDepth                       |
+| Requirement                   | Test Scenario                                                                      |
+|-------------------------------|------------------------------------------------------------------------------------|
+| `Template-Cli-Version`        | CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits                 |
+| `Template-Cli-Help`           | CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits, CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortQuestionFlag, CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortHFlag |
+| `Template-Cli-Validate`       | CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits                 |
+| `Template-Cli-Silent`         | CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput                         |
+| `Template-Cli-Results`        | CliSubsystem_ResultsFlow_ContextAndProgram_WritesResultsFile                       |
+| `Template-Cli-Log`            | CliSubsystem_LogFlow_ContextAndProgram_WritesLogFile                               |
+| `Template-Cli-InvalidArgs`    | CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero  |
+| `Template-Cli-ErrorOutput`    | CliSubsystem_ErrorOutput_ContextAndProgram_WritesErrorToStderr                     |
+| `Template-Cli-Context`        | CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits, CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits, CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits, CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput |
+| `Template-Cli-ExitCode`       | CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero  |

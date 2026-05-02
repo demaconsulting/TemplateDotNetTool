@@ -21,7 +21,7 @@
 using System.Reflection;
 using DemaConsulting.TemplateDotNetTool.Cli;
 
-namespace DemaConsulting.TemplateDotNetTool.Tests;
+namespace DemaConsulting.TemplateDotNetTool.Tests.Cli;
 
 /// <summary>
 ///     Subsystem tests for the CLI subsystem covering Context and Program integration.

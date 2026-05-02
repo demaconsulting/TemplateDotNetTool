@@ -1,13 +1,9 @@
 # Introduction
 
-<!-- TODO: Fill in for your project -->
-
 This document provides the detailed design for the Template DotNet Tool, a .NET command-line
 application demonstrating best practices for DEMA Consulting DotNet Tools.
 
 ## Purpose
-
-<!-- TODO: Fill in for your project -->
 
 The purpose of this document is to describe the internal design of each software unit that
 comprises the Template DotNet Tool. It captures data models, algorithms, key methods, and
@@ -17,14 +13,15 @@ how they are realized.
 
 ## Scope
 
-<!-- TODO: Fill in for your project -->
-
-This document covers the detailed design of the following software units:
+This document covers the detailed design of the following subsystems and software units:
 
 - **Program** — entry point and execution orchestrator (`Program.cs`)
-- **Context** — command-line argument parser and I/O owner (`Cli/Context.cs`)
-- **Validation** — self-validation test runner (`SelfTest/Validation.cs`)
-- **PathHelpers** — safe path combination utilities (`Utilities/PathHelpers.cs`)
+- **Cli** subsystem
+  - **Context** — command-line argument parser and I/O owner (`Cli/Context.cs`)
+- **SelfTest** subsystem
+  - **Validation** — self-validation test runner (`SelfTest/Validation.cs`)
+- **Utilities** subsystem
+  - **PathHelpers** — safe path combination utilities (`Utilities/PathHelpers.cs`)
 
 The following topics are out of scope:
 
@@ -33,8 +30,6 @@ The following topics are out of scope:
 - Deployment and packaging
 
 ## Software Structure
-
-<!-- TODO: Fill in for your project -->
 
 The following tree shows how the Template DotNet Tool software items are organized across the
 system, subsystem, and unit levels:
@@ -53,8 +48,6 @@ TemplateDotNetTool (System)
 Each unit is described in detail in its own chapter within this document.
 
 ## Folder Layout
-
-<!-- TODO: Fill in for your project -->
 
 The source code folder structure mirrors the top-level subsystem breakdown above, giving
 reviewers an explicit navigation aid from design to code:
@@ -82,12 +75,18 @@ Throughout this document:
   methods/algorithms, and interactions with other units.
 - Text tables are used in preference to diagrams, which may not render in all PDF viewers.
 
+## Companion Artifact Structure
+
+Each software item in the structure above has corresponding artifacts in parallel directory trees:
+
+- Requirements: `docs/reqstream/{system}/.../{item}.yaml` (kebab-case)
+- Design docs: `docs/design/{system}/.../{item}.md` (kebab-case)
+- Verification design: `docs/verification/{system}/.../{item}.md` (kebab-case)
+- Source code: `src/{System}/.../{Item}.cs` (PascalCase for C#)
+- Tests: `test/{System}.Tests/.../{Item}Tests.cs` (PascalCase for C#)
+- Review-sets: defined in `.reviewmark.yaml`
+
 ## References
 
-<!-- TODO: Fill in for your project -->
-
-- [Template DotNet Tool User Guide][user-guide]
-- [Template DotNet Tool Repository][repo]
-
-[user-guide]: ../guide/guide.md
-[repo]: https://github.com/demaconsulting/TemplateDotNetTool
+See the *Template DotNet Tool User Guide* (`docs/user_guide/introduction.md`) and the project
+repository at `https://github.com/demaconsulting/TemplateDotNetTool`.

@@ -31,6 +31,10 @@ internal static class PathHelpers
     /// <param name="basePath">The base path.</param>
     /// <param name="relativePath">The relative path to combine.</param>
     /// <returns>The combined path.</returns>
+    /// <remarks>
+    ///     Provides a security boundary for caller-supplied path components. Stateless and thread-safe.
+    ///     Performs no file-system I/O; only string-level path normalization is applied.
+    /// </remarks>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="basePath"/> or <paramref name="relativePath"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException">
     ///     Thrown when the resolved combined path escapes the base directory, or when a supplied path is invalid.

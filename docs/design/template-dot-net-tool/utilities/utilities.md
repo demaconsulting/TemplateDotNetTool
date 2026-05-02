@@ -1,13 +1,9 @@
 # Utilities Subsystem
 
-<!-- TODO: This is an example design section for the Utilities subsystem. Replace with your own subsystem design. -->
-
 The `Utilities` subsystem provides shared utility functions for the Template DotNet Tool.
 It supplies reusable, independently testable helpers that are consumed by other subsystems.
 
 ## Overview
-
-<!-- TODO: Fill in for your project -->
 
 The `Utilities` subsystem contains general-purpose helpers that do not belong to any
 specific feature subsystem. Its primary responsibility is safe file-path manipulation,
@@ -15,8 +11,6 @@ protecting callers from path-traversal vulnerabilities when constructing paths f
 external inputs.
 
 ## Units
-
-<!-- TODO: Fill in for your project -->
 
 The `Utilities` subsystem contains the following software unit:
 
@@ -26,17 +20,16 @@ The `Utilities` subsystem contains the following software unit:
 
 ## Interfaces
 
-<!-- TODO: Fill in for your project -->
-
 The `Utilities` subsystem exposes the following interface to the rest of the tool:
 
-| Interface                     | Direction | Description                                                |
-|-------------------------------|-----------|------------------------------------------------------------|
-| `PathHelpers.SafePathCombine` | Outbound  | Combines two path segments, rejecting traversal sequences. |
+| Interface                     | Direction | Description                                                                           |
+|-------------------------------|-----------|---------------------------------------------------------------------------------------|
+| `PathHelpers.SafePathCombine` | Outbound  | Combines two path segments, rejecting traversal sequences and absolute path overrides. |
+
+`SafePathCombine` throws `ArgumentException` when the combined path escapes the base
+directory, and `ArgumentNullException` for null inputs.
 
 ## Interactions
-
-<!-- TODO: Fill in for your project -->
 
 `PathHelpers` has no dependencies on other tool units or subsystems. It uses only .NET base
 class library types (`Path`, `ArgumentNullException`).

@@ -1,13 +1,9 @@
 # Introduction
 
-<!-- TODO: Fill in for your project -->
-
 This document provides the verification design for the Template DotNet Tool, a .NET command-line
 application demonstrating best practices for DEMA Consulting DotNet Tools.
 
 ## Purpose
-
-<!-- TODO: Fill in for your project -->
 
 The purpose of this document is to describe how each requirement for the Template DotNet Tool is
 verified. For every software item — system, subsystem, and unit — this document names the
@@ -16,8 +12,6 @@ paths), describes what is mocked or stubbed, and maps each requirement to at lea
 test scenario. The document does not restate design; it explains how the design is proven correct.
 
 ## Scope
-
-<!-- TODO: Fill in for your project -->
 
 This document covers the verification design for the same software items described in the
 *Template DotNet Tool Software Design Document*:
@@ -38,8 +32,6 @@ The following topics are out of scope:
 - Build pipeline and CI/CD configuration
 
 ## Software Structure
-
-<!-- TODO: Fill in for your project -->
 
 The following tree shows the software items covered by this document:
 

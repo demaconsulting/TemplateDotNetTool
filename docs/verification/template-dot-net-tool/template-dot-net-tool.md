@@ -1,14 +1,10 @@
 # System Verification
 
-<!-- TODO: Fill in for your project -->
-
 This document describes the system-level verification design for the Template DotNet Tool. It
 defines the overall verification strategy, test environments, interface simulation approach, and
 end-to-end integration test scenarios that together demonstrate the system meets its requirements.
 
 ## Verification Strategy
-
-<!-- TODO: Fill in for your project -->
 
 System-level verification uses end-to-end integration tests that invoke the tool as a real process
 via the `Runner.Run` helper in `IntegrationTests.cs`. Each test exercises the full stack — argument
@@ -18,9 +14,11 @@ This approach ensures that system requirements are verified at the system bounda
 any internal implementation detail. The tests treat the tool as a black box and assert on
 observable outputs only.
 
-## Test Environments
+**Note**: `Runner.Run` merges stdout and stderr into a single combined output string. Per-stream
+assertions (e.g., "standard error is empty") are therefore not possible at the integration test
+level; all assertions are made against the combined output.
 
-<!-- TODO: Fill in for your project -->
+## Test Environments
 
 Integration tests are executed across the following environments to satisfy multi-runtime and
 multi-platform requirements:
@@ -29,30 +27,29 @@ multi-platform requirements:
 |------------|----------|
 | .NET 8.0   | Windows  |
 | .NET 8.0   | Linux    |
+| .NET 8.0   | macOS    |
 | .NET 9.0   | Windows  |
 | .NET 9.0   | Linux    |
+| .NET 9.0   | macOS    |
 | .NET 10.0  | Windows  |
 | .NET 10.0  | Linux    |
+| .NET 10.0  | macOS    |
 
 All integration test scenarios are expected to produce identical results on all supported runtime
 and platform combinations.
 
 ## External Interface Simulation
 
-<!-- TODO: Fill in for your project -->
-
 At the system level, no interfaces are mocked. All external interfaces are exercised with real
 implementations:
 
-- **Standard output / standard error** — Captured by `Runner.Run` and returned as strings for
-  assertion.
+- **Standard output / standard error** — Captured by `Runner.Run` and returned as a combined
+  string for assertion. Per-stream assertions are not available.
 - **File system** — Temporary files and directories are created and cleaned up within each test.
   The `--results` and `--log` flags are exercised with real file paths under a temporary folder.
 - **Process exit code** — Returned by `Runner.Run` and asserted directly.
 
 ## Integration Test Scenarios
-
-<!-- TODO: Fill in for your project -->
 
 The following integration test scenarios are defined in `IntegrationTests.cs`.
 
@@ -60,21 +57,21 @@ The following integration test scenarios are defined in `IntegrationTests.cs`.
 
 **Scenario**: The `--version` flag is passed as the sole argument.
 
-**Expected**: Exit code 0; standard output contains the tool version string; standard error is
-empty.
+**Expected**: Exit code 0; combined output contains the tool version string; combined output does
+not contain error messages.
 
 ### IntegrationTest_HelpFlag_OutputsUsageInformation
 
 **Scenario**: The `--help` flag is passed as the sole argument.
 
-**Expected**: Exit code 0; standard output contains the text "Usage" and "Options"; standard error
-is empty.
+**Expected**: Exit code 0; combined output contains the text "Usage" and "Options"; combined
+output does not contain error messages.
 
 ### IntegrationTest_ValidateFlag_RunsValidation
 
 **Scenario**: The `--validate` flag is passed as the sole argument.
 
-**Expected**: Exit code 0; standard output contains a validation summary (the text "Total Tests:"
+**Expected**: Exit code 0; combined output contains a validation summary (the text "Total Tests:"
 appears in the output).
 
 ### IntegrationTest_ValidateWithResults_GeneratesTrxFile
@@ -95,9 +92,9 @@ temporary file.
 
 ### IntegrationTest_SilentFlag_SuppressesOutput
 
-**Scenario**: The `--silent` flag is passed without any action flag.
+**Scenario**: The `--version` and `--silent` flags are passed together.
 
-**Expected**: Exit code 0; standard output is empty; standard error is empty.
+**Expected**: Exit code 0; combined output is empty or whitespace-only.
 
 ### IntegrationTest_LogFlag_WritesOutputToFile
 
@@ -110,12 +107,10 @@ on standard output.
 
 **Scenario**: An unrecognized argument (e.g., `--unknown`) is passed.
 
-**Expected**: Exit code non-zero; standard error contains an error message indicating the
-unrecognized argument; standard output does not contain normal usage text.
+**Expected**: Exit code non-zero; combined output contains an error message indicating the
+unrecognized argument.
 
 ## Requirements Coverage
-
-<!-- TODO: Fill in for your project -->
 
 The table below maps each system-level requirement category to the integration test scenarios that
 verify it.

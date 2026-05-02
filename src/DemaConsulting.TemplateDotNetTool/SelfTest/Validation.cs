@@ -134,8 +134,9 @@ internal static class Validation
                 var logContent = File.ReadAllText(logFile);
 
                 // Verify version string is in log (version contains dots like 0.0.0)
+                var versionPattern = new System.Text.RegularExpressions.Regex(@"\b\d+\.\d+\.\d+");
                 if (!string.IsNullOrWhiteSpace(logContent) &&
-                    logContent.Split('.').Length >= 3)
+                    versionPattern.IsMatch(logContent))
                 {
                     test.Outcome = DemaConsulting.TestResults.TestOutcome.Passed;
                     context.WriteLine($"✓ TemplateTool_VersionDisplay - Passed");

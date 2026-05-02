@@ -56,6 +56,7 @@ reviews:
       - "docs/reqstream/template-dot-net-tool/platform-requirements.yaml"
       - "docs/design/introduction.md"
       - "docs/design/template-dot-net-tool/**/*.md"
+      - "docs/verification/introduction.md"
 
   - id: TemplateTool-AllRequirements
     title: Review of Template DotNet Tool requirements quality and traceability

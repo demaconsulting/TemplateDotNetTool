@@ -10,7 +10,8 @@ sections:
   - title: Cli Subsystem Requirements
     requirements:
       - id: Template-Cli-Context
-        title: The Cli subsystem shall implement a Context class for command-line argument handling.
+        title: The Cli subsystem shall accept command-line arguments and expose the parsed state and output channels so that
+          the rest of the tool can read flags and produce output without direct console access.
         justification: |
           Provides a standardized approach to command-line argument parsing and output
           handling across all DEMA Consulting DotNet Tools. The Context class encapsulates

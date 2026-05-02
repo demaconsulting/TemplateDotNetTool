@@ -1,13 +1,9 @@
 # Validation Verification
 
-<!-- TODO: Fill in for your project -->
-
 This document describes the unit-level verification design for the `Validation` unit. It defines
 the test scenarios, dependency usage, and requirement coverage for `SelfTest/Validation.cs`.
 
 ## Verification Approach
-
-<!-- TODO: Fill in for your project -->
 
 `Validation` is verified with unit tests defined in `ValidationTests.cs`. Tests supply a real
 `Context` object (not mocked) with a controlled argument set and assert on exit codes, output
@@ -15,8 +11,6 @@ content, and result files. Temporary directories are used for result file paths 
 isolated.
 
 ## Dependencies
-
-<!-- TODO: Fill in for your project -->
 
 | Dependency     | Usage in Tests                                                            |
 |----------------|---------------------------------------------------------------------------|
@@ -27,8 +21,6 @@ isolated.
 No test doubles are introduced at the `Validation` unit level.
 
 ## Test Scenarios
-
-<!-- TODO: Fill in for your project -->
 
 ### Validation_Run_NullContext_ThrowsArgumentNullException
 
@@ -63,7 +55,7 @@ No test doubles are introduced at the `Validation` unit level.
 
 **Expected**: The file is created at the specified path; it contains a `<TestRun` XML element.
 
-**Requirement coverage**: TRX results file output requirement.
+**Requirement coverage**: `Template-Validation-TrxResults`.
 
 ### Validation_Run_WithXmlResultsFile_WritesXmlFile
 
@@ -72,28 +64,27 @@ No test doubles are introduced at the `Validation` unit level.
 
 **Expected**: The file is created at the specified path; it contains a `<testsuites` XML element.
 
-**Requirement coverage**: JUnit XML results file output requirement.
+**Requirement coverage**: `Template-Validation-XmlResults`.
 
 ### Validation_Run_WithUnsupportedResultsFormat_DoesNotWriteFile
 
 **Scenario**: `Validation.Run` is called with a context whose `ResultsFile` has a `.json`
 extension (an unsupported format).
 
-**Expected**: No file is created at the specified path; no exception is thrown.
+**Expected**: No file is created at the specified path; no exception is thrown; an error message
+is written to `context` indicating the unsupported format.
 
-**Boundary / error path**: Unsupported file extension is silently ignored.
+**Boundary / error path**: Tests the unsupported-format error path.
 
 **Requirement coverage**: Unsupported results format handling requirement.
 
 ## Requirements Coverage
 
-<!-- TODO: Fill in for your project -->
-
-| Requirement                   | Test Scenario                                                |
-|-------------------------------|--------------------------------------------------------------|
-| Null context guard            | Validation_Run_NullContext_ThrowsArgumentNullException       |
-| Summary output                | Validation_Run_WithSilentContext_PrintsSummary               |
-| Successful exit code          | Validation_Run_WithSilentContext_ExitCodeIsZero              |
-| TRX results file output       | Validation_Run_WithTrxResultsFile_WritesTrxFile              |
-| JUnit XML results file output | Validation_Run_WithXmlResultsFile_WritesXmlFile              |
-| Unsupported format handling   | Validation_Run_WithUnsupportedResultsFormat_DoesNotWriteFile |
+| Requirement                          | Test Scenario                                                |
+|--------------------------------------|--------------------------------------------------------------|
+| Null context guard                   | Validation_Run_NullContext_ThrowsArgumentNullException       |
+| Summary output                       | Validation_Run_WithSilentContext_PrintsSummary               |
+| Successful exit code                 | Validation_Run_WithSilentContext_ExitCodeIsZero              |
+| `Template-Validation-TrxResults`     | Validation_Run_WithTrxResultsFile_WritesTrxFile              |
+| `Template-Validation-XmlResults`     | Validation_Run_WithXmlResultsFile_WritesXmlFile              |
+| Unsupported format handling          | Validation_Run_WithUnsupportedResultsFormat_DoesNotWriteFile |
