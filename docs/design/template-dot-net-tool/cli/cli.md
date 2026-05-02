@@ -26,7 +26,9 @@ The `Cli` subsystem exposes the following outbound interfaces to the rest of the
 - **`Context.Create`**: Factory method constructing a `Context` from `string[] args`.
   `--result` is accepted as a legacy alias for `--results`.
 - **`Context.WriteLine`**: Writes a message to console and optional log file.
-- **`Context.WriteError`**: Writes an error to stderr and sets the error exit code.
+- **`Context.WriteError`**: Writes an error to stderr in silent mode (suppressed when `--silent`
+  is active) and sets the error exit code. **Note**: calling `WriteError` unconditionally sets
+  `ExitCode` to 1 for the lifetime of the `Context` instance, regardless of the `Silent` flag.
 - **`Context.ExitCode`**: Returns 0 for success or 1 when errors have been reported.
 - **`Context.HeadingDepth`**: Heading depth for markdown output (default 1); supplied via `--depth`.
 - **`Context.Version`**: `true` when `-v` or `--version` was passed.
@@ -51,6 +53,10 @@ and subsystem tests exercise both together to confirm end-to-end argument-to-beh
 
 `Context.Create` throws `ArgumentException` for unknown or malformed arguments.
 `Program.Main` catches this exception, writes `"Error: {message}"` to stderr, and returns exit code 1.
+
+`Context.Create` also throws `InvalidOperationException` when `--log` specifies a file that cannot
+be opened (e.g., access denied, invalid path). `Program.Main` catches this exception, writes
+`"Error: {message}"` to stderr, and returns exit code 1.
 
 ## Resource Lifecycle
 

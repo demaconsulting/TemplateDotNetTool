@@ -173,8 +173,6 @@ public class ProgramTests
             types: [typeof(string[])],
             modifiers: null);
 
-        Assert.NotNull(mainMethod);
-
         var originalError = Console.Error;
         try
         {
@@ -182,9 +180,10 @@ public class ProgramTests
             Console.SetError(errWriter);
 
             // Act: invoke Main with an invalid argument
-            var result = mainMethod.Invoke(null, [new[] { "--invalid-argument" }]);
+            var result = mainMethod?.Invoke(null, [new[] { "--invalid-argument" }]);
 
             // Assert: invalid arguments produce a non-zero exit code
+            Assert.NotNull(mainMethod);
             Assert.NotNull(result);
             Assert.Equal(1, Convert.ToInt32(result));
         }

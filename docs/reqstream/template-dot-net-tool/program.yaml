@@ -1,9 +1,7 @@
 ---
 # Software Unit Requirements for the Program Class
 #
-# The Program class is the main entry point for the tool. It creates a Context
-# from command-line arguments, dispatches to the appropriate logic based on the
-# flags, and returns the exit code.
+# The Program unit is the top-level command dispatcher for the tool.
 
 sections:
   - title: Program Unit Requirements
@@ -42,8 +40,4 @@ sections:
           Callers (scripts, CI/CD pipelines) must be able to detect failure conditions
           programmatically via the process exit code.
         tests:
-          - Program_Run_WithVersionFlag_DisplaysVersionOnly
-          - Program_Run_WithHelpFlag_DisplaysUsageInformation
-          - Program_Run_WithValidateFlag_RunsValidation
-          - Program_Run_NoArguments_DisplaysDefaultBehavior
           - Program_Run_WithInvalidArgs_ReturnsNonZeroExitCode

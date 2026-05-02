@@ -17,7 +17,7 @@ sections:
           troubleshooting and compatibility verification. The version display must
           work from a standard dotnet invocation without additional configuration.
         tests:
-          - IntegrationTest_VersionFlag_OutputsVersion
+          - TemplateDotNetTool_VersionFlag_Provided_OutputsVersion
 
       - id: Template-System-Help
         title: The tool shall display usage information when the help flag is provided.
@@ -26,7 +26,7 @@ sections:
           external resources. Help output must be accessible from a standard dotnet
           invocation and must list the available options so that users can self-serve.
         tests:
-          - IntegrationTest_HelpFlag_OutputsUsageInformation
+          - TemplateDotNetTool_HelpFlag_Provided_OutputsUsageInformation
 
       - id: Template-System-Validate
         title: The tool shall execute self-validation tests when the validate flag is provided.
@@ -37,7 +37,7 @@ sections:
           core behaviors and produces a structured test result file, providing the
           qualification evidence required by quality management systems.
         tests:
-          - IntegrationTest_ValidateFlag_RunsValidation
+          - TemplateDotNetTool_ValidateFlag_Provided_RunsValidation
 
       - id: Template-System-Silent
         title: The tool shall suppress console output when the silent flag is provided.
@@ -45,7 +45,7 @@ sections:
           Enables automated scripts and CI/CD pipelines to run the tool without
           cluttering output logs when only the exit code is needed.
         tests:
-          - IntegrationTest_SilentFlag_SuppressesOutput
+          - TemplateDotNetTool_SilentFlag_Provided_SuppressesOutput
 
       - id: Template-System-Log
         title: The tool shall write output to a log file when the log flag is provided.
@@ -54,7 +54,7 @@ sections:
           Log files enable post-run inspection of tool output without requiring
           console capture.
         tests:
-          - IntegrationTest_LogFlag_WritesOutputToFile
+          - TemplateDotNetTool_LogFlag_Provided_WritesOutputToFile
 
       - id: Template-System-ErrorHandling
         title: The tool shall return a non-zero exit code for unrecognized arguments.
@@ -62,7 +62,7 @@ sections:
           A non-zero exit code enables CI/CD pipelines to detect and
           surface misconfiguration failures automatically.
         tests:
-          - IntegrationTest_UnknownArgument_ReturnsError
+          - TemplateDotNetTool_UnknownArgument_Provided_ReturnsError
 
       - id: Template-System-ErrorMessage
         title: The tool shall report an error message for unrecognized arguments.
@@ -70,7 +70,7 @@ sections:
           Clear feedback for unrecognized arguments helps users quickly correct
           mistakes and prevents silent misconfiguration.
         tests:
-          - IntegrationTest_UnknownArgument_ReturnsError
+          - TemplateDotNetTool_UnknownArgument_Provided_ReturnsError
 
       - id: Template-System-Results
         title: >-
@@ -80,8 +80,8 @@ sections:
           Enables integration with CI/CD systems that expect standard test result formats.
           TRX format is compatible with MSTest; JUnit XML is compatible with many CI tools.
         tests:
-          - IntegrationTest_ValidateWithResults_GeneratesTrxFile
-          - IntegrationTest_ValidateWithResults_GeneratesJUnitFile
+          - TemplateDotNetTool_ValidateWithTrxResults_Requested_GeneratesTrxFile
+          - TemplateDotNetTool_ValidateWithXmlResults_Requested_GeneratesJUnitFile
 
       - id: Template-System-Depth
         title: The tool shall adjust the heading depth of validation output when the `--depth` flag is provided.
@@ -90,8 +90,8 @@ sections:
           the appropriate heading level, supporting documentation workflows that combine
           multiple reports.
         tests:
-          - IntegrationTest_ValidateFlag_RunsValidation
-          - IntegrationTest_ValidateWithDepth_OutputsHeadingAtCorrectDepth
+          - TemplateDotNetTool_ValidateFlag_Provided_RunsValidation
+          - TemplateDotNetTool_ValidateWithDepth_DepthThree_OutputsCorrectHeadingLevel
 
       - id: Template-System-ValidateFailure
         title: The tool shall return a non-zero exit code when one or more self-validation tests fail.
@@ -99,7 +99,8 @@ sections:
           A non-zero exit code on validation failure enables CI/CD pipelines to detect
           and surface qualification failures automatically, preventing the use of a
           mis-behaving tool in compliance-critical workflows.
-        tests: []
+        tests:
+          - TemplateDotNetTool_ValidateWithBadExtension_ExtensionInvalid_ReturnsNonZero
 
       - id: Template-System-DefaultBehavior
         title: The tool shall display a banner and run the default tool logic when invoked without any action flags.
@@ -107,13 +108,13 @@ sections:
           When a user invokes the tool without any recognized action flag, the tool shall
           display a banner identifying itself and run its primary logic so that the
           invocation is never silently empty.
-        # Gap: no integration test for default behavior yet; covered by unit test
-        # Program_Run_NoArguments_DisplaysDefaultBehavior
-        tests: []
+        tests:
+          - TemplateDotNetTool_NoArguments_Invoked_DisplaysBanner
 
       - id: Template-System-ResultAlias
         title: The tool shall accept `--result` as a legacy alias for `--results`.
         justification: |
           Backward compatibility with scripts that use the earlier `--result` spelling
           prevents breakage when upgrading to newer tool versions.
-        tests: []
+        tests:
+          - TemplateDotNetTool_ResultAlias_LegacyFlag_WritesResultsFile

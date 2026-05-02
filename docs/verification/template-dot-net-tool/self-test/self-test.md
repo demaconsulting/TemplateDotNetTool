@@ -12,10 +12,10 @@ subsystem produces correct output and result files across the supported result-f
 
 ## Dependencies and Mocking Strategy
 
-At the subsystem boundary, `Context` (from the `Cli` subsystem) and `PathHelpers` (from the
-`Utilities` subsystem) are both used with their real implementations. No mocking is applied.
-Temporary directories are used for result file output so that tests remain isolated and
-leave no permanent file-system side-effects.
+At the subsystem boundary, `Context` (from the `Cli` subsystem), `Program` (the top-level
+dispatcher), and `PathHelpers` (from the `Utilities` subsystem) are all used with their real
+implementations. No mocking is applied. Temporary directories are used for result file output so
+that tests remain isolated and leave no permanent file-system side-effects.
 
 ## Integration Test Scenarios
 

@@ -35,3 +35,15 @@ The `SelfTest` subsystem uses the following dependencies:
   serialization for results output.
 - **`DemaConsulting.TestResults`**: `TestResults`, `TestResult`, and `TestOutcome` data-model types
   used for accumulating and representing self-validation results.
+
+## Error Handling
+
+`Validation.Run` handles errors in two ways:
+
+- **Unsupported results file extension**: When `context.ResultsFile` has an extension other than
+  `.trx` or `.xml`, `WriteResultsFile` calls `context.WriteError` with a descriptive message
+  (e.g., `"Error: Unsupported results file format '.json'. Use .trx or .xml extension."`) and
+  returns without writing a file. This causes `context.ExitCode` to return 1.
+- **Test runner exceptions**: Each test runner (`RunVersionTest`, `RunHelpTest`) wraps its
+  execution in a broad `catch (Exception)` handler. Any unexpected exception is recorded as a
+  test failure via `HandleTestException`, allowing remaining tests to continue executing.

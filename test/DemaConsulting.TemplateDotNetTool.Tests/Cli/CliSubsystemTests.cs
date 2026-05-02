@@ -60,6 +60,36 @@ public class CliSubsystemTests
     }
 
     /// <summary>
+    ///     Test that Context and Program work together to handle the -v short version flag.
+    /// </summary>
+    [Fact]
+    public void CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits_WithShortVFlag()
+    {
+        // Arrange: command line arguments with -v short version flag; capture console output
+        var args = new[] { "-v" };
+        var originalOut = Console.Out;
+        using var capturedOut = new StringWriter();
+
+        try
+        {
+            Console.SetOut(capturedOut);
+
+            // Act: create context and run program logic
+            using var context = Context.Create(args);
+            Program.Run(context);
+
+            // Assert: version flag is parsed, version text is displayed, and exit code is success
+            Assert.True(context.Version, "Context should parse -v flag as version");
+            Assert.Equal(0, context.ExitCode);
+            Assert.Contains(Program.Version, capturedOut.ToString());
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
+    }
+
+    /// <summary>
     ///     Test that Context and Program work together to handle help flag workflow.
     /// </summary>
     [Fact]
@@ -161,16 +191,28 @@ public class CliSubsystemTests
     [Fact]
     public void CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits()
     {
-        // Arrange: command line arguments with validate flag
+        // Arrange: command line arguments with validate flag; capture console output
         var args = new[] { "--validate" };
+        var originalOut = Console.Out;
+        using var capturedOut = new StringWriter();
 
-        // Act: create context and run program logic
-        using var context = Context.Create(args);
-        Program.Run(context);
+        try
+        {
+            Console.SetOut(capturedOut);
 
-        // Assert: validate flag is parsed and exit code is success
-        Assert.True(context.Validate, "Context should parse validate flag");
-        Assert.Equal(0, context.ExitCode);
+            // Act: create context and run program logic
+            using var context = Context.Create(args);
+            Program.Run(context);
+
+            // Assert: validate flag is parsed, summary is output, and exit code is success
+            Assert.True(context.Validate, "Context should parse validate flag");
+            Assert.Equal(0, context.ExitCode);
+            Assert.Contains("Total Tests:", capturedOut.ToString());
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
     }
 
     /// <summary>

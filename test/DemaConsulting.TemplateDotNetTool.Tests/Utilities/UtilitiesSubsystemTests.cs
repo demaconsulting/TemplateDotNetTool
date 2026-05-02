@@ -91,6 +91,7 @@ public class UtilitiesSubsystemTests
     [Fact]
     public void UtilitiesSubsystem_AbsolutePathRejection_ThrowsException()
     {
+        // Arrange: setup base path and absolute path injection attempts
         var basePath = Path.GetTempPath();
         var absolutePaths = new List<string> { "/etc/passwd" };
         if (OperatingSystem.IsWindows())
@@ -98,6 +99,7 @@ public class UtilitiesSubsystemTests
             absolutePaths.Add(@"C:\Windows\System32\file.txt");
         }
 
+        // Act & Assert: attempt absolute path injection and verify exceptions are thrown
         foreach (var absolutePath in absolutePaths)
         {
             Assert.Throws<ArgumentException>(() =>

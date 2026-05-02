@@ -41,6 +41,9 @@ dotnet tool install -g DemaConsulting.TemplateDotNetTool
 ## Usage
 
 ```bash
+# Default behavior (no arguments) — displays banner and copyright
+templatetool
+
 # Display version
 templatetool --version
 
@@ -50,8 +53,9 @@ templatetool --help
 # Run self-validation
 templatetool --validate
 
-# Save validation results
+# Save validation results (--result is an accepted alias for --results)
 templatetool --validate --results results.trx
+templatetool --validate --result results.xml
 
 # Set heading depth for embedded validation output
 templatetool --validate --depth 2
@@ -62,15 +66,15 @@ templatetool --silent --log output.log
 
 ## Command-Line Options
 
-| Option               | Description                                                  |
-| -------------------- | ------------------------------------------------------------ |
-| `-v`, `--version`    | Display version information                                  |
-| `-?`, `-h`, `--help` | Display help message                                         |
-| `--silent`           | Suppress console output                                      |
-| `--validate`         | Run self-validation                                          |
-| `--results <file>`   | Write results to `.trx` (TRX) or `.xml` (JUnit XML) file.    |
-| `--depth <#>`        | Set heading depth for markdown output (default: 1)           |
-| `--log <file>`       | Write output to log file                                     |
+| Option                  | Description                                                  |
+| ----------------------- | ------------------------------------------------------------ |
+| `-v`, `--version`       | Display version information                                  |
+| `-?`, `-h`, `--help`    | Display help message                                         |
+| `--silent`              | Suppress console output                                      |
+| `--validate`            | Run self-validation                                          |
+| `--results`, `--result` | Write results to `.trx` (TRX) or `.xml` (JUnit XML) file.    |
+| `--depth <#>`           | Set heading depth for markdown output (default: 1)           |
+| `--log <file>`          | Write output to log file                                     |
 
 ## Error Handling
 

@@ -47,6 +47,14 @@ Display the tool version:
 templatetool --version
 ```
 
+## Default Behavior
+
+When invoked with no arguments, the tool displays the banner and copyright notice:
+
+```bash
+templatetool
+```
+
 ## Display Help
 
 Display usage information:
@@ -73,6 +81,8 @@ To save validation results to a file:
 ```bash
 templatetool --validate --results results.trx
 ```
+
+The `--result` option is an accepted alias for `--results`.
 
 The results file format is determined by the file extension: `.trx` for TRX (MSTest) format,
 or `.xml` for JUnit format.
@@ -152,15 +162,15 @@ misconfiguration failures automatically.
 
 The following command-line options are supported:
 
-| Option               | Description                                                  |
-| -------------------- | ------------------------------------------------------------ |
-| `-v`, `--version`    | Display version information                                  |
-| `-?`, `-h`, `--help` | Display help message                                         |
-| `--silent`           | Suppress console output                                      |
-| `--validate`         | Run self-validation                                          |
-| `--results <file>`   | Write validation results to file (TRX or JUnit format)       |
-| `--depth <#>`        | Set heading depth for markdown output (default: 1)           |
-| `--log <file>`       | Write output to log file                                     |
+| Option                    | Description                                                  |
+| ------------------------- | ------------------------------------------------------------ |
+| `-v`, `--version`         | Display version information                                  |
+| `-?`, `-h`, `--help`      | Display help message                                         |
+| `--silent`                | Suppress console output                                      |
+| `--validate`              | Run self-validation                                          |
+| `--results`, `--result`   | Write validation results to file (TRX or JUnit format)       |
+| `--depth <#>`             | Set heading depth for markdown output (default: 1)           |
+| `--log <file>`            | Write output to log file                                     |
 
 # Examples
 

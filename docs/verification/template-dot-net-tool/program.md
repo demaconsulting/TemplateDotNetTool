@@ -34,7 +34,8 @@ the banner prefix "Template DotNet Tool version" does not appear; exit code is 0
 
 **Scenario**: `Program.Run` is called with a context created from `["--help"]`.
 
-**Expected**: Standard output contains "Usage:" and "Options:"; exit code is 0.
+**Expected**: Standard output contains "Usage:", "Options:", "--version", and "--help"; exit code
+is 0.
 
 **Requirement coverage**: `Template-Program-Help`, `Template-Program-ExitCode`.
 
@@ -51,18 +52,6 @@ the banner prefix "Template DotNet Tool version" does not appear; exit code is 0
 **Scenario**: `Program.Run` is called with a context created from an empty argument array.
 
 **Expected**: Standard output contains the tool name and copyright notice; exit code is 0.
-
-**Requirement coverage**: `Template-Program-ExitCode`.
-
-### Program_Run_ErrorHandling_ExitCodeIsNonZero
-
-**Scenario**: `Program.Main` is called with an unknown flag `["--unknown-flag"]`. The exception
-handler in `Main` catches the `ArgumentException` thrown by `Context.Create`, writes an error to
-stderr, and returns exit code 1. This scenario is tested via reflection through the Cli subsystem
-test `CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero` as
-related coverage.
-
-**Expected**: Exit code is 1; stderr contains an error message.
 
 **Requirement coverage**: `Template-Program-ExitCode`.
 
@@ -115,8 +104,4 @@ related coverage.
   Program_Run_WithShortHelpFlag_DisplaysUsage,
   Program_Run_WithQuestionMarkFlag_DisplaysUsage
 - **`Template-Program-Validate`**: Program_Run_WithValidateFlag_RunsValidation
-- **`Template-Program-ExitCode`**: Program_Run_WithVersionFlag_DisplaysVersionOnly,
-  Program_Run_WithHelpFlag_DisplaysUsageInformation,
-  Program_Run_WithValidateFlag_RunsValidation,
-  Program_Run_NoArguments_DisplaysDefaultBehavior,
-  Program_Run_WithInvalidArgs_ReturnsNonZeroExitCode
+- **`Template-Program-ExitCode`**: Program_Run_WithInvalidArgs_ReturnsNonZeroExitCode

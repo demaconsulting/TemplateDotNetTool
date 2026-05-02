@@ -43,6 +43,7 @@ sections:
           troubleshooting and compatibility verification.
         tests:
           - CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits
+          - CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits_WithShortVFlag
 
       - id: Template-Cli-Help
         title: The Cli subsystem shall support -?, -h, and --help flags to signal help display.

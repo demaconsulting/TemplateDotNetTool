@@ -31,6 +31,12 @@ The following integration test scenarios are defined in `CliSubsystemTests.cs`.
 
 **Expected**: Standard output contains the version string; exit code is 0.
 
+### CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits_WithShortVFlag
+
+**Scenario**: Arguments `["-v"]` are passed through `Context.Create` and `Program.Run`.
+
+**Expected**: Standard output contains the version string; exit code is 0.
+
 ### CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits
 
 **Scenario**: Arguments `["--help"]` are passed through `Context.Create` and `Program.Run`.
@@ -53,7 +59,7 @@ The following integration test scenarios are defined in `CliSubsystemTests.cs`.
 
 **Scenario**: Arguments `["--validate"]` are passed through `Context.Create` and `Program.Run`.
 
-**Expected**: Standard output contains the validation summary; exit code is 0.
+**Expected**: Standard output contains `"Total Tests:"`; exit code is 0.
 
 ### CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput
 
@@ -105,7 +111,8 @@ through `Context.Create` and `Program.Run`.
 
 ## Requirements Coverage
 
-- **`Template-Cli-Version`**: CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits
+- **`Template-Cli-Version`**: CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits,
+  CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits_WithShortVFlag
 - **`Template-Cli-Help`**: CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits,
   CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortQuestionFlag,
   CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortHFlag
@@ -117,6 +124,8 @@ through `Context.Create` and `Program.Run`.
 - **`Template-Cli-ErrorOutput`**: CliSubsystem_ErrorOutput_ContextAndProgram_WritesErrorToStderr
 - **`Template-Cli-ArgumentParsing`**: CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits,
   CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits,
+  CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortQuestionFlag,
+  CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShortHFlag,
   CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits
 - **`Template-Cli-OutputChannels`**: CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput,
   CliSubsystem_ErrorOutput_ContextAndProgram_WritesErrorToStderr

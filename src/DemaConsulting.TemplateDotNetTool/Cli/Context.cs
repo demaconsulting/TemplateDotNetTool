@@ -281,6 +281,10 @@ internal sealed class Context : IDisposable
     ///     Writes a line of output to the console and log file (if logging is enabled).
     /// </summary>
     /// <param name="message">The message to write.</param>
+    /// <remarks>
+    ///     Output is written to stdout. When <see cref="Silent"/> is <c>true</c>, stdout output is
+    ///     suppressed, but the message is still written to the log file when one is open.
+    /// </remarks>
     public void WriteLine(string message)
     {
         // Write to console unless silent mode is enabled
@@ -297,6 +301,12 @@ internal sealed class Context : IDisposable
     ///     Writes an error message to the error console and log file (if logging is enabled).
     /// </summary>
     /// <param name="message">The error message to write.</param>
+    /// <remarks>
+    ///     <c>_hasErrors</c> is set to <c>true</c> unconditionally, so <see cref="ExitCode"/> will
+    ///     return 1 regardless of whether <see cref="Silent"/> suppresses the console output.
+    ///     Stderr output is suppressed when <see cref="Silent"/> is <c>true</c>, but the message
+    ///     is still written to the log file when one is open.
+    /// </remarks>
     public void WriteError(string message)
     {
         // Mark that we have encountered errors

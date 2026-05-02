@@ -177,23 +177,30 @@ public class SelfTestSubsystemTests
     [Fact]
     public void SelfTestSubsystem_ValidationWorkflow_WithUnsupportedExtension_EmitsErrorAndNoFile()
     {
-        // Arrange: unsupported results file extension
+        // Arrange: unsupported results file extension; capture stderr for error message assertion
         var tempDir = Path.GetTempPath();
         var badFile = Path.Combine(tempDir, $"test_{Guid.NewGuid()}.bad");
-        var args = new[] { "--validate", "--silent", "--results", badFile };
+        var args = new[] { "--validate", "--results", badFile };
+        var originalError = Console.Error;
 
         try
         {
+            using var errWriter = new StringWriter();
+            Console.SetError(errWriter);
+
             // Act: create context and run validation with unsupported extension
             using var context = Context.Create(args);
             Validation.Run(context);
 
-            // Assert: error is reported and no file is created
+            // Assert: error is reported, message identifies the format, and no file is created
             Assert.Equal(1, context.ExitCode);
             Assert.False(File.Exists(badFile), "No file should be created for unsupported extension");
+            Assert.Contains(".bad", errWriter.ToString());
         }
         finally
         {
+            Console.SetError(originalError);
+
             // Cleanup
             if (File.Exists(badFile))
             {

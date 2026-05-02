@@ -53,28 +53,28 @@ implementations:
 
 The following integration test scenarios are defined in `IntegrationTests.cs`.
 
-### IntegrationTest_VersionFlag_OutputsVersion
+### TemplateDotNetTool_VersionFlag_Invoked_OutputsVersion
 
 **Scenario**: The `--version` flag is passed as the sole argument.
 
 **Expected**: Exit code 0; combined output contains the tool version string; combined output does
 not contain error messages.
 
-### IntegrationTest_HelpFlag_OutputsUsageInformation
+### TemplateDotNetTool_HelpFlag_Invoked_OutputsUsageInformation
 
 **Scenario**: The `--help` flag is passed as the sole argument.
 
 **Expected**: Exit code 0; combined output contains the text "Usage" and "Options"; combined
 output does not contain error messages.
 
-### IntegrationTest_ValidateFlag_RunsValidation
+### TemplateDotNetTool_ValidateFlag_Invoked_RunsValidation
 
 **Scenario**: The `--validate` flag is passed as the sole argument.
 
 **Expected**: Exit code 0; combined output contains a validation summary (the text "Total Tests:"
 appears in the output).
 
-### IntegrationTest_ValidateWithResults_GeneratesTrxFile
+### TemplateDotNetTool_ValidateWithResults_TrxFile_GeneratesTrxFile
 
 **Scenario**: The `--validate` flag is combined with `--results <path>.trx` pointing to a
 temporary file.
@@ -82,7 +82,7 @@ temporary file.
 **Expected**: Exit code 0; a TRX file is created at the specified path; the file contains a
 `<TestRun` XML element confirming the TRX format is valid.
 
-### IntegrationTest_ValidateWithResults_GeneratesJUnitFile
+### TemplateDotNetTool_ValidateWithResults_JUnitFile_GeneratesJUnitFile
 
 **Scenario**: The `--validate` flag is combined with `--results <path>.xml` pointing to a
 temporary file.
@@ -90,47 +90,66 @@ temporary file.
 **Expected**: Exit code 0; an XML file is created at the specified path; the file contains a
 `<testsuites` XML element confirming the JUnit format is valid.
 
-### IntegrationTest_SilentFlag_SuppressesOutput
+### TemplateDotNetTool_SilentFlag_Invoked_SuppressesOutput
 
 **Scenario**: The `--version` and `--silent` flags are passed together.
 
 **Expected**: Exit code 0; combined output is empty or whitespace-only.
 
-### IntegrationTest_LogFlag_WritesOutputToFile
+### TemplateDotNetTool_LogFlag_Invoked_WritesOutputToFile
 
 **Scenario**: The `--log <path>` flag is passed pointing to a temporary file.
 
 **Expected**: Exit code 0; the specified log file is created and contains output that also appears
 on standard output.
 
-### IntegrationTest_UnknownArgument_ReturnsError
+### TemplateDotNetTool_UnknownArgument_Invoked_ReturnsError
 
 **Scenario**: An unrecognized argument (e.g., `--unknown`) is passed.
 
 **Expected**: Exit code non-zero; combined output contains an error message indicating the
 unrecognized argument.
 
-### IntegrationTest_ValidateWithDepth_OutputsHeadingAtCorrectDepth
+### TemplateDotNetTool_ValidateWithDepth_Invoked_OutputsHeadingAtCorrectDepth
 
 **Scenario**: The `--validate` flag is combined with `--depth 3`.
 
 **Expected**: Exit code 0; combined output contains `###` (heading at depth 3).
+
+### TemplateDotNetTool_NoArguments_Invoked_DisplaysBanner
+
+**Scenario**: The tool is invoked with no arguments.
+
+**Expected**: Exit code 0; combined output contains the tool name and copyright notice.
+
+### TemplateDotNetTool_ResultAlias_LegacyFlag_WritesResultsFile
+
+**Scenario**: The `--validate` flag is combined with `--result <path>.trx` (the legacy alias).
+
+**Expected**: Exit code 0; a TRX file is created at the specified path.
+
+### TemplateDotNetTool_ValidateWithBadExtension_ExtensionInvalid_ReturnsNonZero
+
+**Scenario**: The `--validate` flag is combined with `--results <path>.bad` (unsupported extension).
+
+**Expected**: Exit code non-zero; no file is created at the specified path.
 
 ## Requirements Coverage
 
 The following list maps each system-level requirement category to the integration test scenarios
 that verify it.
 
-- **Version display**: IntegrationTest_VersionFlag_OutputsVersion
-- **Help display**: IntegrationTest_HelpFlag_OutputsUsageInformation
-- **Self-validation**: IntegrationTest_ValidateFlag_RunsValidation
-- **TRX results output**: IntegrationTest_ValidateWithResults_GeneratesTrxFile
-- **JUnit results output**: IntegrationTest_ValidateWithResults_GeneratesJUnitFile
-- **Silent mode**: IntegrationTest_SilentFlag_SuppressesOutput
-- **Log file output**: IntegrationTest_LogFlag_WritesOutputToFile
-- **Invalid argument rejection**: IntegrationTest_UnknownArgument_ReturnsError
-- **`Template-System-Depth`**: IntegrationTest_ValidateFlag_RunsValidation,
-  IntegrationTest_ValidateWithDepth_OutputsHeadingAtCorrectDepth
-- **`Template-System-ValidateFailure`**: *(no integration test yet)*
-- **`Template-System-DefaultBehavior`**: *(no integration test yet)*
-- **`Template-System-ResultAlias`**: *(no integration test yet)*
+- **Version display**: TemplateDotNetTool_VersionFlag_Invoked_OutputsVersion
+- **Help display**: TemplateDotNetTool_HelpFlag_Invoked_OutputsUsageInformation
+- **Self-validation**: TemplateDotNetTool_ValidateFlag_Invoked_RunsValidation
+- **TRX results output**: TemplateDotNetTool_ValidateWithResults_TrxFile_GeneratesTrxFile
+- **JUnit results output**: TemplateDotNetTool_ValidateWithResults_JUnitFile_GeneratesJUnitFile
+- **Silent mode**: TemplateDotNetTool_SilentFlag_Invoked_SuppressesOutput
+- **Log file output**: TemplateDotNetTool_LogFlag_Invoked_WritesOutputToFile
+- **Invalid argument rejection**: TemplateDotNetTool_UnknownArgument_Invoked_ReturnsError
+- **`Template-System-Depth`**: TemplateDotNetTool_ValidateFlag_Invoked_RunsValidation,
+  TemplateDotNetTool_ValidateWithDepth_Invoked_OutputsHeadingAtCorrectDepth
+- **`Template-System-ValidateFailure`**:
+  TemplateDotNetTool_ValidateWithBadExtension_ExtensionInvalid_ReturnsNonZero
+- **`Template-System-DefaultBehavior`**: TemplateDotNetTool_NoArguments_Invoked_DisplaysBanner
+- **`Template-System-ResultAlias`**: TemplateDotNetTool_ResultAlias_LegacyFlag_WritesResultsFile

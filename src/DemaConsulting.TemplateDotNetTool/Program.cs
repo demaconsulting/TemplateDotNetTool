@@ -32,6 +32,11 @@ internal static class Program
     /// <summary>
     ///     Gets the application version string.
     /// </summary>
+    /// <remarks>
+    ///     The version is read from the <see cref="AssemblyInformationalVersionAttribute"/> via
+    ///     reflection on every access. There is no caching; callers that need the value more than
+    ///     once should store the result locally.
+    /// </remarks>
     public static string Version
     {
         get
@@ -52,6 +57,12 @@ internal static class Program
     /// <param name="args">Command-line arguments.</param>
     /// <returns>Exit code: 0 for success, non-zero for failure.</returns>
     /// <exception cref="Exception">Thrown when an unexpected error occurs; re-thrown after writing to stderr.</exception>
+    /// <remarks>
+    ///     <see cref="ArgumentException"/> and <see cref="InvalidOperationException"/> are treated as
+    ///     expected errors: their messages are written to stderr and exit code 1 is returned without
+    ///     a stack trace. Any other exception is written to stderr and then re-thrown so that the
+    ///     runtime can record it in event logs.
+    /// </remarks>
     private static int Main(string[] args)
     {
         try
@@ -89,6 +100,10 @@ internal static class Program
     ///     Runs the program logic based on the provided context.
     /// </summary>
     /// <param name="context">The context containing command line arguments and program state.</param>
+    /// <remarks>
+    ///     Dispatch is priority-ordered: version check first, then help, then self-validation,
+    ///     then main tool logic. Only the highest-priority matching action is executed per invocation.
+    /// </remarks>
     public static void Run(Context context)
     {
         // Priority 1: Version query
