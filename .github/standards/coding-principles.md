@@ -22,7 +22,7 @@ All code MUST follow literate programming principles:
   describe logical steps within the implementation
 - **Full Symbol Documentation**: ALL symbols have comprehensive documentation
   because reviewers and auditors must verify every implementation detail, not
-  just the public interface — access-level specifics (public, protected,
+  just the public interface - access-level specifics (public, protected,
   private, internal, etc.) vary by language; see the language-specific standard
 - **Clarity Over Cleverness**: Code should be immediately understandable by team members
 

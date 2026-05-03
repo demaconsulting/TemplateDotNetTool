@@ -13,7 +13,7 @@ Read these standards first before applying this standard:
 
 # Core Principles
 
-Verification design is the bridge between requirements and tests — it documents HOW
+Verification design is the bridge between requirements and tests - it documents HOW
 requirements will be verified, enabling reviewers to confirm test completeness without
 reading implementation code.
 
@@ -60,7 +60,7 @@ Review-sets: defined in `.reviewmark.yaml`
 ```
 
 If the verification design references external documents (standards, specifications), include
-a `## References` section in `introduction.md` only — do not add one to any other verification file.
+a `## References` section in `introduction.md` only - do not add one to any other verification file.
 
 ## System Verification Design (MANDATORY)
 
@@ -103,11 +103,11 @@ For each OTS item, create `docs/verification/ots/{ots-name}.md` covering:
 
 - **Test Coverage**: Map every requirement to at least one named test scenario so
   reviewers can verify completeness without reading test code
-- **Scenario Clarity**: Name each scenario clearly — "Valid input returns parsed result" not "Test 1"
+- **Scenario Clarity**: Name each scenario clearly - "Valid input returns parsed result" not "Test 1"
 - **Boundary Conditions**: Call out boundary values, error inputs, and edge cases explicitly
 - **Isolation Strategy**: Describe what is mocked or stubbed and why at each level
 - **Traceability**: Link to requirements where applicable using ReqStream patterns
-- **Verbal Cross-References**: Reference other documents by name — do not use markdown
+- **Verbal Cross-References**: Reference other documents by name - do not use markdown
   hyperlinks, which break in compiled PDFs
 
 Mermaid diagrams may supplement text descriptions where test flow benefits from visual
