@@ -72,7 +72,7 @@ templatetool --silent --log output.log
 | `-?`, `-h`, `--help`    | Display help message                                         |
 | `--silent`              | Suppress console output                                      |
 | `--validate`            | Run self-validation                                          |
-| `--results`, `--result` | Write results to `.trx` (TRX) or `.xml` (JUnit XML) file.    |
+| `--results <file>`, `--result <file>` | Write results to `.trx` (TRX) or `.xml` (JUnit XML) file. |
 | `--depth <#>`           | Set heading depth for markdown output (default: 1)           |
 | `--log <file>`          | Write output to log file                                     |
 
