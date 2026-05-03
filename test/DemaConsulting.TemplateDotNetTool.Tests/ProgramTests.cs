@@ -163,16 +163,9 @@ public class ProgramTests
     ///     Test that Main with invalid arguments returns non-zero exit code.
     /// </summary>
     [Fact]
-    public void Program_Run_WithInvalidArgs_ReturnsNonZeroExitCode()
+    public void Program_Main_WithInvalidArgs_ReturnsNonZeroExitCode()
     {
-        // Arrange: invalid argument and reflection to access private Program.Main
-        var mainMethod = typeof(Program).GetMethod(
-            "Main",
-            System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic,
-            binder: null,
-            types: [typeof(string[])],
-            modifiers: null);
-
+        // Arrange: redirect stderr to suppress error output during test
         var originalError = Console.Error;
         try
         {
@@ -180,12 +173,10 @@ public class ProgramTests
             Console.SetError(errWriter);
 
             // Act: invoke Main with an invalid argument
-            var result = mainMethod?.Invoke(null, [new[] { "--invalid-argument" }]);
+            var result = Program.Main(["--invalid-argument"]);
 
             // Assert: invalid arguments produce a non-zero exit code
-            Assert.NotNull(mainMethod);
-            Assert.NotNull(result);
-            Assert.Equal(1, Convert.ToInt32(result));
+            Assert.Equal(1, result);
         }
         finally
         {

@@ -63,7 +63,7 @@ internal static class Program
     ///     a stack trace. Any other exception is written to stderr and then re-thrown so that the
     ///     runtime can record it in event logs.
     /// </remarks>
-    private static int Main(string[] args)
+    public static int Main(string[] args)
     {
         try
         {

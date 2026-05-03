@@ -158,14 +158,20 @@ public class ValidationTests
         var logFile = Path.Combine(Path.GetTempPath(), $"validation_test_{Guid.NewGuid()}.log");
         try
         {
-            using var context = Context.Create(["--silent", "--results", jsonFile, "--log", logFile]);
+            using (var context = Context.Create(["--silent", "--results", jsonFile, "--log", logFile]))
+            {
+                // Act: run validation with unsupported results file extension
+                Validation.Run(context);
 
-            // Act: run validation with unsupported results file extension
-            Validation.Run(context);
+                // Assert context state while still valid: no results file and non-zero exit code
+                Assert.False(File.Exists(jsonFile));
+                Assert.Equal(1, context.ExitCode);
+            }
 
-            // Assert: no file is created, exit code is non-zero, and error is reported
-            Assert.False(File.Exists(jsonFile));
-            Assert.Equal(1, context.ExitCode);
+            // Assert log content after disposal to ensure the log writer has been closed and flushed
+            Assert.True(File.Exists(logFile));
+            var logContent = File.ReadAllText(logFile);
+            Assert.Contains("Unsupported results file format", logContent);
         }
         finally
         {

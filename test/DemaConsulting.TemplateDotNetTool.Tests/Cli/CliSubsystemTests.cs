@@ -18,7 +18,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Reflection;
 using DemaConsulting.TemplateDotNetTool.Cli;
 
 namespace DemaConsulting.TemplateDotNetTool.Tests.Cli;
@@ -326,16 +325,8 @@ public class CliSubsystemTests
     [Fact]
     public void CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero()
     {
-        // Arrange: unknown command-line argument and reflection to access private Program.Main
+        // Arrange: unknown command-line argument
         var args = new[] { "--unknown-flag" };
-        var mainMethod = typeof(Program).GetMethod(
-            "Main",
-            BindingFlags.Static | BindingFlags.NonPublic,
-            binder: null,
-            types: [typeof(string[])],
-            modifiers: null);
-
-        Assert.NotNull(mainMethod);
 
         var originalError = Console.Error;
         try
@@ -344,11 +335,10 @@ public class CliSubsystemTests
             Console.SetError(errWriter);
 
             // Act: invoke the actual CLI entry point with an unknown flag
-            var result = mainMethod.Invoke(null, [args]);
+            var result = Program.Main(args);
 
             // Assert: invalid arguments produce a non-zero exit code and an error on stderr
-            Assert.NotNull(result);
-            Assert.Equal(1, Convert.ToInt32(result));
+            Assert.Equal(1, result);
             var errorOutput = errWriter.ToString();
             Assert.False(string.IsNullOrWhiteSpace(errorOutput), "Program should write an error to stderr for unknown arguments");
             Assert.Contains("--unknown-flag", errorOutput);
