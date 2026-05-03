@@ -20,7 +20,9 @@ sections:
               - ReviewMark_ReviewPlanGeneration
               - ReviewMark_ReviewReportGeneration
           - id: Template-OTS-ReviewMark-Operations
-            title: ReviewMark shall support index scanning, enforcement, elaboration, lint, and directory override operations.
+            title: >-
+              ReviewMark shall support index scanning, enforcement, elaboration,
+              lint, and directory override operations.
             justification: |
               In addition to document generation, ReviewMark provides operational commands used
               in the CI pipeline: scanning PDF evidence into an index catalogue, enforcing review
