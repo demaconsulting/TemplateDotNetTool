@@ -162,15 +162,15 @@ misconfiguration failures automatically.
 
 The following command-line options are supported:
 
-| Option                    | Description                                                  |
-| ------------------------- | ------------------------------------------------------------ |
-| `-v`, `--version`         | Display version information                                  |
-| `-?`, `-h`, `--help`      | Display help message                                         |
-| `--silent`                | Suppress console output                                      |
-| `--validate`              | Run self-validation                                          |
-| `--results <file>`, `--result <file>` | Write validation results to file (TRX or JUnit format) |
-| `--depth <#>`             | Set heading depth for markdown output (default: 1)           |
-| `--log <file>`            | Write output to log file                                     |
+| Option                                | Description                                                  |
+| ------------------------------------- | ------------------------------------------------------------ |
+| `-v`, `--version`                     | Display version information                                  |
+| `-?`, `-h`, `--help`                  | Display help message                                         |
+| `--silent`                            | Suppress console output                                      |
+| `--validate`                          | Run self-validation                                          |
+| `--results <file>`, `--result <file>` | Write validation results to file (TRX or JUnit format)       |
+| `--depth <#>`                         | Set heading depth for markdown output (default: 1)           |
+| `--log <file>`                        | Write output to log file                                     |
 
 # Examples
 
