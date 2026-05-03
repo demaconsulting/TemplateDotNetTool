@@ -25,10 +25,13 @@ The `Cli` subsystem exposes the following outbound interfaces to the rest of the
 
 - **`Context.Create`**: Factory method constructing a `Context` from `string[] args`.
   `--result` is accepted as a legacy alias for `--results`.
-- **`Context.WriteLine`**: Writes a message to console and optional log file.
-- **`Context.WriteError`**: Writes an error to stderr in silent mode (suppressed when `--silent`
-  is active) and sets the error exit code. **Note**: calling `WriteError` unconditionally sets
-  `ExitCode` to 1 for the lifetime of the `Context` instance, regardless of the `Silent` flag.
+- **`Context.WriteLine`**: Writes a message to stdout and to the log file (if one is open).
+  Stdout output is suppressed when `--silent` is active; the log file always receives the
+  message regardless of `--silent`.
+- **`Context.WriteError`**: Writes an error message to stderr and to the log file (if one is
+  open), and unconditionally sets the error exit code. Stderr output is suppressed when
+  `--silent` is active; the log file always receives the message and `ExitCode` is set to 1
+  regardless of the `Silent` flag.
 - **`Context.ExitCode`**: Returns 0 for success or 1 when errors have been reported.
 - **`Context.HeadingDepth`**: Heading depth for markdown output (default 1); supplied via `--depth`.
 - **`Context.Version`**: `true` when `-v` or `--version` was passed.
