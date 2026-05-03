@@ -1,6 +1,7 @@
 # xUnit Verification
 
-This document provides the verification evidence for the `xUnit` OTS software item.
+This document provides the verification evidence for the xUnit OTS software item. Requirements
+for this OTS item are defined in the xUnit OTS Software Requirements document.
 
 ## Required Functionality
 
@@ -13,7 +14,7 @@ correctly.
 
 xUnit is verified by self-validation evidence from the CI pipeline. Each scenario names a specific
 test method that xUnit must discover, execute, and record in a TRX result file. A passing pipeline
-run for all scenarios constitutes evidence that the requirement is satisfied.
+run for all scenarios constitutes evidence that both requirements are satisfied.
 
 ## Test Scenarios
 
@@ -23,67 +24,79 @@ run for all scenarios constitutes evidence that the requirement is satisfied.
 
 **Expected**: xUnit executes the test, the test passes, and the result appears in the TRX output.
 
-**Requirement coverage**: `Template-OTS-xUnit`.
+**Requirement coverage**: `Template-OTS-xUnit-Execute`, `Template-OTS-xUnit-Report`.
 
 ### Context_Create_VersionFlag_SetsVersionTrue
 
-**Scenario**: xUnit discovers and runs this test.
+**Scenario**: xUnit discovers and runs this test; the test verifies that passing the --version flag
+sets the Version property to true.
 
 **Expected**: xUnit executes the test, the test passes, and the result appears in the TRX output.
 
-**Requirement coverage**: `Template-OTS-xUnit`.
+**Requirement coverage**: `Template-OTS-xUnit-Execute`, `Template-OTS-xUnit-Report`.
 
 ### Context_Create_SilentFlag_SetsSilentTrue
 
-**Scenario**: xUnit discovers and runs this test.
+**Scenario**: xUnit discovers and runs this test; the test verifies that passing the --silent flag
+sets the Silent property to true.
 
 **Expected**: xUnit executes the test, the test passes, and the result appears in the TRX output.
 
-**Requirement coverage**: `Template-OTS-xUnit`.
+**Requirement coverage**: `Template-OTS-xUnit-Execute`, `Template-OTS-xUnit-Report`.
 
 ### Context_Create_LogFlag_OpensLogFile
 
-**Scenario**: xUnit discovers and runs this test.
+**Scenario**: xUnit discovers and runs this test; the test verifies that passing the --log flag
+opens a log file.
 
 **Expected**: xUnit executes the test, the test passes, and the result appears in the TRX output.
 
-**Requirement coverage**: `Template-OTS-xUnit`.
+**Requirement coverage**: `Template-OTS-xUnit-Execute`, `Template-OTS-xUnit-Report`.
 
 ### Context_Create_UnknownArgument_ThrowsArgumentException
 
-**Scenario**: xUnit discovers and runs this test.
+**Scenario**: xUnit discovers and runs this test; the test verifies that an unrecognized argument
+raises an exception.
 
 **Expected**: xUnit executes the test, the test passes, and the result appears in the TRX output.
 
-**Requirement coverage**: `Template-OTS-xUnit`.
+**Requirement coverage**: `Template-OTS-xUnit-Execute`, `Template-OTS-xUnit-Report`.
 
 ### PathHelpers_SafePathCombine_ValidPaths_CombinesCorrectly
 
-**Scenario**: xUnit discovers and runs this test.
+**Scenario**: xUnit discovers and runs this test; the test verifies that SafePathCombine correctly
+joins valid path segments.
 
 **Expected**: xUnit executes the test, the test passes, and the result appears in the TRX output.
 
-**Requirement coverage**: `Template-OTS-xUnit`.
+**Requirement coverage**: `Template-OTS-xUnit-Execute`, `Template-OTS-xUnit-Report`.
 
 ### Program_Run_WithVersionFlag_DisplaysVersionOnly
 
-**Scenario**: xUnit discovers and runs this test.
+**Scenario**: xUnit discovers and runs this test; the test verifies that the program prints only
+version information when invoked with the --version flag.
 
 **Expected**: xUnit executes the test, the test passes, and the result appears in the TRX output.
 
-**Requirement coverage**: `Template-OTS-xUnit`.
+**Requirement coverage**: `Template-OTS-xUnit-Execute`, `Template-OTS-xUnit-Report`.
 
 ### Validation_Run_WithSilentContext_PrintsSummary
 
-**Scenario**: xUnit discovers and runs this test.
+**Scenario**: xUnit discovers and runs this test; the test verifies that Validation.Run prints a
+summary even when the context is configured for silent operation.
 
 **Expected**: xUnit executes the test, the test passes, and the result appears in the TRX output.
 
-**Requirement coverage**: `Template-OTS-xUnit`.
+**Requirement coverage**: `Template-OTS-xUnit-Execute`, `Template-OTS-xUnit-Report`.
 
 ## Requirements Coverage
 
-- **`Template-OTS-xUnit`**: Context_Create_NoArguments_ReturnsDefaultContext,
+- **`Template-OTS-xUnit-Execute`**: Context_Create_NoArguments_ReturnsDefaultContext,
+  Context_Create_VersionFlag_SetsVersionTrue, Context_Create_SilentFlag_SetsSilentTrue,
+  Context_Create_LogFlag_OpensLogFile, Context_Create_UnknownArgument_ThrowsArgumentException,
+  PathHelpers_SafePathCombine_ValidPaths_CombinesCorrectly,
+  Program_Run_WithVersionFlag_DisplaysVersionOnly, Validation_Run_WithSilentContext_PrintsSummary
+- **`Template-OTS-xUnit-Report`**: Context_Create_NoArguments_ReturnsDefaultContext,
   Context_Create_VersionFlag_SetsVersionTrue, Context_Create_SilentFlag_SetsSilentTrue,
   Context_Create_LogFlag_OpensLogFile, Context_Create_UnknownArgument_ThrowsArgumentException,
   PathHelpers_SafePathCombine_ValidPaths_CombinesCorrectly,

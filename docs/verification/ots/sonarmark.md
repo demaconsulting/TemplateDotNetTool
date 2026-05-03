@@ -1,6 +1,7 @@
 # SonarMark Verification
 
-This document provides the verification evidence for the `SonarMark` OTS software item.
+This document provides the verification evidence for the SonarMark OTS software item. Requirements
+for this OTS item are defined in the SonarMark OTS Software Requirements document.
 
 ## Required Functionality
 

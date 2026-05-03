@@ -1,6 +1,7 @@
 # FileAssert Verification
 
-This document provides the verification evidence for the `FileAssert` OTS software item.
+This document provides the verification evidence for the FileAssert OTS software item. Requirements
+for this OTS item are defined in the FileAssert OTS Software Requirements document.
 
 ## Required Functionality
 

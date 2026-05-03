@@ -1,6 +1,7 @@
 # SarifMark Verification
 
-This document provides the verification evidence for the `SarifMark` OTS software item.
+This document provides the verification evidence for the SarifMark OTS software item. Requirements
+for this OTS item are defined in the SarifMark OTS Software Requirements document.
 
 ## Required Functionality
 
@@ -49,9 +50,9 @@ enforcement mode.
 
 **Expected**: Returns a non-zero exit code when issues are found.
 
-**Requirement coverage**: `Template-OTS-SarifMark`.
+**Requirement coverage**: `Template-OTS-SarifMark-Enforcement`.
 
 ## Requirements Coverage
 
-- **`Template-OTS-SarifMark`**: SarifMark_SarifReading, SarifMark_MarkdownReportGeneration,
-  SarifMark_Enforcement
+- **`Template-OTS-SarifMark`**: SarifMark_SarifReading, SarifMark_MarkdownReportGeneration
+- **`Template-OTS-SarifMark-Enforcement`**: SarifMark_Enforcement

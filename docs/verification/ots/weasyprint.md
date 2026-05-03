@@ -1,6 +1,7 @@
 # WeasyPrint Verification
 
-This document provides the verification evidence for the `WeasyPrint` OTS software item.
+This document provides the verification evidence for the WeasyPrint OTS software item. Requirements
+for this OTS item are defined in the WeasyPrint OTS Software Requirements document.
 
 ## Required Functionality
 

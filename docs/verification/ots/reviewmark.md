@@ -1,6 +1,7 @@
 # ReviewMark Verification
 
-This document provides the verification evidence for the `ReviewMark` OTS software item.
+This document provides the verification evidence for the ReviewMark OTS software item. Requirements
+for this OTS item are defined in the ReviewMark OTS Software Requirements document.
 
 ## Required Functionality
 
@@ -50,7 +51,7 @@ report from a test configuration and evidence store.
 
 **Expected**: Exits 0 and produces a correctly structured `index.json`.
 
-**Requirement coverage**: `Template-OTS-ReviewMark`.
+**Requirement coverage**: `Template-OTS-ReviewMark-Operations`.
 
 ### ReviewMark_WorkingDirectoryOverride
 
@@ -59,7 +60,7 @@ operations.
 
 **Expected**: Exits 0 and resolves paths relative to the specified directory.
 
-**Requirement coverage**: `Template-OTS-ReviewMark`.
+**Requirement coverage**: `Template-OTS-ReviewMark-Operations`.
 
 ### ReviewMark_Enforce
 
@@ -68,7 +69,7 @@ issues.
 
 **Expected**: Exits with a non-zero exit code when review issues are present.
 
-**Requirement coverage**: `Template-OTS-ReviewMark`.
+**Requirement coverage**: `Template-OTS-ReviewMark-Operations`.
 
 ### ReviewMark_Elaborate
 
@@ -77,7 +78,7 @@ named review set.
 
 **Expected**: Exits 0 and prints the review-set ID, fingerprint, and file list.
 
-**Requirement coverage**: `Template-OTS-ReviewMark`.
+**Requirement coverage**: `Template-OTS-ReviewMark-Operations`.
 
 ### ReviewMark_Lint
 
@@ -86,10 +87,10 @@ issues.
 
 **Expected**: Correctly reports structural and semantic issues found in the test definition.
 
-**Requirement coverage**: `Template-OTS-ReviewMark`.
+**Requirement coverage**: `Template-OTS-ReviewMark-Operations`.
 
 ## Requirements Coverage
 
-- **`Template-OTS-ReviewMark`**: ReviewMark_ReviewPlanGeneration, ReviewMark_ReviewReportGeneration,
-  ReviewMark_IndexScan, ReviewMark_WorkingDirectoryOverride, ReviewMark_Enforce,
-  ReviewMark_Elaborate, ReviewMark_Lint
+- **`Template-OTS-ReviewMark`**: ReviewMark_ReviewPlanGeneration, ReviewMark_ReviewReportGeneration
+- **`Template-OTS-ReviewMark-Operations`**: ReviewMark_IndexScan, ReviewMark_WorkingDirectoryOverride,
+  ReviewMark_Enforce, ReviewMark_Elaborate, ReviewMark_Lint
