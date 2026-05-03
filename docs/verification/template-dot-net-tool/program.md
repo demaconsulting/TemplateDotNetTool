@@ -63,9 +63,9 @@ is 0.
 
 **Requirement coverage**: `Template-Program-Version`.
 
-### Program_Run_WithInvalidArgs_ReturnsNonZeroExitCode
+### Program_Main_WithInvalidArgs_ReturnsNonZeroExitCode
 
-**Scenario**: `Program.Main` is invoked via reflection with `["--invalid-argument"]`.
+**Scenario**: `Program.Main` is invoked with `["--invalid-argument"]`.
 
 **Expected**: Exit code is 1.
 
@@ -104,4 +104,4 @@ is 0.
   Program_Run_WithShortHelpFlag_DisplaysUsage,
   Program_Run_WithQuestionMarkFlag_DisplaysUsage
 - **`Template-Program-Validate`**: Program_Run_WithValidateFlag_RunsValidation
-- **`Template-Program-ExitCode`**: Program_Run_WithInvalidArgs_ReturnsNonZeroExitCode
+- **`Template-Program-ExitCode`**: Program_Main_WithInvalidArgs_ReturnsNonZeroExitCode

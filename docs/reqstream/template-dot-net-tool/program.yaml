@@ -40,4 +40,4 @@ sections:
           Callers (scripts, CI/CD pipelines) must be able to detect failure conditions
           programmatically via the process exit code.
         tests:
-          - Program_Run_WithInvalidArgs_ReturnsNonZeroExitCode
+          - Program_Main_WithInvalidArgs_ReturnsNonZeroExitCode
