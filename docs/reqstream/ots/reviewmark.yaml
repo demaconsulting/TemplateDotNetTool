@@ -9,7 +9,7 @@ sections:
       - title: ReviewMark Requirements
         requirements:
           - id: Template-OTS-ReviewMark
-            title: ReviewMark shall generate a review plan and review report from the review configuration.
+            title: ReviewMark shall produce review documentation from the review configuration.
             justification: |
               DemaConsulting.ReviewMark reads the .reviewmark.yaml configuration and the review
               evidence store to produce a review plan and review report documenting file review
@@ -19,3 +19,19 @@ sections:
             tests:
               - ReviewMark_ReviewPlanGeneration
               - ReviewMark_ReviewReportGeneration
+          - id: Template-OTS-ReviewMark-Operations
+            title: >-
+              ReviewMark shall support index scanning, enforcement, elaboration,
+              lint, and directory override operations.
+            justification: |
+              In addition to document generation, ReviewMark provides operational commands used
+              in the CI pipeline: scanning PDF evidence into an index catalogue, enforcing review
+              currency, elaborating review-set details for agent use, validating the configuration
+              file, and overriding the working directory for file resolution.
+            tags: [ots]
+            tests:
+              - ReviewMark_IndexScan
+              - ReviewMark_WorkingDirectoryOverride
+              - ReviewMark_Enforce
+              - ReviewMark_Elaborate
+              - ReviewMark_Lint

@@ -20,3 +20,8 @@ sections:
           - PathHelpers_SafePathCombine_DoubleDotsInMiddle_ThrowsArgumentException
           - PathHelpers_SafePathCombine_AbsolutePath_ThrowsArgumentException
           - PathHelpers_SafePathCombine_NestedPaths_CombinesCorrectly
+          - PathHelpers_SafePathCombine_CurrentDirectoryReference_CombinesCorrectly
+          - PathHelpers_SafePathCombine_EmptyRelativePath_ReturnsBasePath
+          - PathHelpers_SafePathCombine_DotDotPrefixedName_CombinesCorrectly
+          - PathHelpers_SafePathCombine_NullBasePath_ThrowsArgumentNullException
+          - PathHelpers_SafePathCombine_NullRelativePath_ThrowsArgumentNullException

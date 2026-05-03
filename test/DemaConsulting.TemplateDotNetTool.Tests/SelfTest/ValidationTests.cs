@@ -153,23 +153,36 @@ public class ValidationTests
     [Fact]
     public void Validation_Run_WithUnsupportedResultsFormat_DoesNotWriteFile()
     {
-        // Arrange: setup unsupported file extension for results output
+        // Arrange: setup unsupported file extension and log file to capture error output
         var jsonFile = Path.Combine(Path.GetTempPath(), $"validation_test_{Guid.NewGuid()}.json");
+        var logFile = Path.Combine(Path.GetTempPath(), $"validation_test_{Guid.NewGuid()}.log");
         try
         {
-            using var context = Context.Create(["--silent", "--results", jsonFile]);
+            using (var context = Context.Create(["--silent", "--results", jsonFile, "--log", logFile]))
+            {
+                // Act: run validation with unsupported results file extension
+                Validation.Run(context);
 
-            // Act: run validation with unsupported results file extension
-            Validation.Run(context);
+                // Assert context state while still valid: no results file and non-zero exit code
+                Assert.False(File.Exists(jsonFile));
+                Assert.Equal(1, context.ExitCode);
+            }
 
-            // Assert: verify no file is created for unsupported format
-            Assert.False(File.Exists(jsonFile));
+            // Assert log content after disposal to ensure the log writer has been closed and flushed
+            Assert.True(File.Exists(logFile));
+            var logContent = File.ReadAllText(logFile);
+            Assert.Contains("Unsupported results file format", logContent);
         }
         finally
         {
             if (File.Exists(jsonFile))
             {
                 File.Delete(jsonFile);
+            }
+
+            if (File.Exists(logFile))
+            {
+                File.Delete(logFile);
             }
         }
     }

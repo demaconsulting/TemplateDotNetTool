@@ -18,10 +18,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Reflection;
 using DemaConsulting.TemplateDotNetTool.Cli;
 
-namespace DemaConsulting.TemplateDotNetTool.Tests;
+namespace DemaConsulting.TemplateDotNetTool.Tests.Cli;
 
 /// <summary>
 ///     Subsystem tests for the CLI subsystem covering Context and Program integration.
@@ -50,6 +49,36 @@ public class CliSubsystemTests
 
             // Assert: version flag is parsed, version text is displayed, and exit code is success
             Assert.True(context.Version, "Context should parse version flag");
+            Assert.Equal(0, context.ExitCode);
+            Assert.Contains(Program.Version, capturedOut.ToString());
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
+    }
+
+    /// <summary>
+    ///     Test that Context and Program work together to handle the -v short version flag.
+    /// </summary>
+    [Fact]
+    public void CliSubsystem_VersionFlow_ContextAndProgram_DisplaysVersionAndExits_WithShortVFlag()
+    {
+        // Arrange: command line arguments with -v short version flag; capture console output
+        var args = new[] { "-v" };
+        var originalOut = Console.Out;
+        using var capturedOut = new StringWriter();
+
+        try
+        {
+            Console.SetOut(capturedOut);
+
+            // Act: create context and run program logic
+            using var context = Context.Create(args);
+            Program.Run(context);
+
+            // Assert: version flag is parsed, version text is displayed, and exit code is success
+            Assert.True(context.Version, "Context should parse -v flag as version");
             Assert.Equal(0, context.ExitCode);
             Assert.Contains(Program.Version, capturedOut.ToString());
         }
@@ -161,16 +190,28 @@ public class CliSubsystemTests
     [Fact]
     public void CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits()
     {
-        // Arrange: command line arguments with validate flag
+        // Arrange: command line arguments with validate flag; capture console output
         var args = new[] { "--validate" };
+        var originalOut = Console.Out;
+        using var capturedOut = new StringWriter();
 
-        // Act: create context and run program logic
-        using var context = Context.Create(args);
-        Program.Run(context);
+        try
+        {
+            Console.SetOut(capturedOut);
 
-        // Assert: validate flag is parsed and exit code is success
-        Assert.True(context.Validate, "Context should parse validate flag");
-        Assert.Equal(0, context.ExitCode);
+            // Act: create context and run program logic
+            using var context = Context.Create(args);
+            Program.Run(context);
+
+            // Assert: validate flag is parsed, summary is output, and exit code is success
+            Assert.True(context.Validate, "Context should parse validate flag");
+            Assert.Equal(0, context.ExitCode);
+            Assert.Contains("Total Tests:", capturedOut.ToString());
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
     }
 
     /// <summary>
@@ -284,16 +325,8 @@ public class CliSubsystemTests
     [Fact]
     public void CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero()
     {
-        // Arrange: unknown command-line argument and reflection to access private Program.Main
+        // Arrange: unknown command-line argument
         var args = new[] { "--unknown-flag" };
-        var mainMethod = typeof(Program).GetMethod(
-            "Main",
-            BindingFlags.Static | BindingFlags.NonPublic,
-            binder: null,
-            types: [typeof(string[])],
-            modifiers: null);
-
-        Assert.NotNull(mainMethod);
 
         var originalError = Console.Error;
         try
@@ -302,11 +335,10 @@ public class CliSubsystemTests
             Console.SetError(errWriter);
 
             // Act: invoke the actual CLI entry point with an unknown flag
-            var result = mainMethod.Invoke(null, [args]);
+            var result = Program.Main(args);
 
             // Assert: invalid arguments produce a non-zero exit code and an error on stderr
-            Assert.NotNull(result);
-            Assert.Equal(1, Convert.ToInt32(result));
+            Assert.Equal(1, result);
             var errorOutput = errWriter.ToString();
             Assert.False(string.IsNullOrWhiteSpace(errorOutput), "Program should write an error to stderr for unknown arguments");
             Assert.Contains("--unknown-flag", errorOutput);

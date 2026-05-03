@@ -1,9 +1,7 @@
 ---
 # Software Unit Requirements for the Program Class
 #
-# The Program class is the main entry point for the tool. It creates a Context
-# from command-line arguments, dispatches to the appropriate logic based on the
-# flags, and returns the exit code.
+# The Program unit is the top-level command dispatcher for the tool.
 
 sections:
   - title: Program Unit Requirements
@@ -15,8 +13,8 @@ sections:
           troubleshooting and compatibility verification.
         tests:
           - Program_Run_WithVersionFlag_DisplaysVersionOnly
+          - Program_Run_WithShortVersionFlag_DisplaysVersion
           - Program_Version_ReturnsNonEmptyString
-          - IntegrationTest_VersionFlag_OutputsVersion
 
       - id: Template-Program-Help
         title: The Program class shall support -?, -h, and --help flags to display usage information.
@@ -25,7 +23,8 @@ sections:
           external resources.
         tests:
           - Program_Run_WithHelpFlag_DisplaysUsageInformation
-          - IntegrationTest_HelpFlag_OutputsUsageInformation
+          - Program_Run_WithShortHelpFlag_DisplaysUsage
+          - Program_Run_WithQuestionMarkFlag_DisplaysUsage
 
       - id: Template-Program-Validate
         title: The Program class shall support --validate flag to invoke the self-validation framework.
@@ -34,7 +33,6 @@ sections:
           in the deployment environment.
         tests:
           - Program_Run_WithValidateFlag_RunsValidation
-          - IntegrationTest_ValidateFlag_RunsValidation
 
       - id: Template-Program-ExitCode
         title: The Program class shall return a non-zero exit code on failure.
@@ -42,4 +40,4 @@ sections:
           Callers (scripts, CI/CD pipelines) must be able to detect failure conditions
           programmatically via the process exit code.
         tests:
-          - IntegrationTest_UnknownArgument_ReturnsError
+          - Program_Main_WithInvalidArgs_ReturnsNonZeroExitCode

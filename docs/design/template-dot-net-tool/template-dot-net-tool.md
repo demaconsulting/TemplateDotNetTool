@@ -43,8 +43,10 @@ The system accepts command-line arguments following standard conventions:
 - **Help Display**: `-?`, `-h`, `--help` — Show usage information
 - **Silent Mode**: `--silent` — Suppress console output
 - **Self-Validation**: `--validate` — Run internal test suite
-- **Results Output**: `--results <file>` — Write test results to TRX or XML file
+- **Results Output**: `--results <file>` — Write test results to TRX or JUnit XML file
+- **Results Output (alias)**: `--result <file>` — Write test results to file (legacy alias for `--results`)
 - **Logging**: `--log <file>` — Write all output to log file
+- **Heading Depth**: `--depth <n>` — Set the heading depth for markdown output
 
 ### File System Interface
 

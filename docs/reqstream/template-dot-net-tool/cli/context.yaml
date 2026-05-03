@@ -43,14 +43,22 @@ sections:
           - Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException
           - Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException
 
-      - id: Template-Context-Output
-        title: The Context class shall write output to the console and optionally to a log file.
+      - id: Template-Context-ConsoleOutput
+        title: The Context class shall write output to the console unless the silent flag is set.
         justification: |
-          Provides persistent logging for debugging and audit trails, while also
-          allowing console output to be suppressed in automated environments.
+          Provides visible output to users running the tool interactively, while allowing
+          automated environments to suppress console output via the silent flag.
         tests:
           - Context_WriteLine_NotSilent_WritesToConsole
-          - Context_WriteLine_Silent_DoesNotWriteToConsole
+          - Context_WriteError_NotSilent_WritesToConsole
+
+      - id: Template-Context-LogOutput
+        title: The Context class shall additionally write output to a log file when the log flag is set.
+        justification: |
+          Provides persistent logging for debugging and audit trails, enabling post-run
+          inspection of tool output without requiring console capture.
+        tests:
+          - Context_Create_LogFlag_OpensLogFile
           - Context_WriteError_WritesToLogFile
 
       - id: Template-Context-Silent
@@ -70,7 +78,6 @@ sections:
           without polluting stdout, which consumers may pipe or redirect for data capture.
         tests:
           - Context_WriteError_NotSilent_WritesToConsole
-          - Context_WriteError_SetsErrorExitCode
 
       - id: Template-Context-ExitCode
         title: The Context class shall track errors and expose a non-zero exit code when errors have occurred.
@@ -79,3 +86,12 @@ sections:
           programmatically via the process exit code.
         tests:
           - Context_WriteError_SetsErrorExitCode
+
+      - id: Template-Context-LogFailure
+        title: The Context class shall report an error when the specified log file cannot be opened.
+        justification: |
+          Failure to open a log file must be surfaced immediately so that users know their
+          log output will not be captured, preventing silent data loss in audit or
+          compliance workflows.
+        tests:
+          - Context_Create_LogFlag_InvalidPath_ThrowsInvalidOperationException

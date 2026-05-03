@@ -50,6 +50,7 @@ public class ProgramTests
             Assert.Contains(Program.Version, output);
             Assert.DoesNotContain("Copyright", output);
             Assert.DoesNotContain("Template DotNet Tool version", output);
+            Assert.Equal(0, context.ExitCode);
         }
         finally
         {
@@ -80,6 +81,7 @@ public class ProgramTests
             Assert.Contains("Options:", output);
             Assert.Contains("--version", output);
             Assert.Contains("--help", output);
+            Assert.Equal(0, context.ExitCode);
         }
         finally
         {
@@ -107,6 +109,7 @@ public class ProgramTests
             // Assert: verify expected behavior
             var output = outWriter.ToString();
             Assert.Contains("Total Tests:", output);
+            Assert.Equal(0, context.ExitCode);
         }
         finally
         {
@@ -135,6 +138,7 @@ public class ProgramTests
             var output = outWriter.ToString();
             Assert.Contains("Template DotNet Tool version", output);
             Assert.Contains("Copyright", output);
+            Assert.Equal(0, context.ExitCode);
         }
         finally
         {
@@ -153,6 +157,117 @@ public class ProgramTests
 
         // Assert: verify expected behavior
         Assert.False(string.IsNullOrWhiteSpace(version));
+    }
+
+    /// <summary>
+    ///     Test that Main with invalid arguments returns non-zero exit code.
+    /// </summary>
+    [Fact]
+    public void Program_Main_WithInvalidArgs_ReturnsNonZeroExitCode()
+    {
+        // Arrange: redirect stderr to suppress error output during test
+        var originalError = Console.Error;
+        try
+        {
+            using var errWriter = new StringWriter();
+            Console.SetError(errWriter);
+
+            // Act: invoke Main with an invalid argument
+            var result = Program.Main(["--invalid-argument"]);
+
+            // Assert: invalid arguments produce a non-zero exit code
+            Assert.Equal(1, result);
+        }
+        finally
+        {
+            Console.SetError(originalError);
+        }
+    }
+
+    /// <summary>
+    ///     Test that Run with short version flag -v displays version.
+    /// </summary>
+    [Fact]
+    public void Program_Run_WithShortVersionFlag_DisplaysVersion()
+    {
+        // Arrange: setup test conditions
+        var originalOut = Console.Out;
+        try
+        {
+            using var outWriter = new StringWriter();
+            Console.SetOut(outWriter);
+            using var context = Context.Create(["-v"]);
+
+            // Act: execute the operation being tested
+            Program.Run(context);
+
+            // Assert: verify expected behavior
+            var output = outWriter.ToString();
+            Assert.Contains(Program.Version, output);
+            Assert.Equal(0, context.ExitCode);
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
+    }
+
+    /// <summary>
+    ///     Test that Run with short help flag -h displays usage.
+    /// </summary>
+    [Fact]
+    public void Program_Run_WithShortHelpFlag_DisplaysUsage()
+    {
+        // Arrange: setup test conditions
+        var originalOut = Console.Out;
+        try
+        {
+            using var outWriter = new StringWriter();
+            Console.SetOut(outWriter);
+            using var context = Context.Create(["-h"]);
+
+            // Act: execute the operation being tested
+            Program.Run(context);
+
+            // Assert: verify expected behavior
+            var output = outWriter.ToString();
+            Assert.Contains("Usage:", output);
+            Assert.Contains("Options:", output);
+            Assert.Equal(0, context.ExitCode);
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
+    }
+
+    /// <summary>
+    ///     Test that Run with short help flag -? displays usage.
+    /// </summary>
+    [Fact]
+    public void Program_Run_WithQuestionMarkFlag_DisplaysUsage()
+    {
+        // Arrange: setup test conditions
+        var originalOut = Console.Out;
+        try
+        {
+            using var outWriter = new StringWriter();
+            Console.SetOut(outWriter);
+            using var context = Context.Create(["-?"]);
+
+            // Act: execute the operation being tested
+            Program.Run(context);
+
+            // Assert: verify expected behavior
+            var output = outWriter.ToString();
+            Assert.Contains("Usage:", output);
+            Assert.Contains("Options:", output);
+            Assert.Equal(0, context.ExitCode);
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
     }
 }
 

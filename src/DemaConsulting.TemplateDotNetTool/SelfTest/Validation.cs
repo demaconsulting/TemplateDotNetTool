@@ -34,6 +34,13 @@ internal static class Validation
     ///     Runs self-validation tests and optionally writes results to a file.
     /// </summary>
     /// <param name="context">The context containing command line arguments and program state.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="context"/> is null.</exception>
+    /// <remarks>
+    ///     If any self-test fails, <c>context.WriteError</c> is called for each failure, which sets
+    ///     <c>context.ExitCode</c> to 1 as a side-effect. If a results file is requested and its
+    ///     extension is unsupported, <c>context.WriteError</c> is also called, resulting in a
+    ///     non-zero exit code.
+    /// </remarks>
     public static void Run(Context context)
     {
         // Validate input
@@ -134,8 +141,9 @@ internal static class Validation
                 var logContent = File.ReadAllText(logFile);
 
                 // Verify version string is in log (version contains dots like 0.0.0)
+                var versionPattern = new System.Text.RegularExpressions.Regex(@"\b\d+\.\d+\.\d+");
                 if (!string.IsNullOrWhiteSpace(logContent) &&
-                    logContent.Split('.').Length >= 3)
+                    versionPattern.IsMatch(logContent))
                 {
                     test.Outcome = DemaConsulting.TestResults.TestOutcome.Passed;
                     context.WriteLine($"✓ TemplateTool_VersionDisplay - Passed");
