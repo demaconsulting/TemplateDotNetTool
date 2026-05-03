@@ -19,3 +19,8 @@ sections:
             tests:
               - ReviewMark_ReviewPlanGeneration
               - ReviewMark_ReviewReportGeneration
+              - ReviewMark_IndexScan
+              - ReviewMark_WorkingDirectoryOverride
+              - ReviewMark_Enforce
+              - ReviewMark_Elaborate
+              - ReviewMark_Lint
