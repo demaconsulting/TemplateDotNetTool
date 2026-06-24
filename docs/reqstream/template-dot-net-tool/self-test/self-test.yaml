@@ -36,10 +36,12 @@ sections:
           - SelfTestSubsystem_ValidationWorkflow_WithBothResultFiles_GeneratesBothResults
 
       - id: Template-SelfTest-InvalidExtension
-        title: The tool shall report an error and set a non-zero exit code when an unsupported results file extension is provided.
+        title: >-
+          The tool shall report an error and set a non-zero exit code when an
+          unsupported results file extension is provided.
         justification: |
           Prevents silent loss of validation evidence by failing loudly when a results
-          file cannot be written due to an unrecognised extension. This enables CI/CD
+          file cannot be written due to an unrecognized extension. This enables CI/CD
           pipelines to detect misconfigured output paths automatically.
         tests:
           - SelfTestSubsystem_ValidationWorkflow_WithUnsupportedExtension_EmitsErrorAndNoFile
