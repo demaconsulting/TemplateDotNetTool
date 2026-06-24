@@ -119,4 +119,4 @@ Review-sets: defined in `.reviewmark.yaml`
 ## References
 
 - Template DotNet Tool User Guide
-- [Template DotNet Tool Repository](https://github.com/demaconsulting/TemplateDotNetTool)
+- Template DotNet Tool Repository (<https://github.com/demaconsulting/TemplateDotNetTool>)

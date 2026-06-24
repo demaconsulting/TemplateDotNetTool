@@ -1,9 +1,9 @@
-## OTS Software Verification
+# OTS Software Verification
 
 This section provides verification evidence for all Off-The-Shelf (OTS) software items
 used by the Template DotNet Tool.
 
-### Scope
+## Scope
 
 Each OTS item is verified by a combination of:
 
@@ -12,7 +12,7 @@ Each OTS item is verified by a combination of:
 
 Internal OTS tool design is out of scope; only integration and usage evidence is documented.
 
-### OTS Items
+## OTS Items
 
 The following OTS items have verification evidence in this section:
 
