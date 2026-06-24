@@ -44,24 +44,6 @@ report from a test configuration and evidence store.
 
 **Requirement coverage**: `Template-OTS-ReviewMark`.
 
-#### ReviewMark_IndexScan
-
-**Scenario**: ReviewMark self-validation uses `--index` to scan PDF evidence files and write an
-`index.json` catalogue.
-
-**Expected**: Exits 0 and produces a correctly structured `index.json`.
-
-**Requirement coverage**: `Template-OTS-ReviewMark-Operations`.
-
-#### ReviewMark_WorkingDirectoryOverride
-
-**Scenario**: ReviewMark self-validation uses `--dir` to override the working directory for file
-operations.
-
-**Expected**: Exits 0 and resolves paths relative to the specified directory.
-
-**Requirement coverage**: `Template-OTS-ReviewMark-Operations`.
-
 #### ReviewMark_Enforce
 
 **Scenario**: ReviewMark self-validation uses `--enforce` against a configuration with review
@@ -69,7 +51,7 @@ issues.
 
 **Expected**: Exits with a non-zero exit code when review issues are present.
 
-**Requirement coverage**: `Template-OTS-ReviewMark-Operations`.
+**Requirement coverage**: `Template-OTS-ReviewMark-Enforce`.
 
 #### ReviewMark_Elaborate
 
@@ -78,7 +60,7 @@ named review set.
 
 **Expected**: Exits 0 and prints the review-set ID, fingerprint, and file list.
 
-**Requirement coverage**: `Template-OTS-ReviewMark-Operations`.
+**Requirement coverage**: `Template-OTS-ReviewMark-Elaborate`.
 
 #### ReviewMark_Lint
 
@@ -87,4 +69,4 @@ issues.
 
 **Expected**: Correctly reports structural and semantic issues found in the test definition.
 
-**Requirement coverage**: `Template-OTS-ReviewMark-Operations`.
+**Requirement coverage**: `Template-OTS-ReviewMark-Lint`.
