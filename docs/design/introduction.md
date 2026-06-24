@@ -13,22 +13,24 @@ how they are realized.
 
 ## Scope
 
-This document covers the detailed design of the following subsystems and software units:
+This document covers the detailed design of the following software items:
 
-- **TemplateDotNetTool** — the system as a whole (`template-dot-net-tool.md`)
-- **Program** — entry point and execution orchestrator (`Program.cs`)
+**Local items:**
+
+- **TemplateDotNetTool** — the system as a whole
+- **Program** — entry point and execution orchestrator
 - **Cli** subsystem
-  - **Context** — command-line argument parser and I/O owner (`Cli/Context.cs`)
+  - **Context** — command-line argument parser and I/O owner
 - **SelfTest** subsystem
-  - **Validation** — self-validation test runner (`SelfTest/Validation.cs`)
+  - **Validation** — self-validation test runner
 - **Utilities** subsystem
-  - **PathHelpers** — safe path combination utilities (`Utilities/PathHelpers.cs`)
+  - **PathHelpers** — safe path combination utilities
 
 The following topics are out of scope:
 
-- External library internals
-- Build pipeline configuration
-- Deployment and packaging
+- Design documents are not produced for the test projects or build pipeline CI configuration
+- The internal design of OTS software items is excluded; integration and usage evidence is in the OTS
+  verification documents
 
 ## Software Structure
 
@@ -54,17 +56,12 @@ The source code folder structure mirrors the top-level subsystem breakdown above
 reviewers an explicit navigation aid from design to code:
 
 ```text
-src/DemaConsulting.TemplateDotNetTool/
-├── Program.cs                  — entry point and execution orchestrator
-├── Cli/
-│   └── Context.cs              — command-line argument parser and I/O owner
-├── SelfTest/
-│   └── Validation.cs           — self-validation test runner
-└── Utilities/
-    └── PathHelpers.cs          — safe path combination utilities
+src/
+└── DemaConsulting.TemplateDotNetTool/  — main application source
+    ├── Cli/                            — command-line interface subsystem
+    ├── SelfTest/                       — self-validation subsystem
+    └── Utilities/                      — shared utilities subsystem
 ```
-
-The test project mirrors the same layout under `test/DemaConsulting.TemplateDotNetTool.Tests/`.
 
 ## Document Conventions
 

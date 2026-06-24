@@ -13,24 +13,20 @@ test scenario. The document does not restate design; it explains how the design 
 
 ## Scope
 
-This document covers the verification design for the same software items described in the
-*Template DotNet Tool Software Design Document*:
+This document covers the verification design for the following software items:
 
-- **TemplateDotNetTool** — the system as a whole
-- **Program** — entry point and execution orchestrator
-- **Cli** — command-line interface subsystem
-  - **Context** — argument parser and I/O owner
-- **SelfTest** — self-validation subsystem
-  - **Validation** — self-validation test runner
-- **Utilities** — shared utility subsystem
-  - **PathHelpers** — safe path combination utilities
+**Local items:**
 
-The following topics are out of scope:
+- **TemplateDotNetTool** — system, subsystem, and unit verification:
+  - **Program** — entry point and execution orchestrator
+  - **Cli** subsystem
+    - **Context** — argument parser and I/O owner
+  - **SelfTest** subsystem
+    - **Validation** — self-validation test runner
+  - **Utilities** subsystem
+    - **PathHelpers** — safe path combination utilities
 
-- Test infrastructure (xUnit framework, test helpers, Runner utility)
-- Build pipeline and CI/CD configuration
-
-The following OTS items are also covered:
+**OTS items:**
 
 - **BuildMark** — build-notes documentation tool
 - **FileAssert** — document assertion tool
@@ -42,6 +38,14 @@ The following OTS items are also covered:
 - **VersionMark** — tool-version documentation tool
 - **WeasyPrint** — HTML-to-PDF conversion tool
 - **xUnit** — unit-testing framework
+
+The following topics are out of scope:
+
+- Verification documents are not produced for the test projects themselves — they are the
+  means of verification, not subjects of it
+- Build pipeline CI configuration is excluded
+- The internal implementation of OTS software items is excluded; only integration and usage
+  are verified
 
 ## Software Structure
 
@@ -70,6 +74,15 @@ OTS Items
 └── xUnit
 ```
 
+## Folder Layout
+
+The test folder structure mirrors the source subsystem breakdown:
+
+```text
+test/
+└── DemaConsulting.TemplateDotNetTool.Tests/  — unit and integration tests
+```
+
 ## Companion Artifact Structure
 
 In-house items have corresponding artifacts in parallel directory trees:
@@ -86,3 +99,8 @@ OTS items have parallel artifacts in:
 - Verification: `docs/verification/ots/{ots-name}.md` (kebab-case)
 
 Review-sets: defined in `.reviewmark.yaml`
+
+## References
+
+- Template DotNet Tool Software Design Document
+- [Template DotNet Tool releases](https://github.com/demaconsulting/TemplateDotNetTool/releases)
