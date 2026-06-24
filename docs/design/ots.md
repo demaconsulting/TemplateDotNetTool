@@ -13,16 +13,16 @@ scope; only how this project integrates and uses each item is documented.
 
 The following OTS items have integration design documentation:
 
-- [BuildMark](ots/buildmark.md) — build-notes documentation tool
-- [FileAssert](ots/fileassert.md) — document assertion tool
-- [Pandoc](ots/pandoc.md) — Markdown-to-HTML conversion tool
-- [ReqStream](ots/reqstream.md) — requirements traceability tool
-- [ReviewMark](ots/reviewmark.md) — file review enforcement tool
-- [SarifMark](ots/sarifmark.md) — SARIF report conversion tool
-- [SonarMark](ots/sonarmark.md) — SonarCloud quality report tool
-- [VersionMark](ots/versionmark.md) — tool-version documentation tool
-- [WeasyPrint](ots/weasyprint.md) — HTML-to-PDF conversion tool
-- [xUnit](ots/xunit.md) — unit-testing framework
+- BuildMark (_buildmark.md_) — build-notes documentation tool
+- FileAssert (_fileassert.md_) — document assertion tool
+- Pandoc (_pandoc.md_) — Markdown-to-HTML conversion tool
+- ReqStream (_reqstream.md_) — requirements traceability tool
+- ReviewMark (_reviewmark.md_) — file review enforcement tool
+- SarifMark (_sarifmark.md_) — SARIF report conversion tool
+- SonarMark (_sonarmark.md_) — SonarCloud quality report tool
+- VersionMark (_versionmark.md_) — tool-version documentation tool
+- WeasyPrint (_weasyprint.md_) — HTML-to-PDF conversion tool
+- xUnit (_xunit.md_) — unit-testing framework
 
 ## References
 

@@ -103,7 +103,7 @@ N/A - not a safety-classified software item.
 
 ## Design Constraints
 
-- Platform: targets .NET 8.0, .NET 9.0, and .NET 10.0 on Windows, Linux, and macOS.
+- Platform: multi-targets net8.0, net9.0, and net10.0 framework compatibility specifications on Windows, Linux, and macOS.
 - Threading: single-threaded console application; no shared mutable state between invocations.
 - Immutability: `Context` properties are set once at construction via `init` accessors and are
   read-only thereafter.
