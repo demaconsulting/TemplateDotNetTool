@@ -20,7 +20,7 @@ sections:
   - title: Platform Support
     requirements:
       - id: Template-Platform-Windows
-        title: The tool shall build and run on Windows platforms.
+        title: The tool shall execute successfully on Windows platforms.
         justification: |
           DEMA Consulting tools must support Windows as a major development platform.
         tests:
@@ -29,7 +29,7 @@ sections:
           - "windows@TemplateTool_HelpDisplay"
 
       - id: Template-Platform-Linux
-        title: The tool shall build and run on Linux platforms.
+        title: The tool shall execute successfully on Linux platforms.
         justification: |
           DEMA Consulting tools must support Linux for CI/CD and containerized environments.
         tests:
@@ -38,7 +38,7 @@ sections:
           - "ubuntu@TemplateTool_HelpDisplay"
 
       - id: Template-Platform-MacOS
-        title: The tool shall build and run on macOS platforms.
+        title: The tool shall execute successfully on macOS platforms.
         justification: |
           DEMA Consulting tools must support macOS for developers using Apple platforms.
         tests:

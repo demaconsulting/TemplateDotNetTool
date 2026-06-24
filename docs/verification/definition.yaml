@@ -11,14 +11,15 @@ resource-path:
 input-files:
   - docs/verification/title.txt
   - docs/verification/introduction.md
-  - docs/verification/template-dot-net-tool/template-dot-net-tool.md
+  - docs/verification/template-dot-net-tool.md
   - docs/verification/template-dot-net-tool/program.md
-  - docs/verification/template-dot-net-tool/cli/cli.md
+  - docs/verification/template-dot-net-tool/cli.md
   - docs/verification/template-dot-net-tool/cli/context.md
-  - docs/verification/template-dot-net-tool/self-test/self-test.md
+  - docs/verification/template-dot-net-tool/self-test.md
   - docs/verification/template-dot-net-tool/self-test/validation.md
-  - docs/verification/template-dot-net-tool/utilities/utilities.md
+  - docs/verification/template-dot-net-tool/utilities.md
   - docs/verification/template-dot-net-tool/utilities/path-helpers.md
+  - docs/verification/ots.md
   - docs/verification/ots/buildmark.md
   - docs/verification/ots/fileassert.md
   - docs/verification/ots/pandoc.md

@@ -1,74 +1,76 @@
-# Program
+## Program
 
-The `Program` class is the main entry point for the Template DotNet Tool. It creates a `Context`
-from command-line arguments, dispatches to the appropriate logic based on the flags, and returns
-the exit code.
+### Purpose
 
-## Overview
+`Program` is the entry point and execution orchestrator for the Template DotNet Tool. Its single
+responsibility is to create a `Context` from the command-line arguments, dispatch to the
+appropriate handler based on the parsed flags, and return the exit code.
 
-`Program` owns the top-level execution flow. It delegates all argument interpretation to `Context`
-and all validation logic to `Validation`. Its own responsibility is limited to reading the flags
-that `Context` exposes and calling the correct handler.
+### Data Model
 
-## Data Model
+**Version**: `string` (static property) — The tool version read from
+`AssemblyInformationalVersionAttribute` on every access, falling back to `AssemblyVersion`, then
+`"0.0.0"`. No caching is applied; callers that need the value more than once should store it
+locally.
 
-`Program` holds no instance state. Its single static property is:
+### Key Methods
 
-| Field     | Type     | Description                                                    |
-|-----------|----------|----------------------------------------------------------------|
-| `Version` | `string` | The tool version from `AssemblyInformationalVersionAttribute`. |
+**Main**: Entry point for the tool process.
 
-## Methods
+- *Parameters*: `string[] args` — command-line arguments from the host environment.
+- *Returns*: `int` — exit code; 0 for success, 1 for expected errors.
+- *Preconditions*: None.
+- *Postconditions*: Exit code reflects whether any errors were reported during execution.
 
-### Main(string[] args)
+Creates a `Context` using `Context.Create(args)`, calls `Run(context)`, and returns
+`context.ExitCode`. Catches `ArgumentException` and `InvalidOperationException` — writes
+`"Error: {message}"` to stderr and returns 1. Catches any other `Exception` — writes
+`"Unexpected error: {message}"` to stderr and re-throws so the runtime can record it.
 
-Entry point. Creates a `Context`, calls `Run`, and returns `context.ExitCode`.
+**Run**: Dispatches execution based on parsed flags.
 
-**Error handling:** catches `ArgumentException` and `InvalidOperationException` — writes
-`"Error: {message}"` to stderr and returns exit code 1. Catches unexpected `Exception` —
-writes `"Unexpected error: {message}"` to stderr and re-throws.
+- *Parameters*: `Context context` — the parsed context.
+- *Returns*: `void`.
+- *Preconditions*: `context` is not null.
+- *Postconditions*: Exactly one handler has been called.
 
-**Returns:** `int` — 0 for success, non-zero for failure.
+Inspects flags in priority order: (1) if `context.Version` is true, calls
+`context.WriteLine(Version)` and returns; (2) calls `PrintBanner`; (3) if `context.Help` is
+true, calls `PrintHelp` and returns; (4) if `context.Validate` is true, calls
+`Validation.Run(context)`; (5) otherwise calls `RunToolLogic(context)`.
 
-### Run(Context context)
+**PrintBanner**: Writes the tool name, version, and copyright line to `context`.
 
-Inspects the flags on `context` and dispatches:
+- *Parameters*: `Context context` — output target.
+- *Returns*: `void`.
 
-- `Version` flag → prints `Version` string only, then returns (no banner).
-- Otherwise: calls `PrintBanner`, then:
-  - `Help` flag → calls `PrintHelp`, then returns.
-  - `Validate` flag → calls `Validation.Run(context)`.
-  - No flags → calls `RunToolLogic`.
+**PrintHelp**: Writes the usage synopsis and options table to `context`.
 
-### PrintBanner(Context context)
+- *Parameters*: `Context context` — output target.
+- *Returns*: `void`.
 
-Writes the tool name, version, and copyright line to `context`.
-
-### PrintHelp(Context context)
-
-Writes the usage/options table to `context`.
-
-### RunToolLogic(Context context)
-
-Placeholder for main tool logic. Currently writes a demo message:
-
-```text
-Template DotNet Tool - Demo Functionality
-This is a template project demonstrating best practices.
-
-Replace this with your actual tool implementation.
-```
-
+**RunToolLogic**: Placeholder for main tool logic; writes a demo message to `context`.
 Downstream projects replace this method body with actual tool behavior.
 
-### Version (property)
+- *Parameters*: `Context context` — output target.
+- *Returns*: `void`.
 
-Reads `AssemblyInformationalVersionAttribute` from the executing assembly, falling back to
-`AssemblyVersion`, then `"0.0.0"`.
+### Error Handling
 
-## Interactions
+`Main` handles errors at two levels. Expected errors (`ArgumentException` and
+`InvalidOperationException`) are written to stderr as `"Error: {message}"` and cause exit
+code 1 without a stack trace. Unexpected errors (`Exception`) are written to stderr as
+`"Unexpected error: {message}"` and re-thrown so the runtime can record them in event logs.
+`Run`, `PrintBanner`, `PrintHelp`, and `RunToolLogic` do not catch exceptions; all errors
+propagate to `Main`.
 
-The `Program` unit uses the following dependencies:
+### Dependencies
 
-- **`Context`**: Reads flags; calls `WriteLine`/`WriteError`.
-- **`Validation`**: Calls `Validation.Run` when validate flag is set.
+- **Context** — `Program` reads parsed flags from `Context` and calls `Context.WriteLine` and
+  `Context.WriteError` for all output.
+- **Validation** — `Program.Run` calls `Validation.Run(context)` when the `--validate` flag is
+  set.
+
+### Callers
+
+N/A - entry point, called by the host environment.

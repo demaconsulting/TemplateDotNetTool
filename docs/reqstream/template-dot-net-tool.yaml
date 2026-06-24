@@ -94,16 +94,16 @@ sections:
           - TemplateDotNetTool_ValidateWithDepth_DepthThree_OutputsCorrectHeadingLevel
 
       - id: Template-System-ValidateFailure
-        title: The tool shall return a non-zero exit code when one or more self-validation tests fail.
+        title: The tool shall return a non-zero exit code when the results file cannot be written.
         justification: |
-          A non-zero exit code on validation failure enables CI/CD pipelines to detect
-          and surface qualification failures automatically, preventing the use of a
-          mis-behaving tool in compliance-critical workflows.
+          A non-zero exit code on results-write failure enables CI/CD pipelines to detect
+          and surface output errors automatically, preventing silent loss of validation
+          evidence in compliance-critical workflows.
         tests:
           - TemplateDotNetTool_ValidateWithBadExtension_ExtensionInvalid_ReturnsNonZero
 
       - id: Template-System-DefaultBehavior
-        title: The tool shall display a banner and run the default tool logic when invoked without any action flags.
+        title: The tool shall display a banner then run the default tool logic when invoked without any action flags.
         justification: |
           When a user invokes the tool without any recognized action flag, the tool shall
           display a banner identifying itself and run its primary logic so that the

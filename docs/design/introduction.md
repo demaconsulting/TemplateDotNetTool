@@ -13,22 +13,36 @@ how they are realized.
 
 ## Scope
 
-This document covers the detailed design of the following subsystems and software units:
+This document covers the detailed design of the following software items:
 
-- **TemplateDotNetTool** — the system as a whole (`template-dot-net-tool.md`)
-- **Program** — entry point and execution orchestrator (`Program.cs`)
+**Local items:**
+
+- **TemplateDotNetTool** — the system as a whole
+- **Program** — entry point and execution orchestrator
 - **Cli** subsystem
-  - **Context** — command-line argument parser and I/O owner (`Cli/Context.cs`)
+  - **Context** — command-line argument parser and I/O owner
 - **SelfTest** subsystem
-  - **Validation** — self-validation test runner (`SelfTest/Validation.cs`)
+  - **Validation** — self-validation test runner
 - **Utilities** subsystem
-  - **PathHelpers** — safe path combination utilities (`Utilities/PathHelpers.cs`)
+  - **PathHelpers** — safe path combination utilities
+
+**OTS items:**
+
+- **BuildMark** — integration and usage design
+- **FileAssert** — integration and usage design
+- **Pandoc** — integration and usage design
+- **ReqStream** — integration and usage design
+- **ReviewMark** — integration and usage design
+- **SarifMark** — integration and usage design
+- **SonarMark** — integration and usage design
+- **VersionMark** — integration and usage design
+- **WeasyPrint** — integration and usage design
+- **xUnit** — integration and usage design
 
 The following topics are out of scope:
 
-- External library internals
-- Build pipeline configuration
-- Deployment and packaging
+- Design documents are not produced for the test projects or build pipeline CI configuration
+- The internal design of OTS software items is excluded; only integration and usage design is documented
 
 ## Software Structure
 
@@ -46,7 +60,20 @@ TemplateDotNetTool (System)
     └── PathHelpers (Unit)
 ```
 
-Each unit is described in detail in its own chapter within this document.
+**OTS Dependencies:**
+
+- BuildMark (OTS) — build-notes documentation tool
+- FileAssert (OTS) — document assertion tool
+- Pandoc (OTS) — Markdown-to-HTML conversion tool
+- ReqStream (OTS) — requirements traceability tool
+- ReviewMark (OTS) — file review enforcement tool
+- SarifMark (OTS) — SARIF report conversion tool
+- SonarMark (OTS) — SonarCloud quality report tool
+- VersionMark (OTS) — tool-version documentation tool
+- WeasyPrint (OTS) — HTML-to-PDF conversion tool
+- xUnit (OTS) — unit-testing framework
+
+Each local unit is described in detail in its own chapter within this document.
 
 ## Folder Layout
 
@@ -54,17 +81,12 @@ The source code folder structure mirrors the top-level subsystem breakdown above
 reviewers an explicit navigation aid from design to code:
 
 ```text
-src/DemaConsulting.TemplateDotNetTool/
-├── Program.cs                  — entry point and execution orchestrator
-├── Cli/
-│   └── Context.cs              — command-line argument parser and I/O owner
-├── SelfTest/
-│   └── Validation.cs           — self-validation test runner
-└── Utilities/
-    └── PathHelpers.cs          — safe path combination utilities
+src/
+└── DemaConsulting.TemplateDotNetTool/  — main application source
+    ├── Cli/                            — command-line interface subsystem
+    ├── SelfTest/                       — self-validation subsystem
+    └── Utilities/                      — shared utilities subsystem
 ```
-
-The test project mirrors the same layout under `test/DemaConsulting.TemplateDotNetTool.Tests/`.
 
 ## Document Conventions
 
@@ -78,16 +100,23 @@ Throughout this document:
 
 ## Companion Artifact Structure
 
-Each software item in the structure above has corresponding artifacts in parallel directory trees:
+Local software items have corresponding artifacts in parallel directory trees:
 
 - Requirements: `docs/reqstream/{system}/.../{item}.yaml` (kebab-case)
 - Design docs: `docs/design/{system}/.../{item}.md` (kebab-case)
 - Verification design: `docs/verification/{system}/.../{item}.md` (kebab-case)
 - Source code: `src/{System}/.../{Item}.cs` (PascalCase for C#)
 - Tests: `test/{System}.Tests/.../{Item}Tests.cs` (PascalCase for C#)
-- Review-sets: defined in `.reviewmark.yaml`
+
+OTS items have integration/usage design documentation parallel to system folders:
+
+- Requirements: `docs/reqstream/ots/{ots-name}.yaml`
+- Design: `docs/design/ots/{ots-name}.md`
+- Verification: `docs/verification/ots/{ots-name}.md`
+
+Review-sets: defined in `.reviewmark.yaml`
 
 ## References
 
-- [REF-1] Template DotNet Tool User Guide — `docs/user_guide/introduction.md`
-- [REF-2] Template DotNet Tool Repository — `https://github.com/demaconsulting/TemplateDotNetTool`
+- Template DotNet Tool User Guide
+- Template DotNet Tool Repository (<https://github.com/demaconsulting/TemplateDotNetTool>)
