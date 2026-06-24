@@ -87,6 +87,7 @@ reviews:
     title: Review of OTS software verification evidence
     paths:
       - "docs/reqstream/ots/*.yaml"
+      - "docs/design/ots/*.md"
       - "docs/verification/ots/*.md"
 
   # TemplateTool - Program
@@ -185,58 +186,68 @@ reviews:
     title: Review of BuildMark OTS verification evidence
     paths:
       - "docs/reqstream/ots/buildmark.yaml"
+      - "docs/design/ots/buildmark.md"
       - "docs/verification/ots/buildmark.md"
 
   - id: OTS-FileAssert
     title: Review of FileAssert OTS verification evidence
     paths:
       - "docs/reqstream/ots/fileassert.yaml"
+      - "docs/design/ots/fileassert.md"
       - "docs/verification/ots/fileassert.md"
 
   - id: OTS-Pandoc
     title: Review of Pandoc OTS verification evidence
     paths:
       - "docs/reqstream/ots/pandoc.yaml"
+      - "docs/design/ots/pandoc.md"
       - "docs/verification/ots/pandoc.md"
 
   - id: OTS-ReqStream
     title: Review of ReqStream OTS verification evidence
     paths:
       - "docs/reqstream/ots/reqstream.yaml"
+      - "docs/design/ots/reqstream.md"
       - "docs/verification/ots/reqstream.md"
 
   - id: OTS-ReviewMark
     title: Review of ReviewMark OTS verification evidence
     paths:
       - "docs/reqstream/ots/reviewmark.yaml"
+      - "docs/design/ots/reviewmark.md"
       - "docs/verification/ots/reviewmark.md"
 
   - id: OTS-SarifMark
     title: Review of SarifMark OTS verification evidence
     paths:
       - "docs/reqstream/ots/sarifmark.yaml"
+      - "docs/design/ots/sarifmark.md"
       - "docs/verification/ots/sarifmark.md"
 
   - id: OTS-SonarMark
     title: Review of SonarMark OTS verification evidence
     paths:
       - "docs/reqstream/ots/sonarmark.yaml"
+      - "docs/design/ots/sonarmark.md"
       - "docs/verification/ots/sonarmark.md"
 
   - id: OTS-VersionMark
     title: Review of VersionMark OTS verification evidence
     paths:
       - "docs/reqstream/ots/versionmark.yaml"
+      - "docs/design/ots/versionmark.md"
       - "docs/verification/ots/versionmark.md"
 
   - id: OTS-WeasyPrint
     title: Review of WeasyPrint OTS verification evidence
     paths:
       - "docs/reqstream/ots/weasyprint.yaml"
+      - "docs/design/ots/weasyprint.md"
       - "docs/verification/ots/weasyprint.md"
 
   - id: OTS-xUnit
     title: Review of xUnit OTS verification evidence
     paths:
       - "docs/reqstream/ots/xunit.yaml"
+      - "docs/design/ots/xunit.md"
       - "docs/verification/ots/xunit.md"

@@ -78,9 +78,9 @@ to construct safe temporary file paths.
 ## Dependencies
 
 - **DemaConsulting.TestResults**: provides `TestResults`, `TestResult`, and `TestOutcome` for
-  accumulating self-validation results — see *TestResults Integration Design*.
+  accumulating self-validation results.
 - **DemaConsulting.TestResults.IO**: provides `TrxSerializer` and `JUnitSerializer` for writing
-  results files — see *TestResults.IO Integration Design*.
+  results files.
 
 ## Risk Control Measures
 

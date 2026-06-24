@@ -26,11 +26,23 @@ This document covers the detailed design of the following software items:
 - **Utilities** subsystem
   - **PathHelpers** — safe path combination utilities
 
+**OTS items:**
+
+- **BuildMark** — integration and usage design
+- **FileAssert** — integration and usage design
+- **Pandoc** — integration and usage design
+- **ReqStream** — integration and usage design
+- **ReviewMark** — integration and usage design
+- **SarifMark** — integration and usage design
+- **SonarMark** — integration and usage design
+- **VersionMark** — integration and usage design
+- **WeasyPrint** — integration and usage design
+- **xUnit** — integration and usage design
+
 The following topics are out of scope:
 
 - Design documents are not produced for the test projects or build pipeline CI configuration
-- The internal design of OTS software items is excluded; integration and usage evidence is in the OTS
-  verification documents
+- The internal design of OTS software items is excluded; only integration and usage design is documented
 
 ## Software Structure
 

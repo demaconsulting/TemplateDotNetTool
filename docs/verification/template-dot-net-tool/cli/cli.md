@@ -52,8 +52,8 @@ tested by `CliSubsystem_HelpFlow_ContextAndProgram_DisplaysHelpAndExits_WithShor
 are passed; standard output contains `"Total Tests:"` and exit code is 0. This scenario is
 tested by `CliSubsystem_ValidateFlow_ContextAndProgram_RunsValidationAndExits`.
 
-**CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput**: Arguments `["--silent"]` are
-passed; standard output is empty and exit code is 0, confirming `--silent` suppresses all
+**CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput**: Arguments `["--version", "--silent"]`
+are passed; standard output is empty and exit code is 0, confirming `--silent` suppresses all
 console output. This scenario is tested by
 `CliSubsystem_SilentFlow_ContextAndProgram_SuppressesOutput`.
 
@@ -66,10 +66,9 @@ specified path and exit code is 0. This scenario is tested by
 passed; a log file is created at the specified path and exit code is 0. This scenario is tested
 by `CliSubsystem_LogFlow_ContextAndProgram_WritesLogFile`.
 
-**CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero**: The
-private `Program.Main` entry point is invoked via reflection with `["--unknown-flag"]`; exit
-code is 1 and standard error contains an error message including the unknown flag. This scenario
-is tested by
+**CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero**: Arguments
+`["--unknown-flag"]` are passed directly to `Program.Main`; exit code is 1 and standard error
+contains an error message including the unknown flag. This scenario is tested by
 `CliSubsystem_InvalidArgs_ContextAndProgram_RejectsUnknownArgumentsAndExitsNonZero`.
 
 **CliSubsystem_ErrorOutput_ContextAndProgram_WritesErrorToStderr**: A `Context` is created with

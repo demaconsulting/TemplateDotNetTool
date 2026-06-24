@@ -103,7 +103,7 @@ sections:
           - TemplateDotNetTool_ValidateWithBadExtension_ExtensionInvalid_ReturnsNonZero
 
       - id: Template-System-DefaultBehavior
-        title: The tool shall display a banner and run the default tool logic when invoked without any action flags.
+        title: The tool shall display a banner then run the default tool logic when invoked without any action flags.
         justification: |
           When a user invokes the tool without any recognized action flag, the tool shall
           display a banner identifying itself and run its primary logic so that the

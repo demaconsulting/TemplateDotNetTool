@@ -130,3 +130,8 @@ with a test message; the message appears on standard error. This scenario is tes
 `["--silent", "--log", "<tmp>.log"]` calls `WriteError` with a test message; the message appears
 in the log file, confirming errors are always written to the log regardless of `--silent`. This
 scenario is tested by `Context_WriteError_WritesToLogFile`.
+
+**Context_Create_LogFlag_InvalidPath_ThrowsInvalidOperationException**:
+`Context.Create` is called with `["--log", "/invalid/\x00path.log"]`; an
+`InvalidOperationException` is thrown because the log file cannot be opened. This
+scenario is tested by `Context_Create_LogFlag_InvalidPath_ThrowsInvalidOperationException`.
