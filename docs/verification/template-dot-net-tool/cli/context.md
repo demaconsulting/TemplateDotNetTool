@@ -1,269 +1,132 @@
-# Context Verification
+### Context
 
-This document describes the unit-level verification design for the `Context` unit. It defines the
-test scenarios, dependency usage, and requirement coverage for `Cli/Context.cs`.
+#### Verification Approach
 
-## Verification Approach
+`Context` is verified with unit tests defined in `ContextTests.cs`. Because `Context` depends
+only on .NET BCL types (`Console`, `StreamWriter`), no mocking or test doubles are required.
+Tests call `Context.Create` with controlled argument arrays, inspect the resulting properties
+and exit codes, and verify output written to captured streams.
 
-`Context` is verified with unit tests defined in `ContextTests.cs`. Because `Context` depends only
-on .NET base class library types (`Console`, `StreamWriter`, `Path`), no mocking or test doubles
-are required. Tests call `Context.Create` with controlled argument arrays, inspect the resulting
-properties and exit codes, and verify output written to captured streams.
+#### Test Environment
 
-## Dependencies
+N/A - standard test environment.
 
-`Context` has no dependencies on other tool units. All dependencies are real .NET BCL types;
-no mocking is needed at this level.
+#### Acceptance Criteria
 
-## Test Scenarios
+- All unit tests pass with zero failures.
+- All flag properties are correctly set for each recognized argument.
+- `ArgumentException` is thrown for all unknown or malformed arguments.
+- `ExitCode` is 1 after `WriteError` is called and 0 otherwise.
+- Silent mode suppresses console output but does not affect the log file.
 
-### Context_Create_NoArguments_ReturnsDefaultContext
+#### Test Scenarios
 
-**Scenario**: `Context.Create` is called with an empty argument array.
+**Context_Create_NoArguments_ReturnsDefaultContext**: `Context.Create` is called with an empty
+argument array; all boolean flags are false, `ResultsFile` is null, `HeadingDepth` is 1, and
+exit code is 0. This scenario is tested by `Context_Create_NoArguments_ReturnsDefaultContext`.
 
-**Expected**: All boolean flags are false; `ResultsFile` is null; `HeadingDepth` is 1;
-exit code is 0.
+**Context_Create_VersionFlag_SetsVersionTrue**: `Context.Create` is called with `["--version"]`;
+the `Version` property is true. This scenario is tested by
+`Context_Create_VersionFlag_SetsVersionTrue`.
 
-**Requirement coverage**: Default context creation requirement.
+**Context_Create_ShortVersionFlag_SetsVersionTrue**: `Context.Create` is called with `["-v"]`;
+the `Version` property is true. This scenario is tested by
+`Context_Create_ShortVersionFlag_SetsVersionTrue`.
 
-### Context_Create_VersionFlag_SetsVersionTrue
+**Context_Create_HelpFlag_SetsHelpTrue**: `Context.Create` is called with `["--help"]`; the
+`Help` property is true. This scenario is tested by `Context_Create_HelpFlag_SetsHelpTrue`.
 
-**Scenario**: `Context.Create` is called with `["--version"]`.
+**Context_Create_ShortHelpFlag_H_SetsHelpTrue**: `Context.Create` is called with `["-h"]`; the
+`Help` property is true. This scenario is tested by
+`Context_Create_ShortHelpFlag_H_SetsHelpTrue`.
 
-**Expected**: `Version` property is true.
+**Context_Create_ShortHelpFlag_Question_SetsHelpTrue**: `Context.Create` is called with `["-?"]`;
+the `Help` property is true. This scenario is tested by
+`Context_Create_ShortHelpFlag_Question_SetsHelpTrue`.
 
-**Requirement coverage**: Version flag parsing requirement.
+**Context_Create_SilentFlag_SetsSilentTrue**: `Context.Create` is called with `["--silent"]`;
+the `Silent` property is true. This scenario is tested by
+`Context_Create_SilentFlag_SetsSilentTrue`.
 
-### Context_Create_ShortVersionFlag_SetsVersionTrue
+**Context_Create_ValidateFlag_SetsValidateTrue**: `Context.Create` is called with
+`["--validate"]`; the `Validate` property is true. This scenario is tested by
+`Context_Create_ValidateFlag_SetsValidateTrue`.
 
-**Scenario**: `Context.Create` is called with `["-v"]`.
+**Context_Create_ResultsFlag_SetsResultsFile**: `Context.Create` is called with
+`["--results", "output.trx"]`; `ResultsFile` equals `"output.trx"`. This scenario is tested by
+`Context_Create_ResultsFlag_SetsResultsFile`.
 
-**Expected**: `Version` property is true.
+**Context_Create_LogFlag_OpensLogFile**: `Context.Create` is called with
+`["--log", "<tmp>.log"]` and then `WriteLine` is called with a test message; the log file is
+created and contains the test message. This scenario is tested by
+`Context_Create_LogFlag_OpensLogFile`.
 
-**Requirement coverage**: Short version flag parsing requirement.
+**Context_Create_UnknownArgument_ThrowsArgumentException**: `Context.Create` is called with
+`["--unknown"]`; an `ArgumentException` containing "Unsupported argument" is thrown. This
+scenario is tested by `Context_Create_UnknownArgument_ThrowsArgumentException`.
 
-### Context_Create_HelpFlag_SetsHelpTrue
+**Context_Create_LogFlag_WithoutValue_ThrowsArgumentException**: `Context.Create` is called
+with `["--log"]` (value missing); an `ArgumentException` is thrown. This scenario is tested by
+`Context_Create_LogFlag_WithoutValue_ThrowsArgumentException`.
 
-**Scenario**: `Context.Create` is called with `["--help"]`.
+**Context_Create_ResultsFlag_WithoutValue_ThrowsArgumentException**: `Context.Create` is called
+with `["--results"]` (value missing); an `ArgumentException` is thrown. This scenario is tested
+by `Context_Create_ResultsFlag_WithoutValue_ThrowsArgumentException`.
 
-**Expected**: `Help` property is true.
+**Context_Create_ResultAliasFlag_SetsResultsFile**: `Context.Create` is called with
+`["--result", "output.trx"]` (legacy alias); `ResultsFile` equals `"output.trx"`, identical to
+the `--results` flag behavior. This scenario is tested by
+`Context_Create_ResultAliasFlag_SetsResultsFile`.
 
-**Requirement coverage**: Help flag (long form) parsing requirement.
+**Context_Create_ResultAliasFlag_WithoutValue_ThrowsArgumentException**: `Context.Create` is
+called with `["--result"]` (value missing); an `ArgumentException` is thrown. This scenario is
+tested by `Context_Create_ResultAliasFlag_WithoutValue_ThrowsArgumentException`.
 
-### Context_Create_ShortHelpFlag_H_SetsHelpTrue
+**Context_Create_DepthFlag_SetsHeadingDepth**: `Context.Create` is called with
+`["--depth", "3"]`; `HeadingDepth` equals 3. This scenario is tested by
+`Context_Create_DepthFlag_SetsHeadingDepth`.
 
-**Scenario**: `Context.Create` is called with `["-h"]`.
+**Context_Create_NoDepthFlag_ReturnsDefaultHeadingDepth**: `Context.Create` is called with an
+empty argument array; `HeadingDepth` equals 1 (the default; valid range is 1–6). This scenario
+is tested by `Context_Create_NoDepthFlag_ReturnsDefaultHeadingDepth`.
 
-**Expected**: `Help` property is true.
+**Context_Create_DepthFlag_WithoutValue_ThrowsArgumentException**: `Context.Create` is called
+with `["--depth"]` (value missing); an `ArgumentException` is thrown. This scenario is tested
+by `Context_Create_DepthFlag_WithoutValue_ThrowsArgumentException`.
 
-**Requirement coverage**: Help flag (-h) parsing requirement.
+**Context_Create_DepthFlag_NonIntegerValue_ThrowsArgumentException**: `Context.Create` is
+called with `["--depth", "abc"]`; an `ArgumentException` is thrown. This scenario is tested by
+`Context_Create_DepthFlag_NonIntegerValue_ThrowsArgumentException`.
 
-### Context_Create_ShortHelpFlag_Question_SetsHelpTrue
-
-**Scenario**: `Context.Create` is called with `["-?"]`.
-
-**Expected**: `Help` property is true.
-
-**Requirement coverage**: Help flag (-?) parsing requirement.
-
-### Context_Create_SilentFlag_SetsSilentTrue
-
-**Scenario**: `Context.Create` is called with `["--silent"]`.
-
-**Expected**: `Silent` property is true.
-
-**Requirement coverage**: Silent flag parsing requirement.
-
-### Context_Create_ValidateFlag_SetsValidateTrue
-
-**Scenario**: `Context.Create` is called with `["--validate"]`.
-
-**Expected**: `Validate` property is true.
-
-**Requirement coverage**: Validate flag parsing requirement.
-
-### Context_Create_ResultsFlag_SetsResultsFile
-
-**Scenario**: `Context.Create` is called with `["--results", "output.trx"]`.
-
-**Expected**: `ResultsFile` property equals `"output.trx"`.
-
-**Requirement coverage**: Results file path parsing requirement.
-
-### Context_Create_LogFlag_OpensLogFile
-
-**Scenario**: `Context.Create` is called with `["--log", "<tmp>.log"]`; `WriteLine` is then called
-with a test message.
-
-**Expected**: The log file is created; the test message is written to it.
-
-**Requirement coverage**: Log file opening and writing requirement.
-
-### Context_Create_UnknownArgument_ThrowsArgumentException
-
-**Scenario**: `Context.Create` is called with an unrecognized argument (e.g., `["--unknown"]`).
-
-**Expected**: An `ArgumentException` is thrown containing the text "Unsupported argument".
-
-**Requirement coverage**: Unknown argument rejection requirement.
-
-### Context_Create_LogFlag_WithoutValue_ThrowsArgumentException
-
-**Scenario**: `Context.Create` is called with `["--log"]` (value missing).
-
-**Expected**: An `ArgumentException` is thrown.
-
-**Requirement coverage**: Log flag missing-value validation requirement.
-
-### Context_Create_ResultsFlag_WithoutValue_ThrowsArgumentException
-
-**Scenario**: `Context.Create` is called with `["--results"]` (value missing).
-
-**Expected**: An `ArgumentException` is thrown.
-
-**Requirement coverage**: Results flag missing-value validation requirement.
-
-### Context_Create_ResultAliasFlag_SetsResultsFile
-
-**Scenario**: `Context.Create` is called with `["--result", "output.trx"]` (legacy alias).
-
-**Expected**: `ResultsFile` property equals `"output.trx"`, identical to the `--results` flag.
-
-**Requirement coverage**: Results alias flag parsing requirement.
-
-### Context_Create_ResultAliasFlag_WithoutValue_ThrowsArgumentException
-
-**Scenario**: `Context.Create` is called with `["--result"]` (value missing).
-
-**Expected**: An `ArgumentException` is thrown.
-
-**Requirement coverage**: Results alias flag missing-value validation requirement.
-
-### Context_Create_DepthFlag_SetsHeadingDepth
-
-**Scenario**: `Context.Create` is called with `["--depth", "3"]`.
-
-**Expected**: `HeadingDepth` property equals 3.
-
-**Requirement coverage**: Depth flag parsing requirement.
-
-### Context_Create_NoDepthFlag_ReturnsDefaultHeadingDepth
-
-**Scenario**: `Context.Create` is called with an empty argument array.
-
-**Expected**: `HeadingDepth` property equals 1 (the default; minimum is 1, maximum is 6).
-
-**Requirement coverage**: Default heading depth requirement.
-
-### Context_Create_DepthFlag_WithoutValue_ThrowsArgumentException
-
-**Scenario**: `Context.Create` is called with `["--depth"]` (value missing).
-
-**Expected**: An `ArgumentException` is thrown.
-
-**Requirement coverage**: Depth flag missing-value validation requirement.
-
-### Context_Create_DepthFlag_NonIntegerValue_ThrowsArgumentException
-
-**Scenario**: `Context.Create` is called with `["--depth", "abc"]`.
-
-**Expected**: An `ArgumentException` is thrown.
-
-**Requirement coverage**: Depth flag non-integer validation requirement.
-
-### Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException
-
-**Scenario**: `Context.Create` is called with `["--depth", "0"]` (below minimum of 1).
-
-**Expected**: An `ArgumentException` is thrown.
-
-**Requirement coverage**: Depth flag minimum-value validation requirement (minimum is 1).
-
-### Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException
-
-**Scenario**: `Context.Create` is called with `["--depth", "7"]` (above the maximum of 6).
-
-**Expected**: An `ArgumentException` is thrown.
-
-**Requirement coverage**: Depth flag maximum-value validation requirement (maximum is 6).
-
-### Context_WriteLine_NotSilent_WritesToConsole
-
-**Scenario**: A non-silent `Context` is created and `WriteLine` is called with a test message.
-
-**Expected**: The test message appears on standard output.
-
-**Requirement coverage**: Normal output writing requirement.
-
-### Context_WriteLine_Silent_DoesNotWriteToConsole
-
-**Scenario**: A silent `Context` (created with `["--silent"]`) calls `WriteLine`.
-
-**Expected**: Standard output receives nothing.
-
-**Requirement coverage**: Silent mode suppression requirement.
-
-### Context_WriteError_Silent_DoesNotWriteToConsole
-
-**Scenario**: A silent `Context` calls `WriteError`.
-
-**Expected**: Standard error receives nothing.
-
-**Requirement coverage**: Silent mode error suppression requirement.
-
-### Context_WriteError_SetsErrorExitCode
-
-**Scenario**: A `Context` calls `WriteError`.
-
-**Expected**: `ExitCode` is 1 after the call.
-
-**Requirement coverage**: Error exit code setting requirement.
-
-### Context_WriteError_NotSilent_WritesToConsole
-
-**Scenario**: A non-silent `Context` calls `WriteError` with a test message.
-
-**Expected**: The test message appears on standard error.
-
-**Requirement coverage**: Error output writing requirement.
-
-### Context_WriteError_WritesToLogFile
-
-**Scenario**: A `Context` created with `["--silent", "--log", "<tmp>.log"]` calls `WriteError`
-with a test message.
-
-**Expected**: The test message appears in the log file.
-
-**Requirement coverage**: Error log writing requirement.
-
-## Requirements Coverage
-
-| Requirement                    | Test Scenario                                                       |
-|--------------------------------|---------------------------------------------------------------------|
-| Default context creation       | Context_Create_NoArguments_ReturnsDefaultContext                    |
-| --version flag parsing         | Context_Create_VersionFlag_SetsVersionTrue                          |
-| -v flag parsing                | Context_Create_ShortVersionFlag_SetsVersionTrue                     |
-| --help flag parsing            | Context_Create_HelpFlag_SetsHelpTrue                                |
-| -h flag parsing                | Context_Create_ShortHelpFlag_H_SetsHelpTrue                         |
-| -? flag parsing                | Context_Create_ShortHelpFlag_Question_SetsHelpTrue                  |
-| --silent flag parsing          | Context_Create_SilentFlag_SetsSilentTrue                            |
-| --validate flag parsing        | Context_Create_ValidateFlag_SetsValidateTrue                        |
-| --results flag parsing         | Context_Create_ResultsFlag_SetsResultsFile                          |
-| --log flag and file writing    | Context_Create_LogFlag_OpensLogFile                                 |
-| Unknown argument rejection     | Context_Create_UnknownArgument_ThrowsArgumentException              |
-| --log missing value            | Context_Create_LogFlag_WithoutValue_ThrowsArgumentException         |
-| --results missing value        | Context_Create_ResultsFlag_WithoutValue_ThrowsArgumentException     |
-| --result alias parsing         | Context_Create_ResultAliasFlag_SetsResultsFile                      |
-| --result alias missing value   | Context_Create_ResultAliasFlag_WithoutValue_ThrowsArgumentException |
-| --depth flag parsing           | Context_Create_DepthFlag_SetsHeadingDepth                           |
-| Default heading depth          | Context_Create_NoDepthFlag_ReturnsDefaultHeadingDepth               |
-| --depth missing value          | Context_Create_DepthFlag_WithoutValue_ThrowsArgumentException       |
-| --depth non-integer value      | Context_Create_DepthFlag_NonIntegerValue_ThrowsArgumentException    |
-| --depth zero value (min 1)     | Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException          |
-| --depth exceeds maximum (max 6)| Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException    |
-| Normal output writing          | Context_WriteLine_NotSilent_WritesToConsole                         |
-| Silent mode output suppression | Context_WriteLine_Silent_DoesNotWriteToConsole                      |
-| Silent mode error suppression  | Context_WriteError_Silent_DoesNotWriteToConsole                     |
-| Error exit code                | Context_WriteError_SetsErrorExitCode                                |
-| Error output to stderr         | Context_WriteError_NotSilent_WritesToConsole                        |
-| Error writing to log file      | Context_WriteError_WritesToLogFile                                  |
+**Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException**: `Context.Create` is called with
+`["--depth", "0"]` (below the minimum of 1); an `ArgumentException` is thrown. This scenario
+is tested by `Context_Create_DepthFlag_ZeroValue_ThrowsArgumentException`.
+
+**Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException**: `Context.Create` is
+called with `["--depth", "7"]` (above the maximum of 6); an `ArgumentException` is thrown.
+This scenario is tested by `Context_Create_DepthFlag_ExceedsMaxValue_ThrowsArgumentException`.
+
+**Context_WriteLine_NotSilent_WritesToConsole**: A non-silent `Context` calls `WriteLine` with
+a test message; the message appears on standard output. This scenario is tested by
+`Context_WriteLine_NotSilent_WritesToConsole`.
+
+**Context_WriteLine_Silent_DoesNotWriteToConsole**: A silent `Context` (created with
+`["--silent"]`) calls `WriteLine`; standard output receives nothing, confirming `--silent`
+suppresses normal output. This scenario is tested by
+`Context_WriteLine_Silent_DoesNotWriteToConsole`.
+
+**Context_WriteError_Silent_DoesNotWriteToConsole**: A silent `Context` calls `WriteError`;
+standard error receives nothing, confirming `--silent` also suppresses error output. This
+scenario is tested by `Context_WriteError_Silent_DoesNotWriteToConsole`.
+
+**Context_WriteError_SetsErrorExitCode**: A `Context` calls `WriteError`; `ExitCode` is 1
+after the call. This scenario is tested by `Context_WriteError_SetsErrorExitCode`.
+
+**Context_WriteError_NotSilent_WritesToConsole**: A non-silent `Context` calls `WriteError`
+with a test message; the message appears on standard error. This scenario is tested by
+`Context_WriteError_NotSilent_WritesToConsole`.
+
+**Context_WriteError_WritesToLogFile**: A `Context` created with
+`["--silent", "--log", "<tmp>.log"]` calls `WriteError` with a test message; the message appears
+in the log file, confirming errors are always written to the log regardless of `--silent`. This
+scenario is tested by `Context_WriteError_WritesToLogFile`.

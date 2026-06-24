@@ -1,155 +1,87 @@
-# System Verification
+# TemplateDotNetTool
 
-This document describes the system-level verification design for the Template DotNet Tool. It
-defines the overall verification strategy, test environments, interface simulation approach, and
-end-to-end integration test scenarios that together demonstrate the system meets its requirements.
+## Verification Approach
 
-## Verification Strategy
+System-level verification uses end-to-end integration tests that invoke the tool as a real
+process via the `Runner.Run` helper in `IntegrationTests.cs`. Each test exercises the full
+stack — argument parsing, dispatch, execution, and output — and validates both exit code and
+combined console output. The tests treat the tool as a black box and assert only on observable
+outputs; no internal implementation details are assumed.
 
-System-level verification uses end-to-end integration tests that invoke the tool as a real process
-via the `Runner.Run` helper in `IntegrationTests.cs`. Each test exercises the full stack — argument
-parsing, dispatch, execution, and output — and validates both exit code and console output.
+`Runner.Run` merges stdout and stderr into a single combined output string. Per-stream assertions
+(e.g., "standard error is empty") are not possible at this level; all assertions are made
+against the combined output.
 
-This approach ensures that system requirements are verified at the system boundary without assuming
-any internal implementation detail. The tests treat the tool as a black box and assert on
-observable outputs only.
+## Test Environment
 
-**Note**: `Runner.Run` merges stdout and stderr into a single combined output string. Per-stream
-assertions (e.g., "standard error is empty") are therefore not possible at the integration test
-level; all assertions are made against the combined output.
+Integration tests run on .NET 8.0, .NET 9.0, and .NET 10.0 across Windows, Linux, and macOS.
+All scenarios are expected to produce identical results on all supported runtime and platform
+combinations. Temporary files and directories are created and cleaned up within each test.
 
-## Test Environments
+## Acceptance Criteria
 
-Integration tests are executed across the following environments to satisfy multi-runtime and
-multi-platform requirements:
+- All integration tests pass with zero failures across all supported runtimes and platforms.
+- Exit code 0 is returned for all valid invocations.
+- Exit code non-zero is returned for all invalid argument combinations.
+- Results files are created at the specified paths when `--results` is used with `--validate`.
+- Silent mode (`--silent`) produces empty combined output.
 
-| Runtime    | Platform |
-|------------|----------|
-| .NET 8.0   | Windows  |
-| .NET 8.0   | Linux    |
-| .NET 8.0   | macOS    |
-| .NET 9.0   | Windows  |
-| .NET 9.0   | Linux    |
-| .NET 9.0   | macOS    |
-| .NET 10.0  | Windows  |
-| .NET 10.0  | Linux    |
-| .NET 10.0  | macOS    |
+## Test Scenarios
 
-All integration test scenarios are expected to produce identical results on all supported runtime
-and platform combinations.
+**TemplateDotNetTool_VersionFlag_Provided_OutputsVersion**: The `--version` flag is passed as
+the sole argument; the tool outputs the version string and exits with code 0. This scenario is
+tested by `TemplateDotNetTool_VersionFlag_Provided_OutputsVersion`.
 
-## External Interface Simulation
+**TemplateDotNetTool_HelpFlag_Provided_OutputsUsageInformation**: The `--help` flag is passed
+as the sole argument; the combined output contains "Usage" and "Options" and the tool exits
+with code 0. This scenario is tested by
+`TemplateDotNetTool_HelpFlag_Provided_OutputsUsageInformation`.
 
-At the system level, no interfaces are mocked. All external interfaces are exercised with real
-implementations:
+**TemplateDotNetTool_ValidateFlag_Provided_RunsValidation**: The `--validate` flag is passed as
+the sole argument; the combined output contains "Total Tests:" and the tool exits with code 0,
+confirming the self-validation suite runs and completes successfully. This scenario is tested by
+`TemplateDotNetTool_ValidateFlag_Provided_RunsValidation`.
 
-- **Standard output / standard error** — Captured by `Runner.Run` and returned as a combined
-  string for assertion. Per-stream assertions are not available.
-- **File system** — Temporary files and directories are created and cleaned up within each test.
-  The `--results` and `--log` flags are exercised with real file paths under a temporary folder.
-- **Process exit code** — Returned by `Runner.Run` and asserted directly.
+**TemplateDotNetTool_ValidateWithTrxResults_Requested_GeneratesTrxFile**: The `--validate` flag
+is combined with `--results <path>.trx`; a TRX file containing a `<TestRun` XML element is
+created at the specified path and the tool exits with code 0. This scenario is tested by
+`TemplateDotNetTool_ValidateWithTrxResults_Requested_GeneratesTrxFile`.
 
-## Integration Test Scenarios
+**TemplateDotNetTool_ValidateWithXmlResults_Requested_GeneratesJUnitFile**: The `--validate` flag
+is combined with `--results <path>.xml`; a JUnit XML file containing a `<testsuites` XML element
+is created at the specified path and the tool exits with code 0. This scenario is tested by
+`TemplateDotNetTool_ValidateWithXmlResults_Requested_GeneratesJUnitFile`.
 
-The following integration test scenarios are defined in `IntegrationTests.cs`.
+**TemplateDotNetTool_SilentFlag_Provided_SuppressesOutput**: The `--version` and `--silent`
+flags are passed together; the combined output is empty or whitespace-only while the tool exits
+with code 0, confirming silent mode suppresses all console output. This scenario is tested by
+`TemplateDotNetTool_SilentFlag_Provided_SuppressesOutput`.
 
-### TemplateDotNetTool_VersionFlag_Provided_OutputsVersion
+**TemplateDotNetTool_LogFlag_Provided_WritesOutputToFile**: The `--log <path>` flag is passed
+pointing to a temporary file; the tool exits with code 0 and the log file is created containing
+output that also appears in the combined console output. This scenario is tested by
+`TemplateDotNetTool_LogFlag_Provided_WritesOutputToFile`.
 
-**Scenario**: The `--version` flag is passed as the sole argument.
+**TemplateDotNetTool_UnknownArgument_Provided_ReturnsError**: An unrecognized argument
+(`--unknown`) is passed; the tool exits with a non-zero code and the combined output contains
+an error message identifying the unknown argument. This scenario is tested by
+`TemplateDotNetTool_UnknownArgument_Provided_ReturnsError`.
 
-**Expected**: Exit code 0; combined output contains the tool version string; combined output does
-not contain error messages.
+**TemplateDotNetTool_ValidateWithDepth_DepthThree_OutputsCorrectHeadingLevel**: The `--validate`
+flag is combined with `--depth 3`; the combined output contains `###` (heading at depth 3) and
+the tool exits with code 0. This scenario is tested by
+`TemplateDotNetTool_ValidateWithDepth_DepthThree_OutputsCorrectHeadingLevel`.
 
-### TemplateDotNetTool_HelpFlag_Provided_OutputsUsageInformation
+**TemplateDotNetTool_NoArguments_Invoked_DisplaysBanner**: The tool is invoked with no
+arguments; the combined output contains the tool name and copyright notice and the exit code is
+0. This scenario is tested by `TemplateDotNetTool_NoArguments_Invoked_DisplaysBanner`.
 
-**Scenario**: The `--help` flag is passed as the sole argument.
+**TemplateDotNetTool_ResultAlias_LegacyFlag_WritesResultsFile**: The `--validate` flag is
+combined with `--result <path>.trx` (the legacy alias); a TRX file is created at the specified
+path and the tool exits with code 0. This scenario is tested by
+`TemplateDotNetTool_ResultAlias_LegacyFlag_WritesResultsFile`.
 
-**Expected**: Exit code 0; combined output contains the text "Usage" and "Options"; combined
-output does not contain error messages.
-
-### TemplateDotNetTool_ValidateFlag_Provided_RunsValidation
-
-**Scenario**: The `--validate` flag is passed as the sole argument.
-
-**Expected**: Exit code 0; combined output contains a validation summary (the text "Total Tests:"
-appears in the output).
-
-### TemplateDotNetTool_ValidateWithTrxResults_Requested_GeneratesTrxFile
-
-**Scenario**: The `--validate` flag is combined with `--results <path>.trx` pointing to a
-temporary file.
-
-**Expected**: Exit code 0; a TRX file is created at the specified path; the file contains a
-`<TestRun` XML element confirming the TRX format is valid.
-
-### TemplateDotNetTool_ValidateWithXmlResults_Requested_GeneratesJUnitFile
-
-**Scenario**: The `--validate` flag is combined with `--results <path>.xml` pointing to a
-temporary file.
-
-**Expected**: Exit code 0; an XML file is created at the specified path; the file contains a
-`<testsuites` XML element confirming the JUnit format is valid.
-
-### TemplateDotNetTool_SilentFlag_Provided_SuppressesOutput
-
-**Scenario**: The `--version` and `--silent` flags are passed together.
-
-**Expected**: Exit code 0; combined output is empty or whitespace-only.
-
-### TemplateDotNetTool_LogFlag_Provided_WritesOutputToFile
-
-**Scenario**: The `--log <path>` flag is passed pointing to a temporary file.
-
-**Expected**: Exit code 0; the specified log file is created and contains output that also appears
-on standard output.
-
-### TemplateDotNetTool_UnknownArgument_Provided_ReturnsError
-
-**Scenario**: An unrecognized argument (e.g., `--unknown`) is passed.
-
-**Expected**: Exit code non-zero; combined output contains an error message indicating the
-unrecognized argument.
-
-### TemplateDotNetTool_ValidateWithDepth_DepthThree_OutputsCorrectHeadingLevel
-
-**Scenario**: The `--validate` flag is combined with `--depth 3`.
-
-**Expected**: Exit code 0; combined output contains `###` (heading at depth 3).
-
-### TemplateDotNetTool_NoArguments_Invoked_DisplaysBanner
-
-**Scenario**: The tool is invoked with no arguments.
-
-**Expected**: Exit code 0; combined output contains the tool name and copyright notice.
-
-### TemplateDotNetTool_ResultAlias_LegacyFlag_WritesResultsFile
-
-**Scenario**: The `--validate` flag is combined with `--result <path>.trx` (the legacy alias).
-
-**Expected**: Exit code 0; a TRX file is created at the specified path.
-
-### TemplateDotNetTool_ValidateWithBadExtension_ExtensionInvalid_ReturnsNonZero
-
-**Scenario**: The `--validate` flag is combined with `--results <path>.bad` (unsupported extension).
-
-**Expected**: Exit code non-zero; no file is created at the specified path.
-
-## Requirements Coverage
-
-The following list maps each system-level requirement category to the integration test scenarios
-that verify it.
-
-- **Version display**: TemplateDotNetTool_VersionFlag_Provided_OutputsVersion
-- **Help display**: TemplateDotNetTool_HelpFlag_Provided_OutputsUsageInformation
-- **Self-validation**: TemplateDotNetTool_ValidateFlag_Provided_RunsValidation
-- **TRX results output**: TemplateDotNetTool_ValidateWithTrxResults_Requested_GeneratesTrxFile
-- **JUnit results output**: TemplateDotNetTool_ValidateWithXmlResults_Requested_GeneratesJUnitFile
-- **Silent mode**: TemplateDotNetTool_SilentFlag_Provided_SuppressesOutput
-- **Log file output**: TemplateDotNetTool_LogFlag_Provided_WritesOutputToFile
-- **Invalid argument rejection**: TemplateDotNetTool_UnknownArgument_Provided_ReturnsError
-- **`Template-System-Depth`**: TemplateDotNetTool_ValidateFlag_Provided_RunsValidation,
-  TemplateDotNetTool_ValidateWithDepth_DepthThree_OutputsCorrectHeadingLevel
-- **`Template-System-ValidateFailure`**:
-  TemplateDotNetTool_ValidateWithBadExtension_ExtensionInvalid_ReturnsNonZero
-- **`Template-System-DefaultBehavior`**: TemplateDotNetTool_NoArguments_Invoked_DisplaysBanner
-- **`Template-System-ResultAlias`**: TemplateDotNetTool_ResultAlias_LegacyFlag_WritesResultsFile
+**TemplateDotNetTool_ValidateWithBadExtension_ExtensionInvalid_ReturnsNonZero**: The `--validate`
+flag is combined with `--results <path>.bad` (unsupported extension); the tool exits with a
+non-zero code and no file is created at the specified path. This scenario is tested by
+`TemplateDotNetTool_ValidateWithBadExtension_ExtensionInvalid_ReturnsNonZero`.

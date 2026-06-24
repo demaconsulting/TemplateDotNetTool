@@ -191,3 +191,7 @@ templatetool --validate --results validation-results.trx
 ```bash
 templatetool --silent --log tool-output.log
 ```
+
+## References
+
+N/A

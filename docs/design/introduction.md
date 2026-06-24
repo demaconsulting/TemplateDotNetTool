@@ -48,7 +48,20 @@ TemplateDotNetTool (System)
     └── PathHelpers (Unit)
 ```
 
-Each unit is described in detail in its own chapter within this document.
+**OTS Dependencies:**
+
+- BuildMark (OTS) — build-notes documentation tool
+- FileAssert (OTS) — document assertion tool
+- Pandoc (OTS) — Markdown-to-HTML conversion tool
+- ReqStream (OTS) — requirements traceability tool
+- ReviewMark (OTS) — file review enforcement tool
+- SarifMark (OTS) — SARIF report conversion tool
+- SonarMark (OTS) — SonarCloud quality report tool
+- VersionMark (OTS) — tool-version documentation tool
+- WeasyPrint (OTS) — HTML-to-PDF conversion tool
+- xUnit (OTS) — unit-testing framework
+
+Each local unit is described in detail in its own chapter within this document.
 
 ## Folder Layout
 
@@ -75,16 +88,23 @@ Throughout this document:
 
 ## Companion Artifact Structure
 
-Each software item in the structure above has corresponding artifacts in parallel directory trees:
+Local software items have corresponding artifacts in parallel directory trees:
 
 - Requirements: `docs/reqstream/{system}/.../{item}.yaml` (kebab-case)
 - Design docs: `docs/design/{system}/.../{item}.md` (kebab-case)
 - Verification design: `docs/verification/{system}/.../{item}.md` (kebab-case)
 - Source code: `src/{System}/.../{Item}.cs` (PascalCase for C#)
 - Tests: `test/{System}.Tests/.../{Item}Tests.cs` (PascalCase for C#)
-- Review-sets: defined in `.reviewmark.yaml`
+
+OTS items have integration/usage design documentation parallel to system folders:
+
+- Requirements: `docs/reqstream/ots/{ots-name}.yaml`
+- Design: `docs/design/ots/{ots-name}.md`
+- Verification: `docs/verification/ots/{ots-name}.md`
+
+Review-sets: defined in `.reviewmark.yaml`
 
 ## References
 
-- [REF-1] Template DotNet Tool User Guide — `docs/user_guide/introduction.md`
-- [REF-2] Template DotNet Tool Repository — `https://github.com/demaconsulting/TemplateDotNetTool`
+- Template DotNet Tool User Guide
+- [Template DotNet Tool Repository](https://github.com/demaconsulting/TemplateDotNetTool)

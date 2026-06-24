@@ -1,68 +1,69 @@
-# Cli Subsystem
+## Cli
 
-The `Cli` subsystem provides the command-line interface for the Template DotNet Tool.
-It is responsible for accepting user input from the command line and routing output to
-the console and an optional log file.
+### Overview
 
-## Overview
+The `Cli` subsystem is the boundary between the host environment's command-line invocation and
+the tool's internal logic. It owns argument parsing, output channel management, and exit-code
+tracking. All other subsystems receive a `Context` object from this subsystem to read parsed
+flags and write output. The `Cli` subsystem contains one unit: `Context`.
 
-The `Cli` subsystem acts as the primary boundary between the user's shell invocation and
-the tool's internal logic. It owns argument parsing, output formatting, and error tracking.
-All other subsystems receive a `Context` object from the `Cli` subsystem to read parsed
-flags and write output.
+### Interfaces
 
-## Units
+**Context.Create**: Factory method that constructs a `Context` from a command-line argument array.
 
-The `Cli` subsystem contains the following software unit:
+- *Type*: In-process .NET static method.
+- *Role*: Provider.
+- *Contract*: Parses `string[] args` into flag properties and opens the log file if `--log` is
+  present. Returns a fully initialized `Context`. Accepts `--result` as a legacy alias for
+  `--results`.
+- *Constraints*: Throws `ArgumentException` for unknown or malformed arguments; throws
+  `InvalidOperationException` when the log file cannot be opened.
 
-| Unit      | File             | Responsibility                                    |
-|-----------|------------------|---------------------------------------------------|
-| `Context` | `Cli/Context.cs` | Argument parsing, output channels, and exit code. |
+**Context.WriteLine**: Writes a message to stdout and to the log file.
 
-## Interfaces
+- *Type*: In-process .NET instance method.
+- *Role*: Provider.
+- *Contract*: Writes `message` to `Console.Out` and to the log file if one is open. Stdout
+  output is suppressed when `Silent` is true; the log file always receives the message.
+- *Constraints*: None.
 
-The `Cli` subsystem exposes the following outbound interfaces to the rest of the tool:
+**Context.WriteError**: Writes an error message and sets the error exit code.
 
-- **`Context.Create`**: Factory method constructing a `Context` from `string[] args`.
-  `--result` is accepted as a legacy alias for `--results`.
-- **`Context.WriteLine`**: Writes a message to stdout and to the log file (if one is open).
-  Stdout output is suppressed when `--silent` is active; the log file always receives the
-  message regardless of `--silent`.
-- **`Context.WriteError`**: Writes an error message to stderr and to the log file (if one is
-  open), and unconditionally sets the error exit code. Stderr output is suppressed when
-  `--silent` is active; the log file always receives the message and `ExitCode` is set to 1
-  regardless of the `Silent` flag.
-- **`Context.ExitCode`**: Returns 0 for success or 1 when errors have been reported.
-- **`Context.HeadingDepth`**: Heading depth for markdown output (default 1); supplied via `--depth`.
-- **`Context.Version`**: `true` when `-v` or `--version` was passed.
-- **`Context.Help`**: `true` when `-?`, `-h`, or `--help` was passed.
-- **`Context.Silent`**: `true` when `--silent` was passed.
-- **`Context.Validate`**: `true` when `--validate` was passed.
-- **`Context.ResultsFile`**: Path supplied after `--results` or `--result`, or `null`.
-- **`Context.Dispose`**: Releases the log file `StreamWriter` if `--log` was specified.
-  Callers are responsible for disposal (use `using` statement).
+- *Type*: In-process .NET instance method.
+- *Role*: Provider.
+- *Contract*: Sets `_hasErrors` to true, writes `message` in red to `Console.Error`, and writes
+  to the log file if one is open. Stderr output is suppressed when `Silent` is true, but
+  `ExitCode` is set to 1 regardless.
+- *Constraints*: Once set, `ExitCode` cannot return to 0 within the same invocation.
 
-## Interactions
+**Context.ExitCode**: Derived property returning 0 or 1.
 
-The `Cli` subsystem has no dependencies on other tool subsystems. It uses only .NET base
-class library types. The `Program` unit at system level creates the `Context` and passes it
-to all subsystems that need to produce output.
+- *Type*: In-process .NET property.
+- *Role*: Provider.
+- *Contract*: Returns 1 if `WriteError` has been called at least once; returns 0 otherwise.
+- *Constraints*: Read-only.
 
-Subsystem verification uses `Program.Run` as an observable entry point alongside `Context.Create`.
-This is intentional: the subsystem boundary is defined as the pair `(Context.Create, Program.Run)`,
-and subsystem tests exercise both together to confirm end-to-end argument-to-behavior flow.
+**Context.Dispose**: Releases the log file `StreamWriter`.
 
-## Error Handling
+- *Type*: In-process .NET method (`IDisposable`).
+- *Role*: Provider.
+- *Contract*: Disposes `_logWriter` and sets it to null; flushes any buffered content. Callers
+  must use a `using` statement to guarantee disposal.
+- *Constraints*: Safe to call multiple times (idempotent after first call).
 
-`Context.Create` throws `ArgumentException` for unknown or malformed arguments.
-`Program.Main` catches this exception, writes `"Error: {message}"` to stderr, and returns exit code 1.
+### Design
 
-`Context.Create` also throws `InvalidOperationException` when `--log` specifies a file that cannot
-be opened (e.g., access denied, invalid path). `Program.Main` catches this exception, writes
-`"Error: {message}"` to stderr, and returns exit code 1.
+The `Cli` subsystem contains only the `Context` unit; there is no subsystem-level code of its
+own. All behavior is provided by `Context`. The `Program` unit creates a `Context` at the start
+of each invocation and passes it to all other units that produce output.
 
-## Resource Lifecycle
+The subsystem has no dependencies on other tool subsystems; it uses only .NET BCL types
+(`Console`, `StreamWriter`).
 
-When `--log` is active, `Context` holds an open `StreamWriter` for the duration of the invocation.
-Callers must ensure `Context` is disposed (via a `using` statement or explicit `Dispose` call) to
-release the file handle and flush any buffered log content.
+Error handling flows from `Context.Create` to `Program.Main`: argument parsing errors propagate
+as `ArgumentException`; log-file errors propagate as `InvalidOperationException`. Both are
+caught and handled in `Program.Main`, which writes the error to stderr and returns exit code 1.
+
+When `--log` is active, `Context` holds an open `StreamWriter` for the duration of the
+invocation. The `Program.Main` call site wraps the `Context` in a `using` statement to ensure
+the file handle is released and buffered content is flushed on exit.

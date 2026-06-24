@@ -1,36 +1,34 @@
-# Utilities Subsystem
+## Utilities
 
-The `Utilities` subsystem provides shared utility functions for the Template DotNet Tool.
-It supplies reusable, independently testable helpers that are consumed by other subsystems.
+### Overview
 
-## Overview
+The `Utilities` subsystem provides shared utility functions for the Template DotNet Tool. It
+supplies reusable, independently testable helpers consumed by other subsystems. Its primary
+responsibility is safe file-path manipulation, protecting callers from path-traversal
+vulnerabilities when constructing paths from caller-supplied inputs. The `Utilities` subsystem
+contains one unit: `PathHelpers`.
 
-The `Utilities` subsystem contains general-purpose helpers that do not belong to any
-specific feature subsystem. Its primary responsibility is safe file-path manipulation,
-protecting callers from path-traversal vulnerabilities when constructing paths from
-external inputs.
+### Interfaces
 
-## Units
+**PathHelpers.SafePathCombine**: Combines a base path and a relative path, rejecting any result
+that escapes the base directory.
 
-The `Utilities` subsystem contains the following software unit:
+- *Type*: In-process .NET static method.
+- *Role*: Provider.
+- *Contract*: Accepts `string basePath` and `string relativePath`. Returns the combined path
+  produced by `Path.Combine(basePath, relativePath)` after verifying that the resolved result
+  remains within `basePath`. Preserves the caller's relative/absolute style in the return value.
+- *Constraints*: Throws `ArgumentNullException` for null inputs; throws `ArgumentException`
+  when the combined path escapes the base directory; may propagate `NotSupportedException` or
+  `PathTooLongException` from underlying BCL path operations.
 
-| Unit          | File                       | Responsibility                              |
-|---------------|----------------------------|---------------------------------------------|
-| `PathHelpers` | `Utilities/PathHelpers.cs` | Safe path combination and traversal checks. |
+### Design
 
-## Interfaces
+The `Utilities` subsystem contains only the `PathHelpers` unit. It has no dependencies on other
+tool units or subsystems; it uses only .NET BCL types (`Path`, `ArgumentNullException`).
 
-The `Utilities` subsystem exposes the following outbound interface to the rest of the tool:
-
-- **`PathHelpers.SafePathCombine`**: Combines two path segments, rejecting traversal sequences
-  and absolute path overrides.
-
-`SafePathCombine` throws `ArgumentException` when the combined path escapes the base
-directory, and `ArgumentNullException` for null inputs. `NotSupportedException`
-(unsupported path format) and `PathTooLongException` (path exceeds system limit) may
-propagate from the underlying BCL path operations.
-
-## Interactions
-
-`PathHelpers` has no dependencies on other tool units or subsystems. It uses only .NET base
-class library types (`Path`, `ArgumentNullException`).
+`PathHelpers.SafePathCombine` is a pure utility method: it performs no file-system I/O, holds
+no state, and throws immediately on invalid input. All calls to `SafePathCombine` in the
+codebase originate from the `SelfTest` subsystem (`Validation`), which uses it to construct
+log and result file paths inside temporary directories created during self-validation test
+execution.

@@ -1,89 +1,111 @@
-# Validation
+### Validation
 
-The `Validation` class provides the self-validation framework for the Template DotNet Tool.
-It runs a suite of internal tests that demonstrate the tool is functioning correctly in the
-deployment environment.
+#### Purpose
 
-## Overview
+`Validation` orchestrates the self-validation test suite. Its single responsibility is to run a
+fixed set of internal tests that exercise the tool's own functionality, print a summary to the
+provided `Context`, and optionally serialize the results to a file. It does not define the
+tool's requirements; it verifies that the tool behaves correctly in the deployment environment.
 
-`Validation.Run` prints a header, executes each test, accumulates results into a
-`DemaConsulting.TestResults.TestResults` object, prints aggregate totals, and optionally writes
-a results file in TRX or JUnit XML format.
+#### Data Model
 
-## Data Model
+`Validation` holds no instance state. The class is `internal static`; all state is local to
+`Run` and the private test methods.
 
-`Validation` holds no instance state. All state is local to `Run` and the private test methods.
+#### Key Methods
 
-## Methods
+**Run**: Entry point for the self-validation suite.
 
-### Run(Context context)
+- *Parameters*: `Context context` — the output channel and results configuration.
+- *Returns*: `void`.
+- *Preconditions*: `context` is not null.
+- *Postconditions*: A summary has been printed; if `context.ResultsFile` was set, a results
+  file has been written or an error has been recorded for an unsupported extension.
 
-Orchestrates the validation sequence:
+Calls `PrintValidationHeader`, constructs a `TestResults` object named
+`"Template DotNet Tool Self-Validation"`, calls `RunVersionTest` and `RunHelpTest`, prints
+totals (using `WriteError` if any tests failed), and calls `WriteResultsFile` if
+`context.ResultsFile` is set.
 
-1. Calls `PrintValidationHeader` to emit a Markdown heading and a table with tool and
-   environment metadata. The heading level is controlled by `context.HeadingDepth`
-   (default `1`, producing a `#` heading; `--depth 2` produces `##`, etc.).
-2. Constructs a `TestResults` object named `"Template DotNet Tool Self-Validation"`.
-3. Calls each test runner (`RunVersionTest`, `RunHelpTest`).
-4. Prints aggregate totals: `Total Tests:`, `Passed:`, and `Failed:`.
-   If `failedTests > 0`, the failed count is printed via `WriteError`, which sets
-   `context._hasErrors = true` and causes `context.ExitCode` to return `1`.
-5. Calls `WriteResultsFile` if `context.ResultsFile` is set.
+**RunVersionTest**: Verifies that `--version` produces a version string.
 
-### RunVersionTest / RunHelpTest
+- *Parameters*: `Context context`, `DemaConsulting.TestResults.TestResults testResults`.
+- *Returns*: `void`.
 
-Each test method:
+Creates a `TemporaryDirectory`, constructs a log path with `PathHelpers.SafePathCombine`,
+invokes `Program.Run` with `["--silent", "--log", logFile, "--version"]`, reads the log, and
+asserts the content matches a semver-like regex (`\b\d+\.\d+\.\d+`). Records pass or fail.
+Any exception is caught by a broad `catch (Exception)` and recorded via `HandleTestException`.
 
-1. Creates a temporary directory via `TemporaryDirectory`.
-2. Constructs a log-file path using `PathHelpers.SafePathCombine`.
-3. Invokes `Program.Run` with the relevant arguments and captures the output log.
-4. Validates the output against expected content.
-5. Records pass or fail in the shared `TestResults`.
-6. Prints its own pass/fail line to `context` upon completion.
+**RunHelpTest**: Verifies that `--help` produces usage text.
 
-Any exception thrown during steps 1–5 is caught by a broad `catch (Exception)` handler, which
-records the failure via `HandleTestException` and continues.
-This ensures the test framework remains robust and all remaining tests execute even if one test
-fails unexpectedly.
+- *Parameters*: `Context context`, `DemaConsulting.TestResults.TestResults testResults`.
+- *Returns*: `void`.
 
-### WriteResultsFile(Context context, TestResults testResults)
+Creates a `TemporaryDirectory`, constructs a log path with `PathHelpers.SafePathCombine`,
+invokes `Program.Run` with `["--silent", "--log", logFile, "--help"]`, reads the log, and
+asserts the content contains both `"Usage:"` and `"Options:"`. Records pass or fail. Any
+exception is caught by a broad `catch (Exception)` and recorded via `HandleTestException`.
 
-Writes `testResults` to `context.ResultsFile`. The format is determined by the file extension:
-`.trx` for TRX (MSTest), `.xml` for JUnit. Any other extension causes an error message to be
-written to `context` and the method returns without creating a file.
+**WriteResultsFile**: Serializes `testResults` to `context.ResultsFile`.
 
-Any exception thrown during file write is caught by a broad `catch (Exception)` handler and reported to `context` via `WriteError`.
+- *Parameters*: `Context context`, `DemaConsulting.TestResults.TestResults testResults`.
+- *Returns*: `void`.
 
-### Private Helpers
+Determines the format from the file extension: `.trx` uses `TrxSerializer.Serialize`; `.xml`
+uses `JUnitSerializer.Serialize`. Any other extension calls `context.WriteError` with a
+descriptive message and returns without writing. File-write exceptions are caught by a broad
+`catch (Exception)` and reported via `context.WriteError`.
 
-#### CreateTestResult(string testName)
+**CreateTestResult**: Creates a `TestResult` pre-populated with class and code-base metadata.
 
-Creates a `TestResult` object pre-populated with the class name `"Validation"` and code base `"TemplateDotNetTool"`.
+- *Parameters*: `string testName`.
+- *Returns*: `DemaConsulting.TestResults.TestResult` with `ClassName = "Validation"` and
+  `CodeBase = "TemplateDotNetTool"`.
 
-#### FinalizeTestResult(TestResult test, DateTime startTime, TestResults testResults)
+**FinalizeTestResult**: Sets elapsed duration and appends the result to the collection.
 
-Sets `test.Duration` to the elapsed time since `startTime` and appends `test` to `testResults.Results`.
+- *Parameters*: `DemaConsulting.TestResults.TestResult test`, `DateTime startTime`,
+  `DemaConsulting.TestResults.TestResults testResults`.
+- *Returns*: `void`.
 
-#### HandleTestException(TestResult test, Context context, string testName, Exception ex)
+**HandleTestException**: Records a test failure from a caught exception.
 
-Sets `test.Outcome` to `Failed`, records the exception message as `test.ErrorMessage`,
-and writes a failure line to `context` via `WriteError`.
+- *Parameters*: `DemaConsulting.TestResults.TestResult test`, `Context context`,
+  `string testName`, `Exception ex`.
+- *Returns*: `void`.
 
-#### TemporaryDirectory (nested class)
+Sets `test.Outcome` to `Failed`, records `ex.Message` as `test.ErrorMessage`, and calls
+`context.WriteError` with a failure message.
 
-Manages a temporary directory for test execution. Implements `IDisposable`. The constructor
-calls `Directory.CreateDirectory` and wraps `IOException`, `UnauthorizedAccessException`,
-and `ArgumentException` in `InvalidOperationException`. `Dispose` attempts a best-effort
-deletion of the directory tree; `IOException` and `UnauthorizedAccessException` during
-cleanup are silently ignored.
+**TemporaryDirectory** (nested class): Manages a temporary directory for test execution.
+Implements `IDisposable`. The constructor calls `Directory.CreateDirectory` and wraps
+`IOException`, `UnauthorizedAccessException`, and `ArgumentException` in
+`InvalidOperationException`. `Dispose` attempts best-effort deletion of the directory tree;
+`IOException` and `UnauthorizedAccessException` during cleanup are silently ignored.
 
-## Interactions
+#### Error Handling
 
-The `Validation` subsystem uses the following dependencies:
+`Run` throws `ArgumentNullException` if `context` is null. Each test runner wraps its body in
+a broad `catch (Exception)` to ensure test-suite robustness: any unexpected exception is
+recorded as a test failure via `HandleTestException` and execution continues with the next test.
+`WriteResultsFile` catches file-write exceptions and reports them via `context.WriteError`.
 
-- **`Context`**: Output channel for header and summary lines.
-- **`Program`**: `Program.Run` called to exercise the tool.
-- **`PathHelpers`**: `SafePathCombine` for temp-dir file paths.
-- **`TrxSerializer`**: Serializes TestResults to TRX format.
-- **`JUnitSerializer`**: Serializes TestResults to JUnit XML format.
-- **`DemaConsulting.TestResults`**: TestResults/TestResult/TestOutcome for test state.
+An unsupported `context.ResultsFile` extension is treated as a user error: `WriteError` is
+called with a descriptive message
+(e.g., `"Error: Unsupported results file format '.json'. Use .trx or .xml extension."`) and
+the method returns without writing a file, causing `context.ExitCode` to return 1.
+
+#### Dependencies
+
+- **Context** — output channel for header lines, test result lines, and summary totals.
+- **Program** — `Program.Run` is called within each test runner to exercise the tool.
+- **PathHelpers** — `SafePathCombine` constructs log file paths inside temporary directories.
+- **DemaConsulting.TestResults** — `TestResults`, `TestResult`, and `TestOutcome` types for
+  accumulating and representing self-validation results.
+- **DemaConsulting.TestResults.IO** — `TrxSerializer` and `JUnitSerializer` for serializing
+  results to `.trx` and `.xml` files.
+
+#### Callers
+
+- **Program** — calls `Validation.Run(context)` when the `--validate` flag is set.

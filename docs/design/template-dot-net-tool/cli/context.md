@@ -1,54 +1,90 @@
-# Context
+### Context
 
-The `Context` class handles command-line argument parsing and program output for the
-Template DotNet Tool. It is the primary interface between the user's command-line invocation
-and the tool's internal logic.
+#### Purpose
 
-## Overview
+`Context` handles command-line argument parsing and program output for one tool invocation. Its
+single responsibility is to parse the argument list, expose the parsed flags as read-only
+properties, own the two output channels (console and log file), and derive the exit code from
+whether any errors were reported.
 
-`Context` is created once per tool invocation via the `Create` factory method. It parses
-the argument list, opens any requested log file, and exposes the parsed flags as read-only
-properties. It also owns the two output channels — console and log file — through its
-`WriteLine` and `WriteError` methods.
+#### Data Model
 
-## Data Model
+**_logWriter**: `StreamWriter?` — Log file writer; `null` when logging is not active.
 
-| Field          | Type            | Description                                                                       |
-|----------------|-----------------|-----------------------------------------------------------------------------------|
-| `_logWriter`   | `StreamWriter?` | Log file writer; `null` when logging is disabled.                                 |
-| `_hasErrors`   | `bool`          | Set to `true` on the first `WriteError` call.                                     |
-| `Version`      | `bool`          | `true` when `-v` or `--version` was passed.                                       |
-| `Help`         | `bool`          | `true` when `-?`, `-h`, or `--help` was passed.                                   |
-| `Silent`       | `bool`          | `true` when `--silent` was passed.                                                |
-| `Validate`     | `bool`          | `true` when `--validate` was passed.                                              |
-| `ResultsFile`  | `string?`       | Path supplied after `--results` or `--result`, or `null`.                         |
-| `HeadingDepth` | `int`           | Heading depth for markdown output; valid range 1–6 (default 1); via `--depth`.    |
-| `ExitCode`     | `int`           | `1` if `_hasErrors`; `0` otherwise.                                               |
+**_hasErrors**: `bool` — Set to `true` on the first `WriteError` call; once set, cannot return
+to `false` within the same invocation.
 
-## Methods
+**Version**: `bool` — `true` when `-v` or `--version` was present in the argument list.
 
-### Create(string[] args)
+**Help**: `bool` — `true` when `-?`, `-h`, or `--help` was present in the argument list.
 
-Factory method. Delegates to the private `ArgumentParser` helper and opens the log file if
-`--log` was supplied.
+**Silent**: `bool` — `true` when `--silent` was present in the argument list.
 
-**Throws:** `ArgumentException` — when an unknown argument or missing value is encountered.
-`InvalidOperationException` — when a log file cannot be opened.
+**Validate**: `bool` — `true` when `--validate` was present in the argument list.
 
-### WriteLine(string message)
+**ResultsFile**: `string?` — Path supplied after `--results` or `--result`, or `null` if
+neither flag was present.
 
-Writes `message` to `Console.Out` (unless `Silent`) and to `_logWriter` (if open).
+**HeadingDepth**: `int` — Heading depth for markdown output; valid range 1–6, default 1;
+supplied via `--depth`.
 
-### WriteError(string message)
+**ExitCode**: `int` (derived) — Returns 1 if `_hasErrors` is true; returns 0 otherwise.
 
-Sets `_hasErrors = true`, writes `message` to `Console.Error` in red (unless `Silent`),
-and to `_logWriter` (if open).
+#### Key Methods
 
-### Dispose()
+**Create**: Factory method that parses arguments and returns a fully initialized `Context`.
 
-Disposes `_logWriter` and sets it to `null`.
+- *Parameters*: `string[] args` — raw command-line argument array.
+- *Returns*: `Context` — a new instance with all flags set.
+- *Preconditions*: `args` is not null.
+- *Postconditions*: All flag properties reflect the parsed argument state; the log file is open
+  if `--log` was supplied.
 
-## Interactions
+Delegates to the private `ArgumentParser` helper to parse flags, then opens the log file by
+calling `OpenLogFile` if `--log` was present. Throws `ArgumentException` for unknown or
+malformed arguments; throws `InvalidOperationException` if the log file cannot be opened.
 
-`Context` has no dependencies on other tool units. It uses only .NET base class library types
-(`Console`, `StreamWriter`).
+**WriteLine**: Writes a message to standard output and to the log file.
+
+- *Parameters*: `string message` — the message to write.
+- *Returns*: `void`.
+- *Preconditions*: None.
+- *Postconditions*: Message is on stdout (unless `Silent`) and in the log file (if open).
+
+**WriteError**: Writes an error message, sets the error state, and records to the log file.
+
+- *Parameters*: `string message` — the error message.
+- *Returns*: `void`.
+- *Preconditions*: None.
+- *Postconditions*: `_hasErrors` is true; message is on stderr in red (unless `Silent`) and in
+  the log file (if open).
+
+**Dispose**: Disposes the log file writer.
+
+- *Parameters*: None.
+- *Returns*: `void`.
+- *Preconditions*: None.
+- *Postconditions*: `_logWriter` is disposed and set to null; any buffered log content is
+  flushed.
+
+#### Error Handling
+
+`Create` throws `ArgumentException` ("Unsupported argument '{arg}'") for any unrecognized flag
+or missing required value. It throws `InvalidOperationException`
+("Failed to open log file '{path}': {detail}") when the `--log` file cannot be opened. Both
+exceptions propagate to `Program.Main`.
+
+`WriteLine` and `WriteError` do not throw; they write to whichever output channels are
+available.
+
+`Dispose` does not throw; any disposal errors are silently ignored.
+
+#### Dependencies
+
+- **.NET BCL** — `Console`, `StreamWriter`, and `Path` are the only dependencies. No other
+  tool units are used.
+
+#### Callers
+
+- **Program** — creates `Context` via `Context.Create` and calls `WriteLine` and `WriteError`.
+- **Validation** — receives `Context` from `Program` and calls `WriteLine` and `WriteError`.

@@ -1,90 +1,54 @@
-# Validation Verification
+### Validation
 
-This document describes the unit-level verification design for the `Validation` unit. It defines
-the test scenarios, dependency usage, and requirement coverage for `SelfTest/Validation.cs`.
-
-## Verification Approach
+#### Verification Approach
 
 `Validation` is verified with unit tests defined in `ValidationTests.cs`. Tests supply a real
-`Context` object (not mocked) with a controlled argument set and assert on exit codes, output
-content, and result files. Temporary directories are used for result file paths to keep tests
-isolated.
+`Context` object (not mocked) with controlled arguments and assert on exit codes, output
+content, and result files. `Program` and `PathHelpers` also execute their real implementations;
+no test doubles are introduced. Temporary directories are used for result file paths to keep
+tests isolated.
 
-## Dependencies
+#### Test Environment
 
-| Dependency     | Usage in Tests                                                            |
-|----------------|---------------------------------------------------------------------------|
-| `Context`      | Used directly (not mocked) — created with controlled flags for each test. |
-| `Program`      | Called internally by `Validation` for sub-invocations; not mocked.        |
-| `PathHelpers`  | Used internally by `Validation` for temp-path construction; not mocked.   |
+N/A - standard test environment.
 
-No test doubles are introduced at the `Validation` unit level.
+#### Acceptance Criteria
 
-## Test Scenarios
+- All unit tests pass with zero failures.
+- `Validation.Run` throws `ArgumentNullException` for a null context argument.
+- The validation summary output contains "Total Tests:", "Passed:", and "Failed:".
+- `context.ExitCode` is 0 when all sub-tests pass.
+- TRX and JUnit XML result files are created with the correct XML root elements.
+- An unsupported result file extension produces no file and an error message on the context.
 
-### Validation_Run_NullContext_ThrowsArgumentNullException
+#### Test Scenarios
 
-**Scenario**: `Validation.Run` is called with a `null` context argument.
+**Validation_Run_NullContext_ThrowsArgumentNullException**: `Validation.Run` is called with a
+null context argument; an `ArgumentNullException` is thrown, confirming the null guard at the
+unit boundary. This scenario is tested by
+`Validation_Run_NullContext_ThrowsArgumentNullException`.
 
-**Expected**: An `ArgumentNullException` is thrown.
+**Validation_Run_WithSilentContext_PrintsSummary**: `Validation.Run` is called with a silent
+context (output captured separately); the summary contains "Total Tests:", "Passed:", and
+"Failed:", confirming the summary is always produced. This scenario is tested by
+`Validation_Run_WithSilentContext_PrintsSummary`.
 
-**Boundary / error path**: Null guard at the unit boundary.
+**Validation_Run_WithSilentContext_ExitCodeIsZero**: `Validation.Run` is called with a silent
+context; `context.ExitCode` is 0 after the run, confirming all sub-tests pass in the standard
+environment. This scenario is tested by `Validation_Run_WithSilentContext_ExitCodeIsZero`.
 
-**Coverage type**: Defensive/boundary test — no formal requirement.
+**Validation_Run_WithTrxResultsFile_WritesTrxFile**: `Validation.Run` is called with a context
+whose `ResultsFile` points to a temporary `.trx` path; a file is created at the specified path
+and it contains a `<TestRun` XML element. This scenario is tested by
+`Validation_Run_WithTrxResultsFile_WritesTrxFile`.
 
-### Validation_Run_WithSilentContext_PrintsSummary
+**Validation_Run_WithXmlResultsFile_WritesXmlFile**: `Validation.Run` is called with a context
+whose `ResultsFile` points to a temporary `.xml` path; a file is created at the specified path
+and it contains a `<testsuites` XML element. This scenario is tested by
+`Validation_Run_WithXmlResultsFile_WritesXmlFile`.
 
-**Scenario**: `Validation.Run` is called with a silent context (output captured separately).
-
-**Expected**: Summary output contains "Total Tests:", "Passed:", and "Failed:".
-
-**Requirement coverage**: Summary output requirement.
-
-### Validation_Run_WithSilentContext_ExitCodeIsZero
-
-**Scenario**: `Validation.Run` is called with a silent context.
-
-**Expected**: `context.ExitCode` is 0 after the run, confirming all sub-tests pass.
-
-**Requirement coverage**: Successful exit code requirement.
-
-### Validation_Run_WithTrxResultsFile_WritesTrxFile
-
-**Scenario**: `Validation.Run` is called with a context whose `ResultsFile` points to a temporary
-`.trx` path.
-
-**Expected**: The file is created at the specified path; it contains a `<TestRun` XML element.
-
-**Requirement coverage**: `Template-Validation-TrxResults`.
-
-### Validation_Run_WithXmlResultsFile_WritesXmlFile
-
-**Scenario**: `Validation.Run` is called with a context whose `ResultsFile` points to a temporary
-`.xml` path.
-
-**Expected**: The file is created at the specified path; it contains a `<testsuites` XML element.
-
-**Requirement coverage**: `Template-Validation-XmlResults`.
-
-### Validation_Run_WithUnsupportedResultsFormat_DoesNotWriteFile
-
-**Scenario**: `Validation.Run` is called with a context whose `ResultsFile` has a `.json`
-extension (an unsupported format).
-
-**Expected**: No file is created at the specified path; no exception is thrown; an error message
-is written to `context` indicating the unsupported format.
-
-**Boundary / error path**: Tests the unsupported-format error path.
-
-**Coverage type**: Defensive/boundary test — no formal requirement.
-
-## Requirements Coverage
-
-| Requirement                          | Test Scenario                                                |
-|--------------------------------------|--------------------------------------------------------------|
-| Defensive boundary (no req.)         | Validation_Run_NullContext_ThrowsArgumentNullException       |
-| `Template-Validation-Run`            | Validation_Run_WithSilentContext_PrintsSummary               |
-| `Template-Validation-Run`            | Validation_Run_WithSilentContext_ExitCodeIsZero              |
-| `Template-Validation-TrxResults`     | Validation_Run_WithTrxResultsFile_WritesTrxFile              |
-| `Template-Validation-XmlResults`     | Validation_Run_WithXmlResultsFile_WritesXmlFile              |
-| Defensive boundary (no req.)         | Validation_Run_WithUnsupportedResultsFormat_DoesNotWriteFile |
+**Validation_Run_WithUnsupportedResultsFormat_DoesNotWriteFile**: `Validation.Run` is called
+with a context whose `ResultsFile` has a `.json` extension (unsupported); no file is created,
+no exception is thrown, and an error message indicating the unsupported format is written to
+the context. This scenario is tested by
+`Validation_Run_WithUnsupportedResultsFormat_DoesNotWriteFile`.
