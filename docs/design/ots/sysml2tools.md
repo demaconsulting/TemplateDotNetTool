@@ -45,7 +45,10 @@ It is used in two places in the pipeline:
   to an SVG file in `docs/design/generated/`, immediately before Pandoc compiles the Design
   document. The rendered SVGs sit alongside the compiled `design.html`, so the design Markdown
   sources embed bare filenames (for example `![Software Structure](SoftwareStructureView.svg)`)
-  that Pandoc and the browser resolve relative to that directory.
+  that Pandoc and the browser resolve relative to that directory. A missing SVG does not fail the
+  Pandoc/WeasyPrint build - the compiled document simply omits the diagram - so FileAssert asserts
+  each expected SVG file exists and is well-formed XML immediately after the render step, providing
+  the actual pipeline evidence that render succeeded (see `docs/design/ots/fileassert.md`).
 
 SysML2Tools reads only the local SysML2 model files and writes only local SVG output files; it
 requires no external service or network access, and it has no transitive NuGet dependencies that
