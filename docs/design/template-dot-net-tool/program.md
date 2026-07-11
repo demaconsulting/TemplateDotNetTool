@@ -1,5 +1,7 @@
 ## Program
 
+![TemplateDotNetTool Structure](TemplateDotNetToolView.svg)
+
 ### Purpose
 
 `Program` is the entry point and execution orchestrator for the Template DotNet Tool. Its single

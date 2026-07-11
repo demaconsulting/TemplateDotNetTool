@@ -1,5 +1,7 @@
 ## Cli
 
+![Cli Structure](CliView.svg)
+
 ### Overview
 
 The `Cli` subsystem is the boundary between the host environment's command-line invocation and

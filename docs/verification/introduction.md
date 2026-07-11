@@ -35,6 +35,7 @@ This document covers the verification design for the following software items:
 - **ReviewMark** — file review enforcement tool
 - **SarifMark** — SARIF report conversion tool
 - **SonarMark** — SonarCloud quality report tool
+- **SysML2Tools** — architecture model validation and diagram rendering tool
 - **VersionMark** — tool-version documentation tool
 - **WeasyPrint** — HTML-to-PDF conversion tool
 - **xUnit** — unit-testing framework
@@ -46,33 +47,6 @@ The following topics are out of scope:
 - Build pipeline CI configuration is excluded
 - The internal implementation of OTS software items is excluded; only integration and usage
   are verified
-
-## Software Structure
-
-The following tree shows the software items covered by this document:
-
-```text
-TemplateDotNetTool (System)
-├── Program (Unit)
-├── Cli (Subsystem)
-│   └── Context (Unit)
-├── SelfTest (Subsystem)
-│   └── Validation (Unit)
-└── Utilities (Subsystem)
-    └── PathHelpers (Unit)
-
-OTS Items
-├── BuildMark
-├── FileAssert
-├── Pandoc
-├── ReqStream
-├── ReviewMark
-├── SarifMark
-├── SonarMark
-├── VersionMark
-├── WeasyPrint
-└── xUnit
-```
 
 ## Folder Layout
 

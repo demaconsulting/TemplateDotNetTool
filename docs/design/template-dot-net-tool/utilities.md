@@ -1,5 +1,7 @@
 ## Utilities
 
+![Utilities Structure](UtilitiesView.svg)
+
 ### Overview
 
 The `Utilities` subsystem provides shared utility functions for the Template DotNet Tool. It

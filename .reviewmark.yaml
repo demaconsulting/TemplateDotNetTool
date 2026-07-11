@@ -13,6 +13,7 @@ needs-review:
   - "docs/design/**/*.md"         # Design documentation files
   - "docs/verification/**/*.md"   # Verification documentation files
   - "docs/user_guide/**/*.md"     # User guide documentation
+  - "docs/sysml2/**/*.sysml"      # SysML2 architecture model
   - "!**/obj/**"                  # Exclude build output
   - "!**/bin/**"                  # Exclude build output
   - "!node_modules/**"            # Exclude npm dependencies
@@ -51,6 +52,7 @@ reviews:
     paths:
       - requirements.yaml
       - docs/design/introduction.md
+      - "docs/sysml2/**/*.sysml"
 
   # TemplateTool - Specials
   - id: TemplateTool-Architecture
@@ -74,6 +76,8 @@ reviews:
       - "docs/reqstream/template-dot-net-tool/platform-requirements.yaml"
       - "docs/design/introduction.md"
       - "docs/design/template-dot-net-tool/**/*.md"
+      - "docs/design/ots.md"
+      - "docs/verification/ots.md"
 
   - id: TemplateTool-AllRequirements
     title: Review of Template DotNet Tool requirements quality and traceability
@@ -82,15 +86,6 @@ reviews:
       - docs/reqstream/template-dot-net-tool.yaml
     paths:
       - "docs/reqstream/template-dot-net-tool/**/*.yaml"
-
-  - id: OTS-Verification
-    title: Review of OTS software verification evidence
-    paths:
-      - "docs/reqstream/ots/*.yaml"
-      - "docs/design/ots.md"
-      - "docs/design/ots/*.md"
-      - "docs/verification/ots.md"
-      - "docs/verification/ots/*.md"
 
   # TemplateTool - Program
   - id: TemplateTool-Program
@@ -232,6 +227,13 @@ reviews:
       - "docs/reqstream/ots/sonarmark.yaml"
       - "docs/design/ots/sonarmark.md"
       - "docs/verification/ots/sonarmark.md"
+
+  - id: OTS-SysML2Tools
+    title: Review of SysML2Tools OTS verification evidence
+    paths:
+      - "docs/reqstream/ots/sysml2tools.yaml"
+      - "docs/design/ots/sysml2tools.md"
+      - "docs/verification/ots/sysml2tools.md"
 
   - id: OTS-VersionMark
     title: Review of VersionMark OTS verification evidence
