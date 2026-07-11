@@ -1,44 +1,37 @@
 # Introduction
 
 This document provides the detailed design for the Template DotNet Tool, a .NET command-line
-application demonstrating best practices for DEMA Consulting DotNet Tools.
+application demonstrating best practices for DEMA Consulting DotNet Tools. It covers local
+software items (systems, subsystems, and units) and the OTS software items they consume.
 
 ## Purpose
 
 The purpose of this document is to describe the internal design of each software unit that
 comprises the Template DotNet Tool. It captures data models, algorithms, key methods, and
 inter-unit interactions at a level of detail sufficient for formal code review, compliance
-verification, and future maintenance. The document does not restate requirements; it explains
-how they are realized.
+verification, and future maintenance. A reviewer should be able to understand how each item
+satisfies its requirements without reading source code. The document does not restate
+requirements; it explains how they are realized.
 
 ## Scope
 
-This document covers the detailed design of the following software items:
+Local items:
 
-**Local items:**
+- **TemplateDotNetTool**: system, subsystem, and unit design for all local components.
 
-- **TemplateDotNetTool** — the system as a whole
-- **Program** — entry point and execution orchestrator
-- **Cli** subsystem
-  - **Context** — command-line argument parser and I/O owner
-- **SelfTest** subsystem
-  - **Validation** — self-validation test runner
-- **Utilities** subsystem
-  - **PathHelpers** — safe path combination utilities
+OTS items:
 
-**OTS items:**
-
-- **BuildMark** — integration and usage design
-- **FileAssert** — integration and usage design
-- **Pandoc** — integration and usage design
-- **ReqStream** — integration and usage design
-- **ReviewMark** — integration and usage design
-- **SarifMark** — integration and usage design
-- **SonarMark** — integration and usage design
-- **SysML2Tools** — integration and usage design
-- **VersionMark** — integration and usage design
-- **WeasyPrint** — integration and usage design
-- **xUnit** — integration and usage design
+- **BuildMark**: integration and usage design.
+- **FileAssert**: integration and usage design.
+- **Pandoc**: integration and usage design.
+- **ReqStream**: integration and usage design.
+- **ReviewMark**: integration and usage design.
+- **SarifMark**: integration and usage design.
+- **SonarMark**: integration and usage design.
+- **SysML2Tools**: integration and usage design.
+- **VersionMark**: integration and usage design.
+- **WeasyPrint**: integration and usage design.
+- **xUnit**: integration and usage design.
 
 The following topics are out of scope:
 
@@ -47,44 +40,22 @@ The following topics are out of scope:
 
 ## Software Structure
 
-The software structure is modeled in SysML2 under `docs/sysml2/` and rendered to the
-diagram below by SysML2Tools as part of the build pipeline. AI agents should query the
-SysML2 model directly (see the `sysml2tools-query` skill) rather than parsing this
-diagram or the prose below. The model represents the shipped system's runtime composition
-(subsystems and units) only; OTS dependencies below are build-time/pipeline tooling and are
-intentionally not modeled as SysML2 parts, though each is fully documented as an OTS
-dependency (design/verification/reqstream artifacts and `.reviewmark.yaml` review-sets).
+The software structure is modeled in SysML2 under `docs/sysml2/` and rendered to the diagram
+below by SysML2Tools as part of the build pipeline. AI agents should query the SysML2 model
+directly (see the `sysml2tools-query` skill) rather than parsing this diagram or the prose
+elsewhere in this document. The model captures the shipped system's runtime composition only;
+the OTS items listed in Scope above are build-time/pipeline tooling, documented separately
+(see `docs/design/ots.md`) rather than modeled as SysML2 parts.
 
 ![Software Structure](SoftwareStructureView.svg)
 
-**OTS Dependencies:**
-
-- BuildMark (OTS) — build-notes documentation tool
-- FileAssert (OTS) — document assertion tool
-- Pandoc (OTS) — Markdown-to-HTML conversion tool
-- ReqStream (OTS) — requirements traceability tool
-- ReviewMark (OTS) — file review enforcement tool
-- SarifMark (OTS) — SARIF report conversion tool
-- SonarMark (OTS) — SonarCloud quality report tool
-- SysML2Tools (OTS) — architecture model validation and diagram rendering tool
-- VersionMark (OTS) — tool-version documentation tool
-- WeasyPrint (OTS) — HTML-to-PDF conversion tool
-- xUnit (OTS) — unit-testing framework
-
-Each local unit is described in detail in its own chapter within this document.
-
 ## Folder Layout
 
-The source code folder structure mirrors the top-level subsystem breakdown above, giving
-reviewers an explicit navigation aid from design to code:
-
-```text
-src/
-└── DemaConsulting.TemplateDotNetTool/  — main application source
-    ├── Cli/                            — command-line interface subsystem
-    ├── SelfTest/                       — self-validation subsystem
-    └── Utilities/                      — shared utilities subsystem
-```
+- **src/** - source files and projects
+  - **DemaConsulting.TemplateDotNetTool/** - main application source
+    - **Cli/** - command-line interface subsystem
+    - **SelfTest/** - self-validation subsystem
+    - **Utilities/** - shared utilities subsystem
 
 ## Document Conventions
 
