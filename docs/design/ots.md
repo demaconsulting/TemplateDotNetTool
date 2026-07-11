@@ -20,6 +20,7 @@ The following OTS items have integration design documentation:
 - ReviewMark (_reviewmark.md_) — file review enforcement tool
 - SarifMark (_sarifmark.md_) — SARIF report conversion tool
 - SonarMark (_sonarmark.md_) — SonarCloud quality report tool
+- SysML2Tools (_sysml2tools.md_) — architecture model validation and diagram rendering tool
 - VersionMark (_versionmark.md_) — tool-version documentation tool
 - WeasyPrint (_weasyprint.md_) — HTML-to-PDF conversion tool
 - xUnit (_xunit.md_) — unit-testing framework

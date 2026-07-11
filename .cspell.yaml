@@ -22,6 +22,7 @@ words:
   - dcterms
   - DEMA
   - Dema
+  - demaconsulting
   - doctitle
   - docversion
   - errorlevel
@@ -38,6 +39,8 @@ words:
   - setlocal
   - snupkg
   - sonarmark
+  - sysml
+  - sysml2tools
   - templatetool
   - venv
   - versionmark

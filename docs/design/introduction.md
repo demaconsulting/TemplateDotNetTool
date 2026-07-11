@@ -35,6 +35,7 @@ This document covers the detailed design of the following software items:
 - **ReviewMark** — integration and usage design
 - **SarifMark** — integration and usage design
 - **SonarMark** — integration and usage design
+- **SysML2Tools** — integration and usage design
 - **VersionMark** — integration and usage design
 - **WeasyPrint** — integration and usage design
 - **xUnit** — integration and usage design
@@ -46,19 +47,15 @@ The following topics are out of scope:
 
 ## Software Structure
 
-The following tree shows how the Template DotNet Tool software items are organized across the
-system, subsystem, and unit levels:
+The software structure is modeled in SysML2 under `docs/sysml2/` and rendered to the
+diagram below by SysML2Tools as part of the build pipeline. AI agents should query the
+SysML2 model directly (see the `sysml2tools-query` skill) rather than parsing this
+diagram or the prose below. The model represents the shipped system's runtime composition
+(subsystems and units) only; OTS dependencies below are build-time/pipeline tooling and are
+intentionally not modeled as SysML2 parts, though each is fully documented as an OTS
+dependency (design/verification/reqstream artifacts and `.reviewmark.yaml` review-sets).
 
-```text
-TemplateDotNetTool (System)
-├── Program (Unit)
-├── Cli (Subsystem)
-│   └── Context (Unit)
-├── SelfTest (Subsystem)
-│   └── Validation (Unit)
-└── Utilities (Subsystem)
-    └── PathHelpers (Unit)
-```
+![Software Structure](SoftwareStructureView.svg)
 
 **OTS Dependencies:**
 
@@ -69,6 +66,7 @@ TemplateDotNetTool (System)
 - ReviewMark (OTS) — file review enforcement tool
 - SarifMark (OTS) — SARIF report conversion tool
 - SonarMark (OTS) — SonarCloud quality report tool
+- SysML2Tools (OTS) — architecture model validation and diagram rendering tool
 - VersionMark (OTS) — tool-version documentation tool
 - WeasyPrint (OTS) — HTML-to-PDF conversion tool
 - xUnit (OTS) — unit-testing framework

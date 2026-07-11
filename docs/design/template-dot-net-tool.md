@@ -1,5 +1,7 @@
 # TemplateDotNetTool
 
+![TemplateDotNetTool Structure](TemplateDotNetToolView.svg)
+
 ## Architecture
 
 The Template DotNet Tool is a command-line application built on .NET. It is structured as one
