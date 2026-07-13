@@ -141,7 +141,10 @@ internal static class Validation
                 var logContent = File.ReadAllText(logFile);
 
                 // Verify version string is in log (version contains dots like 0.0.0)
-                var versionPattern = new System.Text.RegularExpressions.Regex(@"\b\d+\.\d+\.\d+");
+                var versionPattern = new System.Text.RegularExpressions.Regex(
+                    @"\b\d+\.\d+\.\d+",
+                    System.Text.RegularExpressions.RegexOptions.None,
+                    TimeSpan.FromSeconds(1));
                 if (!string.IsNullOrWhiteSpace(logContent) &&
                     versionPattern.IsMatch(logContent))
                 {
