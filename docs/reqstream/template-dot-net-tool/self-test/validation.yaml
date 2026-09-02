@@ -13,6 +13,8 @@ sections:
         justification: |
           Provides a built-in mechanism to verify the tool is functioning correctly
           in the deployment environment. A summary is printed for human review.
+        children:
+          - Template-Utilities-SafePaths
         tests:
           - Validation_Run_WithSilentContext_PrintsSummary
           - Validation_Run_WithSilentContext_ExitCodeIsZero
