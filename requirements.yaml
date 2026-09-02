@@ -1,6 +1,13 @@
 ---
 # Root requirements file - includes all system, unit, platform, and OTS requirements
+#
+# root-tags identifies the tags that mark root requirements for orphan detection.
+# Any requirement not tracing (via parent/child links) to a requirement tagged with
+# one of these tags is reported as an orphan by:
+#   dotnet reqstream --requirements requirements.yaml --enforce
+root-tags: [system, quality]
 includes:
+  - docs/reqstream/quality.yaml
   - docs/reqstream/template-dot-net-tool.yaml
   - docs/reqstream/template-dot-net-tool/program.yaml
   - docs/reqstream/template-dot-net-tool/cli.yaml
