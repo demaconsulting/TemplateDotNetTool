@@ -11,6 +11,11 @@
 
 DEMA Consulting template project for DotNet Tools, demonstrating best practices for building command-line tools with .NET.
 
+The diagram below is a placeholder: replace its TODO boxes to show how your tool's entry point, Cli,
+subsystems, inputs, and outputs fit together.
+
+![Placeholder architecture diagram: replace the TODO boxes for your tool entry point, Cli, subsystems, support units, dependencies, inputs, and outputs with the real ones][architecture]
+
 ## Features
 
 This template demonstrates:
@@ -151,6 +156,7 @@ Copyright (c) DEMA Consulting. Licensed under the MIT License. See [LICENSE][lin
 By contributing to this project, you agree that your contributions will be licensed under the MIT License.
 
 <!-- Badge References -->
+[architecture]: https://raw.githubusercontent.com/demaconsulting/TemplateDotNetTool/main/docs/images/architecture.png
 [badge-forks]: https://img.shields.io/github/forks/demaconsulting/TemplateDotNetTool?style=plastic
 [badge-stars]: https://img.shields.io/github/stars/demaconsulting/TemplateDotNetTool?style=plastic
 [badge-contributors]: https://img.shields.io/github/contributors/demaconsulting/TemplateDotNetTool?style=plastic
