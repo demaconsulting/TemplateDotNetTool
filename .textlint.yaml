@@ -16,8 +16,23 @@ language: en
 files:
   - "**/*.{md,yaml,yml,json,cs,cpp,hpp,h,txt}"
 
+# Matches cspell, which also checks hidden paths such as .github/ and .*.yaml
+enableGlobDot: true
+
 # Project-specific technical terms and tool names
 words:
+  - sonarscanner
+  - pandoctool
+  - netstandard
+  - shopt
+  - opencover
+  - ncipollo
+  - DEMACONSULTINGNUGETKEY
+  - Setext
+  - thirdparty
+  - slnx
+  - unidirectionality
+  - nestings
   - Blockquotes
   - Postconditions
   - buildmark
