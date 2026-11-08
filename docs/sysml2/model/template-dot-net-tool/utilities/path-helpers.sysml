@@ -1,11 +1,16 @@
 package TemplateDotNetTool {
+    private import SoftwareItemMetadata::*;
+
     part def PathHelpers {
         doc /* Safe path-combination utility guarding against path-traversal. */
 
-        comment sourceRef /* Source: src/DemaConsulting.TemplateDotNetTool/Utilities/PathHelpers.cs */
-        comment testRef /* Test: test/DemaConsulting.TemplateDotNetTool.Tests/Utilities/PathHelpersTests.cs */
-        comment designRef /* Design: docs/design/template-dot-net-tool/utilities/path-helpers.md */
-        comment verificationRef /* Verification: docs/verification/template-dot-net-tool/utilities/path-helpers.md */
-        comment reqRef /* Requirements: docs/reqstream/template-dot-net-tool/utilities/path-helpers.yaml */
+        metadata info : SoftwareInfo {
+            description = "Safe path-combination utility guarding against path-traversal.";
+            sourceFiles = ("src/DemaConsulting.TemplateDotNetTool/Utilities/PathHelpers.cs");
+            testFiles = ("test/DemaConsulting.TemplateDotNetTool.Tests/Utilities/PathHelpersTests.cs");
+            designFiles = ("docs/design/template-dot-net-tool/utilities/path-helpers.md");
+            verificationFiles = ("docs/verification/template-dot-net-tool/utilities/path-helpers.md");
+            requirementFiles = ("docs/reqstream/template-dot-net-tool/utilities/path-helpers.yaml");
+        }
     }
 }

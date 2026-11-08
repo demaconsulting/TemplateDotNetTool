@@ -1,11 +1,16 @@
 package TemplateDotNetTool {
+    private import SoftwareItemMetadata::*;
+
     part def Program {
         doc /* Entry point and execution orchestrator. */
 
-        comment sourceRef /* Source: src/DemaConsulting.TemplateDotNetTool/Program.cs */
-        comment testRef /* Test: test/DemaConsulting.TemplateDotNetTool.Tests/ProgramTests.cs */
-        comment designRef /* Design: docs/design/template-dot-net-tool/program.md */
-        comment verificationRef /* Verification: docs/verification/template-dot-net-tool/program.md */
-        comment reqRef /* Requirements: docs/reqstream/template-dot-net-tool/program.yaml */
+        metadata info : SoftwareInfo {
+            description = "Entry point and execution orchestrator.";
+            sourceFiles = ("src/DemaConsulting.TemplateDotNetTool/Program.cs");
+            testFiles = ("test/DemaConsulting.TemplateDotNetTool.Tests/ProgramTests.cs");
+            designFiles = ("docs/design/template-dot-net-tool/program.md");
+            verificationFiles = ("docs/verification/template-dot-net-tool/program.md");
+            requirementFiles = ("docs/reqstream/template-dot-net-tool/program.yaml");
+        }
     }
 }

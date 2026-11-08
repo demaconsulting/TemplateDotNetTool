@@ -1,4 +1,6 @@
 package TemplateDotNetTool {
+    private import SoftwareItemMetadata::*;
+
     doc
     /*
      * TemplateDotNetTool is a template .NET command-line application demonstrating
@@ -8,10 +10,13 @@ package TemplateDotNetTool {
     part def TemplateDotNetToolSystem {
         doc /* The TemplateDotNetTool system as a whole. */
 
-        comment testRef /* Test: test/DemaConsulting.TemplateDotNetTool.Tests/IntegrationTests.cs */
-        comment designRef /* Design: docs/design/template-dot-net-tool.md */
-        comment verificationRef /* Verification: docs/verification/template-dot-net-tool.md */
-        comment reqRef /* Requirements: docs/reqstream/template-dot-net-tool.yaml */
+        metadata info : SoftwareInfo {
+            description = "The TemplateDotNetTool system as a whole.";
+            testFiles = ("test/DemaConsulting.TemplateDotNetTool.Tests/IntegrationTests.cs");
+            designFiles = ("docs/design/template-dot-net-tool.md");
+            verificationFiles = ("docs/verification/template-dot-net-tool.md");
+            requirementFiles = ("docs/reqstream/template-dot-net-tool.yaml");
+        }
 
         part program : Program;
         part cli : CliSubsystem;
