@@ -1,5 +1,5 @@
 ---
-# Spell-Checking
+# Spell-Checking with TextLint
 #
 # PURPOSE:
 # - Maintain professional documentation and code quality
@@ -11,6 +11,10 @@
 
 version: "0.2"
 language: en
+
+# The files to spell-check
+files:
+  - "**/*.{md,yaml,yml,json,cs,cpp,hpp,h,txt}"
 
 # Project-specific technical terms and tool names
 words:
@@ -46,6 +50,7 @@ words:
   - venv
   - versionmark
   - Weasyprint
+  - WeasyPrintTool
   - yamlfix
 
 # Exclude common build artifacts, dependencies, and vendored third-party code
