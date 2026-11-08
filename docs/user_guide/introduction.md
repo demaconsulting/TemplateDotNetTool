@@ -1,5 +1,10 @@
 # Introduction
 
+The diagram below is a placeholder: replace its TODO boxes to show how your tool's entry point, Cli,
+subsystems, inputs, and outputs fit together.
+
+![Placeholder architecture diagram: replace the TODO boxes for your tool entry point, Cli, subsystems, support units, dependencies, inputs, and outputs with the real ones](architecture.svg)
+
 ## Purpose
 
 Template DotNet Tool is a demonstration project that showcases best practices for DEMA
