@@ -1,5 +1,5 @@
 ---
-# Spell-Checking
+# Spell-Checking with TextLint
 #
 # PURPOSE:
 # - Maintain professional documentation and code quality
@@ -12,8 +12,27 @@
 version: "0.2"
 language: en
 
+# The files to spell-check
+files:
+  - "**/*.{md,yaml,yml,json,cs,cpp,hpp,h,txt}"
+
+# Matches cspell, which also checks hidden paths such as .github/ and .*.yaml
+enableGlobDot: true
+
 # Project-specific technical terms and tool names
 words:
+  - sonarscanner
+  - pandoctool
+  - netstandard
+  - shopt
+  - opencover
+  - ncipollo
+  - DEMACONSULTINGNUGETKEY
+  - Setext
+  - thirdparty
+  - slnx
+  - unidirectionality
+  - nestings
   - Blockquotes
   - Postconditions
   - buildmark
@@ -46,6 +65,7 @@ words:
   - venv
   - versionmark
   - Weasyprint
+  - WeasyPrintTool
   - yamlfix
 
 # Exclude common build artifacts, dependencies, and vendored third-party code

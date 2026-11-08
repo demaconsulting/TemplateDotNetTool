@@ -27,7 +27,7 @@ This template demonstrates:
 - **Multi-Runtime Support**: Targets .NET 8, 9, and 10
 - **Comprehensive CI/CD**: GitHub Actions workflows with quality checks, builds, and
   integration tests
-- **Linting Enforcement**: markdownlint, cspell, and yamllint enforced on every CI run
+- **Linting Enforcement**: markdownlint, TextLint, and yamllint enforced on every CI run
 - **Continuous Compliance**: Compliance evidence generated automatically on every CI run, following
   the [Continuous Compliance][link-continuous-compliance] methodology
 - **SonarCloud Integration**: Quality gate and security analysis on every build
