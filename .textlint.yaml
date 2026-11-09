@@ -21,51 +21,22 @@ enableGlobDot: true
 
 # Project-specific technical terms and tool names
 words:
-  - sonarscanner
-  - pandoctool
-  - netstandard
-  - shopt
-  - opencover
-  - ncipollo
-  - DEMACONSULTINGNUGETKEY
-  - Setext
-  - thirdparty
-  - slnx
-  - unidirectionality
-  - nestings
-  - Blockquotes
-  - Postconditions
-  - buildmark
-  - canvasnet
-  - buildtransitive
-  - contentfiles
-  - dcterms
-  - DEMA
   - Dema
   - demaconsulting
-  - doctitle
-  - docversion
-  - errorlevel
-  - fileassert
-  - xunit
-  - nameof
-  - pagetitle
-  - Pandoc
-  - Qube
-  - reqstream
-  - reviewmark
-  - SARIF
-  - sarifmark
-  - setlocal
+  - DEMACONSULTINGNUGETKEY
+  - ncipollo
+  - nestings
+  - netstandard
+  - sarif
+  - Setext
+  - shopt
+  - slnx
   - snupkg
-  - sonarmark
-  - sysml
-  - sysml2tools
+  - sonarscanner
   - templatetool
+  - thirdparty
+  - unidirectionality
   - venv
-  - versionmark
-  - Weasyprint
-  - WeasyPrintTool
   - yamlfix
 
 # Exclude common build artifacts, dependencies, and vendored third-party code
