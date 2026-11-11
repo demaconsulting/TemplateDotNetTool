@@ -5,7 +5,6 @@ package TemplateDotNetTool {
         doc /* Orchestrates the self-validation test suite and reports pass/fail results. */
 
         metadata info : SoftwareInfo {
-            description = "Orchestrates the self-validation test suite and reports pass/fail results.";
             sourceFiles = ("src/DemaConsulting.TemplateDotNetTool/SelfTest/Validation.cs");
             testFiles = ("test/DemaConsulting.TemplateDotNetTool.Tests/SelfTest/ValidationTests.cs");
             designFiles = ("docs/design/template-dot-net-tool/self-test/validation.md");
