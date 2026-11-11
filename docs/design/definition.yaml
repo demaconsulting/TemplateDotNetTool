@@ -1,6 +1,7 @@
 ---
 resource-path:
   - docs/design
+  - docs/design/generated
   - docs/design/template-dot-net-tool
   - docs/design/template-dot-net-tool/cli
   - docs/design/template-dot-net-tool/self-test
@@ -8,6 +9,7 @@ resource-path:
   - docs/design/ots
   - docs/images
   - docs/template
+embed-resources: true
 
 input-files:
   - docs/design/title.txt
