@@ -11,10 +11,12 @@
 
 DEMA Consulting template project for DotNet Tools, demonstrating best practices for building command-line tools with .NET.
 
-The diagram below is a placeholder: replace its TODO boxes to show how your tool's entry point, Cli,
-subsystems, inputs, and outputs fit together.
+The diagram below is a placeholder workflow diagram: replace its TODO boxes (in `docs/images/workflow.svg`,
+then re-render `docs/images/workflow.png`) to show how users prepare inputs, run your tool, get its outputs,
+and use them.
 
-![Placeholder architecture diagram: replace the TODO boxes for your tool entry point, Cli, subsystems, support units, dependencies, inputs, and outputs with the real ones][architecture]
+![Placeholder workflow diagram: replace the TODO boxes to show how users prepare inputs, run your tool, get
+its outputs, and use them][workflow]
 
 ## Features
 
@@ -24,7 +26,7 @@ This template demonstrates:
   (`--version`, `--help`, `--silent`, `--validate`, `--results`, `--depth`, `--log`)
 - **Self-Validation**: Built-in validation tests with TRX/JUnit output
 - **Multi-Platform Support**: Builds and runs on Windows, Linux, and macOS
-- **Multi-Runtime Support**: Targets .NET 8, 9, and 10
+- **Multi-Runtime Support**: Targets .NET 10 and 11
 - **Comprehensive CI/CD**: GitHub Actions workflows with quality checks, builds, and
   integration tests
 - **Linting Enforcement**: markdownlint, TextLint, and yamllint enforced on every CI run
@@ -156,7 +158,7 @@ Copyright (c) DEMA Consulting. Licensed under the MIT License. See [LICENSE][lin
 By contributing to this project, you agree that your contributions will be licensed under the MIT License.
 
 <!-- Badge References -->
-[architecture]: https://raw.githubusercontent.com/demaconsulting/TemplateDotNetTool/main/docs/images/architecture.png
+[workflow]: https://raw.githubusercontent.com/demaconsulting/TemplateDotNetTool/main/docs/images/workflow.png
 [badge-forks]: https://img.shields.io/github/forks/demaconsulting/TemplateDotNetTool?style=plastic
 [badge-stars]: https://img.shields.io/github/stars/demaconsulting/TemplateDotNetTool?style=plastic
 [badge-contributors]: https://img.shields.io/github/contributors/demaconsulting/TemplateDotNetTool?style=plastic
