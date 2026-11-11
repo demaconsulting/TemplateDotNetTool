@@ -5,7 +5,8 @@
 // 'render' - is what scopes the rendered diagram content.
 package TemplateDotNetTool {
     view SoftwareStructureView {
-        expose TemplateDotNetTool;
+        expose TemplateDotNetTool::**;
+        render asInterconnectionDiagram;
     }
 
     view TemplateDotNetToolView {
