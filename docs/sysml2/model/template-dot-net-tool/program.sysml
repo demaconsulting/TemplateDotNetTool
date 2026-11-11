@@ -5,7 +5,6 @@ package TemplateDotNetTool {
         doc /* Entry point and execution orchestrator. */
 
         metadata info : SoftwareInfo {
-            description = "Entry point and execution orchestrator.";
             sourceFiles = ("src/DemaConsulting.TemplateDotNetTool/Program.cs");
             testFiles = ("test/DemaConsulting.TemplateDotNetTool.Tests/ProgramTests.cs");
             designFiles = ("docs/design/template-dot-net-tool/program.md");

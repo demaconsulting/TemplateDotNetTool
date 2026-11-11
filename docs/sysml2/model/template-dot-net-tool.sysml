@@ -11,7 +11,6 @@ package TemplateDotNetTool {
         doc /* The TemplateDotNetTool system as a whole. */
 
         metadata info : SoftwareInfo {
-            description = "The TemplateDotNetTool system as a whole.";
             testFiles = ("test/DemaConsulting.TemplateDotNetTool.Tests/IntegrationTests.cs");
             designFiles = ("docs/design/template-dot-net-tool.md");
             verificationFiles = ("docs/verification/template-dot-net-tool.md");
