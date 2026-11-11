@@ -49,6 +49,13 @@ the OTS items listed in Scope above are build-time/pipeline tooling, documented 
 
 ![Software Structure](SoftwareStructureView.svg)
 
+The diagram below is a placeholder that complements the structure view by showing how data flows
+at run time: replace its TODO boxes to show how your tool's entry point, Cli, subsystems, inputs,
+and outputs fit together.
+
+![Placeholder architecture diagram: replace the TODO boxes for your tool entry point, Cli,
+subsystems, support units, dependencies, inputs, and outputs with the real ones](architecture.svg)
+
 ## Folder Layout
 
 - **src/** - source files and projects

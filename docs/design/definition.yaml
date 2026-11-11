@@ -6,6 +6,7 @@ resource-path:
   - docs/design/template-dot-net-tool/self-test
   - docs/design/template-dot-net-tool/utilities
   - docs/design/ots
+  - docs/images
   - docs/template
 
 input-files:

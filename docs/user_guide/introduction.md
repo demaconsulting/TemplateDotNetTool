@@ -1,9 +1,10 @@
 # Introduction
 
-The diagram below is a placeholder: replace its TODO boxes to show how your tool's entry point, Cli,
-subsystems, inputs, and outputs fit together.
+The workflow below is a placeholder: replace its TODO boxes to show how users prepare inputs, run your
+tool locally or in a CI pipeline, get its outputs, and use them.
 
-![Placeholder architecture diagram: replace the TODO boxes for your tool entry point, Cli, subsystems, support units, dependencies, inputs, and outputs with the real ones](architecture.svg)
+![Placeholder workflow diagram: replace the TODO boxes to show how users prepare inputs, run your tool, get
+its outputs, and use them](workflow.svg)
 
 ## Purpose
 
