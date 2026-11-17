@@ -9,7 +9,8 @@
 [![Security][badge-security]][link-security]
 [![NuGet][badge-nuget]][link-nuget]
 
-DEMA Consulting template project for DotNet Tools, demonstrating best practices for building command-line tools with .NET.
+DEMA Consulting template project for DotNet Tools, demonstrating best practices for building command-line
+tools with .NET.
 
 The diagram below is a placeholder workflow diagram: replace its TODO boxes (in `docs/images/workflow.svg`,
 then re-render `docs/images/workflow.png`) to show how users prepare inputs, run your tool, get its outputs,
@@ -29,7 +30,7 @@ This template demonstrates:
 - **Multi-Runtime Support**: Targets .NET 10 and 11
 - **Comprehensive CI/CD**: GitHub Actions workflows with quality checks, builds, and
   integration tests
-- **Linting Enforcement**: markdownlint, TextLint, and yamllint enforced on every CI run
+- **Linting Enforcement**: LintMark, TextLint, and yamllint enforced on every CI run
 - **Continuous Compliance**: Compliance evidence generated automatically on every CI run, following
   the [Continuous Compliance][link-continuous-compliance] methodology
 - **SonarCloud Integration**: Quality gate and security analysis on every build
@@ -73,15 +74,15 @@ templatetool --silent --log output.log
 
 ## Command-Line Options
 
-| Option                                | Description                                                  |
-| ------------------------------------- | ------------------------------------------------------------ |
-| `-v`, `--version`                     | Display version information                                  |
-| `-?`, `-h`, `--help`                  | Display help message                                         |
-| `--silent`                            | Suppress console output                                      |
-| `--validate`                          | Run self-validation                                          |
-| `--results <file>`, `--result <file>` | Write results to `.trx` (TRX) or `.xml` (JUnit XML) file.    |
-| `--depth <#>`                         | Set heading depth for markdown output (default: 1)           |
-| `--log <file>`                        | Write output to log file                                     |
+| Option | Description |
+| --- | --- |
+| `-v`, `--version` | Display version information |
+| `-?`, `-h`, `--help` | Display help message |
+| `--silent` | Suppress console output |
+| `--validate` | Run self-validation |
+| `--results <file>`, `--result <file>` | Write results to `.trx` (TRX) or `.xml` (JUnit XML) file. |
+| `--depth <#>` | Set heading depth for markdown output (default: 1) |
+| `--log <file>` | Write output to log file |
 
 ## Error Handling
 
