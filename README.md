@@ -9,7 +9,8 @@
 [![Security][badge-security]][link-security]
 [![NuGet][badge-nuget]][link-nuget]
 
-DEMA Consulting template project for DotNet Tools, demonstrating best practices for building command-line tools with .NET.
+DEMA Consulting template project for DotNet Tools, demonstrating best practices for building command-line
+tools with .NET.
 
 The diagram below is a placeholder workflow diagram: replace its TODO boxes (in `docs/images/workflow.svg`,
 then re-render `docs/images/workflow.png`) to show how users prepare inputs, run your tool, get its outputs,
@@ -73,15 +74,15 @@ templatetool --silent --log output.log
 
 ## Command-Line Options
 
-| Option                                | Description                                                  |
-| ------------------------------------- | ------------------------------------------------------------ |
-| `-v`, `--version`                     | Display version information                                  |
-| `-?`, `-h`, `--help`                  | Display help message                                         |
-| `--silent`                            | Suppress console output                                      |
-| `--validate`                          | Run self-validation                                          |
-| `--results <file>`, `--result <file>` | Write results to `.trx` (TRX) or `.xml` (JUnit XML) file.    |
-| `--depth <#>`                         | Set heading depth for markdown output (default: 1)           |
-| `--log <file>`                        | Write output to log file                                     |
+| Option | Description |
+| --- | --- |
+| `-v`, `--version` | Display version information |
+| `-?`, `-h`, `--help` | Display help message |
+| `--silent` | Suppress console output |
+| `--validate` | Run self-validation |
+| `--results <file>`, `--result <file>` | Write results to `.trx` (TRX) or `.xml` (JUnit XML) file. |
+| `--depth <#>` | Set heading depth for markdown output (default: 1) |
+| `--log <file>` | Write output to log file |
 
 ## Error Handling
 
