@@ -1,4 +1,5 @@
-package TemplateDotNetTool {
+package TemplateDotNetTool_UtilitiesSubsystem {
+    public import TemplateDotNetTool_PathHelpers::*;
     private import SoftwareItemMetadata::*;
 
     part def UtilitiesSubsystem {

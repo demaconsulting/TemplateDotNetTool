@@ -1,4 +1,4 @@
-package TemplateDotNetTool {
+package TemplateDotNetTool_Program {
     private import SoftwareItemMetadata::*;
 
     part def Program {

@@ -1,4 +1,4 @@
-package TemplateDotNetTool {
+package TemplateDotNetTool_Context {
     private import SoftwareItemMetadata::*;
 
     part def Context {
