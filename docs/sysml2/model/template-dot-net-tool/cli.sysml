@@ -1,4 +1,5 @@
-package TemplateDotNetTool {
+package TemplateDotNetTool_CliSubsystem {
+    public import TemplateDotNetTool_Context::*;
     private import SoftwareItemMetadata::*;
 
     part def CliSubsystem {

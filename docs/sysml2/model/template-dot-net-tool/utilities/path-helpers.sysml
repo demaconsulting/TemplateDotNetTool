@@ -1,4 +1,4 @@
-package TemplateDotNetTool {
+package TemplateDotNetTool_PathHelpers {
     private import SoftwareItemMetadata::*;
 
     part def PathHelpers {

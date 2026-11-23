@@ -1,4 +1,5 @@
-package TemplateDotNetTool {
+package TemplateDotNetTool_SelfTestSubsystem {
+    public import TemplateDotNetTool_Validation::*;
     private import SoftwareItemMetadata::*;
 
     part def SelfTestSubsystem {

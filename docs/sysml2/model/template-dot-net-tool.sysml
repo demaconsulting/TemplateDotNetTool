@@ -1,4 +1,8 @@
 package TemplateDotNetTool {
+    public import TemplateDotNetTool_Program::*;
+    public import TemplateDotNetTool_CliSubsystem::*;
+    public import TemplateDotNetTool_SelfTestSubsystem::*;
+    public import TemplateDotNetTool_UtilitiesSubsystem::*;
     private import SoftwareItemMetadata::*;
 
     doc
