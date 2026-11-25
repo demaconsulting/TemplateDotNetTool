@@ -197,6 +197,32 @@ spell-checking failure. Doing so defeats the purpose of spell-checking and reduc
   correctly, raise a **proposal** (e.g. comment in a pull request) explaining why the word should be added. The
   proposal must be reviewed and approved before the word is added to the list.
 
+### Help Cards
+
+The built-in help (`templatetool help`) is served from Markdown help cards in
+`src/DemaConsulting.TemplateDotNetTool/Help/`, which the DemaConsulting.HelpCards package embeds in the tool
+assembly. `Cli/HelpCommand.cs` is the only code that uses the package.
+
+- **One file per topic.** The path below `Help/`, without `.md`, is the card id. `_source.md` names the source
+  (`name:`) and sets `schema: 2`.
+- **Front matter.** Every card has a `title`, a `summary` (at most 80 characters for a topic, 100 otherwise), and
+  a purpose tag from `HelpCommand.PurposeTags` (`tutorial`, `reference`, or `troubleshooting`), the only tags
+  allowed.
+- **New topics.** Add the id of every new top-level card to `HelpCommand.RootCardIds`; a missing or extra topic
+  fails the tests.
+- **Examples.** Give every task a runnable `command` example. Quote the content (`content: '{{tool}} --validate'`),
+  and state the result when it matters with `exit:` (default 0) and `expect:` (a quoted output fragment). One
+  command per example: no pipes, redirection, or `&&`.
+- **Sample files.** Show complete files only for formats that users author. Describe formats that the tool
+  produces (TRX, JUnit) in prose. Keep test data in the test project, not in the cards.
+- **Text.** Cards are linted and spell-checked like any Markdown file: no body line starting with `#`, no wide
+  tables, and every fenced block names its language.
+
+Run `pwsh ./build.ps1 -Changed` after changing a card. `HelpCommand_CreateOptions_ShippedCatalog_PassesValidation`
+validates the cards with warnings treated as errors, and
+`TemplateDotNetTool_HelpExamples_AllCommandExamples_GiveStatedResults` runs every command example against the
+built tool and compares the result with the card.
+
 ## Quality Checks
 
 Before submitting a pull request, ensure all quality checks pass.

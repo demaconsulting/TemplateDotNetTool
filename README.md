@@ -26,6 +26,8 @@ This template demonstrates:
 - **Standardized Command-Line Interface**: Context class handling common arguments
   (`--version`, `--help`, `--silent`, `--validate`, `--results`, `--depth`, `--log`)
 - **Self-Validation**: Built-in validation tests with TRX/JUnit output
+- **Built-in Help**: `templatetool help` serves Markdown help cards ([DemaConsulting.HelpCards][link-helpcards])
+  with runnable examples, search, and JSON output for AI agents
 - **Multi-Platform Support**: Builds and runs on Windows, Linux, and macOS
 - **Multi-Runtime Support**: Targets .NET 10 and 11
 - **Comprehensive CI/CD**: GitHub Actions workflows with quality checks, builds, and
@@ -58,6 +60,10 @@ templatetool --version
 # Display help
 templatetool --help
 
+# List the built-in help topics, then read one
+templatetool help
+templatetool help getting-started
+
 # Run self-validation
 templatetool --validate
 
@@ -83,6 +89,29 @@ templatetool --silent --log output.log
 | `--results <file>`, `--result <file>` | Write results to `.trx` (TRX) or `.xml` (JUnit XML) file. |
 | `--depth <#>` | Set heading depth for markdown output (default: 1) |
 | `--log <file>` | Write output to log file |
+
+## Built-in Help
+
+`--help` prints a short usage text that ends with a pointer to the built-in help. The `help` command
+explains each task in a topic with worked examples, for people and for AI agents that have only the
+installed tool:
+
+| Command | Description |
+| --- | --- |
+| `templatetool help` | List the help topics |
+| `templatetool help <topic>` | Print a topic with its examples |
+| `templatetool help <topic> --example <name>` | Print one example |
+| `templatetool help --search <words>` | Find the topics that match the words |
+| `templatetool help --json` | Print any help answer as JSON (add it to the other commands) |
+
+The topics are `getting-started`, `command-line`, and `self-validation`. `help` must be the first
+argument; `--silent` and `--log` do not apply to it. The command exits with code 0, or 2 for an
+unknown topic or a wrong help argument.
+
+For projects created from this template: the help cards are Markdown files in
+`src/DemaConsulting.TemplateDotNetTool/Help/`, embedded in the tool by DemaConsulting.HelpCards. Replace
+them with cards for your tool. `HelpCommandTests` validates the cards, and `IntegrationTests` runs every
+command example against the built tool; see [CONTRIBUTING.md][link-contributing-help] for how to add a card.
 
 ## Error Handling
 
@@ -180,3 +209,5 @@ By contributing to this project, you agree that your contributions will be licen
 [link-nuget]: https://www.nuget.org/packages/DemaConsulting.TemplateDotNetTool
 [link-guide]: https://github.com/demaconsulting/TemplateDotNetTool/blob/main/docs/user_guide/introduction.md
 [link-continuous-compliance]: https://github.com/demaconsulting/ContinuousCompliance
+[link-helpcards]: https://www.nuget.org/packages/DemaConsulting.HelpCards
+[link-contributing-help]: https://github.com/demaconsulting/TemplateDotNetTool/blob/main/CONTRIBUTING.md#help-cards
