@@ -5,8 +5,9 @@
 ### Purpose
 
 `Program` is the entry point and execution orchestrator for the Template DotNet Tool. Its single
-responsibility is to create a `Context` from the command-line arguments, dispatch to the
-appropriate handler based on the parsed flags, and return the exit code.
+responsibility is to hand the `help` command to `HelpCommand`, otherwise create a `Context`
+from the command-line arguments, dispatch to the appropriate handler based on the parsed flags,
+and return the exit code.
 
 ### Data Model
 
@@ -20,12 +21,16 @@ locally.
 **Main**: Entry point for the tool process.
 
 - *Parameters*: `string[] args` — command-line arguments from the host environment.
-- *Returns*: `int` — exit code; 0 for success, 1 for expected errors.
+- *Returns*: `int` — exit code; 0 for success, 1 for expected errors; for the `help` command,
+  0 for success, 2 for a wrong help argument or an unknown topic, and 70 for a defective card
+  catalog.
 - *Preconditions*: None.
 - *Postconditions*: Exit code reflects whether any errors were reported during execution.
 
-Creates a `Context` using `Context.Create(args)`, calls `Run(context)`, and returns
-`context.ExitCode`. Catches `ArgumentException` and `InvalidOperationException` — writes
+First calls `HelpCommand.Default.TryRun(args, out exitCode)`. The `help` command is not an
+option, so `Context.Create` would reject it; when the help command answers, `Main` returns its
+exit code. Otherwise creates a `Context` using `Context.Create(args)`, calls `Run(context)`,
+and returns `context.ExitCode`. Catches `ArgumentException` and `InvalidOperationException` — writes
 `"Error: {message}"` to stderr and returns 1. Catches any other `Exception` — writes
 `"Unexpected error: {message}"` to stderr and re-throws so the runtime can record it.
 
@@ -46,7 +51,8 @@ true, calls `PrintHelp` and returns; (4) if `context.Validate` is true, calls
 - *Parameters*: `Context context` — output target.
 - *Returns*: `void`.
 
-**PrintHelp**: Writes the usage synopsis and options table to `context`.
+**PrintHelp**: Writes the usage synopsis (including `templatetool help [topic]`) and options
+table to `context`, and ends with `HelpCommand.Default.Footer`, the pointer to the help command.
 
 - *Parameters*: `Context context` — output target.
 - *Returns*: `void`.
@@ -68,6 +74,8 @@ propagate to `Main`.
 
 ### Dependencies
 
+- **HelpCommand** — `Program.Main` offers the arguments to `HelpCommand.Default.TryRun` before
+  the options are parsed, and `PrintHelp` writes `HelpCommand.Default.Footer`.
 - **Context** — `Program` reads parsed flags from `Context` and calls `Context.WriteLine` and
   `Context.WriteError` for all output.
 - **Validation** — `Program.Run` calls `Validation.Run(context)` when the `--validate` flag is

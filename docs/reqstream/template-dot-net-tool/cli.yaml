@@ -3,7 +3,8 @@
 #
 # PURPOSE:
 # - Define requirements for the TemplateDotNetTool Cli subsystem
-# - The Cli subsystem spans Context.cs (command-line argument parsing and I/O)
+# - The Cli subsystem spans Context.cs (command-line argument parsing and I/O) and
+#   HelpCommand.cs (the built-in help command)
 # - Subsystem requirements describe the externally visible command-line interface behavior
 
 sections:
@@ -140,3 +141,21 @@ sections:
           prevents breakage when upgrading to newer tool versions.
         tests:
           - CliSubsystem_ResultAliasFlow_ContextAndProgram_WritesResultsFile
+
+      - id: Template-Cli-HelpTopics
+        title: >-
+          The Cli subsystem shall answer the `help` command from built-in help cards before the
+          command-line options are parsed, and leave every other argument to the option parser.
+        justification: |
+          Users and AI agents need help topics with worked examples from the installed tool.
+          The `help` command must not change how any other argument is parsed, so the option
+          parser keeps handling every run that does not start with `help`.
+        children:
+          - Template-HelpCommand-HelpVerb
+          - Template-HelpCommand-Search
+          - Template-HelpCommand-DeferredCatalog
+          - Template-HelpCommand-Footer
+          - Template-HelpCommand-ValidCards
+        tests:
+          - CliSubsystem_HelpVerb_HelpCommandAndContext_AnsweredBeforeArgumentParsing
+          - CliSubsystem_OtherArguments_HelpCommandAndContext_LeftToContext

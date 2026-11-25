@@ -18,6 +18,7 @@ input-files:
   - docs/design/template-dot-net-tool/program.md
   - docs/design/template-dot-net-tool/cli.md
   - docs/design/template-dot-net-tool/cli/context.md
+  - docs/design/template-dot-net-tool/cli/help-command.md
   - docs/design/template-dot-net-tool/self-test.md
   - docs/design/template-dot-net-tool/self-test/validation.md
   - docs/design/template-dot-net-tool/utilities.md
@@ -25,6 +26,7 @@ input-files:
   - docs/design/ots.md
   - docs/design/ots/buildmark.md
   - docs/design/ots/fileassert.md
+  - docs/design/ots/help-cards.md
   - docs/design/ots/pandoc.md
   - docs/design/ots/reqstream.md
   - docs/design/ots/reviewmark.md

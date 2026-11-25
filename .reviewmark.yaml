@@ -14,6 +14,7 @@ needs-review:
   - "docs/verification/**/*.md"   # Verification documentation files
   - "docs/user_guide/**/*.md"     # User guide documentation
   - "docs/sysml2/**/*.sysml"      # SysML2 architecture model
+  - "src/**/Help/**"              # Built-in help cards
   - "!**/obj/**"                  # Exclude build output
   - "!**/bin/**"                  # Exclude build output
   - "!node_modules/**"            # Exclude npm dependencies
@@ -127,6 +128,21 @@ reviews:
       - "src/**/Cli/Context.cs"
       - "test/**/Cli/ContextTests.cs"
 
+  - id: TemplateTool-Cli-HelpCommand
+    title: Review of Template DotNet Tool HelpCommand unit implementation and help cards
+    context:
+      - docs/design/template-dot-net-tool.md
+      - docs/reqstream/template-dot-net-tool.yaml
+      - docs/design/template-dot-net-tool/cli.md
+      - docs/reqstream/template-dot-net-tool/cli.yaml
+    paths:
+      - "docs/reqstream/template-dot-net-tool/cli/help-command.yaml"
+      - "docs/design/template-dot-net-tool/cli/help-command.md"
+      - "docs/verification/template-dot-net-tool/cli/help-command.md"
+      - "src/**/Cli/HelpCommand.cs"
+      - "src/**/Help/**"
+      - "test/**/Cli/HelpCommandTests.cs"
+
   # TemplateTool - SelfTest
   - id: TemplateTool-SelfTest
     title: Review of Template DotNet Tool SelfTest subsystem architecture and interfaces
@@ -193,6 +209,13 @@ reviews:
       - "docs/reqstream/ots/fileassert.yaml"
       - "docs/design/ots/fileassert.md"
       - "docs/verification/ots/fileassert.md"
+
+  - id: OTS-HelpCards
+    title: Review of HelpCards OTS verification evidence
+    paths:
+      - "docs/reqstream/ots/help-cards.yaml"
+      - "docs/design/ots/help-cards.md"
+      - "docs/verification/ots/help-cards.md"
 
   - id: OTS-Pandoc
     title: Review of Pandoc OTS verification evidence
