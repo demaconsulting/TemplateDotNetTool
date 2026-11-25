@@ -4,6 +4,7 @@ summary: Install the tool, check that it works, and find the other topics.
 aliases:
   - start
   - quickstart
+  - examples
 tags:
   - tutorial
 order: 1

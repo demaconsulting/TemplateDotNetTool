@@ -206,7 +206,8 @@ assembly. `Cli/HelpCommand.cs` is the only code that uses the package.
 - **One file per topic.** The path below `Help/`, without `.md`, is the card id. `_source.md` names the source
   (`name:`) and sets `schema: 2`.
 - **Front matter.** Every card has a `title`, a `summary` (at most 80 characters for a topic, 100 otherwise), and
-  exactly one purpose tag: `tutorial`, `reference`, or `troubleshooting`.
+  exactly one purpose tag: `tutorial`, `reference`, or `troubleshooting`. Add `aliases` for topic names that users
+  commonly guess, such as `examples`, so `help <name>` finds the card.
 - **New topics.** Add the id of every new top-level card to `HelpCommand.RootCardIds`, the one list of topics; a
   missing or extra topic fails the tests.
 - **Examples.** Give every task a runnable `command` example, one command per example: no pipes, redirection, or
