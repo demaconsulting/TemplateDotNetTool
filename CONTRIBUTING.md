@@ -248,11 +248,12 @@ the built tool and compares the result with the card.
    - The `DemaConsulting.HelpCards` package reference, the `src/**/Help/**` pattern in `needs-review`, and the
      `TemplateTool-Cli-HelpCommand` and `OTS-HelpCards` review sets.
    - The help requirements of the system, Cli, and Program; the *Help Command* interface of the system design,
-     which is the one statement of the exit codes and of `--silent`/`--log` not applying; the Cli and Program
-     design and verification docs; and the file lists in `requirements.yaml`, `definition.yaml`, `introduction.md`,
-     and `ots.md`.
+     which is the design documents' one statement of the exit codes and of `--silent`/`--log` not applying; the
+     Cli and Program design and verification docs; and the file lists in `requirements.yaml`, `definition.yaml`,
+     `introduction.md`, and `ots.md`.
    - The README usage block and any `--help` output it shows, and the user guide: put *Built-in Help* right after
-     `--help`, in the file that describes the command line in a multi-file guide.
+     `--help`, in the file that describes the command line in a multi-file guide. The user guide keeps its own
+     exit-code table, and the rest of its help text refers to that table.
 3. **Change together**: each requirement id with every `children` link to it; each test name with its
    requirement, its verification scenario, and the test; the review-set ids; and the tool name in `ToolName` and
    `_source.md` (cards use the `{{tool}}` token).
@@ -261,8 +262,9 @@ the built tool and compares the result with the card.
 5. **Classify HelpCards as OTS**, like the other DEMA Consulting tools that this template uses (BuildMark,
    ReqStream, and others): another repository produces it and the tool does not change it.
 6. **Existing `ots.sysml`**: add the `HelpCards` part def to its package, with the repository's naming suffix if it
-   uses one (for example `HelpCardsPackage`), and follow the repository's way of referencing OTS items. This
-   template declares `dependency HelpCommand to HelpCards;` and draws OTS items in `OtsView`, not in the overview.
+   uses one (for example `HelpCardsPackage`), and declare `dependency HelpCommand to HelpCards;`. Follow the
+   repository's convention for drawing OTS items: if its overview view already draws runtime OTS packages, add a
+   `HelpCards` part there too; otherwise expose them in an `OtsView`, as this template does.
 7. **Flat namespace**: when the tool has no `Cli` namespace, put `HelpCommand.cs` beside `Context.cs`, drop `.Cli`
    from the namespaces, and place its requirement, design, verification, and SysML files beside those of
    `Context`.
