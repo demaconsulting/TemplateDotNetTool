@@ -42,10 +42,11 @@ any order.
 | `--results <file>` | Write the self-test results as `.trx` or `.xml`. `--result` also works. |
 | `--depth <n>` | First heading level of the self-test report, 1 to 6; default 1. |
 
-**Order.** `--version` wins over everything and prints only the version.
-Otherwise the tool prints a banner, then handles the first of `--help`,
-`--validate`, or its main function. The command that [[#silent-log]]
-prints writes the version to the log file only.
+**Order.** `--version`, when all arguments are valid, prints only the
+version and skips everything else. Without it, the tool prints a banner,
+then handles the first of `--help`, `--validate`, or its main function.
+The command that [[#silent-log]] prints writes the version to the log
+file only.
 
 **Errors.** An unknown argument, or an option without its value, prints
 `Error: ...` and exits 1 ([[#unknown-option]]). These errors are found
