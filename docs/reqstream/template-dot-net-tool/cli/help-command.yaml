@@ -5,66 +5,70 @@
 # are embedded in the tool assembly. It is the only unit that uses the HelpCards library.
 
 sections:
-  - title: HelpCommand Unit Requirements
-    requirements:
-      - id: Template-HelpCommand-HelpVerb
-        title: >-
-          The HelpCommand class shall print the topic index for the help verb, print a card with
-          its examples for a card path, and exit with code 2 for an unknown topic.
-        justification: |
-          A user or an AI agent that has only the installed tool must be able to learn it from
-          `templatetool help`: the index lists the topics, a topic prints with worked examples,
-          and a mistyped topic fails with a distinct exit code and a hint that scripts can detect.
-        tests:
-          - HelpCommand_TryRun_HelpVerb_PrintsTopicIndexAndReturnsZero
-          - HelpCommand_TryRun_CardPath_PrintsCardWithExamples
-          - HelpCommand_TryRun_UnknownTopic_ReturnsTwo
-        children:
-          - Template-OTS-HelpCards-Cli
+  - title: TemplateDotNetTool Requirements
+    sections:
+      - title: Cli Subsystem Requirements
+        sections:
+          - title: HelpCommand Unit Requirements
+            requirements:
+              - id: Template-HelpCommand-HelpVerb
+                title: >-
+                  The HelpCommand class shall print the topic index for the help verb, print a card with
+                  its examples for a card path, and exit with code 2 for an unknown topic.
+                justification: |
+                  A user or an AI agent that has only the installed tool must be able to learn it from
+                  `templatetool help`: the index lists the topics, a topic prints with worked examples,
+                  and a mistyped topic fails with a distinct exit code and a hint that scripts can detect.
+                tests:
+                  - HelpCommand_TryRun_HelpVerb_PrintsTopicIndexAndReturnsZero
+                  - HelpCommand_TryRun_CardPath_PrintsCardWithExamples
+                  - HelpCommand_TryRun_UnknownTopic_ReturnsTwo
+                children:
+                  - Template-OTS-HelpCards-Cli
 
-      - id: Template-HelpCommand-Search
-        title: >-
-          The HelpCommand class shall list the cards that match search words and write any help
-          answer as a versioned JSON document on request.
-        justification: |
-          An agent finds the right card by searching for what it wants to do, and it reads the
-          answer more reliably as structured JSON than as text.
-        tests:
-          - HelpCommand_TryRun_SearchOption_ListsMatchingCards
-          - HelpCommand_TryRun_JsonOption_WritesJsonDocument
-        children:
-          - Template-OTS-HelpCards-Catalog
+              - id: Template-HelpCommand-Search
+                title: >-
+                  The HelpCommand class shall list the cards that match search words and write any help
+                  answer as a versioned JSON document on request.
+                justification: |
+                  An agent finds the right card by searching for what it wants to do, and it reads the
+                  answer more reliably as structured JSON than as text.
+                tests:
+                  - HelpCommand_TryRun_SearchOption_ListsMatchingCards
+                  - HelpCommand_TryRun_JsonOption_WritesJsonDocument
+                children:
+                  - Template-OTS-HelpCards-Catalog
 
-      - id: Template-HelpCommand-DeferredCatalog
-        title: The HelpCommand class shall build the help catalog only when the first argument is the help verb.
-        justification: |
-          Every other run of the tool, including every CI run, must not pay for loading or
-          validating help cards, and a defective card must never break a normal run.
-        tests:
-          - HelpCommand_TryRun_NonHelpArguments_ReturnsFalseWithoutBuildingCatalog
-        children:
-          - Template-OTS-HelpCards-Cli
+              - id: Template-HelpCommand-DeferredCatalog
+                title: The HelpCommand class shall build the help catalog only when the first argument is the help verb.
+                justification: |
+                  Every other run of the tool, including every CI run, must not pay for loading or
+                  validating help cards, and a defective card must never break a normal run.
+                tests:
+                  - HelpCommand_TryRun_NonHelpArguments_ReturnsFalseWithoutBuildingCatalog
+                children:
+                  - Template-OTS-HelpCards-Cli
 
-      - id: Template-HelpCommand-Footer
-        title: >-
-          The HelpCommand class shall provide a one-line pointer to the help command for the end of
-          the usage text.
-        justification: |
-          The short usage text stays short and still tells a reader where the full guidance is,
-          without building the help catalog.
-        tests:
-          - HelpCommand_Footer_Read_PointsToHelpCommand
+              - id: Template-HelpCommand-Footer
+                title: >-
+                  The HelpCommand class shall provide a one-line pointer to the help command for the end of
+                  the usage text.
+                justification: |
+                  The short usage text stays short and still tells a reader where the full guidance is,
+                  without building the help catalog.
+                tests:
+                  - HelpCommand_Footer_Read_PointsToHelpCommand
 
-      - id: Template-HelpCommand-ValidCards
-        title: >-
-          The HelpCommand class shall serve only help cards that pass validation with the expected
-          set of topics and purpose tags.
-        justification: |
-          A defective card, a missing topic, or a card without a purpose would give users wrong
-          or hard-to-find guidance. A test that validates the shipped catalog, with warnings
-          treated as errors, keeps the help correct before release.
-        tests:
-          - HelpCommand_CreateOptions_ShippedCatalog_PassesValidation
-        children:
-          - Template-OTS-HelpCards-Validator
-          - Template-OTS-HelpCards-Embedding
+              - id: Template-HelpCommand-ValidCards
+                title: >-
+                  The HelpCommand class shall serve only help cards that pass validation with the expected
+                  set of topics and purpose tags.
+                justification: |
+                  A defective card, a missing topic, or a card without a purpose would give users wrong
+                  or hard-to-find guidance. A test that validates the shipped catalog, with warnings
+                  treated as errors, keeps the help correct before release.
+                tests:
+                  - HelpCommand_CreateOptions_ShippedCatalog_PassesValidation
+                children:
+                  - Template-OTS-HelpCards-Validator
+                  - Template-OTS-HelpCards-Embedding

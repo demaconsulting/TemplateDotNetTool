@@ -8,7 +8,7 @@
 #   published dotnet DLL end-to-end
 
 sections:
-  - title: System-Level Requirements
+  - title: TemplateDotNetTool Requirements
     requirements:
       - id: Template-System-Version
         title: The tool shall display version information when the version flag is provided.

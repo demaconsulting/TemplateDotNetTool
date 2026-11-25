@@ -37,7 +37,7 @@ context:
 reviews:
   # Purpose
   - id: Purpose
-    title: Review of user-facing capabilities and system promises
+    title: Review that README and User Guide are Coherent and Complete
     context:
       - "!docs/design/introduction.md"
     paths:
@@ -58,7 +58,7 @@ reviews:
 
   # TemplateTool - Specials
   - id: TemplateTool-Architecture
-    title: Review of Template DotNet Tool system architecture and operational validation
+    title: Review that TemplateDotNetTool Architecture Satisfies Requirements
     context:
       - README.md
       - "docs/user_guide/**/*.md"
@@ -71,7 +71,7 @@ reviews:
       - "test/**/IntegrationTests.cs"
 
   - id: TemplateTool-Design
-    title: Review of Template DotNet Tool architectural and design consistency
+    title: Review that TemplateDotNetTool Design is Consistent and Complete
     context:
       - docs/reqstream/template-dot-net-tool.yaml
     paths:
@@ -82,7 +82,7 @@ reviews:
       - "docs/verification/ots.md"
 
   - id: TemplateTool-AllRequirements
-    title: Review of Template DotNet Tool requirements quality and traceability
+    title: Review that All TemplateDotNetTool Requirements are Complete
     context:
       - docs/design/template-dot-net-tool.md
       - docs/reqstream/template-dot-net-tool.yaml
@@ -91,7 +91,7 @@ reviews:
 
   # TemplateTool - Program
   - id: TemplateTool-Program
-    title: Review of Template DotNet Tool Program unit implementation
+    title: Review that TemplateDotNetTool Program Implementation is Correct
     context:
       - docs/design/template-dot-net-tool.md
       - docs/reqstream/template-dot-net-tool.yaml
@@ -104,7 +104,7 @@ reviews:
 
   # TemplateTool - Cli
   - id: TemplateTool-Cli
-    title: Review of Template DotNet Tool Cli subsystem architecture and interfaces
+    title: Review that TemplateDotNetTool Cli Satisfies Subsystem Requirements
     context:
       - docs/design/template-dot-net-tool.md
       - docs/reqstream/template-dot-net-tool.yaml
@@ -115,7 +115,7 @@ reviews:
       - "test/**/Cli/CliSubsystemTests.cs"
 
   - id: TemplateTool-Cli-Context
-    title: Review of Template DotNet Tool Context unit implementation
+    title: Review that TemplateDotNetTool Cli Context Implementation is Correct
     context:
       - docs/design/template-dot-net-tool.md
       - docs/reqstream/template-dot-net-tool.yaml
@@ -129,7 +129,7 @@ reviews:
       - "test/**/Cli/ContextTests.cs"
 
   - id: TemplateTool-Cli-HelpCommand
-    title: Review of Template DotNet Tool HelpCommand unit implementation and help cards
+    title: Review that TemplateDotNetTool Cli HelpCommand Implementation is Correct
     context:
       - docs/design/template-dot-net-tool.md
       - docs/reqstream/template-dot-net-tool.yaml
@@ -145,7 +145,7 @@ reviews:
 
   # TemplateTool - SelfTest
   - id: TemplateTool-SelfTest
-    title: Review of Template DotNet Tool SelfTest subsystem architecture and interfaces
+    title: Review that TemplateDotNetTool SelfTest Satisfies Subsystem Requirements
     context:
       - docs/design/template-dot-net-tool.md
       - docs/reqstream/template-dot-net-tool.yaml
@@ -156,7 +156,7 @@ reviews:
       - "test/**/SelfTest/SelfTestSubsystemTests.cs"
 
   - id: TemplateTool-SelfTest-Validation
-    title: Review of Template DotNet Tool Validation unit implementation
+    title: Review that TemplateDotNetTool SelfTest Validation Implementation is Correct
     context:
       - docs/design/template-dot-net-tool.md
       - docs/reqstream/template-dot-net-tool.yaml
@@ -171,7 +171,7 @@ reviews:
 
   # TemplateTool - Utilities
   - id: TemplateTool-Utilities
-    title: Review of Template DotNet Tool Utilities subsystem architecture and interfaces
+    title: Review that TemplateDotNetTool Utilities Satisfies Subsystem Requirements
     context:
       - docs/design/template-dot-net-tool.md
       - docs/reqstream/template-dot-net-tool.yaml
@@ -182,7 +182,7 @@ reviews:
       - "test/**/Utilities/UtilitiesSubsystemTests.cs"
 
   - id: TemplateTool-Utilities-PathHelpers
-    title: Review of Template DotNet Tool PathHelpers unit implementation
+    title: Review that TemplateDotNetTool Utilities PathHelpers Implementation is Correct
     context:
       - docs/design/template-dot-net-tool.md
       - docs/reqstream/template-dot-net-tool.yaml
@@ -197,84 +197,84 @@ reviews:
 
   # OTS Items
   - id: OTS-BuildMark
-    title: Review of BuildMark OTS verification evidence
+    title: Review that BuildMark Provides Required Functionality
     paths:
       - "docs/reqstream/ots/buildmark.yaml"
       - "docs/design/ots/buildmark.md"
       - "docs/verification/ots/buildmark.md"
 
   - id: OTS-FileAssert
-    title: Review of FileAssert OTS verification evidence
+    title: Review that FileAssert Provides Required Functionality
     paths:
       - "docs/reqstream/ots/fileassert.yaml"
       - "docs/design/ots/fileassert.md"
       - "docs/verification/ots/fileassert.md"
 
   - id: OTS-HelpCards
-    title: Review of HelpCards OTS verification evidence
+    title: Review that HelpCards Provides Required Functionality
     paths:
       - "docs/reqstream/ots/help-cards.yaml"
       - "docs/design/ots/help-cards.md"
       - "docs/verification/ots/help-cards.md"
 
   - id: OTS-Pandoc
-    title: Review of Pandoc OTS verification evidence
+    title: Review that Pandoc Provides Required Functionality
     paths:
       - "docs/reqstream/ots/pandoc.yaml"
       - "docs/design/ots/pandoc.md"
       - "docs/verification/ots/pandoc.md"
 
   - id: OTS-ReqStream
-    title: Review of ReqStream OTS verification evidence
+    title: Review that ReqStream Provides Required Functionality
     paths:
       - "docs/reqstream/ots/reqstream.yaml"
       - "docs/design/ots/reqstream.md"
       - "docs/verification/ots/reqstream.md"
 
   - id: OTS-ReviewMark
-    title: Review of ReviewMark OTS verification evidence
+    title: Review that ReviewMark Provides Required Functionality
     paths:
       - "docs/reqstream/ots/reviewmark.yaml"
       - "docs/design/ots/reviewmark.md"
       - "docs/verification/ots/reviewmark.md"
 
   - id: OTS-SarifMark
-    title: Review of SarifMark OTS verification evidence
+    title: Review that SarifMark Provides Required Functionality
     paths:
       - "docs/reqstream/ots/sarifmark.yaml"
       - "docs/design/ots/sarifmark.md"
       - "docs/verification/ots/sarifmark.md"
 
   - id: OTS-SonarMark
-    title: Review of SonarMark OTS verification evidence
+    title: Review that SonarMark Provides Required Functionality
     paths:
       - "docs/reqstream/ots/sonarmark.yaml"
       - "docs/design/ots/sonarmark.md"
       - "docs/verification/ots/sonarmark.md"
 
   - id: OTS-SysML2Tools
-    title: Review of SysML2Tools OTS verification evidence
+    title: Review that SysML2Tools Provides Required Functionality
     paths:
       - "docs/reqstream/ots/sysml2tools.yaml"
       - "docs/design/ots/sysml2tools.md"
       - "docs/verification/ots/sysml2tools.md"
 
   - id: OTS-VersionMark
-    title: Review of VersionMark OTS verification evidence
+    title: Review that VersionMark Provides Required Functionality
     paths:
       - "docs/reqstream/ots/versionmark.yaml"
       - "docs/design/ots/versionmark.md"
       - "docs/verification/ots/versionmark.md"
 
   - id: OTS-WeasyPrint
-    title: Review of WeasyPrint OTS verification evidence
+    title: Review that WeasyPrint Provides Required Functionality
     paths:
       - "docs/reqstream/ots/weasyprint.yaml"
       - "docs/design/ots/weasyprint.md"
       - "docs/verification/ots/weasyprint.md"
 
   - id: OTS-xUnit
-    title: Review of xUnit OTS verification evidence
+    title: Review that xUnit Provides Required Functionality
     paths:
       - "docs/reqstream/ots/xunit.yaml"
       - "docs/design/ots/xunit.md"
