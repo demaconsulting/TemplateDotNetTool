@@ -24,7 +24,7 @@ sections:
 
       - id: Template-HelpCommand-Search
         title: >-
-          The HelpCommand class shall rank the cards that match search words and write any help
+          The HelpCommand class shall list the cards that match search words and write any help
           answer as a versioned JSON document on request.
         justification: |
           An agent finds the right card by searching for what it wants to do, and it reads the

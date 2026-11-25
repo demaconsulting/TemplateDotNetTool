@@ -64,7 +64,6 @@ sections:
           example against the built tool, and comparing the exit code and output with what
           the example states, keeps the help in step with the tool.
         children:
-          - Template-HelpCommand-ValidCards
           - Template-OTS-HelpCards-ExampleRunner
         tests:
           - TemplateDotNetTool_HelpExamples_AllCommandExamples_GiveStatedResults

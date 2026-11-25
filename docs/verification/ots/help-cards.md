@@ -32,8 +32,8 @@ verb are not answered and never build the catalog. This scenario is tested by
 `HelpCommand_TryRun_CardPath_PrintsCardWithExamples`, `HelpCommand_TryRun_UnknownTopic_ReturnsTwo`,
 and `HelpCommand_TryRun_NonHelpArguments_ReturnsFalseWithoutBuildingCatalog`.
 
-**Catalog, Search, and JSON**: Verifies that the catalog loads the cards, ranks cards for a
-search, and writes a versioned JSON document. This scenario is tested by
+**Catalog, Search, and JSON**: Verifies that the catalog loads the cards, lists the cards that
+match a search, and writes a versioned JSON document. This scenario is tested by
 `HelpCommand_TryRun_SearchOption_ListsMatchingCards` and
 `HelpCommand_TryRun_JsonOption_WritesJsonDocument`.
 

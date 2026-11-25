@@ -32,8 +32,8 @@ sections:
               JSON output.
             justification: |
               The tool ships its help as Markdown cards. The catalog turns the embedded cards into
-              one validated structure that the command-line helper renders as text, ranks for a
-              search, and writes as a versioned JSON document, which is the form an AI agent
+              one validated structure that the command-line helper renders as text, searches for
+              matching cards, and writes as a versioned JSON document, which is the form an AI agent
               consumes.
             tags: [ots]
             tests:
