@@ -12,6 +12,11 @@ outputs; no internal implementation details are assumed.
 (e.g., "standard error is empty") are not possible at this level; all assertions are made
 against the combined output.
 
+The help examples are verified with the example runner of HelpCards. It saves the source
+examples of each help card to a fresh scratch folder and calls a delegate for each command
+example; the delegate runs the built tool in that folder with `Runner.RunInDirectory`, and the
+runner compares the exit code and the output with the `exit` and `expect` values of the example.
+
 ## Test Environment
 
 Integration tests run on .NET 10.0 and .NET 11.0 across Windows, Linux, and macOS.
@@ -25,6 +30,9 @@ combinations. Temporary files and directories are created and cleaned up within 
 - Exit code non-zero is returned for all invalid argument combinations.
 - Results files are created at the specified paths when `--results` is used with `--validate`.
 - Silent mode (`--silent`) produces empty combined output.
+- The `help` command lists the topics with exit code 0, and exits with code 2 for an unknown
+  topic.
+- Every command example in the help cards gives the exit code and output that its card states.
 
 ## Test Scenarios
 
@@ -85,3 +93,19 @@ path and the tool exits with code 0. This scenario is tested by
 flag is combined with `--results <path>.bad` (unsupported extension); the tool exits with a
 non-zero code and no file is created at the specified path. This scenario is tested by
 `TemplateDotNetTool_ValidateWithBadExtension_ExtensionInvalid_ReturnsNonZero`.
+
+**TemplateDotNetTool_HelpTopics_HelpVerb_ListsTopics**: The `help` command is passed as the
+sole argument; the combined output lists every root topic with its command, contains no banner, and
+the tool exits with code 0. This scenario is tested by
+`TemplateDotNetTool_HelpTopics_HelpVerb_ListsTopics`.
+
+**TemplateDotNetTool_HelpTopics_UnknownTopic_ReturnsUsageError**: The arguments
+`help no-such-topic` name a topic that does not exist; the tool exits with code 2 and the
+combined output names the topic. This scenario is tested by
+`TemplateDotNetTool_HelpTopics_UnknownTopic_ReturnsUsageError`.
+
+**TemplateDotNetTool_HelpExamples_AllCommandExamples_GiveStatedResults**: The catalog that the
+tool ships is built, and every command example of every card is run against the built tool in a
+scratch folder; each run gives the exit code and output fragment that its card states, and at
+least one command example exists. This scenario is tested by
+`TemplateDotNetTool_HelpExamples_AllCommandExamples_GiveStatedResults`.

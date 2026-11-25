@@ -23,6 +23,7 @@ OTS items:
 
 - **BuildMark**: integration and usage design.
 - **FileAssert**: integration and usage design.
+- **HelpCards**: integration and usage design.
 - **Pandoc**: integration and usage design.
 - **ReqStream**: integration and usage design.
 - **ReviewMark**: integration and usage design.
@@ -43,9 +44,11 @@ The following topics are out of scope:
 The software structure is modeled in SysML2 under `docs/sysml2/` and rendered to the diagram
 below by SysML2Tools as part of the build pipeline. AI agents should query the SysML2 model
 directly (see the `sysml2tools-query` skill) rather than parsing this diagram or the prose
-elsewhere in this document. The model captures the shipped system's runtime composition only;
-the OTS items listed in Scope above are build-time/pipeline tooling, documented separately
-(see `docs/design/ots.md`) rather than modeled as SysML2 parts.
+elsewhere in this document. The model captures the shipped system's runtime composition only.
+HelpCards, the one runtime OTS library, is modeled in `docs/sysml2/model/ots.sysml` and drawn in
+the OTS view rather than in the overview below. The other OTS items listed in Scope above are
+build-time/pipeline tooling, documented separately (see `docs/design/ots.md`) rather than modeled
+as SysML2 parts.
 
 ![Software Structure](SoftwareStructureView.svg)
 
@@ -60,7 +63,8 @@ subsystems, support units, dependencies, inputs, and outputs with the real ones]
 
 - **src/** - source files and projects
   - **DemaConsulting.TemplateDotNetTool/** - main application source
-    - **Cli/** - command-line interface subsystem
+    - **Cli/** - command-line interface subsystem, including `HelpCommand.cs` for the built-in help
+    - **Help/** - built-in help cards (Markdown with front matter), embedded in the assembly
     - **SelfTest/** - self-validation subsystem
     - **Utilities/** - shared utilities subsystem
 

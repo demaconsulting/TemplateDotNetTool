@@ -21,6 +21,7 @@ This document covers the verification design for the following software items:
   - **Program** — entry point and execution orchestrator
   - **Cli** subsystem
     - **Context** — argument parser and I/O owner
+    - **HelpCommand** — built-in help command
   - **SelfTest** subsystem
     - **Validation** — self-validation test runner
   - **Utilities** subsystem
@@ -30,6 +31,7 @@ This document covers the verification design for the following software items:
 
 - **BuildMark** — build-notes documentation tool
 - **FileAssert** — document assertion tool
+- **HelpCards** — built-in help library
 - **Pandoc** — Markdown-to-HTML conversion tool
 - **ReqStream** — requirements traceability tool
 - **ReviewMark** — file review enforcement tool

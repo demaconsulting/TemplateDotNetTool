@@ -1,5 +1,7 @@
 # OTS Software Integration Design
 
+![OTS Items](OtsView.svg)
+
 This document provides the integration and usage design for all Off-The-Shelf (OTS) software
 items used by the Template DotNet Tool.
 
@@ -15,6 +17,7 @@ The following OTS items have integration design documentation:
 
 - BuildMark (*buildmark.md*) — build-notes documentation tool
 - FileAssert (*fileassert.md*) — document assertion tool
+- HelpCards (*help-cards.md*) — built-in help library (runtime)
 - Pandoc (*pandoc.md*) — Markdown-to-HTML conversion tool
 - ReqStream (*reqstream.md*) — requirements traceability tool
 - ReviewMark (*reviewmark.md*) — file review enforcement tool

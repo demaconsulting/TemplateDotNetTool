@@ -9,6 +9,8 @@ file-system side-effects, and exit codes. `Validation` (part of the `SelfTest` s
 executes its real logic in scenarios that exercise the `--validate` path; no mocking is applied
 at any level.
 
+The help command is verified through `HelpCommand.Create`, which writes to in-memory writers.
+
 ### Test Environment
 
 N/A - standard test environment.
@@ -21,6 +23,7 @@ N/A - standard test environment.
 - Invalid arguments produce exit code 1 and an error message.
 - Log files and results files are created at the specified paths when the corresponding flags
   are used.
+- The `help` command prints a requested topic from the built-in help cards.
 
 ### Test Scenarios
 
@@ -85,3 +88,7 @@ at the specified path and exit code is 0. This scenario is tested by
 are passed; the heading depth is set to 2 and exit code is 0, confirming the `--depth` flag is
 correctly parsed and propagated through `Context`. This scenario is tested by
 `CliSubsystem_DepthFlow_ContextAndProgram_AdjustsHeadingDepth`.
+
+**CliSubsystem_HelpCommand_TopicRequested_PrintsTopic**: Arguments `["help", "command-line"]` are
+offered to `HelpCommand.TryRun`, which answers with the command-line topic and exit code 0. This
+scenario is tested by `CliSubsystem_HelpCommand_TopicRequested_PrintsTopic`.

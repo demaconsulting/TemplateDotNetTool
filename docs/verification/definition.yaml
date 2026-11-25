@@ -15,6 +15,7 @@ input-files:
   - docs/verification/template-dot-net-tool/program.md
   - docs/verification/template-dot-net-tool/cli.md
   - docs/verification/template-dot-net-tool/cli/context.md
+  - docs/verification/template-dot-net-tool/cli/help-command.md
   - docs/verification/template-dot-net-tool/self-test.md
   - docs/verification/template-dot-net-tool/self-test/validation.md
   - docs/verification/template-dot-net-tool/utilities.md
@@ -22,6 +23,7 @@ input-files:
   - docs/verification/ots.md
   - docs/verification/ots/buildmark.md
   - docs/verification/ots/fileassert.md
+  - docs/verification/ots/help-cards.md
   - docs/verification/ots/pandoc.md
   - docs/verification/ots/reqstream.md
   - docs/verification/ots/reviewmark.md

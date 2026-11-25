@@ -17,6 +17,7 @@ This user guide covers:
 
 - Installation instructions
 - Usage examples for common tasks
+- The built-in `templatetool help` command
 - Command-line options reference
 - Practical examples for various scenarios
 
@@ -68,6 +69,23 @@ Display usage information:
 ```bash
 templatetool --help
 ```
+
+The usage information ends with a pointer to the built-in help.
+
+## Built-in Help
+
+The `help` command prints help topics that explain each task with worked examples, for people and
+for AI agents that have only the installed tool. List the topics, then print one with its examples:
+
+```bash
+templatetool help
+templatetool help getting-started
+```
+
+Add `--search <words>` to find a topic, `--example <name>` to print one example of a topic, and
+`--json` to get any help answer as JSON. `help` is a command, not an option: it must be the first
+argument, and `--silent` and `--log` do not apply to it. It exits with code 0 on success, and with
+code 2 after printing a hint for an unknown topic or a wrong help argument.
 
 ## Self-Validation
 
@@ -162,7 +180,8 @@ Error: Unsupported argument '--unknown'
 ```
 
 This behavior enables automated scripts and CI/CD pipelines to detect and surface
-misconfiguration failures automatically.
+misconfiguration failures automatically. Argument errors are found before `--silent` and `--log`
+take effect, so they are always printed and never logged.
 
 # Command-Line Options
 
