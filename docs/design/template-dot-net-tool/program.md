@@ -22,8 +22,7 @@ locally.
 
 - *Parameters*: `string[] args` — command-line arguments from the host environment.
 - *Returns*: `int` — exit code; 0 for success, 1 for expected errors; for the `help` command,
-  0 for success, 2 for a wrong help argument or an unknown topic, and 70 for a defective card
-  catalog.
+  the exit code of `HelpCommand` (see *Help Command* in the system design).
 - *Preconditions*: None.
 - *Postconditions*: Exit code reflects whether any errors were reported during execution.
 

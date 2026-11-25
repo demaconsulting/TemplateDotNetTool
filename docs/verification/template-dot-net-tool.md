@@ -30,8 +30,8 @@ combinations. Temporary files and directories are created and cleaned up within 
 - Exit code non-zero is returned for all invalid argument combinations.
 - Results files are created at the specified paths when `--results` is used with `--validate`.
 - Silent mode (`--silent`) produces empty combined output.
-- The `help` command exits with code 0 for the topic index, a topic, a search, and JSON output,
-  and with code 2 for an unknown topic.
+- The `help` command lists the topics with exit code 0, and exits with code 2 for an unknown
+  topic.
 - Every command example in the help cards gives the exit code and output that its card states.
 
 ## Test Scenarios
@@ -95,20 +95,9 @@ non-zero code and no file is created at the specified path. This scenario is tes
 `TemplateDotNetTool_ValidateWithBadExtension_ExtensionInvalid_ReturnsNonZero`.
 
 **TemplateDotNetTool_HelpTopics_HelpVerb_ListsTopics**: The `help` command is passed as the
-sole argument; the combined output lists the topics with their commands, contains no banner, and
+sole argument; the combined output lists every root topic with its command, contains no banner, and
 the tool exits with code 0. This scenario is tested by
 `TemplateDotNetTool_HelpTopics_HelpVerb_ListsTopics`.
-
-**TemplateDotNetTool_HelpTopics_CardPath_PrintsCardWithExamples**: The arguments
-`help getting-started` print the topic card with its title and examples, and
-`help getting-started --example version` prints only the command of that example; both exit
-with code 0. This scenario is tested by
-`TemplateDotNetTool_HelpTopics_CardPath_PrintsCardWithExamples`.
-
-**TemplateDotNetTool_HelpTopics_SearchAndJson_FindsCardsAndWritesJson**: The arguments
-`help --search validation` list the self-validation topic, and `help --json` writes a JSON
-document of help schema version 1; both exit with code 0. This scenario is tested by
-`TemplateDotNetTool_HelpTopics_SearchAndJson_FindsCardsAndWritesJson`.
 
 **TemplateDotNetTool_HelpTopics_UnknownTopic_ReturnsUsageError**: The arguments
 `help no-such-topic` name a topic that does not exist; the tool exits with code 2 and the

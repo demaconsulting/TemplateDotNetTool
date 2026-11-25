@@ -145,19 +145,12 @@ sections:
               - CliSubsystem_ResultAliasFlow_ContextAndProgram_WritesResultsFile
 
           - id: Template-Cli-HelpTopics
-            title: >-
-              The Cli subsystem shall answer the `help` command from built-in help cards before the
-              command-line options are parsed, and leave every other argument to the option parser.
+            title: The Cli subsystem shall answer the `help` command from built-in help cards.
             justification: |
               Users and AI agents need help topics with worked examples from the installed tool.
-              The `help` command must not change how any other argument is parsed, so the option
-              parser keeps handling every run that does not start with `help`.
             children:
               - Template-HelpCommand-HelpVerb
-              - Template-HelpCommand-Search
-              - Template-HelpCommand-DeferredCatalog
-              - Template-HelpCommand-Footer
               - Template-HelpCommand-ValidCards
+              - Template-HelpCommand-LineWidth
             tests:
-              - CliSubsystem_HelpVerb_HelpCommandAndContext_AnsweredBeforeArgumentParsing
-              - CliSubsystem_OtherArguments_HelpCommandAndContext_LeftToContext
+              - CliSubsystem_HelpCommand_TopicRequested_PrintsTopic

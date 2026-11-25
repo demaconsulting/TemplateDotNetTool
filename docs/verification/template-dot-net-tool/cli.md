@@ -9,9 +9,7 @@ file-system side-effects, and exit codes. `Validation` (part of the `SelfTest` s
 executes its real logic in scenarios that exercise the `--validate` path; no mocking is applied
 at any level.
 
-The help command is verified with `HelpCommand.Create` and `Context.Create` together: the help
-command answers an argument list that starts with `help`, which the option parser would reject,
-and leaves every other argument list to the option parser.
+The help command is verified through `HelpCommand.Create`, which writes to in-memory writers.
 
 ### Test Environment
 
@@ -25,8 +23,7 @@ N/A - standard test environment.
 - Invalid arguments produce exit code 1 and an error message.
 - Log files and results files are created at the specified paths when the corresponding flags
   are used.
-- The `help` command is answered before the options are parsed, and other arguments are left to
-  the option parser.
+- The `help` command prints a requested topic from the built-in help cards.
 
 ### Test Scenarios
 
@@ -92,13 +89,6 @@ are passed; the heading depth is set to 2 and exit code is 0, confirming the `--
 correctly parsed and propagated through `Context`. This scenario is tested by
 `CliSubsystem_DepthFlow_ContextAndProgram_AdjustsHeadingDepth`.
 
-**CliSubsystem_HelpVerb_HelpCommandAndContext_AnsweredBeforeArgumentParsing**: Arguments
-`["help", "command-line"]` are offered to `HelpCommand.TryRun`, which answers with the
-command-line topic and exit code 0, while `Context.Create` rejects the same arguments with an
-`ArgumentException`. This scenario is tested by
-`CliSubsystem_HelpVerb_HelpCommandAndContext_AnsweredBeforeArgumentParsing`.
-
-**CliSubsystem_OtherArguments_HelpCommandAndContext_LeftToContext**: Arguments `["--version"]`
-are offered to `HelpCommand.TryRun`, which does not answer and writes nothing, and
-`Context.Create` parses them and sets the version flag. This scenario is tested by
-`CliSubsystem_OtherArguments_HelpCommandAndContext_LeftToContext`.
+**CliSubsystem_HelpCommand_TopicRequested_PrintsTopic**: Arguments `["help", "command-line"]` are
+offered to `HelpCommand.TryRun`, which answers with the command-line topic and exit code 0. This
+scenario is tested by `CliSubsystem_HelpCommand_TopicRequested_PrintsTopic`.

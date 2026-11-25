@@ -81,6 +81,8 @@ public class ProgramTests
             Assert.Contains("Options:", output);
             Assert.Contains("--version", output);
             Assert.Contains("--help", output);
+            Assert.Contains($"{HelpCommand.ToolName} help [topic]", output);
+            Assert.EndsWith(HelpCommand.Default.Footer, output.TrimEnd());
             Assert.Equal(0, context.ExitCode);
         }
         finally
@@ -203,40 +205,8 @@ public class ProgramTests
             // Assert: the topic index is printed without the banner, and the exit code is success
             var output = outWriter.ToString();
             Assert.Equal(0, result);
-            Assert.Contains("templatetool help getting-started", output);
+            Assert.Contains($"{HelpCommand.ToolName} help {HelpCommand.RootCardIds[0]}", output);
             Assert.DoesNotContain("Copyright", output);
-        }
-        finally
-        {
-            Console.SetOut(originalOut);
-        }
-    }
-
-    /// <summary>
-    ///     Test that Run with help flag ends the usage information with a pointer to the help command.
-    /// </summary>
-    [Fact]
-    public void Program_Run_WithHelpFlag_PrintsHelpFooter()
-    {
-        // Arrange: capture console output
-        var originalOut = Console.Out;
-        try
-        {
-            using var outWriter = new StringWriter();
-            Console.SetOut(outWriter);
-            using var context = Context.Create(["--help"]);
-
-            // Act: print the usage information
-            Program.Run(context);
-
-            // Assert: the usage names the help command and its last line points to it
-            var lines = outWriter.ToString()
-                .Split('\n')
-                .Select(line => line.Trim())
-                .Where(line => line.Length > 0)
-                .ToList();
-            Assert.Contains("templatetool help [topic]", lines);
-            Assert.Equal("Run 'templatetool help' for topics and examples.", lines[^1]);
         }
         finally
         {

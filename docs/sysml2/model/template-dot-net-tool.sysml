@@ -4,7 +4,6 @@ package TemplateDotNetTool {
     public import TemplateDotNetTool_SelfTestSubsystem::*;
     public import TemplateDotNetTool_UtilitiesSubsystem::*;
     private import SoftwareItemMetadata::*;
-    private import OtsDependencies::*;
 
     doc
     /*
@@ -26,6 +25,5 @@ package TemplateDotNetTool {
         part cli : CliSubsystem;
         part selfTest : SelfTestSubsystem;
         part utilities : UtilitiesSubsystem;
-        part helpCards : HelpCards;
     }
 }

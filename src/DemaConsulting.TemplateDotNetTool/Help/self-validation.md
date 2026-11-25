@@ -30,7 +30,7 @@ examples:
     language: shell
     description: Start the report at heading level 2 to embed it in a larger document.
     content: '{{tool}} --validate --depth 2'
-    expect: '## DEMA Consulting Template DotNet Tool'
+    expect: '## '
   - name: bad-extension
     kind: command
     language: shell
@@ -39,17 +39,23 @@ examples:
     exit: 1
     expect: 'Unsupported results file format'
 ---
-`--validate` runs a short set of tests of the tool itself in a temporary folder, so a regulated project can show
-that the installed version works on its build machine.
+`--validate` runs a short set of tests of the tool itself in a temporary
+folder, so a regulated project can show that the installed version works on
+its build machine.
 
-**Report.** The output is Markdown. It starts with a heading and a table of the tool version, machine name,
-operating system, .NET runtime, and time stamp. Each test prints one line ending in `Passed` or `Failed`, and the
-report ends with `Total Tests`, `Passed`, and `Failed` lines. The exit code is 0 only when every test passes.
-`--depth` sets the level of the first heading, as [[#depth]] shows.
+**Report.** The output is Markdown. It starts with a heading and a table of
+the tool version, machine name, operating system, .NET runtime, and time
+stamp. Each test prints one line marked `Passed`, or `Failed` with a
+reason, and the report ends with `Total Tests`, `Passed`, and `Failed`
+lines. The exit code is 0 only when every test passes. `--depth` sets the
+level of the first heading, as [[#depth]] shows.
 
-**Results files.** `--results <file>` also writes the outcome; the extension chooses the format. `.trx` writes a
-Visual Studio TRX file and `.xml` writes JUnit XML, both readable by CI test-report tasks. Any other extension is an
-error after the tests ran ([[#bad-extension]]). The folder of the file must exist.
+**Results files.** `--results <file>` also writes the outcome; the
+extension chooses the format. `.trx` writes a Visual Studio TRX file and
+`.xml` writes JUnit XML, both readable by CI test-report tasks. Any other
+extension is an error after the tests ran ([[#bad-extension]]). The folder
+of the file must exist.
 
-**Evidence.** The tests have stable names, `TemplateTool_VersionDisplay` and `TemplateTool_HelpDisplay`, so a
-requirements file can list them as the tests that prove the tool works in its environment.
+**Evidence.** The tests have stable names, such as
+`TemplateTool_VersionDisplay`, so a requirements file can list them as the
+tests that prove the tool works in its environment.

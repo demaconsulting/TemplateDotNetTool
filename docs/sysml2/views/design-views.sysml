@@ -25,4 +25,9 @@ package TemplateDotNetToolDesignViews {
     view UtilitiesView {
         expose UtilitiesSubsystem;
     }
+
+    view OtsView : GeneralView {
+        expose OtsDependencies::*;
+        filter not (@SysML::Documentation);
+    }
 }

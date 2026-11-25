@@ -1,8 +1,9 @@
 package TemplateDotNetTool_HelpCommand {
     private import SoftwareItemMetadata::*;
+    private import OtsDependencies::*;
 
     part def HelpCommand {
-        doc /* Built-in help command: answers the help verb from embedded help cards before option parsing. */
+        doc /* Built-in help command: answers the help verb from the help cards embedded in the assembly. */
 
         metadata info : SoftwareInfo {
             sourceFiles = ("src/DemaConsulting.TemplateDotNetTool/Cli/HelpCommand.cs");
@@ -12,4 +13,7 @@ package TemplateDotNetTool_HelpCommand {
             requirementFiles = ("docs/reqstream/template-dot-net-tool/cli/help-command.yaml");
         }
     }
+
+    // Serves the help command from the cards embedded in the assembly
+    dependency HelpCommand to HelpCards;
 }

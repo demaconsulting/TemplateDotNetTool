@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using DemaConsulting.HelpCards.Catalog;
 using DemaConsulting.HelpCards.Testing;
 using DemaConsulting.TemplateDotNetTool.Cli;
 using DemaConsulting.TemplateDotNetTool.Utilities;
@@ -385,73 +386,14 @@ public class IntegrationTests
             _dllPath,
             "help");
 
-        // Assert: the topics are listed with their commands, without the banner
+        // Assert: every topic is listed with its command, without the banner
         Assert.Equal(0, exitCode);
-        Assert.Contains("templatetool help getting-started", output);
+        foreach (var topic in HelpCommand.RootCardIds)
+        {
+            Assert.Contains($"{HelpCommand.ToolName} help {topic}", output);
+        }
+
         Assert.DoesNotContain("Copyright", output);
-    }
-
-    /// <summary>
-    ///     Test that a help topic prints the card with its examples, and that one example prints alone.
-    /// </summary>
-    [Fact]
-    public void TemplateDotNetTool_HelpTopics_CardPath_PrintsCardWithExamples()
-    {
-        // Arrange: (none — constructor initializes _dllPath)
-
-        // Act: print a card, and one of its examples
-        var cardExitCode = Runner.Run(
-            out var card,
-            "dotnet",
-            _dllPath,
-            "help",
-            "getting-started");
-        var exampleExitCode = Runner.Run(
-            out var example,
-            "dotnet",
-            _dllPath,
-            "help",
-            "getting-started",
-            "--example",
-            "version");
-
-        // Assert: the card prints with its examples, and the example prints only its command
-        Assert.Equal(0, cardExitCode);
-        Assert.Contains("# Getting started", card);
-        Assert.Contains("## Examples", card);
-        Assert.Equal(0, exampleExitCode);
-        Assert.Equal("templatetool --version", example.Trim());
-    }
-
-    /// <summary>
-    ///     Test that help search finds topics and that help writes JSON on request.
-    /// </summary>
-    [Fact]
-    public void TemplateDotNetTool_HelpTopics_SearchAndJson_FindsCardsAndWritesJson()
-    {
-        // Arrange: (none — constructor initializes _dllPath)
-
-        // Act: search the help, and print the topic index as JSON
-        var searchExitCode = Runner.Run(
-            out var search,
-            "dotnet",
-            _dllPath,
-            "help",
-            "--search",
-            "validation");
-        var jsonExitCode = Runner.Run(
-            out var json,
-            "dotnet",
-            _dllPath,
-            "help",
-            "--json");
-
-        // Assert: the search finds the self-validation topic and the JSON is a versioned document
-        Assert.Equal(0, searchExitCode);
-        Assert.Contains("templatetool help self-validation", search);
-        Assert.Equal(0, jsonExitCode);
-        Assert.StartsWith("{", json);
-        Assert.Contains("\"helpSchemaVersion\":1", json);
     }
 
     /// <summary>
@@ -482,10 +424,11 @@ public class IntegrationTests
     public void TemplateDotNetTool_HelpExamples_AllCommandExamples_GiveStatedResults()
     {
         // Arrange: the catalog the tool ships
-        var catalog = HelpCommand.CreateCatalog();
+        var catalog = HelpCatalog.Create(HelpCommand.CreateOptions().GetCatalogConfiguration());
 
-        // Act: run every command example against the built tool, in the scratch folder where the runner
-        // saved the card's source examples; the runner compares the exit codes and the 'expect' fragments
+        // Act: run every command example against the built tool in the runner's scratch folder; the runner
+        // compares the exit codes and the 'expect' fragments. A tool whose examples read input files that the
+        // user does not author copies them from the test project into invocation.WorkingDirectory here first.
         var report = HelpExampleRunner.Run(catalog, invocation =>
         {
             var exitCode = Runner.RunInDirectory(

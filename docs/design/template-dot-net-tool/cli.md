@@ -58,19 +58,17 @@ contains two units: `Context` and `HelpCommand`.
 
 - *Type*: In-process .NET instance method (on the shared `HelpCommand.Default` instance).
 - *Role*: Provider.
-- *Contract*: Returns `false` at once, writing nothing, when the first argument is not `help`
-  (compared without regard to case). Otherwise builds the card catalog, writes the topic index,
-  a topic card, an example, search results, or JSON to the console, returns `true`, and sets
-  the exit code: 0 for success, 2 for a wrong help argument or an unknown topic, 70 for a
-  defective card catalog.
+- *Contract*: Returns `false`, writing nothing, when the first argument is not `help`. Otherwise
+  writes the answer to the console, returns `true`, and sets the exit code (see *Help Command* in
+  the system design).
 - *Constraints*: Does not throw for user input; does not use `Context`.
 
 **HelpCommand.Footer**: The sentence that points a reader of the usage text to the help command.
 
 - *Type*: In-process .NET property.
 - *Role*: Provider.
-- *Contract*: Returns `Run 'templatetool help' for topics and examples.`
-- *Constraints*: Constant; reading it never builds the help catalog.
+- *Contract*: Returns the one-line pointer that HelpCards supplies.
+- *Constraints*: Reading it never builds the help catalog.
 
 ### Design
 
@@ -81,8 +79,7 @@ with its exit code and no `Context` is created. Otherwise `Program` creates a `C
 passes it to all other units that produce output.
 
 `HelpCommand` writes its answers to the console itself. It is the one exception to `Context`
-owning all output: the `help` command is answered before the options are parsed, so no
-`Context` exists yet, and `--silent` and `--log` do not apply to it.
+owning all output, because the `help` command is answered before a `Context` exists.
 
 The subsystem has no dependencies on other tool subsystems. `Context` uses only .NET BCL types
 (`Console`, `StreamWriter`); `HelpCommand` uses the HelpCards OTS library and reads the

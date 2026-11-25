@@ -28,8 +28,9 @@ appear, the banner prefix does not appear, and exit code is 0, confirming versio
 with no banner. This scenario is tested by `Program_Run_WithVersionFlag_DisplaysVersionOnly`.
 
 **Program_Run_WithHelpFlag_DisplaysUsageInformation**: `Program.Run` is called with a context
-from `["--help"]`; the output contains "Usage:", "Options:", "--version", and "--help" and exit
-code is 0. This scenario is tested by `Program_Run_WithHelpFlag_DisplaysUsageInformation`.
+from `["--help"]`; the output contains "Usage:", "Options:", "--version", "--help", and the
+`help [topic]` usage line, ends with the pointer to the help command, and exit code is 0. This
+scenario is tested by `Program_Run_WithHelpFlag_DisplaysUsageInformation`.
 
 **Program_Run_WithValidateFlag_RunsValidation**: `Program.Run` is called with a context from
 `["--validate"]`; the output contains "Total Tests:" and exit code is 0, confirming the
@@ -65,7 +66,3 @@ tested by `Program_Run_WithQuestionMarkFlag_DisplaysUsage`.
 is not an option; the captured console output contains the help topic index and no banner, and
 the exit code is 0, confirming the help command is answered before the options are parsed. This
 scenario is tested by `Program_Main_WithHelpVerb_PrintsHelpIndex`.
-
-**Program_Run_WithHelpFlag_PrintsHelpFooter**: `Program.Run` is called with a context from
-`["--help"]`; the usage lists `templatetool help [topic]` and its last line is the pointer to the
-help command. This scenario is tested by `Program_Run_WithHelpFlag_PrintsHelpFooter`.

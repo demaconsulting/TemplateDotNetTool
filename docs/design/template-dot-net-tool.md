@@ -44,18 +44,20 @@ and uses `PathHelpers` to construct safe temporary file paths.
   arguments `-v`/`--version`, `-?`/`-h`/`--help`, `--silent`, `--validate`,
   `--results <file>`, `--result <file>` (legacy alias for `--results`), `--depth <n>`, and
   `--log <file>`. Returns exit code 0 for success and 1 for failures.
-- *Constraints*: Unknown arguments cause exit code 1 and an error message on stderr.
+- *Constraints*: Unknown arguments cause exit code 1 and an error message on stderr. Argument
+  errors are found before `--silent` and `--log` take effect, so they are always printed and never
+  logged.
 
 **Help Command**: Built-in help, answered from help cards embedded in the tool assembly.
 
 - *Type*: CLI.
 - *Role*: Provider.
-- *Contract*: `templatetool help` prints the topic index; `templatetool help <topic>` prints a
-  topic card with its examples; `--example <name>`, `--search <words>`, and `--json` print one
-  example, matching topics, or any answer as a versioned JSON document. Returns exit code 0 for
-  success, 2 for a wrong help argument or an unknown topic, and 70 for a defective card catalog.
-- *Constraints*: Answered before the options are parsed, so `--silent` and `--log` do not apply
-  and no banner is printed. The cards are read from the assembly; no file access is needed.
+- *Contract*: `templatetool help` prints the topic index and `templatetool help <topic>` prints a
+  topic card with its examples; HelpCards adds `--example`, `--search`, and `--json`. Returns exit
+  code 0 for success, 2 for a wrong help argument or an unknown topic, and 70 for a defective card
+  catalog.
+- *Constraints*: `help` must be the first argument. It is answered before the options are parsed,
+  so `--silent` and `--log` do not apply and no banner is printed.
 
 **Standard Output**: Normal program output written to `Console.Out`.
 
@@ -63,8 +65,7 @@ and uses `PathHelpers` to construct safe temporary file paths.
 - *Role*: Provider.
 - *Contract*: Writes version, banner, help text, validation summary, or demo message depending
   on the flags provided. Suppressed when `--silent` is active; the log file still receives all
-  output. Answers of the `help` command are written directly and are not affected by
-  `--silent` or `--log`.
+  output.
 - *Constraints*: Human-readable text; no machine-parseable format contract.
 
 **Standard Error**: Error message output written to `Console.Error`.
