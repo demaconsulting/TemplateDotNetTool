@@ -206,22 +206,66 @@ assembly. `Cli/HelpCommand.cs` is the only code that uses the package.
 - **One file per topic.** The path below `Help/`, without `.md`, is the card id. `_source.md` names the source
   (`name:`) and sets `schema: 2`.
 - **Front matter.** Every card has a `title`, a `summary` (at most 80 characters for a topic, 100 otherwise), and
-  a purpose tag from `HelpCommand.PurposeTags` (`tutorial`, `reference`, or `troubleshooting`), the only tags
-  allowed.
-- **New topics.** Add the id of every new top-level card to `HelpCommand.RootCardIds`; a missing or extra topic
-  fails the tests.
-- **Examples.** Give every task a runnable `command` example. Quote the content (`content: '{{tool}} --validate'`),
-  and state the result when it matters with `exit:` (default 0) and `expect:` (a quoted output fragment). One
-  command per example: no pipes, redirection, or `&&`.
-- **Sample files.** Show complete files only for formats that users author. Describe formats that the tool
-  produces (TRX, JUnit) in prose. Keep test data in the test project, not in the cards.
+  exactly one purpose tag: `tutorial`, `reference`, or `troubleshooting`.
+- **New topics.** Add the id of every new top-level card to `HelpCommand.RootCardIds`, the one list of topics; a
+  missing or extra topic fails the tests.
+- **Examples.** Give every task a runnable `command` example, one command per example: no pipes, redirection, or
+  `&&`. Wrap `content` in single quotes and use double quotes inside the command, which bash, PowerShell, and cmd
+  read alike. State the result when it matters with `exit:` (default 0) and `expect:`, a short fragment that must
+  appear somewhere in the console output; `expect` cannot check a file that the command writes. Keep each
+  `description` to about 50 characters.
+- **Input files.** Show complete files only for formats that users author, and describe formats that the tool
+  produces (TRX, JUnit) in prose. When an example reads a file that users do not author (for example a SARIF file
+  from an analyzer), keep it in the test project under `TestData/HelpExamples/`, copy it to the test output, and
+  copy it into `invocation.WorkingDirectory` in the example-runner test before running the tool.
+- **Width.** A printed card may not be wider than 120 characters. Links print as full commands (`[[#name]]` as
+  about 50 characters) and `{{version}}` of a development build as about 46, so keep body lines near 75 characters
+  with at most one link each.
 - **Text.** Cards are linted and spell-checked like any Markdown file: no body line starting with `#`, no wide
   tables, and every fenced block names its language.
 
-Run `pwsh ./build.ps1 -Changed` after changing a card. `HelpCommand_CreateOptions_ShippedCatalog_PassesValidation`
-validates the cards with warnings treated as errors, and
-`TemplateDotNetTool_HelpExamples_AllCommandExamples_GiveStatedResults` runs every command example against the
-built tool and compares the result with the card.
+Run `pwsh ./build.ps1 -Changed` after changing a card. The `HelpCommand` unit tests validate every card, with
+warnings treated as errors, and check its printed width; an integration test runs every command example against
+the built tool and compares the result with the card.
+
+### Adding Built-in Help to an Existing Tool
+
+> **Template only.** This checklist is for retrofitting DEMA Consulting tools from this template; do not copy it
+> into a tool's own `CONTRIBUTING.md`. Copy the *Help Cards* section above instead.
+
+1. **Copy verbatim**, renaming only the system, tool, and id prefixes:
+   - `Cli/HelpCommand.cs`, `Cli/HelpCommandTests.cs`, and `Runner.RunInDirectory`;
+   - the help tests in `ProgramTests.cs`, `CliSubsystemTests.cs`, and `IntegrationTests.cs`;
+   - `ots/help-cards.*` under `docs/reqstream`, `docs/design`, and `docs/verification`, and the `HelpCards` part
+     def in `docs/sysml2/model/ots.sysml`;
+   - `cli/help-command.*` under the same three folders and `docs/sysml2/model`.
+2. **Adapt**:
+   - `HelpCommand.ToolName` (the one place the command name appears in the help code), `RootCardIds`, and the
+     cards: write the tool's own, keeping the starter cards' structure. Check every `expect` value against the
+     tool's output.
+   - `Program.Main` (the `TryRun` call before `Context.Create`) and `Program.PrintHelp` (the `help [topic]` usage
+     line and the footer).
+   - The `DemaConsulting.HelpCards` package reference, the `src/**/Help/**` pattern in `needs-review`, and the
+     `TemplateTool-Cli-HelpCommand` and `OTS-HelpCards` review sets.
+   - The help requirements of the system, Cli, and Program; the *Help Command* interface of the system design,
+     which is the one statement of the exit codes and of `--silent`/`--log` not applying; the Cli and Program
+     design and verification docs; and the file lists in `requirements.yaml`, `definition.yaml`, `introduction.md`,
+     and `ots.md`.
+   - The README usage block and any `--help` output it shows, and the user guide: put *Built-in Help* right after
+     `--help`, in the file that describes the command line in a multi-file guide.
+3. **Change together**: each requirement id with every `children` link to it; each test name with its
+   requirement, its verification scenario, and the test; the review-set ids; and the tool name in `ToolName` and
+   `_source.md` (cards use the `{{tool}}` token).
+4. **Commit the review sets with the code.** ReviewMark fails a commit that adds source files no review set covers.
+   The build, lint, and fix scripts need no change.
+5. **Classify HelpCards as OTS**, like the other DEMA Consulting tools that this template uses (BuildMark,
+   ReqStream, and others): another repository produces it and the tool does not change it.
+6. **Existing `ots.sysml`**: add the `HelpCards` part def to its package, with the repository's naming suffix if it
+   uses one (for example `HelpCardsPackage`), and follow the repository's way of referencing OTS items. This
+   template declares `dependency HelpCommand to HelpCards;` and draws OTS items in `OtsView`, not in the overview.
+7. **Flat namespace**: when the tool has no `Cli` namespace, put `HelpCommand.cs` beside `Context.cs`, drop `.Cli`
+   from the namespaces, and place its requirement, design, verification, and SysML files beside those of
+   `Context`.
 
 ## Quality Checks
 

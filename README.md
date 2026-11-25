@@ -90,29 +90,6 @@ templatetool --silent --log output.log
 | `--depth <#>` | Set heading depth for markdown output (default: 1) |
 | `--log <file>` | Write output to log file |
 
-## Built-in Help
-
-`--help` prints a short usage text that ends with a pointer to the built-in help. The `help` command
-explains each task in a topic with worked examples, for people and for AI agents that have only the
-installed tool:
-
-| Command | Description |
-| --- | --- |
-| `templatetool help` | List the help topics |
-| `templatetool help <topic>` | Print a topic with its examples |
-| `templatetool help <topic> --example <name>` | Print one example |
-| `templatetool help --search <words>` | Find the topics that match the words |
-| `templatetool help --json` | Print any help answer as JSON (add it to the other commands) |
-
-The topics are `getting-started`, `command-line`, and `self-validation`. `help` must be the first
-argument; `--silent` and `--log` do not apply to it. The command exits with code 0, or 2 for an
-unknown topic or a wrong help argument.
-
-For projects created from this template: the help cards are Markdown files in
-`src/DemaConsulting.TemplateDotNetTool/Help/`, embedded in the tool by DemaConsulting.HelpCards. Replace
-them with cards for your tool. `HelpCommandTests` validates the cards, and `IntegrationTests` runs every
-command example against the built tool; see [CONTRIBUTING.md][link-contributing-help] for how to add a card.
-
 ## Error Handling
 
 Unrecognized arguments cause the tool to print an error message to standard error and exit
@@ -210,4 +187,3 @@ By contributing to this project, you agree that your contributions will be licen
 [link-guide]: https://github.com/demaconsulting/TemplateDotNetTool/blob/main/docs/user_guide/introduction.md
 [link-continuous-compliance]: https://github.com/demaconsulting/ContinuousCompliance
 [link-helpcards]: https://www.nuget.org/packages/DemaConsulting.HelpCards
-[link-contributing-help]: https://github.com/demaconsulting/TemplateDotNetTool/blob/main/CONTRIBUTING.md#help-cards

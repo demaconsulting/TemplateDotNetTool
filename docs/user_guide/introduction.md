@@ -70,41 +70,22 @@ Display usage information:
 templatetool --help
 ```
 
-The usage information ends with `Run 'templatetool help' for topics and examples.`, which points to the
-built-in help.
+The usage information ends with a pointer to the built-in help.
 
 ## Built-in Help
 
-The `help` command prints help topics that explain each task with worked examples. It is meant for
-people and for AI agents that have only the installed tool. List the topics:
+The `help` command prints help topics that explain each task with worked examples, for people and
+for AI agents that have only the installed tool. List the topics, then print one with its examples:
 
 ```bash
 templatetool help
-```
-
-Print one topic, with its examples, or only one example of a topic:
-
-```bash
 templatetool help getting-started
-templatetool help self-validation --example trx
 ```
 
-The topics are:
-
-- **`getting-started`** - install the tool, check that it works, and find the other topics
-- **`command-line`** - every option, and the order in which a run handles them
-- **`self-validation`** - prove that the installed tool works, and save the evidence as test results
-
-Find the topics that match some words, or get any help answer as JSON by adding `--json`:
-
-```bash
-templatetool help --search validation
-templatetool help command-line --json
-```
-
-`help` is a command, not an option: it must be the first argument, and `--silent` and `--log` do not
-apply to it. The command exits with code 0 on success, and with code 2 for an unknown topic or a wrong
-help argument, after printing a hint.
+Add `--search <words>` to find a topic, `--example <name>` to print one example of a topic, and
+`--json` to get any help answer as JSON. `help` is a command, not an option: it must be the first
+argument, and `--silent` and `--log` do not apply to it. It exits with code 0 on success, and with
+code 2 after printing a hint for an unknown topic or a wrong help argument.
 
 ## Self-Validation
 
@@ -199,7 +180,8 @@ Error: Unsupported argument '--unknown'
 ```
 
 This behavior enables automated scripts and CI/CD pipelines to detect and surface
-misconfiguration failures automatically.
+misconfiguration failures automatically. Argument errors are found before `--silent` and `--log`
+take effect, so they are always printed and never logged.
 
 # Command-Line Options
 
@@ -214,8 +196,6 @@ The following command-line options are supported:
 | `--results <file>`, `--result <file>` | Write validation results to file (TRX or JUnit format) |
 | `--depth <#>` | Set heading depth for markdown output (default: 1) |
 | `--log <file>` | Write output to log file |
-
-The `help` command is not an option; see Built-in Help above.
 
 # Examples
 
@@ -235,12 +215,6 @@ templatetool --validate --results validation-results.trx
 
 ```bash
 templatetool --silent --log tool-output.log
-```
-
-## Example 4: Built-in Help
-
-```bash
-templatetool help getting-started
 ```
 
 ## References
