@@ -31,5 +31,6 @@ every command example parses as a command line of the tool. This scenario is tes
 `HelpCommand_CreateOptions_ShippedCatalog_PassesValidation`.
 
 **HelpCommand_TryRun_EveryCard_FitsMaximumLineWidth**: Every card of the shipped catalog is
-printed with its links and tokens expanded; each exits with code 0 and has no line longer than
-120 characters. This scenario is tested by `HelpCommand_TryRun_EveryCard_FitsMaximumLineWidth`.
+printed with its links and tokens expanded and a fixed, long prerelease version in place of the
+build's version; each exits with code 0 and has no line longer than 120 characters. This scenario
+is tested by `HelpCommand_TryRun_EveryCard_FitsMaximumLineWidth`.

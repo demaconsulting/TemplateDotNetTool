@@ -30,8 +30,8 @@ examples:
     content: '{{tool}} help command-line'
     expect: '--validate'
 ---
-{{tool}} {{version}} is a .NET tool. It reads and writes only the files
-that options name, apart from a temporary folder that `--validate` uses.
+{{tool}} {{version}} is a .NET tool.
+It reads and writes only the files that options name, apart from a temporary folder that `--validate` uses.
 
 1. **Install it.** Install the tool from NuGet, globally or in a local tool
    manifest:
