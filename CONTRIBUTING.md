@@ -214,7 +214,7 @@ assembly. `Cli/HelpCommand.cs` is the only code that uses the package.
   `&&`. Wrap `content` in single quotes and use double quotes inside the command, which bash, PowerShell, and cmd
   read alike. State the result when it matters with `exit:` (default 0) and `expect:`, a short fragment that must
   appear somewhere in the console output; `expect` cannot check a file that the command writes. Keep each
-  `description` to about 50 characters.
+  `description` to one short line.
 - **Getting started.** Say how to install the tool for CI: the .NET version it needs (from `TargetFrameworks`), a
   local tool manifest, and the global install as the alternative. The CI example must be a complete GitHub Actions
   steps snippet (`language: yaml`) with `actions/setup-dotnet` for that .NET version, `dotnet tool restore`, and a
@@ -222,11 +222,15 @@ assembly. `Cli/HelpCommand.cs` is the only code that uses the package.
   examples as `snippet` examples so that the example runner does not run them.
 - **Input files.** Show complete files only for formats that users author, and describe formats that the tool
   produces (TRX, JUnit) in prose. When an example reads a file that users do not author (for example a SARIF file
-  from an analyzer), keep it in the test project under `TestData/HelpExamples/`, copy it to the test output, and
-  copy it into `invocation.WorkingDirectory` in the example-runner test before running the tool.
+  from an analyzer), keep it in the test project under `TestData/HelpExamples/`, copy it to the test output with
+  `<None Update=…>` (not a second `Include`), and copy it into `invocation.WorkingDirectory` in the example-runner
+  test before running the tool. `save-as` cannot write dotfiles or `.md` names (HelpCards 0.1.0-beta.3): stage
+  such files from `TestData` or use `.markdown`. Check that `.gitignore` does not hide staged files. Generate binary
+  inputs in the test or link them from `src`. Examples that need a network, a server, or credentials are
+  `kind: snippet` with `save-as`.
 - **Width.** A printed card may not be wider than 120 characters. Links print as full commands (`[[#name]]` as
   about 50 characters) and `{{version}}` of a development build as about 46, so keep body lines near 75 characters
-  with at most one link each.
+  with at most one link each, and avoid one-word wrapped lines.
 - **Text.** Cards are linted and spell-checked like any Markdown file: no body line starting with `#`, no wide
   tables, and every fenced block names its language.
 
@@ -240,8 +244,10 @@ the built tool and compares the result with the card.
 > into a tool's own `CONTRIBUTING.md`. Copy the *Help Cards* section above instead.
 
 1. **Copy verbatim**, renaming only the system, tool, and id prefixes:
-   - `Cli/HelpCommand.cs`, `Cli/HelpCommandTests.cs`, and `Runner.RunInDirectory`;
-   - the help tests in `ProgramTests.cs`, `CliSubsystemTests.cs`, and `IntegrationTests.cs`;
+   - `Cli/HelpCommand.cs` and `Cli/HelpCommandTests.cs`;
+   - the help tests of `ProgramTests.cs`, `CliSubsystemTests.cs`, and `IntegrationTests.cs`, into the repository's
+     existing program, subsystem, and integration test files, whatever their names; run the tool in a folder with
+     the repository's runner if it takes a working directory, and add `Runner.RunInDirectory` only if none does;
    - `ots/help-cards.*` under `docs/reqstream`, `docs/design`, and `docs/verification`, and the `HelpCards` part
      def in `docs/sysml2/model/ots.sysml`;
    - `cli/help-command.*` under the same three folders and `docs/sysml2/model`.
@@ -252,7 +258,8 @@ the built tool and compares the result with the card.
      global install, and the complete GitHub Actions `ci-steps` snippet with `actions/setup-dotnet`,
      `dotnet tool restore`, and a run step), with the tool's package id, command name, and main command.
    - `Program.Main` (the `TryRun` call before `Context.Create`) and `Program.PrintHelp` (the `help [topic]` usage
-     line and the footer).
+     line and the footer). If `Main` is `private`, make it `internal` so the tests can call it, and leave a `public`
+     one as it is; first check for tests that find it by reflection.
    - The `DemaConsulting.HelpCards` package reference, the `src/**/Help/**` pattern in `needs-review`, and the
      `TemplateTool-Cli-HelpCommand` and `OTS-HelpCards` review sets.
    - The help requirements of the system, Cli, and Program; the *Help Command* interface of the system design,
@@ -260,20 +267,18 @@ the built tool and compares the result with the card.
      Cli and Program design and verification docs; and the file lists in `requirements.yaml`, `definition.yaml`,
      `introduction.md`, and `ots.md`.
    - The README usage block and any `--help` output it shows, and the user guide: put *Built-in Help* right after
-     `--help`, in the file that describes the command line in a multi-file guide. The user guide keeps its own
-     exit-code table, and the rest of its help text refers to that table.
+     `--help`, in the file that describes the command line in a multi-file guide. If the guide has an exit-code
+     table, add code 2 to it; otherwise state the help exit codes in *Built-in Help* and add no table.
 3. **Change together**: each requirement id with every `children` link to it; each test name with its
    requirement, its verification scenario, and the test; the review-set ids; and the tool name in `ToolName` and
-   `_source.md` (cards use the `{{tool}}` token).
+   `_source.md` (cards use the `{{tool}}` token). Requirement ids, test-name prefixes, scenario names, and OTS
+   file names follow the repository's conventions; the template's names are placeholders.
 4. **Commit the review sets with the code.** ReviewMark fails a commit that adds source files no review set covers.
    The build, lint, and fix scripts need no change.
-5. **Classify HelpCards as OTS**, like the other DEMA Consulting tools that this template uses (BuildMark,
-   ReqStream, and others): another repository produces it and the tool does not change it.
-6. **Existing `ots.sysml`**: add the `HelpCards` part def to its package, with the repository's naming suffix if it
-   uses one (for example `HelpCardsPackage`), and declare `dependency HelpCommand to HelpCards;`. Follow the
-   repository's convention for drawing OTS items: if its overview view already draws runtime OTS packages, add a
-   `HelpCards` part there too; otherwise expose them in an `OtsView`, as this template does.
-7. **Flat namespace**: when the tool has no `Cli` namespace, put `HelpCommand.cs` beside `Context.cs`, drop `.Cli`
+5. **Model HelpCards as runtime OTS**: a `part def` in `docs/sysml2/model/ots.sysml` (package `OtsDependencies`;
+   create the file if absent), a `part` of the system `part def`, and in the unit
+   `dependency HelpCommand to OtsDependencies::HelpCards;`. Add no `OtsView`.
+6. **Flat namespace**: when the tool has no `Cli` namespace, put `HelpCommand.cs` beside `Context.cs`, drop `.Cli`
    from the namespaces, and place its requirement, design, verification, and SysML files beside those of
    `Context`.
 
