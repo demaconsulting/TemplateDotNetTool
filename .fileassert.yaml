@@ -177,7 +177,7 @@ tests:
         xml:
           - query: "//*[local-name()='svg']"
             count: 1
-      - pattern: "docs/design/generated/OtsView.svg"
+      - pattern: "docs/design/generated/ToolchainView.svg"
         count: 1
         min-size: 100
         xml:

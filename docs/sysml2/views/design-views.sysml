@@ -26,8 +26,8 @@ package TemplateDotNetToolDesignViews {
         expose UtilitiesSubsystem;
     }
 
-    view OtsView : GeneralView {
-        expose OtsDependencies::*;
-        filter not (@SysML::Documentation);
+    // InterconnectionView wraps the tools in rows; a GeneralView draws them in one wide row
+    view ToolchainView : InterconnectionView {
+        expose OtsTools::Toolchain;
     }
 }

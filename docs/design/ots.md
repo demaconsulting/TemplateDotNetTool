@@ -1,23 +1,30 @@
 # OTS Software Integration Design
 
-![OTS Items](OtsView.svg)
-
 This document provides the integration and usage design for all Off-The-Shelf (OTS) software
 items used by the Template DotNet Tool.
 
 ## Scope
 
-OTS items are third-party tools and libraries consumed by the project. This document covers the
+OTS items are third-party libraries and tools consumed by the project. This document covers the
 integration pattern and usage design for each item. The internal design of OTS items is out of
 scope; only how this project integrates and uses each item is documented.
 
-## OTS Items
+## Runtime OTS Items
 
-The following OTS items have integration design documentation:
+Runtime OTS items are linked into the tool and ship with it. They are parts of the system in
+`docs/sysml2/model/ots.sysml`, and each unit that uses one declares a dependency on it:
+
+- HelpCards (*help-cards.md*) — built-in help library, used by `HelpCommand`
+
+## OTS Tools
+
+OTS tools build, test, and document the tool but never ship. They are parts of the `Toolchain` in
+`docs/sysml2/model/tools.sysml`, and their design documents are in `ots/tools/`:
+
+![OTS Tools](ToolchainView.svg)
 
 - BuildMark (*buildmark.md*) — build-notes documentation tool
 - FileAssert (*fileassert.md*) — document assertion tool
-- HelpCards (*help-cards.md*) — built-in help library (runtime)
 - Pandoc (*pandoc.md*) — Markdown-to-HTML conversion tool
 - ReqStream (*reqstream.md*) — requirements traceability tool
 - ReviewMark (*reviewmark.md*) — file review enforcement tool

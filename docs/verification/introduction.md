@@ -73,6 +73,7 @@ OTS items have parallel artifacts in:
 
 - Requirements: `docs/reqstream/ots/{ots-name}.yaml` (kebab-case)
 - Verification: `docs/verification/ots/{ots-name}.md` (kebab-case)
+- OTS tools use the same paths under an `ots/tools/` subfolder
 
 Review-sets: defined in `.reviewmark.yaml`
 
