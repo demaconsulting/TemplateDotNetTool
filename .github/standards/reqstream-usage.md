@@ -31,7 +31,8 @@ docs/reqstream/
 │   │   └── {unit-name}.yaml         # Unit requirements
 │   └── {unit-name}.yaml             # System-level unit requirements
 ├── ots/                             # OTS items appear as a distinct section in reports
-│   └── {ots-name}.yaml              # Requirements for OTS components
+│   ├── {ots-name}.yaml              # Requirements for runtime OTS components
+│   └── tools/{tool-name}.yaml       # Requirements for OTS tools
 └── shared/                          # Shared Packages appear as a distinct section in reports
     └── {package-name}.yaml          # Requirements for Shared Package dependencies
 ```

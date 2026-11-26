@@ -61,8 +61,10 @@ These are non-obvious v3 behaviors that differ from v2 or common assumptions:
   in v3, not `Task` - using `Task` compiles but does not satisfy the v3 interface
 - **`Assert.Multiple`**: Use to collect all assertion failures in a single test
   rather than stopping at the first
-- **`[Collection]` without `[CollectionDefinition]`**: Silently disables parallelism
-  without providing any shared fixture - always pair them or remove `[Collection]`
+- **`[Collection]`**: Without `[CollectionDefinition]` it silently disables parallelism with no shared
+  fixture - always pair them. Tests that replace `Console.Out`/`Console.Error`, set `Environment.ExitCode`,
+  or change the current directory or environment variables race each other - put every such class in one
+  collection declared once with `[CollectionDefinition("<name>", DisableParallelization = true)]`
 
 # Quality Checks
 

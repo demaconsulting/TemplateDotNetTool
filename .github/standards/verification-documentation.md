@@ -22,7 +22,8 @@ docs/verification/
 │   └── {unit-name}.md           # heading depth ##
 ├── ots.md                       # heading depth # (if OTS items exist)
 ├── ots/
-│   └── {ots-name}.md            # heading depth ##
+│   ├── {ots-name}.md            # heading depth ##
+│   └── tools/{tool-name}.md     # heading depth ## (OTS tools)
 ├── shared.md                    # heading depth # (if Shared Packages exist)
 └── shared/
     └── {package-name}.md        # heading depth ##
@@ -71,8 +72,9 @@ Place `{unit-name}.md` in the **parent** folder:
 
 Create `docs/verification/ots.md` (`#` heading) covering the overall OTS verification strategy.
 
-For each OTS item, create `docs/verification/ots/{ots-name}.md` (`##` heading) covering:
-verification approach (self-validation, integration tests, vendor evidence).
+For each OTS item, create `docs/verification/ots/{ots-name}.md` (OTS tools: `ots/tools/{tool-name}.md`)
+(`##` heading) covering: verification approach (integration tests, vendor evidence, or for OTS tools the
+CI self-validation evidence).
 
 # Shared Package Verification Evidence (when Shared Packages exist)
 

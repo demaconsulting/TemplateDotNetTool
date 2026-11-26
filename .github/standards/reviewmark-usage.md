@@ -221,11 +221,11 @@ placeholders are always PascalCase (e.g., `{SystemName}`).
 - **Purpose**: Proves that the OTS item provides the required functionality and is correctly integrated
 - **Title**: "Review that {OtsName} Provides Required Functionality"
 - **Scope**: No local source code; review covers integration design, requirements, and verification evidence
-- **File Path Patterns**:
+- **File Path Patterns** (OTS tools use `ots/tools/{tool-name}` paths):
   - OTS requirements: `docs/reqstream/ots/{ots-name}.yaml`
   - OTS integration design: `docs/design/ots/{ots-name}.md`
   - OTS verification: `docs/verification/ots/{ots-name}.md`
-  - Tests (if applicable): `test/OtsSoftwareTests/...` (C#) or `test/ots_software_tests/...`
+  - Tests (runtime OTS, if applicable): `test/OtsSoftwareTests/...` (C#) or `test/ots_software_tests/...`
     (Python/other) — fixed repo-level name, no system prefix
 
 ## `Shared-{PackageName}` Review (one per Shared Package)

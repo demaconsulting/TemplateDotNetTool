@@ -24,7 +24,8 @@ docs/design/
 │   └── {unit-name}.md           # heading depth ##
 ├── ots.md                       # heading depth # (if OTS items exist)
 ├── ots/
-│   └── {ots-name}.md            # heading depth ##
+│   ├── {ots-name}.md            # heading depth ##
+│   └── tools/{tool-name}.md     # heading depth ## (OTS tools; optional)
 ├── shared.md                    # heading depth # (if Shared Packages exist)
 └── shared/
     └── {package-name}.md        # heading depth ##
@@ -79,7 +80,8 @@ Place `{unit-name}.md` in the **parent** folder:
 
 Create `docs/design/ots.md` (`#` heading) covering the overall OTS integration strategy.
 
-For each OTS item, create `docs/design/ots/{ots-name}.md` (`##` heading) with sections:
+For each OTS item, create `docs/design/ots/{ots-name}.md` (`##` heading; optional for OTS tools, under
+`ots/tools/`) with sections:
 
 - **Purpose**: why chosen and what it provides to the local system
 - **Features Used**: which specific features, APIs, or capabilities are consumed
