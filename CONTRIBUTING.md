@@ -216,8 +216,10 @@ assembly. `Cli/HelpCommand.cs` is the only code that uses the package.
   appear somewhere in the console output; `expect` cannot check a file that the command writes. Keep each
   `description` to about 50 characters.
 - **Getting started.** Say how to install the tool for CI: the .NET version it needs (from `TargetFrameworks`), a
-  local tool manifest with `dotnet tool restore` before `dotnet <command>`, and the global install as the alternative.
-  Mark the install commands as `snippet` examples so that the example runner does not run them.
+  local tool manifest, and the global install as the alternative. The CI example must be a complete GitHub Actions
+  steps snippet (`language: yaml`) with `actions/setup-dotnet` for that .NET version, `dotnet tool restore`, and a
+  `dotnet <command>` step that runs the tool's main function; prose alone is not enough. Mark the install and CI
+  examples as `snippet` examples so that the example runner does not run them.
 - **Input files.** Show complete files only for formats that users author, and describe formats that the tool
   produces (TRX, JUnit) in prose. When an example reads a file that users do not author (for example a SARIF file
   from an analyzer), keep it in the test project under `TestData/HelpExamples/`, copy it to the test output, and
@@ -246,8 +248,9 @@ the built tool and compares the result with the card.
 2. **Adapt**:
    - `HelpCommand.ToolName` (the one place the command name appears in the help code), `RootCardIds`, and the
      cards: write the tool's own, keeping the starter cards' structure. Check every `expect` value against the
-     tool's output. Keep the install guidance of `getting-started` (the .NET version, the manifest install with
-     `dotnet tool restore` for CI, and the global install), with the tool's package id and command name.
+     tool's output. Keep the install guidance of `getting-started` (the .NET version, the manifest install, the
+     global install, and the complete GitHub Actions `ci-steps` snippet with `actions/setup-dotnet`,
+     `dotnet tool restore`, and a run step), with the tool's package id, command name, and main command.
    - `Program.Main` (the `TryRun` call before `Context.Create`) and `Program.PrintHelp` (the `help [topic]` usage
      line and the footer).
    - The `DemaConsulting.HelpCards` package reference, the `src/**/Help/**` pattern in `needs-review`, and the
