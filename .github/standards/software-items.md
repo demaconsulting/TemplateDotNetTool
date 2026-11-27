@@ -100,8 +100,8 @@ dash-separated IDs. Examples covering all three forms:
   - System design documentation records which runtime OTS items each system depends on
 - **OTS tool**: build, test, documentation, or compliance tooling that never ships (e.g.
   ReqStream, ReviewMark, SysML2Tools, TextLint, Pandoc)
-  - Verified by the tool's own self-validation evidence produced in CI
-    (e.g. `--validate --results`), not by local tests
+  - Verified by evidence produced in CI: the tool's self-validation results (e.g. `--validate --results`),
+    or for a test framework (e.g. xUnit) the test run itself; not by tests written for the tool
   - Artifacts: `docs/reqstream/ots/tools/{tool-name}.yaml`, `docs/design/ots/tools/{tool-name}.md`
     (optional), `docs/verification/ots/tools/{tool-name}.md`
 

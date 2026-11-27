@@ -80,8 +80,8 @@ Place `{unit-name}.md` in the **parent** folder:
 
 Create `docs/design/ots.md` (`#` heading) covering the overall OTS integration strategy.
 
-For each OTS item, create `docs/design/ots/{ots-name}.md` (`##` heading; optional for OTS tools, under
-`ots/tools/`) with sections:
+For each OTS item, create `docs/design/ots[/tools]/{ots-name}.md` (`##` heading; `[/tools]` only for OTS
+tools, where it is optional) with sections:
 
 - **Purpose**: why chosen and what it provides to the local system
 - **Features Used**: which specific features, APIs, or capabilities are consumed
@@ -121,6 +121,6 @@ For each Shared Package, create `docs/design/shared/{package-name}.md` (`##` hea
 - [ ] Unit design includes all mandatory sections (Purpose, Data Model, Key Methods, Error Handling, Dependencies,
   Callers)
 - [ ] Non-applicable mandatory sections contain "N/A - {justification}"
-- [ ] `docs/design/ots.md` and `docs/design/ots/{ots-name}.md` exist when OTS items are present
+- [ ] `docs/design/ots.md` and `docs/design/ots[/tools]/{ots-name}.md` exist for OTS items (optional for tools)
 - [ ] `docs/design/shared.md` and `docs/design/shared/{package-name}.md` exist when Shared Packages are present
 - [ ] Documents are integrated into ReviewMark review-sets

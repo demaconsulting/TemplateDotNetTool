@@ -72,9 +72,9 @@ Place `{unit-name}.md` in the **parent** folder:
 
 Create `docs/verification/ots.md` (`#` heading) covering the overall OTS verification strategy.
 
-For each OTS item, create `docs/verification/ots/{ots-name}.md` (OTS tools: `ots/tools/{tool-name}.md`)
+For each OTS item, create `docs/verification/ots[/tools]/{ots-name}.md` (`[/tools]` only for OTS tools)
 (`##` heading) covering: verification approach (integration tests, vendor evidence, or for OTS tools the
-CI self-validation evidence).
+CI evidence: self-validation results, or for a test framework the test run itself).
 
 # Shared Package Verification Evidence (when Shared Packages exist)
 
@@ -98,7 +98,7 @@ verification approach.
   Test Environment, Acceptance Criteria, Test Scenarios)
 - [ ] Non-applicable mandatory sections contain "N/A - {justification}"
 - [ ] Requirements-to-test coverage is tracked via the ReqStream trace matrix, not in these documents
-- [ ] `docs/verification/ots.md` and `docs/verification/ots/{ots-name}.md` exist when OTS items are present
+- [ ] `docs/verification/ots.md` and `docs/verification/ots[/tools]/{ots-name}.md` exist when OTS items are present
 - [ ] `docs/verification/shared.md` and `docs/verification/shared/{package-name}.md` exist when Shared Packages are
   present
 - [ ] Documents are integrated into ReviewMark review-sets

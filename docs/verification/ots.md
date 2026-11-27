@@ -9,8 +9,8 @@ Each OTS item is verified according to its category:
 
 - **Runtime OTS items** ship with the tool and are verified by its integration tests
 - **OTS tools** never ship and are verified by the evidence they produce in CI: their own
-  self-validation suite (where the tool supports `--validate`), FileAssert assertions on the
-  documents they produce, or the test results they report
+  self-validation results (where the tool supports `--validate`), FileAssert assertions on the
+  documents they produce, or, for a test framework such as xUnit, the test run itself
 
 Internal OTS design is out of scope; only integration and usage evidence is documented.
 
