@@ -36,7 +36,8 @@ docs/sysml2/
 │   │   ├── {subsystem-name}.sysml     # package {SystemName}_{SubsystemName}Subsystem (facade); nests further for sub-subsystems
 │   │   └── {subsystem-name}/
 │   │       └── {unit-name}.sysml      # package {SystemName}_{UnitName}; one file per unit
-│   ├── ots.sysml                      # package OtsDependencies: OTS parts (optional; if OTS items exist)
+│   ├── ots.sysml                      # package OtsDependencies: runtime OTS parts (optional; if runtime OTS exist)
+│   ├── tools.sysml                    # package OtsTools: OTS tool parts and Toolchain (optional; if OTS tools exist)
 │   └── shared.sysml                   # package SharedPackages: Shared Package parts (optional; if Shared Packages exist)
 └── views/
     └── design-views.sysml             # package {RepoName}DesignViews; named view usages rendered for the design document
@@ -95,16 +96,17 @@ package, because imports owned directly by a file's root namespace must be priva
 | System | `{system}.sysml` | `{SystemName}` | `public import` of direct items |
 | Subsystem | `{system}/{subsystem}.sysml` | `{SystemName}_{SubsystemName}Subsystem` | `public import` of owned items |
 | Unit | `.../{unit}.sysml` | `{SystemName}_{UnitName}` | `private import` of what it references |
-| OTS | `ots.sysml` | `OtsDependencies` | none |
+| Runtime OTS | `ots.sysml` | `OtsDependencies` | none |
+| OTS tools | `tools.sysml` | `OtsTools` | none |
 | Shared Packages | `shared.sysml` | `SharedPackages` | none |
 | Views | `views/design-views.sysml` | `{RepoName}DesignViews` | `private import` of what it exposes |
 
 In this table `{system}`, `{subsystem}`, and `{unit}` are the kebab-case names from Repository
-Structure above. Consumers use the `{SystemName}` package. `ots.sysml`, `shared.sysml`, and
-the views file are one small file each, and the views package is one per repository, not per
-system. A unit imports exactly what it references, no more. A system or subsystem file also
-uses `private import` for anything else it references (for example `OtsDependencies`). Every
-file that applies `SoftwareInfo` also has `private import SoftwareItemMetadata::*;`.
+Structure above. Consumers use the `{SystemName}` package. `ots.sysml`, `tools.sysml`,
+`shared.sysml`, and the views file are one small file each, and the views package is one per
+repository, not per system. A unit imports exactly what it references, no more. A system or
+subsystem file also uses `private import` for anything else it references (for example
+`OtsDependencies`). Every file that applies `SoftwareInfo` also has `private import SoftwareItemMetadata::*;`.
 
 Rules:
 
@@ -135,11 +137,10 @@ Rules:
   file with a single package, instead of one file per definition.
 
 Rationale: this is the pattern the SysML v2 libraries and published models use. The OMG
-standard libraries re-export their parts through facades (`ISQ` re-exports the 12 `ISQ*`
-packages and `SI` re-exports `ISQ`); Sensmetry's smart-home-hub (distinguishable, prefixed names
-such as `DETECT_*`, enforced by the Syside rule `global-namespace-distinguishability`), the
-Airbus Apollo-11 model, and DE4SDV all use one top-level package per file, unique and often
-prefixed names, `private import` for dependencies, and facades with `public import`.
+libraries re-export through facades (`SI` re-exports `ISQ`, which re-exports the `ISQ*` packages);
+a published smart-home model (prefixed names such as `DETECT_*`), the Airbus Apollo-11 model, and
+DE4SDV use one top-level package per file, unique and often prefixed names, `private import` for
+dependencies, and facades with `public import`.
 
 ### Migrating split packages
 
@@ -160,32 +161,31 @@ To migrate:
 
 ## Model Content
 
-- `{system-name}.sysml` defines one `part def` for the System only, with `part` usages
-  referencing its direct Subsystems/Units (defined in their own files, see below).
+- `{system-name}.sysml` defines one `part def` for the System only, with `part` usages for its
+  direct Subsystems/Units (defined in their own files, see below) and its runtime OTS.
 - Each `{subsystem-name}.sysml` / `{unit-name}.sysml` defines exactly one `part def`, with a
-  `doc /* ... */` comment stating its purpose — mirroring what would otherwise be written as
-  prose in `docs/design/introduction.md`'s Software Structure section. The standard SysML v2
-  `doc` comment is the single purpose statement for every System/Subsystem/Unit/OTS `part def`;
-  do not duplicate it in metadata. Subsystem files add
-  `part` usages for their own direct children (nested subsystems or units), matching the
-  Software Item Hierarchy in `software-items.md`.
-- `ots.sysml` / `shared.sysml` define one `part def` per OTS item / Shared Package, referenced
-  as `part` usages from the system(s) that depend on them.
+  `doc /* ... */` comment stating its purpose (what `docs/design/introduction.md`'s Software
+  Structure section would otherwise say). The `doc` comment is the single purpose statement for
+  every System/Subsystem/Unit/OTS `part def`; do not duplicate it in metadata. Subsystem files add
+  `part` usages for their own direct children (nested subsystems or units), per `software-items.md`.
+- **Runtime OTS**: one `part def` per item in `ots.sysml`, used as a `part` only in the **system**
+  `part def` (never inside a subsystem or unit). Every unit that uses it declares
+  `dependency {Unit} to OtsDependencies::{OtsItem};` (required: this is what `query used-by` reads).
+- **OTS tools**: one `part def` per tool in `tools.sysml`, each a `part` usage of the single
+  `part def Toolchain` in that file; tools are never parts of a system.
+- `shared.sysml` defines one `part def` per Shared Package, referenced as `part` usages from the
+  system(s) that depend on them.
 
 ## Artifact-Location Metadata
 
 Every System/Subsystem/Unit `part def` records where its companion artifacts live, as a single
 applied `metadata info : SoftwareInfo { ... }` annotation, using the shared `SoftwareInfo`
 `metadata def` from `docs/sysml2/common/software-items.sysml` (see Repository Structure above).
-As of `sysml2tools` 0.1.0-beta.13+, applied metadata attribute values are fully surfaced by
-`sysml2tools query describe` (in both Markdown and JSON output) as `Metadata
-SoftwareInfo.{attribute}: {value}` summary lines — one call gets every artifact location for a
-unit without grepping the source tree. (Prior to beta.13, `query describe` silently dropped
-metadata attribute values entirely; this is why an earlier version of this standard recommended
-`comment` elements instead — that workaround is no longer needed and should not be used in new
-work.) `SoftwareInfo` carries artifact locations only — the purpose statement lives solely in
-the `doc` comment (shown by `query describe` as the `Documentation:` line). Metadata
-annotations have zero effect on rendered diagrams.
+`sysml2tools query describe` (0.1.0-beta.13+) shows each value as a
+`Metadata SoftwareInfo.{attribute}: {value}` line, so one call gets every artifact location for a
+unit; do not use `comment` elements for this. `SoftwareInfo` carries artifact locations only — the
+purpose statement lives solely in the `doc` comment (shown by `query describe` as the
+`Documentation:` line). Metadata annotations have zero effect on rendered diagrams.
 
 ```sysml
 private import SoftwareItemMetadata::*;
@@ -216,14 +216,13 @@ attribute entirely (do not assign an empty list) when it does not apply to the i
   doc). */`.
 - **Units without a dedicated test file** (exercised only indirectly through another unit's
   tests) omit `testFiles` entirely rather than pointing at an unrelated test file.
-- **OTS items** have no `sourceFiles`/`testFiles` (no local integration code); set `designFiles`
-  (when the optional design doc exists) / `verificationFiles` / `requirementFiles` only.
+- **OTS items** (runtime and tools) have no `sourceFiles`/`testFiles`; set `designFiles` (when
+  the optional design doc exists) / `verificationFiles` / `requirementFiles` only; tool paths
+  point into `ots/tools/`.
 
 This is prose-searchable metadata only — it is not a substitute for the authoritative
 requirements/design/verification artifacts, and it does not replace ReqStream as the
-requirements source of truth. (This repository currently keeps requirements traceability in
-ReqStream; a future migration to native SysML2 `requirement`/`satisfy` modeling is a separate,
-not-yet-scheduled change.)
+requirements source of truth.
 
 ## Dependency Relationships
 
@@ -322,14 +321,14 @@ suffix duplication:
   members only
 - `{SubsystemName}{Theme}View` - optional focused dependency views for a large subsystem (see
   Dependency Relationships), each exposing the units of one theme plus their suppliers
-- `OtsView` - optional, the OTS items from `ots.sysml` kept apart from the system overview
+- `ToolchainView` - optional (when `tools.sysml` exists), the `Toolchain` and its OTS tools; always type it
+  by `InterconnectionView`, which wraps the tool parts (a `GeneralView` renders one wide, unreadable row)
 
-When a repository has multiple systems, type `SoftwareStructureView` by
-`InterconnectionView` and expose each system's part def. Each system renders as a frame with
-its subsystem part usages nested inside (beta.4 draws a part def's interior). Keep OTS
-dependencies out of the overview in a separate small `OtsView`, and exclude metadata defs such
-as `SoftwareInfo` from overviews by not exposing the package that declares them. Use
-`GeneralView` for part-tree, composition-style views and for the dependency views above;
+When a repository has multiple systems, type `SoftwareStructureView` by `InterconnectionView`
+and expose each system's part def. Each system renders as a frame with its subsystem and
+runtime OTS part usages nested inside (beta.4 draws a part def's interior). Exclude metadata
+defs such as `SoftwareInfo` from overviews by not exposing the package that declares them.
+Use `GeneralView` for part-tree, composition-style views and for the dependency views above;
 filter out documentation so each diagram stays readable:
 
 ```sysml
@@ -342,8 +341,8 @@ package {RepoName}DesignViews {
         filter not (@SysML::Documentation);
     }
 
-    view OtsView : GeneralView {
-        expose OtsDependencies::*;
+    view ToolchainView : InterconnectionView {
+        expose OtsTools::Toolchain;
         filter not (@SysML::Documentation);
     }
 }
@@ -434,9 +433,11 @@ sync.
   runs through a facade (lint no longer reports cycles, so check this by review)
 - [ ] View names follow the `SoftwareStructureView` / `{SystemName}View` /
   `{SubsystemName}View` convention (plus optional `{SubsystemName}{Theme}View` dependency
-  views and `OtsView`)
+  views and `ToolchainView`)
 - [ ] A multi-system `SoftwareStructureView` is an `InterconnectionView` exposing the system
-  part defs, with OTS items in a separate `OtsView` and no metadata defs (`SoftwareInfo`)
+  part defs, with no metadata defs (`SoftwareInfo`); a `ToolchainView` is an `InterconnectionView`
+- [ ] Runtime OTS are `part`s of the system only, with a `dependency` from each using unit; OTS tools
+  are `part`s of `Toolchain` in `tools.sysml`, never of a system
 - [ ] Each Unit's real collaborators are captured as `dependency A to B;` statements, and each
   System/Subsystem design doc's "Dependencies" section reflects `sysml2tools query
   dependencies` output

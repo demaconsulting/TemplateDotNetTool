@@ -33,8 +33,8 @@ dotnet tool restore
   (`{SystemName}_{SubsystemName}_{UnitName}`) when the short name would collide. A subsystem
   package is a facade (`public import` of the packages it owns). An element's qualified name is
   e.g. `{SystemName}_{UnitName}::{UnitName}`.
-- `docs/sysml2/model/ots.sysml` — off-the-shelf (OTS) dependency parts (present when OTS items
-  exist).
+- `docs/sysml2/model/ots.sysml` — runtime off-the-shelf (OTS) parts, package `OtsDependencies`;
+  `tools.sysml` — OTS tools as parts of `OtsTools::Toolchain` (each present when such items exist).
 - `docs/sysml2/model/shared.sysml` — Shared Package parts (present when Shared Package items
   exist).
 - `docs/sysml2/views/design-views.sysml` — named views rendered for the design document; a

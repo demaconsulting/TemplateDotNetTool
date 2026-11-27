@@ -49,7 +49,7 @@ It is used in two places in the pipeline:
   that Pandoc and the browser resolve relative to that directory. A missing SVG does not fail the
   Pandoc/WeasyPrint build - the compiled document simply omits the diagram - so FileAssert asserts
   each expected SVG file exists and is well-formed XML immediately after the render step, providing
-  the actual pipeline evidence that render succeeded (see `docs/design/ots/fileassert.md`).
+  the actual pipeline evidence that render succeeded (see `docs/design/ots/tools/fileassert.md`).
 
 SysML2Tools reads only the local SysML2 model files and writes only local SVG output files; it
 requires no external service or network access, and it has no transitive NuGet dependencies that

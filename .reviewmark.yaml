@@ -199,16 +199,16 @@ reviews:
   - id: OTS-BuildMark
     title: Review that BuildMark Provides Required Functionality
     paths:
-      - "docs/reqstream/ots/buildmark.yaml"
-      - "docs/design/ots/buildmark.md"
-      - "docs/verification/ots/buildmark.md"
+      - "docs/reqstream/ots/tools/buildmark.yaml"
+      - "docs/design/ots/tools/buildmark.md"
+      - "docs/verification/ots/tools/buildmark.md"
 
   - id: OTS-FileAssert
     title: Review that FileAssert Provides Required Functionality
     paths:
-      - "docs/reqstream/ots/fileassert.yaml"
-      - "docs/design/ots/fileassert.md"
-      - "docs/verification/ots/fileassert.md"
+      - "docs/reqstream/ots/tools/fileassert.yaml"
+      - "docs/design/ots/tools/fileassert.md"
+      - "docs/verification/ots/tools/fileassert.md"
 
   - id: OTS-HelpCards
     title: Review that HelpCards Provides Required Functionality
@@ -220,62 +220,62 @@ reviews:
   - id: OTS-Pandoc
     title: Review that Pandoc Provides Required Functionality
     paths:
-      - "docs/reqstream/ots/pandoc.yaml"
-      - "docs/design/ots/pandoc.md"
-      - "docs/verification/ots/pandoc.md"
+      - "docs/reqstream/ots/tools/pandoc.yaml"
+      - "docs/design/ots/tools/pandoc.md"
+      - "docs/verification/ots/tools/pandoc.md"
 
   - id: OTS-ReqStream
     title: Review that ReqStream Provides Required Functionality
     paths:
-      - "docs/reqstream/ots/reqstream.yaml"
-      - "docs/design/ots/reqstream.md"
-      - "docs/verification/ots/reqstream.md"
+      - "docs/reqstream/ots/tools/reqstream.yaml"
+      - "docs/design/ots/tools/reqstream.md"
+      - "docs/verification/ots/tools/reqstream.md"
 
   - id: OTS-ReviewMark
     title: Review that ReviewMark Provides Required Functionality
     paths:
-      - "docs/reqstream/ots/reviewmark.yaml"
-      - "docs/design/ots/reviewmark.md"
-      - "docs/verification/ots/reviewmark.md"
+      - "docs/reqstream/ots/tools/reviewmark.yaml"
+      - "docs/design/ots/tools/reviewmark.md"
+      - "docs/verification/ots/tools/reviewmark.md"
 
   - id: OTS-SarifMark
     title: Review that SarifMark Provides Required Functionality
     paths:
-      - "docs/reqstream/ots/sarifmark.yaml"
-      - "docs/design/ots/sarifmark.md"
-      - "docs/verification/ots/sarifmark.md"
+      - "docs/reqstream/ots/tools/sarifmark.yaml"
+      - "docs/design/ots/tools/sarifmark.md"
+      - "docs/verification/ots/tools/sarifmark.md"
 
   - id: OTS-SonarMark
     title: Review that SonarMark Provides Required Functionality
     paths:
-      - "docs/reqstream/ots/sonarmark.yaml"
-      - "docs/design/ots/sonarmark.md"
-      - "docs/verification/ots/sonarmark.md"
+      - "docs/reqstream/ots/tools/sonarmark.yaml"
+      - "docs/design/ots/tools/sonarmark.md"
+      - "docs/verification/ots/tools/sonarmark.md"
 
   - id: OTS-SysML2Tools
     title: Review that SysML2Tools Provides Required Functionality
     paths:
-      - "docs/reqstream/ots/sysml2tools.yaml"
-      - "docs/design/ots/sysml2tools.md"
-      - "docs/verification/ots/sysml2tools.md"
+      - "docs/reqstream/ots/tools/sysml2tools.yaml"
+      - "docs/design/ots/tools/sysml2tools.md"
+      - "docs/verification/ots/tools/sysml2tools.md"
 
   - id: OTS-VersionMark
     title: Review that VersionMark Provides Required Functionality
     paths:
-      - "docs/reqstream/ots/versionmark.yaml"
-      - "docs/design/ots/versionmark.md"
-      - "docs/verification/ots/versionmark.md"
+      - "docs/reqstream/ots/tools/versionmark.yaml"
+      - "docs/design/ots/tools/versionmark.md"
+      - "docs/verification/ots/tools/versionmark.md"
 
   - id: OTS-WeasyPrint
     title: Review that WeasyPrint Provides Required Functionality
     paths:
-      - "docs/reqstream/ots/weasyprint.yaml"
-      - "docs/design/ots/weasyprint.md"
-      - "docs/verification/ots/weasyprint.md"
+      - "docs/reqstream/ots/tools/weasyprint.yaml"
+      - "docs/design/ots/tools/weasyprint.md"
+      - "docs/verification/ots/tools/weasyprint.md"
 
   - id: OTS-xUnit
     title: Review that xUnit Provides Required Functionality
     paths:
-      - "docs/reqstream/ots/xunit.yaml"
-      - "docs/design/ots/xunit.md"
-      - "docs/verification/ots/xunit.md"
+      - "docs/reqstream/ots/tools/xunit.yaml"
+      - "docs/design/ots/tools/xunit.md"
+      - "docs/verification/ots/tools/xunit.md"

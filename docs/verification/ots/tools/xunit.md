@@ -12,9 +12,10 @@ correctly.
 
 ### Verification Approach
 
-xUnit is verified by self-validation evidence from the CI pipeline. Each scenario names a specific
-test method that xUnit must discover, execute, and record in a TRX result file. A passing pipeline
-run for all scenarios constitutes evidence that both requirements are satisfied.
+xUnit is a test framework with no self-validation mode, so it is verified by the CI test run itself.
+Each scenario names a specific test method that xUnit must discover, execute, and record in a TRX
+result file. A passing pipeline run for all scenarios constitutes evidence that both requirements are
+satisfied.
 
 ### Test Scenarios
 

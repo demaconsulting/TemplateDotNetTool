@@ -19,8 +19,8 @@ Categorize all software into six primary groups:
   interfaces and responsibilities
 - **Software Unit**: Individual class, function, or tightly coupled set of
   functions that can be tested in isolation
-- **OTS Software Item**: Third-party component (library, framework, tool, or
-  published software package) providing functionality not developed within the program
+- **OTS Software Item**: Third-party software not developed within the program - either a
+  **Runtime OTS** item (shipped with the product) or an **OTS tool** (never ships)
 - **Shared Package**: A software package produced by a different repository within
   the same program, consumed as a dependency. Referenced by its advertised features
   rather than internal design; traceability to program-level requirements runs
@@ -86,23 +86,24 @@ dash-separated IDs. Examples covering all three forms:
 
 ## OTS Software Item
 
-- External dependency from outside the program - typically a third-party published
-  software package (NuGet, npm, etc.), hosted service, or tool
-- A package produced by an unrelated program (inside or outside the organization)
-  is treated as OTS by any consuming system
-- Tested through integration tests proving required functionality works
-- Examples: System.Text.Json, Entity Framework, third-party APIs
-- **Artifact locations** (OTS items have no internal design documentation):
-  - Requirements: `docs/reqstream/ots/{ots-name}.yaml`
-  - Design: `docs/design/ots/{ots-name}.md` (integration/usage design)
-  - Verification: `docs/verification/ots/{ots-name}.md`
-  - These folders sit parallel to system folders (not inside any system folder)
-- System design documentation records which OTS items each system depends on
-- **OTS test project**: If no other verification evidence is available (e.g., vendor test results,
-  published compliance reports), a dedicated test project holds OTS integration tests - one test
-  file per OTS item requiring tests. OTS items are repo-level (not per-system), so the project
-  uses a fixed repo-level name: `test/OtsSoftwareTests/` (C#) or `test/ots_software_tests/`
-  (Python/other) — never prefixed with a system or project name.
+- External dependency from outside the program; repo-level (not per-system). A package
+  produced by an unrelated program (inside or outside the organization) is OTS to its consumer
+- OTS items have no internal design documentation; their artifact folders sit parallel to
+  system folders (not inside any system folder)
+- **Runtime OTS**: linked in and shipped with the product (e.g. NuGet libraries)
+  - Verified by integration tests proving the functionality used (unless vendor evidence such as
+    published compliance reports suffices), one test file per item in a fixed repo-level project:
+    `test/OtsSoftwareTests/` (C#) or `test/ots_software_tests/` (Python/other) — never prefixed
+    with a system or project name
+  - Artifacts: `docs/reqstream/ots/{ots-name}.yaml`, `docs/design/ots/{ots-name}.md`
+    (integration/usage design), `docs/verification/ots/{ots-name}.md`
+  - System design documentation records which runtime OTS items each system depends on
+- **OTS tool**: build, test, documentation, or compliance tooling that never ships (e.g.
+  ReqStream, ReviewMark, SysML2Tools, TextLint, Pandoc)
+  - Verified by evidence produced in CI: the tool's self-validation results (e.g. `--validate --results`),
+    or for a test framework (e.g. xUnit) the test run itself; not by tests written for the tool
+  - Artifacts: `docs/reqstream/ots/tools/{tool-name}.yaml`, `docs/design/ots/tools/{tool-name}.md`
+    (optional), `docs/verification/ots/tools/{tool-name}.md`
 
 ## Shared Package
 
